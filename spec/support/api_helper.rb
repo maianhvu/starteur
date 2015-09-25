@@ -1,11 +1,16 @@
-module ApiHelper
+module APIHelper
   include Rack::Test::Methods
+  #include Rack::Request
 
   def app
     Rails.application
   end
+
+  def json(body)
+    JSON.parse(body, symbolize_names: true)
+  end
 end
 
 RSpec.configure do |config|
-  config.include ApiHelper, :type => :api
+  config.include APIHelper, :type => :api
 end

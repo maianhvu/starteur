@@ -19,6 +19,9 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Use AASM
+gem 'aasm'
+
 group :development, :test do
   # Use RSpec for testing
   gem 'rspec-rails'
