@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  namespace :api, path: '/', constraints: { subdomain: :api } do
-    resources :users, only: [ :create, :index ]
+  scope module: 'api' do
+    resources :users, only: :create
+    post 'register', to: 'users#create', as: :register
+    get 'confirm/:escaped_email/:token', to: 'users#confirm', as: 'confirm', :constraints => { :escaped_email => /[^\/]+/ }
   end
 
-  post 'register', to: 'api/users#create', as: :register
 end

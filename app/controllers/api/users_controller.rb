@@ -18,6 +18,20 @@ module API
       end
     end
 
+    def confirm
+      u = User.find_by(email: params[:escaped_email].strip.downcase)
+      if u.may_confirm?(params[:token])
+        u.confirm(params[:token])
+        respond_to do |format|
+          format.json { head 200 }
+        end
+      else
+        respond_to do |format|
+          format.json { render json: { token: "invalid" }, status: :unprocessable_entity }
+        end
+      end
+    end
+
     private
 
     def register_params
