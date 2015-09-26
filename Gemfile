@@ -3,8 +3,6 @@ ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
-# Use postgresql as the database for Active Record
-gem 'pg'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -36,6 +34,16 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+end
+
+group :test do
+  # Use SQLite for testing
+  gem 'sqlite3'
+end
+
+group :development, :production do
+  # Use postgresql as the database for Active Record
+  gem 'pg'
 end
 
 group :production do

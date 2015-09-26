@@ -70,14 +70,26 @@ RSpec.describe User, type: :model do
       expect(user.confirmed_at).to be_within(10.seconds).of(Time.now)
     end
 
-    it 'should not confirm invalid confirmation token' do
+    it 'should NOT confirm invalid confirmation token' do
       expect(user.may_confirm?(false_token)).to be_falsy
       expect{ user.confirm(false_token) }.to raise_error(AASM::InvalidTransition)
     end
 
-    it 'should not set confirmed_at upon confirmation' do
+    it 'should NOT set confirmed_at upon failed confirmation' do
       expect { user.confirm(false_token) }.to raise_error(AASM::InvalidTransition)
       expect(user.confirmed_at).to be_nil
+    end
+
+    it 'should generate an authentication token upon successful confirmation' do
+      expect {
+        user.confirm(conf_token)
+      }.to change{ user.authentication_tokens.count }.by(1)
+    end
+
+    it 'should NOT generate an authentication token upon failed confirmation' do
+      expect {
+        expect { user.confirm(false_token) }.to raise_error(AASM::InvalidTransition)
+      }.not_to change { user.authentication_tokens.count }
     end
   end
 

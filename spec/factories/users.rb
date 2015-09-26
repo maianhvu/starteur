@@ -4,9 +4,6 @@ FactoryGirl.define do
     password   "5eCr37-p45sW0rD"
     first_name "Anh Vu"
     last_name  "Mai"
-    type       nil
-    state      :registered
-    confirmed_at nil
 
     # For validations
     factory :user_without_email do

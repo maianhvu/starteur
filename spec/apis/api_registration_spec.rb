@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'API Authentication', :type => :api do
+describe 'API Registration', :type => :api do
 
   let(:user_params) { FactoryGirl.attributes_for(:user) }
   let(:invalid_user_params) {
@@ -23,8 +23,8 @@ describe 'API Authentication', :type => :api do
         invalid_user_params.each do |invalid_params|
           post '/register', { format: :json, user: invalid_params }
           expect(last_response.status).to be(422)
-          expect(body = json(last_response.body)).to_not be_empty
-          expect(body.length).to be(1)
+          expect(last_response.body).to_not be_empty
+          expect(json(last_response.body).length).to be(1)
         end
       }.not_to change{ User.count }
     end
@@ -52,8 +52,8 @@ describe 'API Authentication', :type => :api do
       get "/confirm/#{Rack::Utils.escape(user.email)}/#{false_token}", { format: :json }
       expect(user.reload.confirmed_at).to be_nil
       expect(last_response.status).to be(422)
-      expect(body = json(last_response.body)).to_not be_empty
-      expect(body[:token]).to eq("invalid")
+      expect(last_response.body).to_not be_empty
+      expect(json(last_response.body)[:token]).to eq("invalid")
     end
   end
 

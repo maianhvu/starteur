@@ -1,15 +1,11 @@
 module API
   class UsersController < ApplicationController
 
-    def index
-      head 200
-    end
-
     def create
       u = User.create(register_params)
       if u.save
         respond_to do |format|
-          format.json { head 201 }
+          format.json { head :created }
         end
       else
         respond_to do |format|
@@ -23,7 +19,7 @@ module API
       if u.may_confirm?(params[:token])
         u.confirm(params[:token])
         respond_to do |format|
-          format.json { head 200 }
+          format.json { head :ok }
         end
       else
         respond_to do |format|

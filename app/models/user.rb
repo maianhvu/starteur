@@ -2,6 +2,12 @@ class User < ActiveRecord::Base
   has_secure_password
   include AASM
 
+  # ActiveRecord Relations
+  has_many :authentication_tokens
+
+  # Constants
+  DEFAULT_EXPIRY = Proc.new { 3.weeks.from_now }
+
   # Callbacks
   before_validation :normalize_email, on: :create
 
@@ -19,7 +25,7 @@ class User < ActiveRecord::Base
     event :confirm do
       transitions :from => :registered, :to => :confirmed,
         :guards => :validate_confirmation_token,
-        :after  => :set_confirmed_date
+        :after  => [ :set_confirmed_date, :generate_auth_token ]
     end
 
     event :deactivate do
@@ -44,5 +50,13 @@ class User < ActiveRecord::Base
   def set_confirmed_date
     self.confirmed_at = Time.now
     self.save!
+  end
+
+  def generate_auth_token
+    while true
+      token = SecureRandom.hex(32)
+      break token unless self.authentication_tokens.find_by(token: token)
+    end
+    AuthenticationToken.create!(token: token, user: self, expires_at: DEFAULT_EXPIRY.call)
   end
 end
