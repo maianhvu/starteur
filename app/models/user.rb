@@ -5,9 +5,6 @@ class User < ActiveRecord::Base
   # ActiveRecord Relations
   has_many :authentication_tokens
 
-  # Constants
-  DEFAULT_EXPIRY = Proc.new { 3.weeks.from_now }
-
   # Callbacks
   before_validation :normalize_email, on: :create
 
@@ -53,10 +50,6 @@ class User < ActiveRecord::Base
   end
 
   def generate_auth_token
-    while true
-      token = SecureRandom.hex(32)
-      break token unless self.authentication_tokens.find_by(token: token)
-    end
-    AuthenticationToken.create!(token: token, user: self, expires_at: DEFAULT_EXPIRY.call)
+    AuthenticationToken.create!(user: self)
   end
 end

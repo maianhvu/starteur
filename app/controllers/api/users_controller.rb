@@ -23,7 +23,23 @@ module API
         end
       else
         respond_to do |format|
-          format.json { render json: { token: "invalid" }, status: :unprocessable_entity }
+          format.json { render json: { errors: "Invalid confirmation token" }, status: :unprocessable_entity }
+        end
+      end
+    end
+
+    def sign_in
+      u = User.find_by(email: sign_in_params[:email])
+      if u && u.confirmed? && u.authenticate(sign_in_params[:password])
+        AuthenticationToken.create!(user: u) if u.authentication_tokens.empty?
+        token = u.authentication_tokens.fresh.first
+        token.use!
+        respond_to do |format|
+          format.json { render json: { token: token.token }, status: :ok }
+        end
+      else
+        respond_to do |format|
+          format.json { render json: { errors: "User's email unconfirmed" }, status: :unprocessable_entity }
         end
       end
     end
@@ -32,6 +48,10 @@ module API
 
     def register_params
       params.require(:user).permit(:email, :password, :first_name, :last_name, :type)
+    end
+
+    def sign_in_params
+      params.require(:user).permit(:email, :password)
     end
 
   end

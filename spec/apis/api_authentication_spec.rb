@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'API Registration', :type => :api do
+describe 'API Authentication', :type => :api do
 
   let(:user_params) { FactoryGirl.attributes_for(:user) }
   let(:invalid_user_params) {
@@ -53,8 +53,48 @@ describe 'API Registration', :type => :api do
       expect(user.reload.confirmed_at).to be_nil
       expect(last_response.status).to be(422)
       expect(last_response.body).to_not be_empty
-      expect(json(last_response.body)[:token]).to eq("invalid")
+      expect(json(last_response.body)[:errors]).to include("Invalid confirmation token")
     end
+  end
+
+  context 'Authentication' do
+    let!(:user) { FactoryGirl.create(:user) }
+    let(:confirmed_user) { user.confirm!(user.confirmation_token) && user }
+    let(:valid_token) { Proc.new { |token| confirmed_user.authentication_tokens.find_by(token: token) } }
+
+    it 'should return auth token when confirmed user signs in' do
+      expect {
+        post '/sign-in', { format: :json, :user => {
+          :email => confirmed_user.email,
+          :password => confirmed_user.password
+        } }
+        expect(last_response.status).to be(200)
+        expect(last_response.body).to_not be_empty
+        expect((body = json(last_response.body)).length).to be(1)
+
+        token = valid_token.call(body[:token])
+        expect(token).to_not be_nil
+        expect(token).to be_in_use
+        expect(token.expires_at).to be_within(3.weeks).of(Time.now)
+      }.to change { confirmed_user.reload.authentication_tokens.fresh.count }.by(-1)
+        .and change { confirmed_user.reload.authentication_tokens.in_use.count }.by(1)
+    end
+
+    it 'should not let unconfirmed users sign in' do
+      post '/sign-in', { format: :json, :user => {
+        :email => user.email,
+        :password => user.password
+      } }
+      expect(last_response.status).to be(422)
+      expect(last_response.body).to_not be_empty
+      expect((body = json(last_response.body)).length).to be(1)
+      expect(body[:errors]).to include("User's email unconfirmed")
+      # Tokens are unused
+      user.reload.authentication_tokens.each do |token|
+        expect(token).to be_fresh
+      end
+    end
+
   end
 
 end
