@@ -37,8 +37,8 @@ group :development do
 end
 
 group :test do
-  # Use SQLite for testing
-  gem 'sqlite3'
+  # Use faker for testing
+  gem 'faker'
 end
 
 group :development, :production do

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   scope module: 'api' do
     resources :users, only: :create
+    resources :tests, only: [ :index, :show ] do
+      resources :questions, only: [ :index ]
+    end
 
     post 'register', to: 'users#create', as: :register
     get 'confirm/:escaped_email/:token', to: 'users#confirm', as: 'confirm', :constraints => { :escaped_email => /[^\/]+/ }

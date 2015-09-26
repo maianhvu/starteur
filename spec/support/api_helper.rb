@@ -1,6 +1,5 @@
 module APIHelper
   include Rack::Test::Methods
-  #include Rack::Request
 
   def app
     Rails.application
@@ -8,6 +7,10 @@ module APIHelper
 
   def json(body)
     JSON.parse(body, symbolize_names: true)
+  end
+
+  def token_header(token)
+    header 'Authorization', ActionController::HttpAuthentication::Token.encode_credentials(token)
   end
 end
 
