@@ -3,9 +3,10 @@ FactoryGirl.define do
     user { FactoryGirl.build_stubbed(:user) }
 
     AuthenticationToken.aasm.states.each do |s|
-      factory "#{s.to_s}_auth_token".to_sym do
+      trait s do
         state s
       end
+      factory "#{s.to_s}_auth_token".to_sym, traits: [s]
     end
   end
 

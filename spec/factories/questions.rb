@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :question do
-    ordinal 1
-content "MyString"
+    sequence(:ordinal, 1)
+    content { Faker::Hacker.say_something_smart }
   end
 
 end

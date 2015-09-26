@@ -31,8 +31,12 @@ module API
     def sign_in
       u = User.find_by(email: sign_in_params[:email])
       if u && u.confirmed? && u.authenticate(sign_in_params[:password])
-        AuthenticationToken.create!(user: u) if u.authentication_tokens.empty?
-        token = u.authentication_tokens.fresh.first
+        if token = u.authentication_tokens.expired.first
+          token.refresh!
+        else
+          AuthenticationToken.create!(user: u) if u.authentication_tokens.empty?
+          token = u.authentication_tokens.fresh.first
+        end
         token.use!
         respond_to do |format|
           format.json { render json: { token: token.token }, status: :ok }

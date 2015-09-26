@@ -9,18 +9,39 @@ class AuthenticatedController < ApplicationController
   private
 
   def authenticate_token
+    # Check email presence
     return false unless authenticate_params[:email]
+    # Authenticate token
     authenticate_or_request_with_http_token do |token, options|
-      u = User.find_by(authenticate_params)
-      u && u.authentication_tokens.in_use.find_by(token: token)
+      # If user doesn't exist, fail
+      return false unless u = User.find_by(authenticate_params)
+
+      tokens = u.authentication_tokens
+      # If token already in use, return true
+      return true if tokens.in_use.find_by(token: token)
+      # If token is fresh, mark it as use
+      if t = tokens.fresh.find_by(token: token)
+        t.use!
+        return true
+      end
+      # If token is expired, require re-signin
+      if tokens.expired.find_by(token: token)
+        render_auth_error("Application", 'Expired token')
+        return
+      end
+      false
+    end
+  end
+
+  def render_auth_error(realm = "Application", message)
+    self.headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, "")}")
+    respond_to do |format|
+      format.json { render json: { errors: [ message ] }, status: :unauthorized }
     end
   end
 
   def request_http_token_authentication(realm = "Application")
-    self.headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, "")}")
-    respond_to do |format|
-      format.json { render json: { errors: [ 'Bad credentials' ] }, status: :unauthorized }
-    end
+    render_auth_error(realm, 'Bad credentials')
   end
 
   def authenticate_params
