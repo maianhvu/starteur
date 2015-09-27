@@ -95,21 +95,18 @@ describe 'API Query Interface', :type => :api do
   context 'Questions and Answers' do
     let!(:test) { FactoryGirl.create(:test) }
     let!(:categories) {
-      2.times do
-        while true
-          c = Category.new(FactoryGirl.attributes_for(:category))
-          c.test = test
-          break c if c.valid?
-        end
+      4.times do
+        c = FactoryGirl.build(:category)
+        c.test = test
         c.save!
       end
       test.categories
     }
 
     before(:each) do
-      (1..10).each do |n|
+      (1..20).each do |n|
         q = FactoryGirl.build(:question)
-        q.category = categories[n%2]
+        q.category = categories[n%4]
         q.save!
 
         # Create choices
@@ -131,7 +128,7 @@ describe 'API Query Interface', :type => :api do
         get "/tests/#{test.id}/questions", request_params
         expect(last_response.status).to be(200)
         expect(last_response.body).to_not be_empty
-        expect((body = json(last_response.body)).length).to eq(10)
+        expect((body = json(last_response.body)).length).to eq(20)
         body.each do |question|
           expect(question).to have_key(:choices)
           expect(question[:choices].length).to be(3)
@@ -147,17 +144,33 @@ describe 'API Query Interface', :type => :api do
       it 'should only return unanswered questions' do
         # Prepare answered questions
         test.questions.limit(4).each do |q|
-          Answer.create!(choice: q.choices.first, user: user)
+          Answer.create!(choice: q.choices.first, user: user, test: test)
         end
         # Start querying
         token_header auth_token
         get "/tests/#{test.id}/questions", request_params
-        expect((body = json(last_response.body)).length).to be(10-4)
+        expect((body = json(last_response.body)).length).to be(20-4)
         # Ensure returned questions are unanswered
         # Answered Questions IDs
         aq_ids = user.answers.map(&:choice).map(&:question_id)
         body.each do |question|
-          expect(aq_ids).to_not include(question[:id])
+          expect(aq_ids).to_not include(question)
+        end
+      end
+
+      it 'should return completion status' do
+
+      end
+
+      it 'should order questions by categories\' ranks' do
+        token_header auth_token
+        get "/tests/#{test.id}/questions", request_params
+        body = json(last_response.body)
+        previous_category_rank = nil
+        body.each do |question|
+          category_rank = Question.find(question[:id]).category.rank
+          expect(category_rank).to be >= previous_category_rank if previous_category_rank
+          previous_category_rank = category_rank
         end
       end
     end
@@ -175,17 +188,53 @@ describe 'API Query Interface', :type => :api do
       it 'should be able to add new answers' do
         expect {
           token_header auth_token
-          post "/answers", answer_params
+          post "/tests/#{test.id}/answers", answer_params
           expect(last_response.status).to be(200)
         }.to change { user.answers.count }.by(4)
       end
 
       it 'should return answered question ids' do
         token_header auth_token
-        post "/answers", answer_params
+        post "/tests/#{test.id}/answers", answer_params
         expect(last_response.body).to_not be_empty
         expect(body = json(last_response.body)).to have_key(:question_ids)
         expect(body[:question_ids]).to eq(questions.map(&:id))
+      end
+
+      it 'should return completion status' do
+        token_header auth_token
+        post "/tests/#{test.id}/answers", answer_params
+        expect(body = json(last_response.body)).to have_key(:completed)
+        expect(body).to have_key(:completed)
+        expect(body[:completed]).to be_falsy
+
+        # Questions still left unanswered
+        leftover = test.questions.where('questions.id NOT IN (?)', body[:question_ids])
+        new_params = {
+          format: :json,
+          :user => { email: user.email },
+          answers: leftover.map(&:choices).map(&:first).map(&:id)
+        }
+        post "/tests/#{test.id}/answers", new_params
+        expect(body = json(last_response.body)).to have_key(:completed)
+        expect(body[:completed]).to be_truthy
+      end
+
+      it 'should create a result object upon finishing a test' do
+        expect {
+          finish_params = {
+            :format => :json,
+            :user   => { email: user.email },
+            :answers => test.questions.map(&:choices).map(&:first).map(&:id)
+          }
+          token_header auth_token
+          post "/tests/#{test.id}/answers", finish_params
+          expect(last_response.status).to be(200)
+        }.to change { test.results.count }.by(1)
+          .and change { user.results.count }.by(1)
+        # Expect temporary answers to get wiped
+        expect(user.answers.where(test: test).count).to be(0)
+
       end
     end
   end

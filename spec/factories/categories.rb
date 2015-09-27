@@ -2,10 +2,12 @@ require 'faker'
 
 FactoryGirl.define do
   factory :category do
-    rank 1
-    title       { Faker::Company.name }
+    sequence(:rank, 1)
+    sequence :title do |n|
+      "Category #{n}"
+    end
     description { Faker::Lorem.paragraph }
-    test        { FactoryGirl.create(:faked_test) }
+    test        { FactoryGirl.build_stubbed(:faked_test) }
   end
 
 end

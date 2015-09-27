@@ -5,22 +5,33 @@ module API
     def create
       errors = nil
       qids = []
+      test = Test.find(params[:test_id])
       params.require(:answers).each do |choice_id|
-        if ans = Answer.create(user: @user, choice_id: choice_id)
+        if ans = Answer.create(user: @user, choice_id: choice_id, test: test)
           qids << Choice.find(choice_id).question.id
-        else
-          errors = ans.errors
-          break
+        end
+      end
+      completed = false
+      unless qids.empty?
+        total = test.questions.count
+        user_answers_for_test = @user.answers.where(test: test)
+        done  = user_answers_for_test.count
+        completed = done >= total
+        # Build result if completed
+        if completed
+          answers_hash = {}
+          user_answers_for_test.includes(:choice).all.each do |ans|
+            answers_hash[ans.choice_id] = ans.choice.points
+          end
+          # Create result object
+          Result.create!(answers: answers_hash, user: @user, test: test)
+          # Remove temporary answer objects
+          user_answers_for_test.destroy_all
         end
       end
       respond_to do |format|
         format.json {
-          unless errors
-            # Return answered questions ids
-            render json: { question_ids: qids }, status: :ok
-          else
-            render json: { errors: errors.messages }, status: :unprocessable_entity
-          end
+          render json: { question_ids: qids, completed: completed }, status: :ok
         }
       end
 

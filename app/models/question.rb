@@ -7,4 +7,5 @@ class Question < ActiveRecord::Base
 
   # Scopes
   scope :shuffled, -> { order('random()') }
+  scope :ranked, -> { includes(:category).order('categories.rank ASC') }
 end

@@ -16,15 +16,13 @@ class AuthenticatedController < ApplicationController
       # If user doesn't exist, fail
       return false unless @user = User.find_by(authenticate_params)
       tokens = @user.authentication_tokens
-      # If token already in use, return true
-      return true if tokens.in_use.find_by(token: token)
-      # If token is fresh, mark it as use
-      if t = tokens.fresh.find_by(token: token)
+      # If token is fresh or in_use
+      if t = tokens.where('authentication_tokens.state IN (?)', ['fresh', 'in_use']).find_by(token: token)
         t.use!
-        return true
+        return true unless t.expired?
       end
       # If token is expired, require re-signin
-      if tokens.expired.find_by(token: token)
+      if (t && t.expired?) || tokens.expired.find_by(token: token)
         render_auth_error("Application", 'Expired token')
         return
       end

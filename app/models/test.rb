@@ -1,7 +1,11 @@
 class Test < ActiveRecord::Base
+  include AASM
+
+  # ActiveRecord Associations
   has_many :categories
   has_many :questions, through: :categories
-  include AASM
+  has_many :answers
+  has_many :results
 
   # Validations
   validates :name, presence: true, uniqueness: true

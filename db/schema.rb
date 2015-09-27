@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150927035054) do
+ActiveRecord::Schema.define(version: 20150927080746) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,9 +22,11 @@ ActiveRecord::Schema.define(version: 20150927035054) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "test_id"
   end
 
   add_index "answers", ["choice_id"], name: "index_answers_on_choice_id", using: :btree
+  add_index "answers", ["test_id"], name: "index_answers_on_test_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
 
   create_table "authentication_tokens", force: :cascade do |t|
@@ -103,6 +105,7 @@ ActiveRecord::Schema.define(version: 20150927035054) do
   end
 
   add_foreign_key "answers", "choices"
+  add_foreign_key "answers", "tests"
   add_foreign_key "answers", "users"
   add_foreign_key "authentication_tokens", "users"
   add_foreign_key "categories", "tests"

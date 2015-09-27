@@ -15,7 +15,8 @@ class AuthenticationToken < ActiveRecord::Base
     state :expired
 
     event :use do
-      transitions :from => [ :fresh, :in_use ], to: :in_use
+      transitions :from => [ :fresh, :in_use ], to: :expired, if: :token_expired?
+      transitions :from => [ :fresh, :in_use ], to: :in_use, after: :extend_expiration
     end
 
     event :expire do
@@ -28,6 +29,14 @@ class AuthenticationToken < ActiveRecord::Base
   end
 
   private
+
+  def token_expired?
+    Time.now >= self.expires_at
+  end
+
+  def extend_expiration
+    self.expires_at = DEFAULT_EXPIRY.call
+  end
 
   def generate_token
     while true

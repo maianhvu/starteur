@@ -7,16 +7,16 @@ module API
       unless test
         @questions = []
       else
-        @questions = test.questions
         # Get answered questions
         u = User.find_by(index_params)
         answered = u.answers.map(&:choice).map(&:question_id)
+        @questions = test.questions
         # Filter out unanswered
         if answered && !answered.empty?
           @questions = @questions.where('questions.id NOT IN (?)', answered)
         end
-        @questions.shuffled if test.shuffle
-        @questions = @questions.includes(:choices)
+        @questions = @questions.shuffled if test.shuffle
+        @questions = @questions.ranked.includes(:choices)
       end
       respond_to do |format|
         format.json { render :status => :ok }

@@ -43,5 +43,13 @@ RSpec.describe AuthenticationToken, type: :model do
       expect(t.token).to_not eq(original_token)
       expect(t.expires_at).to be_within(3.weeks).of(Time.now)
     end
+
+    it 'should extend expiry upon usage' do
+      t = in_use_token
+      t.expires_at = 1.hour.from_now
+      t.save!
+      t.use!
+      expect(t.reload.expires_at).to be_within(1.minute).of(3.weeks.from_now)
+    end
   end
 end
