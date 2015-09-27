@@ -3,12 +3,17 @@ class ConfirmationSender < ApplicationMailer
 
   def send_confirmation_email(user)
     @user = user
-    @confirm_params = {
+    confirm_params = {
       :escaped_email => Rack::Utils.escape(user.email),
       :token => user.confirmation_token,
       :host => 'https://www.starteur.com'
     }
     headers['X-SMTPAPI'] = {
+      sub: {
+        '-headerText-': ["Hi #{user.first_name}, thanks for registering with Starteur!"],
+        '-linkUrl-': [app.confirm_url(confirm_params)],
+        '-linkCaption-': ["Confirm email address"]
+      },
       filters: {
         templates: {
           settings: {
@@ -18,6 +23,6 @@ class ConfirmationSender < ApplicationMailer
         }
       }
     }.to_json
-    mail(:to => @user.email, :subject => 'Welcome Aboard!')
+    mail(:to => @user.email, :subject => 'Welcome to Starteur! Confirm Your Email')
   end
 end
