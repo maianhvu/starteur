@@ -11,4 +11,6 @@ Rails.application.routes.draw do
     post 'sign-in', to: 'users#sign_in'
   end
 
+  root to: redirect('https://www.starteur.com/')
+
 end
