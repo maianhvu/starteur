@@ -1,3 +1,5 @@
+require 'faker'
+
 FactoryGirl.define do
   factory :question do
     sequence(:ordinal, 1)

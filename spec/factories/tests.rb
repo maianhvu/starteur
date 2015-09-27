@@ -5,6 +5,7 @@ FactoryGirl.define do
     name "Starteur Profiling Assessment"
     description "Take the Starteur Profiling Assessment to discover your strengths and reveal your hidden entreprenuerial potential."
     price 10.0
+    shuffle false
 
     Test.aasm.states.each do |s|
       trait s do
@@ -20,6 +21,12 @@ FactoryGirl.define do
     factory :test_without_price do
       price nil
     end
+
+    trait :shuffled do
+      shuffle true
+    end
+
+    factory :shuffled_test, traits: [ :shuffled ]
 
     factory :faked_test do
       name        { Faker::Book.title }

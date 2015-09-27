@@ -80,26 +80,6 @@ describe 'API Authentication', :type => :api do
         .and change { confirmed_user.reload.authentication_tokens.in_use.count }.by(1)
     end
 
-    it 'should replace expired token with a new one' do
-      expired_token = FactoryGirl.build(:expired_auth_token)
-      expired_token.user = user
-      expired_token.save!
-
-      expect {
-        post '/sign-in', { format: :json, :user => {
-          :email => confirmed_user.email,
-          :password => confirmed_user.password
-        } }
-        expect(last_response.status).to be(200)
-        expect(last_response.body).to_not be_empty
-        expect((body = json(last_response.body)).length).to be(1)
-        expect(expired_token.reload.token).to eq(body[:token])
-        expect(expired_token).to be_in_use
-      }.to   change { confirmed_user.reload.authentication_tokens.expired.count }.by(-1)
-        .and change { confirmed_user.reload.authentication_tokens.in_use.count  }.by(1)
-        .and change { confirmed_user.reload.authentication_tokens.fresh.count   }.by(0)
-    end
-
     it 'should not let unconfirmed users sign in' do
       post '/sign-in', { format: :json, :user => {
         :email => user.email,

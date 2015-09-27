@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   # ActiveRecord Relations
   has_many :authentication_tokens
+  has_many :answers
 
   # Callbacks
   before_validation :normalize_email, on: :create

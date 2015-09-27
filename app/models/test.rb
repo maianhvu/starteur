@@ -1,5 +1,6 @@
 class Test < ActiveRecord::Base
-  has_many :questions
+  has_many :categories
+  has_many :questions, through: :categories
   include AASM
 
   # Validations

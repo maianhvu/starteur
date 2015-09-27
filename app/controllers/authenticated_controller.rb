@@ -14,9 +14,8 @@ class AuthenticatedController < ApplicationController
     # Authenticate token
     authenticate_or_request_with_http_token do |token, options|
       # If user doesn't exist, fail
-      return false unless u = User.find_by(authenticate_params)
-
-      tokens = u.authentication_tokens
+      return false unless @user = User.find_by(authenticate_params)
+      tokens = @user.authentication_tokens
       # If token already in use, return true
       return true if tokens.in_use.find_by(token: token)
       # If token is fresh, mark it as use

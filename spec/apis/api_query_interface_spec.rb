@@ -92,30 +92,103 @@ describe 'API Query Interface', :type => :api do
 
   end
 
-  context 'Questions' do
+  context 'Questions and Answers' do
     let!(:test) { FactoryGirl.create(:test) }
+    let!(:categories) {
+      2.times do
+        while true
+          c = Category.new(FactoryGirl.attributes_for(:category))
+          c.test = test
+          break c if c.valid?
+        end
+        c.save!
+      end
+      test.categories
+    }
 
     before(:each) do
-      10.times do
+      (1..10).each do |n|
         q = FactoryGirl.build(:question)
-        q.test = test
+        q.category = categories[n%2]
         q.save!
+
+        # Create choices
+        3.times do
+          while true
+            c = FactoryGirl.build(:choice)
+            c.question = q
+            break c if c.valid?
+          end
+          c.save!
+        end
       end
     end
 
-    it 'should get the test\'s questions with valid authentication' do
-      token_header auth_token
-      get "/tests/#{test.id}/questions", request_params
-      expect(last_response.status).to be(200)
-      expect(last_response.body).to_not be_empty
-      expect((body = json(last_response.body)).length).to eq(10)
+    context 'Questions' do
+
+      it 'should get the test\'s questions with valid authentication' do
+        token_header auth_token
+        get "/tests/#{test.id}/questions", request_params
+        expect(last_response.status).to be(200)
+        expect(last_response.body).to_not be_empty
+        expect((body = json(last_response.body)).length).to eq(10)
+        body.each do |question|
+          expect(question).to have_key(:choices)
+          expect(question[:choices].length).to be(3)
+        end
+      end
+
+      it 'should FAIL to get the test\'s questions with invalid authentication' do
+        token_header false_token
+        get "/tests/#{test.id}/questions", request_params
+        expect_authentication_failed
+      end
+
+      it 'should only return unanswered questions' do
+        # Prepare answered questions
+        test.questions.limit(4).each do |q|
+          Answer.create!(choice: q.choices.first, user: user)
+        end
+        # Start querying
+        token_header auth_token
+        get "/tests/#{test.id}/questions", request_params
+        expect((body = json(last_response.body)).length).to be(10-4)
+        # Ensure returned questions are unanswered
+        # Answered Questions IDs
+        aq_ids = user.answers.map(&:choice).map(&:question_id)
+        body.each do |question|
+          expect(aq_ids).to_not include(question[:id])
+        end
+      end
     end
 
-    it 'should FAIL to get the test\'s questions with invalid authentication' do
-      token_header false_token
-      get "/tests/#{test.id}/questions", request_params
-      expect_authentication_failed
+    context 'Answers' do
+      let!(:questions) { test.questions.limit(4) }
+      let!(:answer_params) {
+        answers = []
+        questions.each do |q|
+          answers << q.choices.first.id
+        end
+        { format: :json, user: { email: user.email }, answers: answers }
+      }
+
+      it 'should be able to add new answers' do
+        expect {
+          token_header auth_token
+          post "/answers", answer_params
+          expect(last_response.status).to be(200)
+        }.to change { user.answers.count }.by(4)
+      end
+
+      it 'should return answered question ids' do
+        token_header auth_token
+        post "/answers", answer_params
+        expect(last_response.body).to_not be_empty
+        expect(body = json(last_response.body)).to have_key(:question_ids)
+        expect(body[:question_ids]).to eq(questions.map(&:id))
+      end
     end
   end
+
 
 end

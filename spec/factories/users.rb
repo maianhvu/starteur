@@ -1,9 +1,15 @@
+require 'faker'
+
 FactoryGirl.define do
   factory :user do
-    email      "me@maianhvu.com"
-    password   "5eCr37-p45sW0rD"
-    first_name "Anh Vu"
-    last_name  "Mai"
+
+    transient do
+      email_addr Faker::Internet.email
+    end
+    email      { "#{email_addr}" }
+    password   { Faker::Internet.password(8) }
+    first_name { Faker::Name.first_name }
+    last_name  { Faker::Name.last_name  }
 
     # For validations
     factory :user_without_email do
@@ -19,16 +25,15 @@ FactoryGirl.define do
     end
 
     factory :user_with_bloated_email do
-      email "   ME@maIanhVU.cOM     "
+      email { "   #{email_addr.upcase}     " }
     end
 
     # For AASM
-    factory :confirmed_user do
-      state :confirmed
-    end
-
-    factory :deactivated_user do
-      state :deactivated
+    User.aasm.states.each do |s|
+      trait s do
+        state s
+      end
+      factory "#{s.to_s}_user".to_sym, traits: [s]
     end
 
   end

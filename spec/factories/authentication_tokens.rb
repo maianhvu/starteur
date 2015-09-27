@@ -1,6 +1,10 @@
 FactoryGirl.define do
   factory :authentication_token do
-    user { FactoryGirl.build_stubbed(:user) }
+    transient do
+      valid_user { FactoryGirl.create(:confirmed_user) }
+    end
+
+    user { valid_user }
 
     AuthenticationToken.aasm.states.each do |s|
       trait s do
