@@ -9,12 +9,18 @@ class User < ActiveRecord::Base
 
   # Callbacks
   before_validation :normalize_email, on: :create
+  before_save :capitalize_names
 
   # Validations
   validates :email, presence: true
   validates_presence_of :first_name, :last_name
 
   # State definitions
+  enum state: {
+    registered: 1,
+    confirmed: 8,
+    deactivated: 32
+  }
   aasm :column => :state do
     state :registered, :initial => true,
       before_enter: [ :create_confirmation_token ]
@@ -36,6 +42,11 @@ class User < ActiveRecord::Base
 
   def normalize_email
     self.email = self.email.strip.downcase
+  end
+
+  def capitalize_names
+    self.first_name = self.first_name.strip.titleize
+    self.last_name = self.last_name.strip.titleize
   end
 
   def create_confirmation_token

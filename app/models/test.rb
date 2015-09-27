@@ -14,7 +14,13 @@ class Test < ActiveRecord::Base
   before_save :set_defaults
 
   # State definitions
-  aasm :column => :state do
+  enum state: {
+    unpublished: 1,
+    published: 2,
+    deleted: 4
+  }
+
+  aasm :column => :state, :enum => true do
     state :unpublished, :initial => true
     state :published
     state :deleted

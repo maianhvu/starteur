@@ -17,7 +17,8 @@ class AuthenticatedController < ApplicationController
       return false unless @user = User.find_by(authenticate_params)
       tokens = @user.authentication_tokens
       # If token is fresh or in_use
-      if t = tokens.where('authentication_tokens.state IN (?)', ['fresh', 'in_use']).find_by(token: token)
+      token_states = [:fresh, :in_use].map { |s| AuthenticationToken.states[s] }
+      if t = tokens.where('authentication_tokens.state IN (?)', token_states).find_by(token: token)
         t.use!
         return true unless t.expired?
       end

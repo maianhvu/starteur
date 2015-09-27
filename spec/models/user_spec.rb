@@ -2,17 +2,32 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  # tests for presence
   context 'Validations' do
     # email
     it 'should validate email address' do
-      expect(build(:user_without_email)).to_not be_valid
+      expect(build(:user, email: ' '*5)).to_not be_valid
     end
 
     # first_name and last_name
     it 'should validate names' do
-      expect(build(:user_without_first_name)).to_not be_valid
-      expect(build(:user_without_last_name)).to_not be_valid
+      expect(build(:user, first_name: nil)).to_not be_valid
+      expect(build(:user, last_name: nil)).to_not be_valid
+    end
+
+    it 'should titleize names' do
+      user1 = attributes_for(:user)
+      user2 = create(:user_with_downcased_names)
+      expect(user2.reload.first_name).to eq(user1[:first_name])
+      expect(user2.reload.last_name).to eq(user1[:last_name])
+    end
+
+    it 'should trim names' do
+      user = build(:user)
+      user.first_name = "   #{user.first_name}      "
+      user.last_name = "   #{user.last_name}      "
+      user.save!
+      expect(user.reload.first_name).to eq(user.reload.first_name.strip)
+      expect(user.reload.last_name).to eq(user.reload.last_name.strip)
     end
   end
 

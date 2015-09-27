@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     user { valid_user }
 
-    AuthenticationToken.aasm.states.each do |s|
+    AuthenticationToken.states.each_key do |s|
       trait s do
         state s
       end

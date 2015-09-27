@@ -2,10 +2,13 @@ module API
   class UsersController < ApplicationController
 
     def create
-      u = User.create(register_params)
+      u = UserMember.create(register_params)
       if u.save
         respond_to do |format|
-          format.json { head :created }
+          format.json { render json: { user: {
+            email: u.email,
+            first_name: u.first_name
+          } }, status: :created }
         end
       else
         respond_to do |format|

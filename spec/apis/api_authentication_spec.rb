@@ -14,7 +14,13 @@ describe 'API Authentication', :type => :api do
       expect {
         post '/register', { format: :json, user: user_params }
         expect(last_response.status).to be(201)
-        expect(last_response.body).to be_empty
+        expect(last_response.body).to_not be_empty
+        expect((body = json(last_response.body)).length).to be(1)
+        expect(body).to have_key(:user)
+        expect(body[:user]).to have_key(:first_name)
+        expect(body[:user][:first_name]).to_not be_empty
+        expect(body[:user]).to have_key(:email)
+        expect(body[:user][:email]).to_not be_empty
       }.to change{ User.count }.by(1)
     end
 

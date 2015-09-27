@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AuthenticationToken, type: :model do
 
   let!(:token) { FactoryGirl.create(:authentication_token) }
-  AuthenticationToken.aasm.states.each do |s|
+  AuthenticationToken.states.each_key do |s|
     let!("#{s.to_s}_token".to_sym) { FactoryGirl.create("#{s.to_s}_auth_token".to_sym) }
   end
 

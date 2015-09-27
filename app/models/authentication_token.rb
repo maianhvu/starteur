@@ -8,9 +8,17 @@ class AuthenticationToken < ActiveRecord::Base
   # Validations
   validates_presence_of :user
 
+  # Callbacks
+  before_create :generate_token
+
   # State definitions
-  aasm :column => :state do
-    state :fresh, :initial => true, :after_enter => :generate_token
+  enum state: {
+    fresh: 1,
+    in_use: 2,
+    expired: 4
+  }
+  aasm :column => :state, :enum => true do
+    state :fresh, :initial => true
     state :in_use
     state :expired
 
@@ -24,7 +32,7 @@ class AuthenticationToken < ActiveRecord::Base
     end
 
     event :refresh do
-      transitions :from => [ :expired ], to: :fresh
+      transitions :from => [ :expired ], to: :fresh, after: :generate_token
     end
   end
 

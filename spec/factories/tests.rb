@@ -7,7 +7,7 @@ FactoryGirl.define do
     price 10.0
     shuffle false
 
-    Test.aasm.states.each do |s|
+    Test.states.keys.map(&:to_sym).each do |s|
       trait s do
         state s
       end
@@ -32,7 +32,7 @@ FactoryGirl.define do
       name        { Faker::Book.title }
       description { Faker::Lorem.paragraph }
       price       { Faker::Number.decimal(2,1) }
-      published
+      state       { Test.states[:published] }
 
       factory :faked_unpublished_test, traits: [ :unpublished ]
     end
