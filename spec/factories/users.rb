@@ -12,7 +12,6 @@ FactoryGirl.define do
     password   { Faker::Internet.password(8) }
     first_name { "#{f_name}" }
     last_name  { "#{l_name}" }
-    confirmation_token { SecureRandom.hex(32) }
 
     factory :user_with_bloated_email do
       email { "   #{email_addr.upcase}     " }

@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :results
 
   # Callbacks
+  before_create :generate_confirmation_token
   before_validation :normalize_email, on: :create
   before_save :capitalize_names
 
@@ -22,8 +23,7 @@ class User < ActiveRecord::Base
     deactivated: 32
   }
   aasm :column => :state do
-    state :registered, :initial => true,
-      before_enter: [ :create_confirmation_token ]
+    state :registered, :initial => true
     state :confirmed
     state :deactivated
 
@@ -41,15 +41,15 @@ class User < ActiveRecord::Base
   private
 
   def normalize_email
-    self.email = self.email.strip.downcase
+    self.email = self.email.strip.downcase if self.email
   end
 
   def capitalize_names
-    self.first_name = self.first_name.strip.titleize
-    self.last_name = self.last_name.strip.titleize
+    self.first_name = self.first_name.strip.titleize if self.first_name
+    self.last_name = self.last_name.strip.titleize if self.last_name
   end
 
-  def create_confirmation_token
+  def generate_confirmation_token
     self.confirmation_token = SecureRandom.hex(32)
   end
 

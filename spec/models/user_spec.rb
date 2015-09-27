@@ -29,6 +29,11 @@ RSpec.describe User, type: :model do
       expect(user.reload.first_name).to eq(user.reload.first_name.strip)
       expect(user.reload.last_name).to eq(user.reload.last_name.strip)
     end
+
+    it 'should have confirmation token upon registration' do
+      user = create(:user)
+      expect(user.confirmation_token).to_not be_nil
+    end
   end
 
   # tests for finite states machine

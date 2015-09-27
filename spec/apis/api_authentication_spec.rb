@@ -4,8 +4,8 @@ describe 'API Authentication', :type => :api do
 
   let(:user_params) { FactoryGirl.attributes_for(:user) }
   let(:invalid_user_params) {
-    [:user_without_email, :user_without_first_name, :user_without_last_name].map do |user|
-      FactoryGirl.attributes_for(user)
+    [:email, :first_name, :last_name].map do |attrib|
+      FactoryGirl.attributes_for(:user, { attrib => nil })
     end
   }
 
