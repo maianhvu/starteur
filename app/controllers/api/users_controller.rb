@@ -4,6 +4,9 @@ module API
     def create
       u = UserMember.create(register_params)
       if u.save
+        # Send confirmation email
+        ConfirmationSender.send_confirmation_email(u).deliver
+        # Render success
         respond_to do |format|
           format.json { render json: { user: {
             email: u.email,
