@@ -80,6 +80,5 @@ test:
 #
 production:
   <<: *default
-  database: starteur-api_production
-  username: starteur-api
-  password: <%= ENV['STARTEUR-API_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>
