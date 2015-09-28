@@ -45,8 +45,7 @@ module API
         if token = u.authentication_tokens.expired.first
           token.refresh!
         else
-          AuthenticationToken.create!(user: u) if u.authentication_tokens.empty?
-          token = u.authentication_tokens.fresh.first
+          token = u.authentication_tokens.fresh.first || AuthenticationToken.create!(user: u)
         end
         token.use!
         respond_to do |format|
