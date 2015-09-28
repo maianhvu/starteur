@@ -1,5 +1,7 @@
 module API
-  class UsersController < ApplicationController
+  class UsersController < AuthenticatedController
+
+    before_action :authenticate, only: [ :show ]
 
     def create
       u = UserMember.create(register_params)
@@ -51,6 +53,19 @@ module API
         respond_to do |format|
           format.json { render json: { errors: "User's email unconfirmed" }, status: :unprocessable_entity }
         end
+      end
+    end
+
+    def show
+      respond_to do |format|
+        format.json {
+          render json: {
+            email: @user.email,
+            first_name: @user.first_name,
+            last_name: @user.last_name,
+            confirmed: @user.confirmed?
+          }, status: :ok
+        }
       end
     end
 

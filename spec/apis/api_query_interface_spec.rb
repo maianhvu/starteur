@@ -239,5 +239,29 @@ describe 'API Query Interface', :type => :api do
     end
   end
 
+  # Dashboard
+  context 'Dashboard' do
+
+    context 'Profile' do
+      let!(:keys) { [:email, :first_name, :last_name, :confirmed] }
+      it 'should retrieve profile with valid auth token' do
+        token_header auth_token
+        get '/profile', request_params
+        expect(last_response.status).to be(200)
+        expect(last_response.body).to_not be_empty
+        body = json(last_response.body)
+        keys.each do |key|
+          expect(body).to have_key(key)
+          expect(body[key]).to_not be_nil
+        end
+      end
+
+      it 'should not retrieve profile with invalid auth token' do
+        token_header false_token
+        get '/profile', request_params
+        expect_authentication_failed
+      end
+    end
+  end
 
 end
