@@ -3,9 +3,9 @@ class User < ActiveRecord::Base
   include AASM
 
   # ActiveRecord Relations
-  has_many :authentication_tokens
-  has_many :answers
-  has_many :results
+  has_many :authentication_tokens, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :results, dependent: :destroy
 
   # Callbacks
   before_create :generate_confirmation_token

@@ -28,6 +28,35 @@ describe 'API Query Interface', :type => :api do
 
   let(:expired_token) { auth_token.expire! }
 
+  shared_examples_for "any request" do
+    context "CORS Requests" do
+      it "should set the Access-Control-Allow-Origin header to allow CORS from anywhere" do
+        expect(last_response.headers['Access-Control-Allow-Origin']).to eq('*')
+      end
+
+      it "should allow general HTTP methods thru CORS (GET/POST/PUT/DELETE)" do
+        allowed_http_methods = last_response.header['Access-Control-Allow-Methods']
+        %w{GET POST PUT DELETE}.each do |method|
+          expect(allowed_http_methods).to include(method)
+        end
+      end
+
+    end
+  end
+
+  describe "HTTP OPTIONS requests" do
+    before(:each) do
+      token_header auth_token
+      options '/profile', request_params
+    end
+
+    it_should_behave_like "any request"
+
+    it "should be succesful" do
+      expect(last_response.status).to be(200)
+    end
+  end
+
   context 'Authentication Token Management' do
     let!(:test) { FactoryGirl.create(:test) }
 
@@ -53,6 +82,14 @@ describe 'API Query Interface', :type => :api do
       expect((body = json(last_response.body)).length).to be(1)
       expect(body[:errors]).to include('Expired token')
     end
+
+    it 'should not allow bogus tokens' do
+      token = SecureRandom.hex(32)
+      token_header token
+      get "/tests", request_params
+      expect_authentication_failed
+    end
+
   end
 
   context 'Tests' do
@@ -246,7 +283,7 @@ describe 'API Query Interface', :type => :api do
       let!(:keys) { [:email, :first_name, :last_name, :confirmed] }
       it 'should retrieve profile with valid auth token' do
         token_header auth_token
-        get '/profile', request_params
+        get "/profile", request_params
         expect(last_response.status).to be(200)
         expect(last_response.body).to_not be_empty
         body = json(last_response.body)
@@ -258,7 +295,7 @@ describe 'API Query Interface', :type => :api do
 
       it 'should not retrieve profile with invalid auth token' do
         token_header false_token
-        get '/profile', request_params
+        get "/profile", request_params
         expect_authentication_failed
       end
     end

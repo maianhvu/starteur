@@ -6,6 +6,10 @@ class AuthenticatedController < ApplicationController
     authenticate_token
   end
 
+  def authenticate_params
+    params.require(:user).permit(:email)
+  end
+
   private
 
   def authenticate_token
@@ -40,9 +44,5 @@ class AuthenticatedController < ApplicationController
 
   def request_http_token_authentication(realm = "Application")
     render_auth_error(realm, 'Bad credentials')
-  end
-
-  def authenticate_params
-    params.require(:user).permit(:email)
   end
 end

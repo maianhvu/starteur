@@ -9,7 +9,7 @@ module API
         # Create trial token
         token = AuthenticationToken.create!(user: u)
         # Send confirmation email
-        ConfirmationSender.send_confirmation_email(u).deliver
+        ConfirmationSender.send_confirmation_email(u).deliver if ENV['RAILS_ENV'] == 'production'
         # Render success
         respond_to do |format|
           format.json { render json: { user: {
@@ -60,13 +60,14 @@ module API
     end
 
     def show
+      user = @user || User.find_by(authenticate_params)
       respond_to do |format|
         format.json {
           render json: {
-            email: @user.email,
-            first_name: @user.first_name,
-            last_name: @user.last_name,
-            confirmed: @user.confirmed?
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            confirmed: user.confirmed?
           }, status: :ok
         }
       end

@@ -7,11 +7,13 @@ Rails.application.routes.draw do
     end
 
     post 'register', to: 'users#create', as: :register
-    get 'confirm/:escaped_email/:token', to: 'users#confirm', as: 'confirm', :constraints => { :escaped_email => /[^\/]+/ }
     post 'sign-in', to: 'users#sign_in'
 
-    # Dashboard
-    get 'profile', to: 'users#show'
+    constraints(escaped_email: /[^\/]+/) do
+      get 'confirm/:escaped_email/:token', to: 'users#confirm'
+    end
+
+    match 'profile', to: 'users#show', via: [ :get, :options ]
   end
 
   root to: redirect('https://www.starteur.com/')
