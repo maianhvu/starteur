@@ -21,6 +21,17 @@ describe 'API Authentication', :type => :api do
         expect(body[:user][:first_name]).to_not be_empty
         expect(body[:user]).to have_key(:email)
         expect(body[:user][:email]).to_not be_empty
+        expect(body[:user]).to have_key(:token)
+        expect(body[:user][:token]).to_not be_empty
+        expect(body[:user][:token].length).to be(64)
+        # Expect token to be trial
+        token = AuthenticationToken.find_by(token: body[:user][:token])
+        expect(token).to be_trial
+        expect(token.may_refresh?).to be_falsy
+        expect(token.expires_at).to be_within(1.minute).of(1.hour.from_now)
+        # Just to make sure the token belongs to this user
+        user = User.find_by(email: user_params[:email])
+        expect(token.user).to eq(user)
       }.to change{ User.count }.by(1)
     end
 
@@ -45,6 +56,15 @@ describe 'API Authentication', :type => :api do
         expect(body[:email]).to include("has already been taken")
       }.not_to change { User.count }
     end
+
+    it 'should generate a trial auth token upon successful registration' do
+      expect {
+        post '/register', { format: :json, user: user_params }
+      }.to change{ AuthenticationToken.count }.by(1)
+      token = User.find_by(email: user_params[:email]).authentication_tokens.last
+      expect(token).to be_trial
+      expect(token.expires_at).to be_within(1.minute).of(1.hour.from_now)
+    end
   end
 
   context 'Confirmation' do
@@ -60,9 +80,14 @@ describe 'API Authentication', :type => :api do
 
     it 'should successfully confirm new user with valid token' do
       get "/confirm/#{Rack::Utils.escape(user.email)}/#{conf_token}", { format: :json }
-      expect(user.reload.confirmed_at).to be_within(10.seconds).of(Time.now)
+      expect(user.reload).to be_confirmed
+      expect(user.confirmed_at).to be_within(10.seconds).of(Time.now)
       expect(last_response.status).to be(200)
       expect(last_response.body).to be_empty
+      # Expect all tokens to be non-trial
+      user.authentication_tokens.each do |token|
+        expect(token).to_not be_trial
+      end
     end
 
     it 'should not confirm new user with invalid token' do

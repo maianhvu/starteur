@@ -4,6 +4,7 @@ class AuthenticationToken < ActiveRecord::Base
 
   # Constants
   DEFAULT_EXPIRY = Proc.new { 3.weeks.from_now }
+  TRIAL_EXPIRY = Proc.new { 1.hour.from_now }
 
   # Validations
   validates_presence_of :user
@@ -36,6 +37,11 @@ class AuthenticationToken < ActiveRecord::Base
     end
   end
 
+  def trial?
+    return true unless self.user
+    return !self.user.confirmed?
+  end
+
   private
 
   def token_expired?
@@ -43,6 +49,7 @@ class AuthenticationToken < ActiveRecord::Base
   end
 
   def extend_expiration
+    return if self.trial?
     self.expires_at = DEFAULT_EXPIRY.call
   end
 
@@ -52,6 +59,7 @@ class AuthenticationToken < ActiveRecord::Base
       break t unless self.user && self.user.authentication_tokens.find_by(token: t)
     end
     self.token = t
+    return self.expires_at = TRIAL_EXPIRY.call if self.trial?
     self.expires_at = DEFAULT_EXPIRY.call
   end
 end

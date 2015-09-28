@@ -6,13 +6,16 @@ module API
     def create
       u = UserMember.create(register_params)
       if u.save
+        # Create trial token
+        token = AuthenticationToken.create!(user: u)
         # Send confirmation email
         ConfirmationSender.send_confirmation_email(u).deliver
         # Render success
         respond_to do |format|
           format.json { render json: { user: {
             email: u.email,
-            first_name: u.first_name
+            first_name: u.first_name,
+            token: token.token
           } }, status: :created }
         end
       else
@@ -25,7 +28,7 @@ module API
     def confirm
       u = User.find_by(email: params[:escaped_email].strip.downcase)
       if u.may_confirm?(params[:token])
-        u.confirm(params[:token])
+        u.confirm!(params[:token])
         respond_to do |format|
           format.json { head :ok }
         end
