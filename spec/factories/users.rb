@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :user do
 
     transient do
-      email_addr Faker::Internet.email
+      email_addr { Faker::Internet.email }
       f_name Faker::Name.first_name
       l_name Faker::Name.last_name
     end

@@ -4,12 +4,18 @@ RSpec.describe User, type: :model do
 
   context 'Validations' do
     # email
-    it 'should validate email address' do
+    it 'should have an email address' do
       expect(build(:user, email: ' '*5)).to_not be_valid
     end
 
+    it 'should have an unique email address' do
+      attrib = attributes_for(:user)
+      User.create!(attrib)
+      expect(User.new(attrib)).to_not be_valid
+    end
+
     # first_name and last_name
-    it 'should validate names' do
+    it 'should have names' do
       expect(build(:user, first_name: nil)).to_not be_valid
       expect(build(:user, last_name: nil)).to_not be_valid
     end
@@ -69,7 +75,7 @@ RSpec.describe User, type: :model do
 
     it 'should have a trimmed and downcased email' do
       user2 = FactoryGirl.create(:user_with_bloated_email)
-      expect(user2.reload.email).to eq(user.email)
+      expect(user2.reload.email).to eq(user2.email.strip.downcase)
     end
 
     it 'should have a confirmation token created' do

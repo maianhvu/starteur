@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   before_save :capitalize_names
 
   # Validations
-  validates :email, presence: true
+  validates :email, presence: true, uniqueness: true
   validates_presence_of :first_name, :last_name
 
   # State definitions
