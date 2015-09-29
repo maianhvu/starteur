@@ -21,4 +21,4 @@ Run RSpec tests by executing `zeus test` or `zeus rspec`.
 
 ### Questions? ###
 
-Contact vu@reactor.sg
+Contact [vu@reactor.sg](mailto:vu@reactor.sg).
