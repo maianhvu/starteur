@@ -11,27 +11,15 @@ module API
           qids << Choice.find(choice_id).question.id
         end
       end
-      completed = false
-      unless qids.empty?
-        total = test.questions.count
-        user_answers_for_test = @user.answers.where(test: test)
-        done  = user_answers_for_test.count
-        completed = done >= total
-        # Build result if completed
-        if completed
-          answers_hash = {}
-          user_answers_for_test.includes(:choice).all.each do |ans|
-            answers_hash[ans.choice_id] = ans.choice.points
-          end
-          # Create result object
-          Result.create!(answers: answers_hash, user: @user, test: test)
-          # Remove temporary answer objects
-          user_answers_for_test.destroy_all
-        end
+      # Completion status
+      completed = @user.completed?(test)
+      if completed
+        usage = CodeUsage.used.where(user: @user).includes(:access_code).find_by('access_codes.test_id' => test.id)
+        usage.complete!
       end
       respond_to do |format|
         format.json {
-          render json: { question_ids: qids, completed: completed }, status: :ok
+          render json: { question_ids: qids, completed: @user.completed?(test) }, status: :ok
         }
       end
 

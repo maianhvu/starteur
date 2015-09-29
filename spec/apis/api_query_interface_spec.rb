@@ -127,6 +127,20 @@ describe 'API Query Interface', :type => :api do
       expect_authentication_failed
     end
 
+    it 'should get correct statuses for each tests' do
+      Test.published.limit(4).all.each do |test|
+        code = FactoryGirl.create(:access_code, test: test)
+        CodeUsage.create!(access_code: code, user: user)
+      end
+      token_header auth_token
+      get '/tests', request_params
+      body = json(last_response.body)
+      body.each do |test|
+        expect(test).to have_key(:status)
+      end
+      expect(body.select { |t| t[:status][:purchased] }.count).to be(4)
+    end
+
   end
 
   context 'Questions and Answers' do
@@ -221,57 +235,91 @@ describe 'API Query Interface', :type => :api do
         end
         { format: :json, user: { email: user.email }, answers: answers }
       }
+      let!(:access_code) { FactoryGirl.create(:access_code, test: test) }
 
-      it 'should be able to add new answers' do
-        expect {
+      shared_examples "single-use access codes" do
+
+        let!(:code_usage) {
+          usage = CodeUsage.create!(access_code: access_code)
+          usage.use!(user)
+          usage
+        }
+
+        it 'should be able to add new answers' do
+          expect {
+            token_header auth_token
+            post "/tests/#{test.id}/answers", answer_params
+            expect(last_response.status).to be(200)
+          }.to change { user.answers.count }.by(4)
+        end
+
+        it 'should return answered question ids' do
           token_header auth_token
           post "/tests/#{test.id}/answers", answer_params
-          expect(last_response.status).to be(200)
-        }.to change { user.answers.count }.by(4)
-      end
+          expect(last_response.body).to_not be_empty
+          expect(body = json(last_response.body)).to have_key(:question_ids)
+          expect(body[:question_ids]).to eq(questions.map(&:id))
+        end
 
-      it 'should return answered question ids' do
-        token_header auth_token
-        post "/tests/#{test.id}/answers", answer_params
-        expect(last_response.body).to_not be_empty
-        expect(body = json(last_response.body)).to have_key(:question_ids)
-        expect(body[:question_ids]).to eq(questions.map(&:id))
-      end
-
-      it 'should return completion status' do
-        token_header auth_token
-        post "/tests/#{test.id}/answers", answer_params
-        expect(body = json(last_response.body)).to have_key(:completed)
-        expect(body).to have_key(:completed)
-        expect(body[:completed]).to be_falsy
-
-        # Questions still left unanswered
-        leftover = test.questions.where('questions.id NOT IN (?)', body[:question_ids])
-        new_params = {
-          format: :json,
-          :user => { email: user.email },
-          answers: leftover.map(&:choices).map(&:first).map(&:id)
-        }
-        post "/tests/#{test.id}/answers", new_params
-        expect(body = json(last_response.body)).to have_key(:completed)
-        expect(body[:completed]).to be_truthy
-      end
-
-      it 'should create a result object upon finishing a test' do
-        expect {
-          finish_params = {
-            :format => :json,
-            :user   => { email: user.email },
-            :answers => test.questions.map(&:choices).map(&:first).map(&:id)
-          }
+        it 'should return completion status' do
           token_header auth_token
-          post "/tests/#{test.id}/answers", finish_params
-          expect(last_response.status).to be(200)
-        }.to change { test.results.count }.by(1)
-          .and change { user.results.count }.by(1)
-        # Expect temporary answers to get wiped
-        expect(user.answers.where(test: test).count).to be(0)
+          post "/tests/#{test.id}/answers", answer_params
+          expect(body = json(last_response.body)).to have_key(:completed)
+          expect(body).to have_key(:completed)
+          expect(body[:completed]).to be_falsy
 
+          # Questions still left unanswered
+          leftover = test.questions.where('questions.id NOT IN (?)', body[:question_ids])
+          new_params = {
+            format: :json,
+            :user => { email: user.email },
+            answers: leftover.map(&:choices).map(&:first).map(&:id)
+          }
+          post "/tests/#{test.id}/answers", new_params
+          expect(body = json(last_response.body)).to have_key(:completed)
+          expect(body[:completed]).to be_truthy
+        end
+
+        it 'should create a result object upon finishing a test' do
+          expect {
+            finish_params = {
+              :format => :json,
+              :user   => { email: user.email },
+              :answers => test.questions.map(&:choices).map(&:first).map(&:id)
+            }
+            token_header auth_token
+            post "/tests/#{test.id}/answers", finish_params
+            expect(last_response.status).to be(200)
+          }.to change { test.results.count }.by(1)
+            .and change { user.results.count }.by(1)
+          # Expect temporary answers to get wiped
+          expect(user.answers.where(test: test).count).to be(0)
+        end
+      end
+
+      describe 'Using Single-use access code' do
+        include_examples "single-use access codes"
+      end
+
+      describe 'Using Universal access code' do
+        let!(:access_code) { FactoryGirl.create(:universal_access_code, test: test) }
+        it_should_behave_like "single-use access codes"
+
+        it 'should create multiple code usages under the same access code' do
+          # Create 5 different user and let all 5 use the same code
+          expect {
+            5.times do
+              u = FactoryGirl.create(:user)
+              u.confirm!(u.confirmation_token)
+              token = u.authentication_tokens.fresh.first || AuthenticationToken.create!(user: u)
+              token.use!
+              token_header token.token
+              get "/tests/#{test.id}/use-code/#{access_code.code}", { format: :json, user: { email: u.email } }
+              expect(last_response.status).to be(201)
+            end
+          }.to change { CodeUsage.count }.by(5)
+            .and change { AccessCode.count }.by(0)
+        end
       end
     end
   end
@@ -298,6 +346,69 @@ describe 'API Query Interface', :type => :api do
         get "/profile", request_params
         expect_authentication_failed
       end
+    end
+  end
+
+  context 'Purchases and Access Codes' do
+    let!(:test) { FactoryGirl.create(:faked_test) }
+    let!(:access_code) { FactoryGirl.create(:access_code, test: test) }
+    let!(:universal_access_code) { FactoryGirl.create(:universal_access_code, test: test) }
+
+    shared_examples "single-use access codes" do
+      it 'should create a code usage when user locks in access code' do
+        expect {
+          token_header auth_token
+          get "/tests/#{test.id}/use-code/#{access_code.code}", request_params
+          expect(last_response.status).to be(201)
+          expect(last_response.body).to be_empty
+        }.to change { CodeUsage.count }.by(1)
+        usage = CodeUsage.last
+        expect(usage).to be_used
+        expect(usage.user).to eq(user)
+        expect(usage.access_code).to eq(access_code)
+        expect(usage.access_code.test).to eq(test)
+      end
+
+      it 'should FAIL to let the user lock in an invalid access code' do
+        # Bogus code
+        while true
+          bogus_code = SecureRandom.hex(32)
+          break bogus_code unless bogus_code.equal?(access_code)
+        end
+        while true
+          test2 = FactoryGirl.build(:faked_test)
+          break test2 if test2.valid?
+        end
+        test2.save!
+        code2 = FactoryGirl.create(:access_code, test: test2)
+        [bogus_code, code2.code].each do |code|
+          expect {
+            token_header auth_token
+            get "/tests/#{test.id}/use-code/#{code}", request_params
+            expect(last_response.status).to be(422)
+            expect(last_response.body).to_not be_empty
+            expect((body = json(last_response.body)).length).to be(1)
+            expect(body).to have_key(:errors)
+            expect(body[:errors]).to include('Invalid access code')
+          }.to_not change { CodeUsage.count }
+        end
+      end
+    end
+
+    describe "Using Single-use access codes" do
+      include_examples "single-use access codes"
+
+      it 'should FAIL to let user reuse a Single-use code' do
+        2.times do
+          token_header auth_token
+          get "/tests/#{test.id}/use-code/#{access_code.code}", request_params
+        end
+        expect(last_response.status).to be(422)
+      end
+    end
+
+    describe "Using Universal access codes" do
+      it_should_behave_like "single-use access codes"
     end
   end
 

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     resources :tests, only: [ :index, :show ] do
       resources :questions, only: [ :index ]
       resources :answers,   only: [ :create ]
+
+      get 'use-code/:code', to: 'access_codes#use', as: 'use_code'
     end
 
     post 'register', to: 'users#create', as: :register

@@ -11,11 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150927092156) do
+ActiveRecord::Schema.define(version: 20150928065444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+
+  create_table "access_codes", force: :cascade do |t|
+    t.string   "code"
+    t.integer  "test_id"
+    t.datetime "last_used_at"
+    t.boolean  "universal"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree
 
   create_table "answers", force: :cascade do |t|
     t.integer  "choice_id"
@@ -61,6 +72,17 @@ ActiveRecord::Schema.define(version: 20150927092156) do
 
   add_index "choices", ["question_id"], name: "index_choices_on_question_id", using: :btree
 
+  create_table "code_usages", force: :cascade do |t|
+    t.integer  "access_code_id"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "state"
+  end
+
+  add_index "code_usages", ["access_code_id"], name: "index_code_usages_on_access_code_id", using: :btree
+  add_index "code_usages", ["user_id"], name: "index_code_usages_on_user_id", using: :btree
+
   create_table "questions", force: :cascade do |t|
     t.integer  "ordinal"
     t.string   "content"
@@ -75,8 +97,10 @@ ActiveRecord::Schema.define(version: 20150927092156) do
     t.hstore  "answers"
     t.integer "user_id"
     t.integer "test_id"
+    t.integer "code_usage_id"
   end
 
+  add_index "results", ["code_usage_id"], name: "index_results_on_code_usage_id", using: :btree
   add_index "results", ["test_id"], name: "index_results_on_test_id", using: :btree
   add_index "results", ["user_id"], name: "index_results_on_user_id", using: :btree
 
@@ -104,13 +128,17 @@ ActiveRecord::Schema.define(version: 20150927092156) do
     t.integer  "state",              default: 1
   end
 
+  add_foreign_key "access_codes", "tests"
   add_foreign_key "answers", "choices"
   add_foreign_key "answers", "tests"
   add_foreign_key "answers", "users"
   add_foreign_key "authentication_tokens", "users"
   add_foreign_key "categories", "tests"
   add_foreign_key "choices", "questions"
+  add_foreign_key "code_usages", "access_codes"
+  add_foreign_key "code_usages", "users"
   add_foreign_key "questions", "categories"
+  add_foreign_key "results", "code_usages"
   add_foreign_key "results", "tests"
   add_foreign_key "results", "users"
 end

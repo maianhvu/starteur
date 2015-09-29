@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :authentication_tokens, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :results, dependent: :destroy
+  has_many :code_usages
+  has_many :access_codes, through: :code_usages
 
   # Callbacks
   before_create :generate_confirmation_token
@@ -36,6 +38,15 @@ class User < ActiveRecord::Base
     event :deactivate do
       transitions :from => [ :registered, :confirmed ], :to => :deactivated
     end
+  end
+
+  def purchased?(test)
+    CodeUsage.where(user: self).includes(:access_code).where('access_codes.test_id': test.id).count > 0
+  end
+
+  def completed?(test)
+    answers_count = Answer.where(user: self, test: test).count
+    (answers_count >= test.questions.count) || (answers_count == 0 && Result.where(user: self, test: test).count > 0)
   end
 
   private

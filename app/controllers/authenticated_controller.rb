@@ -10,6 +10,10 @@ class AuthenticatedController < ApplicationController
     params.require(:user).permit(:email)
   end
 
+  def user
+    @user || User.find_by(authenticate_params)
+  end
+
   private
 
   def authenticate_token
