@@ -52,8 +52,8 @@ describe 'API Authentication', :type => :api do
         post '/register', { format: :json, user: user_params }
         expect(last_response.status).to be(422)
         expect((body = json(last_response.body)).length).to be(1)
-        expect(body).to have_key(:email)
-        expect(body[:email]).to include("has already been taken")
+        expect(body).to have_key(:errors)
+        expect(body[:errors]).to include("Email")
       }.not_to change { User.count }
     end
 

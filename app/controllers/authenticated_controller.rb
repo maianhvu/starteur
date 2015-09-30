@@ -42,7 +42,7 @@ class AuthenticatedController < ApplicationController
   def render_auth_error(realm = "Application", message)
     self.headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, "")}")
     respond_to do |format|
-      format.json { render json: { errors: [ message ] }, status: :unauthorized }
+      format.json { render json: { errors: message }, status: :unauthorized }
     end
   end
 

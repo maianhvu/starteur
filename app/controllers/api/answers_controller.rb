@@ -3,7 +3,6 @@ module API
     before_action :authenticate
 
     def create
-      errors = nil
       qids = []
       test = Test.find(params[:test_id])
       params.require(:answers).each do |choice_id|

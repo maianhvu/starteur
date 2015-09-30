@@ -51,5 +51,12 @@ RSpec.describe AuthenticationToken, type: :model do
       t.use!
       expect(t.reload.expires_at).to be_within(1.minute).of(3.weeks.from_now)
     end
+
+    it 'should save last_used_at upon usage' do
+      [fresh_token, in_use_token].each do |t|
+        t.use!
+        expect(t.reload.last_used_at).to be_within(5.seconds).of(Time.now)
+      end
+    end
   end
 end

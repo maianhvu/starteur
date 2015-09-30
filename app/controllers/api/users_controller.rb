@@ -20,7 +20,9 @@ module API
         end
       else
         respond_to do |format|
-          format.json { render json: u.errors.messages, status: :unprocessable_entity }
+          format.json { render json: {
+            errors: u.errors.full_messages.join(', ')
+          }, status: :unprocessable_entity }
         end
       end
     end
