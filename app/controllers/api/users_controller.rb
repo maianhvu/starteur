@@ -11,19 +11,14 @@ module API
         # Send confirmation email
         ConfirmationSender.send_confirmation_email(u).deliver if ENV['RAILS_ENV'] == 'production'
         # Render success
-        respond_to do |format|
-          format.json { render json: { user: {
-            email: u.email,
-            first_name: u.first_name,
-            token: token.token
-          } }, status: :created }
-        end
+        render json: { user: {
+          email: u.email,
+          token: token.token
+        } }, status: :created
       else
-        respond_to do |format|
-          format.json { render json: {
-            errors: u.errors.full_messages.join(', ')
-          }, status: :unprocessable_entity }
-        end
+        render json: {
+          errors: u.errors.full_messages.join(', ')
+        }, status: :unprocessable_entity
       end
     end
 
@@ -31,13 +26,9 @@ module API
       u = User.find_by(email: params[:escaped_email].strip.downcase)
       if u.may_confirm?(params[:token])
         u.confirm!(params[:token])
-        respond_to do |format|
-          format.json { head :ok }
-        end
+        head :ok
       else
-        respond_to do |format|
-          format.json { render json: { errors: "Invalid confirmation token" }, status: :unprocessable_entity }
-        end
+        render json: { errors: "Invalid confirmation token" }, status: :unprocessable_entity
       end
     end
 
@@ -50,28 +41,20 @@ module API
           token = u.authentication_tokens.fresh.first || AuthenticationToken.create!(user: u)
         end
         token.use!
-        respond_to do |format|
-          format.json { render json: { token: token.token }, status: :ok }
-        end
+        render json: { token: token.token }, status: :ok
       else
-        respond_to do |format|
-          format.json { render json: { errors: "User's email unconfirmed" }, status: :unprocessable_entity }
-        end
+        render json: { errors: "User's email unconfirmed" }, status: :unprocessable_entity
       end
     end
 
     def show
       user = @user || User.find_by(authenticate_params)
-      respond_to do |format|
-        format.json {
-          render json: {
-            email: user.email,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            confirmed: user.confirmed?
-          }, status: :ok
-        }
-      end
+      render json: {
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        confirmed: user.confirmed?
+      }, status: :ok
     end
 
     private
