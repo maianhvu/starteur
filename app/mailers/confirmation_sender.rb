@@ -11,7 +11,7 @@ class ConfirmationSender < ApplicationMailer
     headers['X-SMTPAPI'] = {
       sub: {
         '-headerText-': ["Hi #{user.first_name}, thanks for registering with Starteur!"],
-        '-linkUrl-': [confirm_url(confirm_params)],
+        '-linkUrl-': [Rails.application.confirm_url(confirm_params)],
         '-linkCaption-': ["Confirm email address"]
       },
       filters: {
