@@ -42,7 +42,7 @@ class AuthenticatedController < ApplicationController
   def render_auth_error(realm = "Application", message)
     headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, "")}")
     headers["Access-Control-Allow-Origin"] = '*'
-    render json: { errors: message }, status: :unauthorized
+    render json: { errors: message, errorFields: [] }, status: :unauthorized
   end
 
   def request_http_token_authentication(realm = "Application")

@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def parse_errors(errors)
+    errors.full_messages.join(".\n")
+  end
+
   def cors_preflight_check
     if request.method == 'OPTIONS'
       headers['Access-Control-Allow-Origin'] = '*'

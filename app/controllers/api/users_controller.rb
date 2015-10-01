@@ -1,7 +1,6 @@
 module API
   class UsersController < AuthenticatedController
-
-    before_action :authenticate, only: [ :show ]
+    before_action :authenticate, only: [ :show, :sign_out ]
 
     def create
       u = UserMember.create(register_params)
@@ -17,7 +16,8 @@ module API
         } }, status: :created
       else
         render json: {
-          errors: u.errors.full_messages.join(', ')
+          errors: parse_errors(u.errors),
+          errorFields: u.errors.messages.keys.map(&:to_s)
         }, status: :unprocessable_entity
       end
     end
@@ -41,10 +41,17 @@ module API
           token = u.authentication_tokens.fresh.first || AuthenticationToken.create!(user: u)
         end
         token.use!
-        render json: { token: token.token }, status: :ok
+        render json: { user: { email: u.email, token: token.token } }, status: :ok
       else
-        render json: { errors: "User's email unconfirmed" }, status: :unprocessable_entity
+        render json: { errors: 'You have not confirmed your email address', errorFields: [] }, status: :unprocessable_entity
       end
+    end
+
+    def sign_out
+      extracted_token = /^.+="?([0-9a-fA-F]+)"?$/.match(request.headers['HTTP_AUTHORIZATION'])[1]
+      token = user.authentication_tokens.find_by(token: extracted_token)
+      token.expire!
+      head 200
     end
 
     def show

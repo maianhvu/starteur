@@ -16,8 +16,11 @@ module APIHelper
   def expect_authentication_failed
     expect(last_response.status).to be(401)
     expect(last_response.body).to_not be_empty
-    expect((body = json(last_response.body)).length).to eq(1)
-    expect(body[:errors]).to include('Bad credentials')
+    expect((body = json(last_response.body)).length).to eq(2)
+    expect(body).to have_key(:errors)
+    expect(body[:errors]).to eq('Bad credentials')
+    expect(body).to have_key(:errorFields)
+    expect(body[:errorFields]).to be_empty
   end
 end
 
