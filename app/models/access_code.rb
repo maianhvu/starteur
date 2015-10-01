@@ -1,6 +1,6 @@
 class AccessCode < ActiveRecord::Base
   belongs_to :test
-  has_many :code_usages
+  has_many :code_usages, dependent: :destroy
   has_many :users, through: :code_usages
 
   def user

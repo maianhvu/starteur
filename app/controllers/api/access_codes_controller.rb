@@ -11,21 +11,15 @@ module API
         usage = CodeUsage.new(access_code: code)
         if usage.save
           usage.use!(user)
-          respond_to do |format|
-            format.json { head :created }
-          end
+          head :created
         else
-          errors = usage.errors.full_messages.join('. ')
+          errors = parse_errors(usage.errors)
         end
       else
         errors = 'Invalid access code'
       end
       if errors
-        respond_to do |format|
-          format.json {
-            render json: { errors: errors }, status: :unprocessable_entity
-          }
-        end
+        render json: { errors: errors }, status: :unprocessable_entity
       end
     end
   end

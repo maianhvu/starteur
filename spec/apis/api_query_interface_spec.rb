@@ -122,6 +122,9 @@ describe 'API Query Interface', :type => :api do
       expect(last_response.status).to be(200)
       expect(last_response.body).to_not be_empty
       expect((body = json(last_response.body)).length).to eq(10)
+      body.each do |test_data|
+        expect(test_data).to have_key(:id)
+      end
     end
 
     it 'should FAIL to get tests with invalid authentication' do
@@ -142,6 +145,18 @@ describe 'API Query Interface', :type => :api do
         expect(test).to have_key(:status)
       end
       expect(body.select { |t| t[:status][:purchased] }.count).to be(4)
+    end
+
+    it 'should have an access code attached to the purchased test' do
+      test1 = Test.published.first
+      code = FactoryGirl.create(:access_code, test: test1)
+      usage = CodeUsage.create!(access_code: code)
+      usage.use!(user)
+      token_header auth_token
+      get '/tests', request_params
+      body = json(last_response.body).first
+      expect(body).to have_key(:accessCode)
+      expect(body[:accessCode]).to eq(code.code)
     end
 
   end
@@ -177,9 +192,22 @@ describe 'API Query Interface', :type => :api do
 
     context 'Questions' do
 
+      let!(:access_code) { FactoryGirl.create(:access_code, test: test) }
+      let!(:usage) {
+        usage1 = CodeUsage.create!(access_code: access_code)
+        usage1.use!(user)
+        usage1
+      }
+
+      let(:question_params) {
+        params1 = request_params
+        params1[:accessCode] = access_code.code
+        params1
+      }
+
       it 'should get the test\'s questions with valid authentication' do
         token_header auth_token
-        get "/tests/#{test.id}/questions", request_params
+        get "/tests/#{test.id}/questions", question_params
         expect(last_response.status).to be(200)
         expect(last_response.body).to_not be_empty
         expect((body = json(last_response.body)).length).to eq(20)
@@ -202,7 +230,7 @@ describe 'API Query Interface', :type => :api do
         end
         # Start querying
         token_header auth_token
-        get "/tests/#{test.id}/questions", request_params
+        get "/tests/#{test.id}/questions", question_params
         expect((body = json(last_response.body)).length).to be(20-4)
         # Ensure returned questions are unanswered
         # Answered Questions IDs
@@ -212,13 +240,9 @@ describe 'API Query Interface', :type => :api do
         end
       end
 
-      it 'should return completion status' do
-
-      end
-
       it 'should order questions by categories\' ranks' do
         token_header auth_token
-        get "/tests/#{test.id}/questions", request_params
+        get "/tests/#{test.id}/questions", question_params
         body = json(last_response.body)
         previous_category_rank = nil
         body.each do |question|

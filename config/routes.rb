@@ -10,15 +10,17 @@ Rails.application.routes.draw do
 
     post 'register', to: 'users#create', as: :register
     post 'sign-in', to: 'users#sign_in'
-    match 'sign-out', to: 'users#sign_out', via: [ :post, :options ]
+    post 'sign-out', to: 'users#sign_out'
 
     constraints(escaped_email: /[^\/]+/) do
-      match 'confirm/:escaped_email/:token', to: 'users#confirm', via: [ :get, :options ]
+      get 'confirm/:escaped_email/:token', to: 'users#confirm'
     end
 
-    match 'profile', to: 'users#show', via: [ :get, :options ]
+    get 'profile', to: 'users#show'
   end
 
   root to: redirect('https://www.starteur.com/')
+
+  match '*others', to: 'authenticated#allow', via: [ :options ]
 
 end

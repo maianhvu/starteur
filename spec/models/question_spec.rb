@@ -13,9 +13,8 @@ RSpec.describe Question, type: :model do
       expect(q).to_not be_valid
     end
 
-    it 'should have unique ordinals' do
-      q = FactoryGirl.create(:question)
-      expect(Question.new(ordinal: q.ordinal)).to_not be_valid
+    it 'may omit ordinal' do
+      expect(FactoryGirl.build(:question, :ordinal => nil)).to be_valid
     end
   end
 end

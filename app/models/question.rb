@@ -3,7 +3,7 @@ class Question < ActiveRecord::Base
   has_many :choices
 
   # Validations
-  validates :ordinal, uniqueness: true, numericality: { only_integer: true }
+  validates :ordinal, numericality: { only_integer: true, allow_blank: true }
 
   # Scopes
   scope :shuffled, -> { order('random()') }

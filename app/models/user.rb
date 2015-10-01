@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   end
 
   def purchased?(test)
-    CodeUsage.where(user: self).includes(:access_code).where('access_codes.test_id': test.id).count > 0
+    self.code_usages.includes(:access_code).where('access_codes.test_id': test.id).count > 0
   end
 
   def completed?(test)

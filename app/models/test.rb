@@ -2,10 +2,11 @@ class Test < ActiveRecord::Base
   include AASM
 
   # ActiveRecord Associations
-  has_many :categories
+  has_many :categories, dependent: :destroy
   has_many :questions, through: :categories
-  has_many :answers
-  has_many :results
+  has_many :answers, dependent: :destroy
+  has_many :results, dependent: :destroy
+  has_many :access_codes, dependent: :destroy
 
   # Validations
   validates :name, presence: true, uniqueness: true
