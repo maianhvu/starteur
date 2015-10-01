@@ -6,7 +6,7 @@ class ConfirmationSender < ApplicationMailer
     confirm_params = {
       :escaped_email => user.email,
       :token => user.confirmation_token,
-      :host => 'https://www.starteur.com'
+      :host => 'http://starteur1-2.herokuapp.com'
     }
     headers['X-SMTPAPI'] = {
       sub: {
