@@ -4,7 +4,7 @@ class ConfirmationSender < ApplicationMailer
   def send_confirmation_email(user)
     @user = user
     confirm_params = {
-      :escaped_email => Rack::Utils.escape(user.email),
+      :escaped_email => user.email,
       :token => user.confirmation_token,
       :host => 'https://www.starteur.com'
     }
