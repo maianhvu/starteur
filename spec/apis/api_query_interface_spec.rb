@@ -177,16 +177,6 @@ describe 'API Query Interface', :type => :api do
         q = FactoryGirl.build(:question)
         q.category = categories[n%4]
         q.save!
-
-        # Create choices
-        3.times do
-          while true
-            c = FactoryGirl.build(:choice)
-            c.question = q
-            break c if c.valid?
-          end
-          c.save!
-        end
       end
     end
 
@@ -226,7 +216,7 @@ describe 'API Query Interface', :type => :api do
       it 'should only return unanswered questions' do
         # Prepare answered questions
         test.questions.limit(4).each do |q|
-          Answer.create!(choice: q.choices.first, user: user, test: test)
+          Answer.create!(question: q, user: user, test: test, value: 1)
         end
         # Start querying
         token_header auth_token
@@ -234,7 +224,7 @@ describe 'API Query Interface', :type => :api do
         expect((body = json(last_response.body)).length).to be(20-4)
         # Ensure returned questions are unanswered
         # Answered Questions IDs
-        aq_ids = user.answers.map(&:choice).map(&:question_id)
+        aq_ids = user.answers.map(&:question_id)
         body.each do |question|
           expect(aq_ids).to_not include(question)
         end
@@ -256,9 +246,9 @@ describe 'API Query Interface', :type => :api do
     context 'Answers' do
       let!(:questions) { test.questions.limit(4) }
       let!(:answer_params) {
-        answers = []
+        answers = {}
         questions.each do |q|
-          answers << q.choices.first.id
+          answers[q.id] = rand(7)
         end
         { format: :json, user: { email: user.email }, answers: answers }
       }
@@ -297,10 +287,14 @@ describe 'API Query Interface', :type => :api do
 
           # Questions still left unanswered
           leftover = test.questions.where('questions.id NOT IN (?)', body[:question_ids])
+          answers = {}
+          leftover.each do |qn|
+            answers[qn.id] = rand(7)
+          end
           new_params = {
             format: :json,
             :user => { email: user.email },
-            answers: leftover.map(&:choices).map(&:first).map(&:id)
+            answers: answers
           }
           post "/tests/#{test.id}/answers", new_params
           expect(body = json(last_response.body)).to have_key(:completed)
@@ -309,10 +303,14 @@ describe 'API Query Interface', :type => :api do
 
         it 'should create a result object upon finishing a test' do
           expect {
+            answers = {}
+            test.questions.each do |qn|
+              answers[qn.id] = rand(7)
+            end
             finish_params = {
               :format => :json,
               :user   => { email: user.email },
-              :answers => test.questions.map(&:choices).map(&:first).map(&:id)
+              :answers => answers
             }
             token_header auth_token
             post "/tests/#{test.id}/answers", finish_params

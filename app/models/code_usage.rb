@@ -59,8 +59,8 @@ class CodeUsage < ActiveRecord::Base
     answers_hash = {}
     test = self.access_code.test
     user_answers_for_test = self.user.answers.where(test: test)
-    user_answers_for_test.includes(:choice).all.each do |ans|
-      answers_hash[ans.choice_id] = ans.choice.points
+    user_answers_for_test.all.each do |ans|
+      answers_hash[ans.question_id] = ans.value
     end
     # Create result object
     Result.create!(answers: answers_hash, user: self.user, test: test, code_usage: self)

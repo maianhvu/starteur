@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
   belongs_to :category
-  has_many :choices
+  has_many :answers
 
   # Validations
   validates :ordinal, numericality: { only_integer: true, allow_blank: true }

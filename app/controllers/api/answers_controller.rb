@@ -5,9 +5,9 @@ module API
     def create
       qids = []
       test = Test.find(params[:test_id])
-      params.require(:answers).each do |choice_id|
-        if ans = Answer.create(user: @user, choice_id: choice_id, test: test)
-          qids << Choice.find(choice_id).question.id
+      params.require(:answers).each_pair do |key, value|
+        if ans = Answer.create(user: @user, question_id: key.to_i, value: value, test: test)
+          qids << key.to_i
         end
       end
       # Completion status
@@ -16,12 +16,7 @@ module API
         usage = CodeUsage.used.where(user: @user).includes(:access_code).find_by('access_codes.test_id' => test.id)
         usage.complete!
       end
-      respond_to do |format|
-        format.json {
-          render json: { question_ids: qids, completed: @user.completed?(test) }, status: :ok
-        }
-      end
-
+      render json: { question_ids: qids, completed: @user.completed?(test) }, status: :ok
     end
   end
 end

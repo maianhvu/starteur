@@ -10,14 +10,14 @@ module API
         else
           # Get answered questions
           u = User.find_by(user_params)
-          answered = u.answers.map(&:choice).map(&:question_id)
+          answered = u.answers.where(test_id: test.id).map(&:question_id)
           @questions = test.questions
           # Filter out unanswered
           if answered && !answered.empty?
             @questions = @questions.where('questions.id NOT IN (?)', answered)
           end
           @questions = @questions.shuffled if test.shuffle
-          @questions = @questions.ranked.includes(:choices)
+          @questions = @questions.ranked
         end
         render 'index.json.jbuilder', :status => :ok
       else
