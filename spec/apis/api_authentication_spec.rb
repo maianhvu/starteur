@@ -17,8 +17,6 @@ describe 'API Authentication', :type => :api do
         expect(last_response.body).to_not be_empty
         expect((body = json(last_response.body)).length).to be(1)
         expect(body).to have_key(:user)
-        expect(body[:user]).to have_key(:first_name)
-        expect(body[:user][:first_name]).to_not be_empty
         expect(body[:user]).to have_key(:email)
         expect(body[:user][:email]).to_not be_empty
         expect(body[:user]).to have_key(:token)
@@ -41,7 +39,10 @@ describe 'API Authentication', :type => :api do
           post '/register', { format: :json, user: invalid_params }
           expect(last_response.status).to be(422)
           expect(last_response.body).to_not be_empty
-          expect(json(last_response.body).length).to be(1)
+          expect((body = json(last_response.body)).length).to be(2)
+          expect(body).to have_key(:errorFields)
+          invalid_key = invalid_params.select { |k,v| v.nil? }.keys.first.to_s
+          expect(body[:errorFields]).to contain_exactly(invalid_key)
         end
       }.not_to change{ User.count }
     end
@@ -51,9 +52,11 @@ describe 'API Authentication', :type => :api do
       expect {
         post '/register', { format: :json, user: user_params }
         expect(last_response.status).to be(422)
-        expect((body = json(last_response.body)).length).to be(1)
-        expect(body).to have_key(:email)
-        expect(body[:email]).to include("has already been taken")
+        expect((body = json(last_response.body)).length).to be(2)
+        expect(body).to have_key(:errors)
+        expect(body[:errors]).to include("Email")
+        expect(body).to have_key(:errorFields)
+        expect(body[:errorFields]).to contain_exactly('email')
       }.not_to change { User.count }
     end
 
@@ -113,8 +116,13 @@ describe 'API Authentication', :type => :api do
         expect(last_response.status).to be(200)
         expect(last_response.body).to_not be_empty
         expect((body = json(last_response.body)).length).to be(1)
+        expect(body).to have_key(:user)
+        user_data = body[:user]
 
-        token = valid_token.call(body[:token])
+        expect(user_data).to have_key(:email)
+        expect(user_data[:email]).to eq(confirmed_user.email)
+
+        token = valid_token.call(user_data[:token])
         expect(token).to_not be_nil
         expect(token).to be_in_use
         expect(token.expires_at).to be_within(3.weeks).of(Time.now)
@@ -129,12 +137,32 @@ describe 'API Authentication', :type => :api do
       } }
       expect(last_response.status).to be(422)
       expect(last_response.body).to_not be_empty
-      expect((body = json(last_response.body)).length).to be(1)
-      expect(body[:errors]).to include("User's email unconfirmed")
+      expect((body = json(last_response.body)).length).to be(2)
+      expect(body).to have_key(:errors)
+      expect(body[:errors]).to eq('You have not confirmed your email address')
+      expect(body).to have_key(:errorFields)
+      expect(body[:errorFields]).to be_empty
       # Tokens are unused
       user.reload.authentication_tokens.each do |token|
         expect(token).to be_fresh
       end
+    end
+
+    it 'should set token to expired when user signs out' do
+      # confirm the user first
+      user.confirm!(user.confirmation_token)
+      # get the auth token
+      token = user.authentication_tokens.first
+      token.use!
+      # use it to log out
+      token_header token.token
+      post '/sign-out', { format: :json, :user => {
+        :email => user.email
+      } }
+      expect(last_response.status).to be(200)
+      expect(last_response.body).to be_empty
+      token.reload
+      expect(token).to be_expired
     end
 
   end

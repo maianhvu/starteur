@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
     post 'register', to: 'users#create', as: :register
     post 'sign-in', to: 'users#sign_in'
+    match 'sign-out', to: 'users#sign_out', via: [ :post, :options ]
 
     constraints(escaped_email: /[^\/]+/) do
       match 'confirm/:escaped_email/:token', to: 'users#confirm', via: [ :get, :options ]

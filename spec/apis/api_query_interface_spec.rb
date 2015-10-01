@@ -79,8 +79,11 @@ describe 'API Query Interface', :type => :api do
       get "/tests", request_params
       expect(last_response.status).to be(401)
       expect(last_response.body).to_not be_empty
-      expect((body = json(last_response.body)).length).to be(1)
-      expect(body[:errors]).to include('Expired token')
+      expect((body = json(last_response.body)).length).to be(2)
+      expect(body).to have_key(:errors)
+      expect(body[:errors]).to eq('Expired token')
+      expect(body).to have_key(:errorFields)
+      expect(body[:errorFields]).to be_empty
     end
 
     it 'should not allow bogus tokens' do
