@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :authentication_tokens, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :results, dependent: :destroy
-  has_many :code_usages
+  has_many :code_usages, dependent: :destroy
   has_many :access_codes, through: :code_usages
 
   # Callbacks
