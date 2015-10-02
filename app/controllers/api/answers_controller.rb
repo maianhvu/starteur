@@ -13,7 +13,7 @@ module API
       # Completion status
       completed = @user.completed?(test)
       if completed
-        usage = CodeUsage.used.where(user: @user).includes(:access_code).find_by('access_codes.test_id' => test.id)
+        usage = @user.code_usages.used.includes(:access_code).where('access_codes.test_id': test.id).last
         usage.complete!
       end
       render json: { question_ids: qids, completed: @user.completed?(test) }, status: :ok
