@@ -437,4 +437,46 @@ describe 'API Query Interface', :type => :api do
     end
   end
 
+  context 'Results from Tests' do
+    let!(:test) { FactoryGirl.create(:published_test) }
+    let!(:categories) {
+      cs = []
+      5.times do
+        cs << FactoryGirl.create(:category, test: test)
+      end
+      cs
+    }
+    let!(:questions) {
+      qs = []
+      (0..9).each do |i|
+        qs << FactoryGirl.create(:question, category: categories[i%5])
+      end
+      qs
+    }
+    let!(:access_code) {
+      FactoryGirl.create(:access_code, test: test)
+    }
+    let!(:usage) {
+      u = CodeUsage.create!(access_code: access_code)
+      u.use!(user)
+      u
+    }
+
+    it 'should retrieve test results using correct auth token' do
+      # First, answer all questions
+      answer_params = request_params
+      answer_params[:answers] = {}
+      questions.each do |question|
+        answer_params[:answers][question.id] = rand(7)
+      end
+      token_header auth_token
+      post "/tests/#{test.id}/answers", answer_params
+      # Now, get the result
+      token_header auth_token
+      get "/tests/#{test.id}/results", request_params
+      expect(last_response.status).to be(200)
+      expect(last_response.body).to_not be_empty
+    end
+  end
+
 end
