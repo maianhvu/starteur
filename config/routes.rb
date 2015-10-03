@@ -19,8 +19,8 @@ Rails.application.routes.draw do
     get 'profile', to: 'users#show'
   end
 
-  scope module: 'starteur-ed' do
-    get 'login_controller/new'
+  scope module: 'educators' do
+    resource :login, only: [ :new, :create ]
   end
 
   root to: redirect('https://www.starteur.com/')
