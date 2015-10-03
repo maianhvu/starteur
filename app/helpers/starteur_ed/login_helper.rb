@@ -1,0 +1,2 @@
+module StarteurEd::LoginHelper
+end

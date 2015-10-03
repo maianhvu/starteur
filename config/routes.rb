@@ -19,6 +19,10 @@ Rails.application.routes.draw do
     get 'profile', to: 'users#show'
   end
 
+  scope module: 'starteur-ed' do
+    get 'login_controller/new'
+  end
+
   root to: redirect('https://www.starteur.com/')
 
   match '*others', to: 'authenticated#allow', via: [ :options ]

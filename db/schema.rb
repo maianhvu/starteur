@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001174403) do
+ActiveRecord::Schema.define(version: 20151003065959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,20 @@ ActiveRecord::Schema.define(version: 20151001174403) do
 
   add_index "authentication_tokens", ["user_id"], name: "index_authentication_tokens_on_user_id", using: :btree
 
+  create_table "batch_user", force: :cascade do |t|
+    t.integer "batch_id", null: false
+    t.integer "user_id",  null: false
+  end
+
+  add_index "batch_user", ["batch_id"], name: "index_batch_user_on_batch_id", using: :btree
+  add_index "batch_user", ["user_id"], name: "index_batch_user_on_user_id", using: :btree
+
+  create_table "batches", force: :cascade do |t|
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.integer  "rank"
     t.string   "title"
@@ -75,6 +89,14 @@ ActiveRecord::Schema.define(version: 20151001174403) do
 
   add_index "code_usages", ["access_code_id"], name: "index_code_usages_on_access_code_id", using: :btree
   add_index "code_usages", ["user_id"], name: "index_code_usages_on_user_id", using: :btree
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "street_address"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "questions", force: :cascade do |t|
     t.integer  "ordinal"
@@ -129,6 +151,8 @@ ActiveRecord::Schema.define(version: 20151001174403) do
   add_foreign_key "answers", "tests"
   add_foreign_key "answers", "users"
   add_foreign_key "authentication_tokens", "users"
+  add_foreign_key "batch_user", "batches"
+  add_foreign_key "batch_user", "users"
   add_foreign_key "categories", "tests"
   add_foreign_key "code_usages", "access_codes"
   add_foreign_key "code_usages", "users"
