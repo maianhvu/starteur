@@ -19,8 +19,10 @@ Rails.application.routes.draw do
     get 'profile', to: 'users#show'
   end
 
-  scope module: 'educators' do
-    resource :login, only: [ :new, :create ]
+  namespace :educators do
+    resources :admins, only: [ :index, :new, :create, :show, :edit, :update ]
+
+    root to: :educators_admins
   end
 
   root to: redirect('https://www.starteur.com/')
