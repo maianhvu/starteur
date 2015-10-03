@@ -23,6 +23,9 @@ gem 'puma'
 # Use AASM
 gem 'aasm'
 
+# User authentication and authorization
+gem 'sorcery'
+
 group :development, :test do
   # Use RSpec for testing
   gem 'rspec-rails'
