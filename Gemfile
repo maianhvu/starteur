@@ -26,6 +26,16 @@ gem 'aasm'
 # User authentication and authorization
 gem 'sorcery'
 
+# View templating
+gem 'slim-rails'
+
+# Front-end
+gem 'bootstrap-sass', '~> 3.3.5'
+gem 'sass-rails', '>= 3.2'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'jquery-turbolinks'
+
 group :development, :test do
   # Use RSpec for testing
   gem 'rspec-rails'
@@ -35,6 +45,9 @@ group :development, :test do
 
   # Use Factory Girls for fixtures
   gem 'factory_girl_rails', '~> 4.0'
+
+  # tzinfo-data for windows
+  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 end
 
 group :development do
