@@ -1,0 +1,22 @@
+.col-xs-4.col-xs-offset-4
+  .panel-body
+
+    = form_for :admin, url: new_educators_admin_path, method: :post, :html => { :class => "form" } do |f|
+
+      .form-group.text-left = email_field_tag :email, params[:email], autofocus: true, required: true, class: "form-control", placeholder: "Email address"
+      .form-group.text-left = password_field_tag :password, params[:password], autocomplete: "off", required: true,  class: "form-control", placeholder: "Password"
+
+      .form-actions = f.submit "Log in", class: "btn btn-primary btn-block btn-lg"
+
+      .row
+
+        .col-xs-6
+          .form-group.pull-left
+            .checkbox = label_tag :remember_me do
+              = check_box_tag :remember_me
+              | Stay logged in
+
+        .col-xs-6
+          .form-group.pull-right = link_to 'Forgot password?', '#', class: 'btn btn-link'
+
+    = link_to "Don't have an account? Get started here.", '#', class: "btn btn-default btn-block btn-lg"
