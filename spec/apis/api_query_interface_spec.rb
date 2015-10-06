@@ -441,15 +441,15 @@ describe 'API Query Interface', :type => :api do
     let!(:test) { FactoryGirl.create(:published_test) }
     let!(:categories) {
       cs = []
-      5.times do
-        cs << FactoryGirl.create(:category, test: test)
+      (0..8).each do |i|
+        cs << FactoryGirl.create(:category, test: test, rank: (i%3)+1)
       end
       cs
     }
     let!(:questions) {
       qs = []
-      (0..9).each do |i|
-        qs << FactoryGirl.create(:question, category: categories[i%5])
+      (0..89).each do |i|
+        qs << FactoryGirl.create(:question, category: categories[i%9])
       end
       qs
     }
@@ -466,8 +466,13 @@ describe 'API Query Interface', :type => :api do
       # First, answer all questions
       answer_params = request_params
       answer_params[:answers] = {}
+
+      # Manipulate scores
+      min = 1
+      max = 3
       questions.each do |question|
-        answer_params[:answers][question.id] = rand(7)
+        score = min + rand(max + 1 - min)
+        answer_params[:answers][question.id] = score
       end
       token_header auth_token
       post "/tests/#{test.id}/answers", answer_params
