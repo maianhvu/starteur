@@ -4,7 +4,7 @@ class Educators::AdminsController < ApplicationController
   end
 
   def new
-    @admin = Administrator.new
+    @admin = Admin.new
   end
 
   def create
