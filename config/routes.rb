@@ -21,8 +21,9 @@ Rails.application.routes.draw do
 
   namespace :educators do
     resources :admins, only: [ :index, :new, :create, :show, :edit, :update ]
+    resource :admin_sessions, only: [ :new, :create ]
 
-    root to: :educators_admins
+    root to: 'admin_sessions#new'
   end
 
   root to: redirect('https://www.starteur.com/')
