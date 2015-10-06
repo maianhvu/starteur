@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'shoulda/matchers'
 
 ActiveRecord::Migration.maintain_test_schema!
 
