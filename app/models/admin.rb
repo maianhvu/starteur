@@ -1,5 +1,5 @@
 class Admin < ActiveRecord::Base
-  authenticates_with_sorcery!
+  # authenticates_with_sorcery!
 
   belongs_to :organization
   has_many :access_codes
