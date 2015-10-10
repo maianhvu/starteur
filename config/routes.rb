@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     resources :admins, only: [ :index, :new, :create, :show, :edit, :update ]
     resource :admin_sessions, only: [ :new, :create ]
 
+    get 'login', to: 'admin_sessions#new'
+    post 'login', to: 'admin_sessions#create'
+    delete 'logout', to: 'user_sessions#destroy'
     root to: 'admin_sessions#new'
   end
 

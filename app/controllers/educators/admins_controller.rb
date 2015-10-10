@@ -11,7 +11,7 @@ class Educators::AdminsController < Educators::BaseController
     @admin = Admin.new(admin_params)
 
     if @admin.save
-      redirect_to educators_admins_path
+      redirect_to educators_login_path
     else
       raise @admin.errors.inspect
       render :new
@@ -24,6 +24,6 @@ class Educators::AdminsController < Educators::BaseController
   private
 
   def admin_params
-    params.require(:admin).permit(:name, :email, :crypted_password)
+    params.require(:admin).permit(:email, :password, :password_confirmation)
   end
 end

@@ -5,8 +5,8 @@ class Educators::AdminSessionsController < Educators::BaseController
   end
 
   def create
-    if login(params[:email], params[:password])
-      redirect_to educators_admin_path(Admin.find_by(email: params[:email]))
+    if @admin = login(params[:email], params[:password])
+      redirect_to educators_admin_path(@admin)
     else
       render :new
     end
@@ -15,6 +15,6 @@ class Educators::AdminSessionsController < Educators::BaseController
   private
 
   def admin_params
-    params.require(:admin).permit(:name, :email, :crypted_password)
+    params.require(:admin).permit(:email, :password)
   end
 end
