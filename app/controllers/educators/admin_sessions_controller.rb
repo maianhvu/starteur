@@ -1,5 +1,7 @@
 class Educators::AdminSessionsController < Educators::BaseController
 
+  skip_before_action :require_login
+
   def new
     @admin = Admin.new
   end
