@@ -48,6 +48,7 @@ group :development, :test do
 
   # tzinfo-data for windows
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+  gem 'quiet_assets'
 end
 
 group :development do
@@ -58,6 +59,7 @@ end
 group :test do
   # Use faker for testing
   gem 'faker'
+  gem 'shoulda-matchers', require: false
 end
 
 group :development, :production do

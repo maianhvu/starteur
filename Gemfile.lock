@@ -107,6 +107,8 @@ GEM
       rack (~> 1.2)
     pg (0.18.3)
     puma (2.14.0)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -168,6 +170,8 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    shoulda-matchers (3.0.0)
+      activesupport (>= 4.0.0)
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
@@ -217,11 +221,13 @@ DEPENDENCIES
   jquery-ui-rails
   pg
   puma
+  quiet_assets
   rails (= 4.2.4)
   rails_12factor
   rspec-rails
   sass-rails (>= 3.2)
   sdoc (~> 0.4.0)
+  shoulda-matchers
   slim-rails
   sorcery
   tzinfo-data
