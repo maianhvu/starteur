@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :code_usages
   has_many :access_codes, through: :code_usages
   has_and_belongs_to_many :batches
+  has_many :billing_records
 
   # Callbacks
   before_create :generate_confirmation_token
