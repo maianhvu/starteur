@@ -1,7 +1,7 @@
 .col-xs-4.col-xs-offset-4
   .panel-body
 
-    = form_for :admin, url: educators_admin_sessions_path, method: :post, :html => { :class => "form" } do |f|
+    = form_for :educator, url: educators_educator_sessions_path, method: :post, :html => { :class => "form" } do |f|
 
       .form-group.text-left = email_field_tag :email, params[:email], autofocus: true, required: true, class: "form-control", placeholder: "Email address"
       .form-group.text-left = password_field_tag :password, params[:password], autocomplete: "off", required: true,  class: "form-control", placeholder: "Password"
@@ -17,7 +17,7 @@
         /       | Stay logged in
 
         .col-xs-6
-          .form-group = link_to 'Sign up', new_educators_admin_path, class: 'btn btn-link'
+          .form-group = link_to 'Sign up', new_educators_educator_path, class: 'btn btn-link'
         .col-xs-6
           .form-group.pull-right = link_to 'Forgot password?', '#', class: 'btn btn-link'
 

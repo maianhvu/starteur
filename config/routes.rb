@@ -20,13 +20,14 @@ Rails.application.routes.draw do
   end
 
   namespace :educators do
-    resources :admins, only: [ :index, :new, :create, :show, :edit, :update ]
-    resource :admin_sessions, only: [ :new, :create ]
+    resources :educators, only: [ :index, :new, :create, :show, :edit, :update ]
+    resource :educator_sessions, only: [ :new, :create ]
 
-    get 'login', to: 'admin_sessions#new'
-    post 'login', to: 'admin_sessions#create'
-    delete 'logout', to: 'user_sessions#destroy'
-    root to: 'admin_sessions#new'
+    get 'login', to: 'educator_sessions#new'
+    post 'login', to: 'educator_sessions#create'
+    delete 'logout', to: 'educator_sessions#destroy'
+
+    root to: 'educator_sessions#new'
   end
 
   root to: redirect('https://www.starteur.com/')

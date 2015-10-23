@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006125103) do
+ActiveRecord::Schema.define(version: 20151023031459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,21 +24,10 @@ ActiveRecord::Schema.define(version: 20151006125103) do
     t.boolean  "universal"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "educator_id"
   end
 
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree
-
-  create_table "admins", force: :cascade do |t|
-    t.string   "email",            null: false
-    t.string   "crypted_password"
-    t.string   "salt"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "organization_id"
-    t.string   "name"
-  end
-
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
 
   create_table "answers", force: :cascade do |t|
     t.integer  "user_id"
@@ -65,18 +54,34 @@ ActiveRecord::Schema.define(version: 20151006125103) do
 
   add_index "authentication_tokens", ["user_id"], name: "index_authentication_tokens_on_user_id", using: :btree
 
-  create_table "batch_user", force: :cascade do |t|
-    t.integer "batch_id", null: false
-    t.integer "user_id",  null: false
+  create_table "batches", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "test_id"
   end
 
-  add_index "batch_user", ["batch_id"], name: "index_batch_user_on_batch_id", using: :btree
-  add_index "batch_user", ["user_id"], name: "index_batch_user_on_user_id", using: :btree
+  create_table "batches_results", id: false, force: :cascade do |t|
+    t.integer "batch_id"
+    t.integer "result_id"
+  end
 
-  create_table "batches", force: :cascade do |t|
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "organization_id"
+  add_index "batches_results", ["batch_id"], name: "index_batches_results_on_batch_id", using: :btree
+  add_index "batches_results", ["result_id"], name: "index_batches_results_on_result_id", using: :btree
+
+  create_table "billing_line_items", force: :cascade do |t|
+    t.integer  "test_id"
+    t.integer  "billing_record_id"
+    t.integer  "quantity"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "billing_records", force: :cascade do |t|
+    t.string   "bill_number"
+    t.integer  "billable_id"
+    t.string   "billable_type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -97,17 +102,40 @@ ActiveRecord::Schema.define(version: 20151006125103) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.integer  "state"
+    t.integer  "batch_id"
   end
 
   add_index "code_usages", ["access_code_id"], name: "index_code_usages_on_access_code_id", using: :btree
   add_index "code_usages", ["user_id"], name: "index_code_usages_on_user_id", using: :btree
 
-  create_table "organizations", force: :cascade do |t|
+  create_table "discount_codes", force: :cascade do |t|
+    t.integer  "billing_record_id"
+    t.string   "code"
+    t.integer  "state"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "educators", force: :cascade do |t|
+    t.string   "email",            null: false
+    t.string   "crypted_password"
+    t.string   "salt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name"
-    t.text     "description"
-    t.text     "street_address"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "state"
+  end
+
+  add_index "educators", ["email"], name: "index_educators_on_email", unique: true, using: :btree
+
+  create_table "promotion_codes", force: :cascade do |t|
+    t.integer  "billing_record_id"
+    t.string   "code"
+    t.integer  "state"
+    t.integer  "test_id"
+    t.integer  "access_code_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "questions", force: :cascade do |t|
@@ -171,8 +199,8 @@ ActiveRecord::Schema.define(version: 20151006125103) do
   add_foreign_key "answers", "tests"
   add_foreign_key "answers", "users"
   add_foreign_key "authentication_tokens", "users"
-  add_foreign_key "batch_user", "batches"
-  add_foreign_key "batch_user", "users"
+  add_foreign_key "batches_results", "batches"
+  add_foreign_key "batches_results", "results"
   add_foreign_key "categories", "tests"
   add_foreign_key "code_usages", "access_codes"
   add_foreign_key "code_usages", "users"

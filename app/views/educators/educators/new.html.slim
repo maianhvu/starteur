@@ -3,7 +3,7 @@
 
     h2 Sign up for an account
 
-    = form_for :admin, url: educators_admins_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+    = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
       .form-group = f.email_field :email, placeholder: 'Email address', autofocus: true
 

@@ -333,7 +333,7 @@ Rails.application.config.sorcery.configure do |config|
     # mailer class. Needed.
     # Default: `nil`
     #
-    user.reset_password_mailer = Educators::AdminMailer
+    user.reset_password_mailer = Educators::EducatorMailer
 
 
     # reset password email method on your mailer class.
@@ -459,5 +459,5 @@ Rails.application.config.sorcery.configure do |config|
 
   # This line must come after the 'user config' block.
   # Define which model authenticates with sorcery.
-  config.user_class = "Admin"
+  config.user_class = "Educator"
 end

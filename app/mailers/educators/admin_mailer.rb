@@ -1,4 +1,4 @@
-class Educators::AdminMailer < ApplicationMailer
+class Educators::EducatorMailer < ApplicationMailer
 
   def reset_password_email(user)
     @name = [user.first_name, user.last_name].join(' ')

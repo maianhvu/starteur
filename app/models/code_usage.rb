@@ -3,6 +3,7 @@ class CodeUsage < ActiveRecord::Base
 
   belongs_to :access_code
   belongs_to :user
+  belongs_to :batch
   has_one :result
 
   validates_presence_of :access_code
