@@ -1,6 +1,9 @@
 class BillingRecord < ActiveRecord::Base
-  belongs_to :billable, polymorphic: true, inverse_of: :billing_records
+  belongs_to :billable, polymorphic: true
   has_many :billing_line_items
   has_one :discount_code
   has_one :promotion_code
+
+  validates :billable, presence: true
+
 end

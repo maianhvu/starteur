@@ -4,7 +4,7 @@ class Educator < ActiveRecord::Base
 
   has_many :access_codes
   has_many :batches
-  has_many :billing_records
+  has_many :billing_records, as: :billable
 
   validates :email, presence: true, uniqueness: true
   validates :crypted_password, presence: true, on: :create
