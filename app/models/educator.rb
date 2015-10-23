@@ -3,7 +3,7 @@ class Educator < ActiveRecord::Base
   include AASM
 
   has_many :access_codes
-  # has_many :batches
+  has_many :batches
   has_many :billing_records
 
   validates :email, presence: true, uniqueness: true
