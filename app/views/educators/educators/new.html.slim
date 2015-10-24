@@ -7,7 +7,8 @@
 
       .form-group = f.email_field :email, placeholder: 'Email address', autofocus: true
 
-      .form-group = f.password_field :crypted_password, placeholder: 'Password'
+      .form-group = f.password_field :password, placeholder: 'Password'
+      .form-group = f.password_field :password_confirmation, placeholder: 'Password confirmation'
 
       .form-actions = f.submit 'Create Account', class: "btn btn-primary"
 

@@ -23,6 +23,10 @@ Rails.application.routes.draw do
     resources :educators, only: [ :index, :new, :create, :show, :edit, :update ]
     resource :educator_sessions, only: [ :new, :create ]
 
+    get 'login', to: 'educator_sessions#new'
+    post 'login', to: 'educator_sessions#create'
+    delete 'logout', to: 'educator_sessions#destroy'
+
     root to: 'educator_sessions#new'
   end
 

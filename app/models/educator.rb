@@ -1,5 +1,5 @@
 class Educator < ActiveRecord::Base
-  # authenticates_with_sorcery!
+  authenticates_with_sorcery!
   include AASM
 
   has_many :access_codes
@@ -7,7 +7,9 @@ class Educator < ActiveRecord::Base
   has_many :billing_records, as: :billable
 
   validates :email, presence: true, uniqueness: true
-  validates :crypted_password, presence: true, on: :create
+  validates :password, length: { minimum: 3 }, if: -> { new_record? || changes["password"] }
+  validates :password, confirmation: true, if: -> { new_record? || changes["password"] }
+  validates :password_confirmation, presence: true, if: -> { new_record? || changes["password"] }
 
   # State definitions
   enum state: {
