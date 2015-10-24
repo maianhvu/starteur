@@ -8,7 +8,7 @@ class Educators::EducatorSessionsController < Educators::BaseController
 
   def create
     if @educator = login(params[:email], params[:password])
-      redirect_to educators_educators_path(@educator)
+      redirect_to educators_educator_path(@educator)
     else
       render :new
     end
