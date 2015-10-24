@@ -1,5 +1,5 @@
 class Batch < ActiveRecord::Base
-  has_one :educator
+  belongs_to :educator
   has_many :code_usages
   has_and_belongs_to_many :results
   belongs_to :test

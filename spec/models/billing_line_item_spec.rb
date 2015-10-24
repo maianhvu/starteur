@@ -1,5 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe BillingLineItem, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it { is_expected.to belong_to(:test) }
+  it { is_expected.to belong_to(:billing_record) }
+
+  it { is_expected.to validate_presence_of(:test) }
+  it { is_expected.to validate_presence_of(:billing_record) }
+  it { is_expected.to validate_presence_of(:quantity) }
+
 end

@@ -4,7 +4,7 @@ class Educator < ActiveRecord::Base
 
   has_many :access_codes
   has_many :batches
-  has_many :billing_records
+  has_many :billing_records, as: :billable
 
   validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes["password"] }

@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :results, dependent: :destroy
   has_many :code_usages
   has_many :access_codes, through: :code_usages
-  has_many :billing_records
+  has_many :billing_records, as: :billable
 
   # Callbacks
   before_create :generate_confirmation_token
