@@ -1,5 +1,7 @@
 class Educators::EducatorsController < Educators::BaseController
 
+  skip_before_action :prepare_educator, only: [:index, :new, :create]
+
   def index
   end
 

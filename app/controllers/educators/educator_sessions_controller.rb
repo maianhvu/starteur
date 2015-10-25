@@ -1,6 +1,7 @@
 class Educators::EducatorSessionsController < Educators::BaseController
 
   skip_before_action :require_login
+  skip_before_action :prepare_educator, only: [:new, :create]
 
   def new
     @educator = Educator.new
