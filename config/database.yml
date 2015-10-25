@@ -80,5 +80,9 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  post: 5432
+  host: <%= ENV['EDUCATORS_DATABASE_HOST'] %>
+  database: <%= ENV['EDUCATORS_DATABASE'] %>
+  username: <%= ENV['EDUCATORS_DATABASE_USERNAME'] %>
+  password: <%= ENV['EDUCATORS_DATABASE_PASSWORD'] %>
   pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>
