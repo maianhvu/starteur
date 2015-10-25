@@ -7,6 +7,7 @@ class Educators::EducatorsController < Educators::BaseController
 
   def new
     @educator = Educator.new
+    render layout: 'educators/simple'
   end
 
   def create
