@@ -1,0 +1,23 @@
+nav.navbar.navbar-default
+
+  .navbar-header
+    = image_tag "header-logo.png"
+
+  .navbar-content
+    div.sidebar-nav.side_bar_title.text-center
+      h3 Menu
+    ul.list-group
+      li.list-group-item
+        a href="#" My Profile
+      li.list-group-item
+        a href="#" Purchase Test
+      li.list-group-item
+        a href="#" Manage Batch
+      li.list-group-item
+        =link_to "View Access Code", "#"
+        / =link_to "View Access Code", educators_access_codes_path
+      li.list-group-item
+        =link_to "View Billing History", "#"
+        / =link_to "View Billing History", educators_billing_history_path
+      li.list-group-item
+        a href="#" Redeem Promo Code

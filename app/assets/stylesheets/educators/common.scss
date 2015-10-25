@@ -3,3 +3,13 @@
     padding: 0 0;
   }
 }
+
+.navbar-container {
+  float: left;
+  position: absolute;
+  height: 100%;
+
+  .navbar {
+    height: inherit;
+  }
+}
