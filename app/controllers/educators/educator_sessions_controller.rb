@@ -13,6 +13,7 @@ class Educators::EducatorSessionsController < Educators::BaseController
     if @educator = login(params[:email], params[:password])
       redirect_to educators_educator_path(@educator)
     else
+      flash[:error] = 'Invalid username or password'
       render :new
     end
   end
