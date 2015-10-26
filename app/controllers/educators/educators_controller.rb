@@ -1,5 +1,6 @@
 class Educators::EducatorsController < Educators::BaseController
 
+  skip_before_action :require_login, only: [:new, :create]
   skip_before_action :prepare_educator, only: [:index, :new, :create]
 
   def index
@@ -11,11 +12,19 @@ class Educators::EducatorsController < Educators::BaseController
   end
 
   def create
+    @educator = Educator.new(educator_params)
+
+    if @educator.save
+      redirect_to educators_login_path, notice: 'Account successfully created'
+    else
+      flash[:error] = @educator.errors.full_messages.join(", ")
+      render :new, layout: 'educators/simple'
+    end
   end
 
   private
 
   def educator_params
-    params.require(:educator).permit(:name, :email)
+    params.require(:educator).permit(:email, :password, :password_confirmation)
   end
 end
