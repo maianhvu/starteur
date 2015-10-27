@@ -6,18 +6,19 @@
 
 .navbar-container {
   position: fixed;
-  width: 18%;
+  left: 0;
+  width: 230px;
   height: 100%;
 
   .navbar {
-    position: absolute;
-    width: 100%;
+    width: inherit;
     height: 100%
   }
 }
 
 .application-container {
-  padding-left: 18%;
-  width: 100%;
+  position: absolute;
+  left: 230px;
+  right: 0px;
   height: 100%;
 }
