@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151023175127) do
+ActiveRecord::Schema.define(version: 20151028085726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,10 +21,10 @@ ActiveRecord::Schema.define(version: 20151023175127) do
     t.string   "code"
     t.integer  "test_id"
     t.datetime "last_used_at"
-    t.boolean  "universal"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "educator_id"
+    t.integer  "permits",      default: 1
   end
 
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree
@@ -153,10 +153,12 @@ ActiveRecord::Schema.define(version: 20151023175127) do
   add_index "questions", ["choices"], name: "index_questions_on_choices", using: :gin
 
   create_table "results", force: :cascade do |t|
-    t.hstore  "answers"
-    t.integer "user_id"
-    t.integer "test_id"
-    t.integer "code_usage_id"
+    t.hstore   "answers"
+    t.integer  "user_id"
+    t.integer  "test_id"
+    t.integer  "code_usage_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   add_index "results", ["code_usage_id"], name: "index_results_on_code_usage_id", using: :btree
@@ -166,11 +168,12 @@ ActiveRecord::Schema.define(version: 20151023175127) do
   create_table "tests", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "state",       default: 1
-    t.float    "price",       default: 0.0
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.boolean  "shuffle",     default: false
+    t.integer  "state",          default: 1
+    t.float    "price",          default: 0.0
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.boolean  "shuffle",        default: false
+    t.string   "processor_file"
   end
 
   create_table "users", force: :cascade do |t|

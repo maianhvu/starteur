@@ -5,8 +5,12 @@ class AccessCode < ActiveRecord::Base
   has_many :users, through: :code_usages
 
   def user
-    return nil if self.universal
+    return nil if self.universal?
     self.users.first
+  end
+
+  def universal?
+    self.permits < 0
   end
 
 end

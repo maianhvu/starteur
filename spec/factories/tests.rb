@@ -6,6 +6,7 @@ FactoryGirl.define do
     description "Take the Starteur Profiling Assessment to discover your strengths and reveal your hidden entreprenuerial potential."
     price 10.0
     shuffle false
+    processor_file 'starteur_profiling_assessment'
 
     Test.states.keys.map(&:to_sym).each do |s|
       trait s do
