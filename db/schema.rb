@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006095934) do
+ActiveRecord::Schema.define(version: 20151028085726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 20151006095934) do
     t.string   "code"
     t.integer  "test_id"
     t.datetime "last_used_at"
-    t.boolean  "universal"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "permits",      default: 1
   end
 
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree

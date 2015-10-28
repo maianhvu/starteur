@@ -5,10 +5,10 @@ FactoryGirl.define do
     code { Faker::Bitcoin.address }
     test { FactoryGirl.build_stubbed(:faked_test) }
     last_used_at { 10.minutes.ago }
-    universal false
+    permits 1
 
     trait :universal do
-      universal true
+      permits -1
     end
 
     factory :universal_access_code, traits: [ :universal ]

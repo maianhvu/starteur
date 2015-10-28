@@ -34,8 +34,9 @@ class CodeUsage < ActiveRecord::Base
   private
 
   def unique_under_single_use_code
-    return true if self.access_code.universal
-    if self.access_code.code_usages.count >= 1 && self.id.nil?
+    code = self.access_code
+    return true if code.universal?
+    if code.code_usages.count >= code.permits && self.id.nil?
       errors.add(:access_code, "is valid for one-time use only")
     end
   end
