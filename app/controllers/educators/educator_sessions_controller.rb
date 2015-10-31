@@ -18,9 +18,9 @@ class Educators::EducatorSessionsController < Educators::BaseController
     end
   end
 
-  private
 
-  def educator_params
-    params.require(:educator).permit(:email, :password)
+  def destroy
+    logout
+    redirect_to educators_root_path
   end
 end
