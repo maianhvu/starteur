@@ -1,0 +1,94 @@
+.panel-body
+  .container-fluid
+    .col-xs-12.text-left = link_to "<<< Back to batch management", educators_batches_path
+    h1.col-md-6.col-xs-6 ="Batch name: #{@batch.name}"
+    h1.col-md-6.col-xs-6.text-right ="Test name: #{@batch.test.name}"
+    p.text-right ="Description: #{@batch.test.description}"
+
+    table.table
+      .thead
+        tr
+          th.col-md-1.text-left #
+          th.col-md-3.text-left E-mail
+          th.col-md-2.text-left Status
+          th.col-md-3.text-left Completion Rate
+          th.col-md-1.text-left Veiw Report
+          th.col-md-1.text-left Assign Code
+          th.col-md-2.text-left Delete
+
+        -if @batch.email.blank?
+          tr
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+        -else
+          -for email in @batch.email
+            tr
+              td =@batch.email.find_index(email)+1
+              td =email
+              td
+              td
+                .progress
+                .progress-bar.progress-bar-success.progress-bar-striped role="s" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
+              td
+                .btn.btn-primary View Report
+              td
+                .btn.btn-success  Assign Code
+              td
+                =link_to educators_batch_user_path(email: email), method: :delete, data:{confirm: 'Are you sure you want to delete user?'}
+                  .btn.btn-danger  Delete
+          end
+        end
+
+    .col-xs-3 = link_to "Assign codes to all emails", "#", class: 'btn btn-primary'
+
+    .btn.btn-primary.col-xs-3.col-xs-offset-6.text-center data-toggle="modal" data-target="#myModalStudent" Add User
+
+    p.col-xs-3.col-xs-offset-9.text-center or
+
+    .btn.btn-primary.col-xs-3.col-xs-offset-9.text-center data-toggle="modal" data-target="#myModal" Upload CSV
+
+  //--- Modal---//
+  .div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    .div class="modal-dialog" role="document"
+      .div class="modal-content"
+        .div class="modal-header"
+          .btn type="button" class="close" data-dismiss="modal" aria-label="Close" 
+            .span aria-hidden="true" &times;
+          .h4 class="modal-title" id="myModalLabel" Add an e-mail
+
+        .div class="modal-body"
+          .div.container-fluid
+            = form_for :batch_users, url: educators_upload_path, method: :post, defaults: { input_html: { required: true, multipart: true, class: 'form-control' } } do |f|
+
+              .form-field = f.file_field(:file)
+
+              .form-field = f.hidden_field :batch_id, value: @batch.id
+
+              label
+              .form-actions = f.submit 'upload', class: "btn btn-primary"
+
+
+  //--- Modal for One User---//
+  .div class="modal fade" id="myModalStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    .div class="modal-dialog" role="document"
+      .div class="modal-content"
+        .div class="modal-header"
+          .btn type="button" class="close" data-dismiss="modal" aria-label="Close" 
+            .span aria-hidden="true" &times;
+          .h4 class="modal-title" id="myModalLabel" Add an e-mail
+
+        .div class="modal-body"
+          .div.container-fluid
+            = form_for :batch_users, url: educators_batch_users_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+
+              label Enter an e-mail address
+              .form-field = f.text_field :email, placeholder: 'Email address', autofocus: true
+
+              .form-field = f.hidden_field :batch_id, value: @batch.id
+              label
+              .form-actions = f.submit 'Create' , class: "btn btn-primary"

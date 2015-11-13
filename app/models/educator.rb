@@ -31,4 +31,13 @@ class Educator < ActiveRecord::Base
       transitions :from => [ :registered, :activated ], :to => :deactivated
     end
   end
+
+  def name
+    if last_name && first_name
+      "#{last_name} #{first_name}"
+    else
+      last_name || first_name || 'Educator'
+    end
+  end
+
 end

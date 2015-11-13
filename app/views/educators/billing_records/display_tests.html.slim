@@ -1,0 +1,45 @@
+.panel-body
+  .container-fluid
+    h1 Starteur Test Store
+
+    = javascript_include_tag "educators/display_tests"
+    = form_for :billing_line_item, url: new_educators_billing_record_path,  method: :get, defaults: { input_html: { required: true, class: 'form-control'} } do |f|
+
+      table.table
+        tr
+          th.col-md-1 
+          th.col-md-1 Test
+          th.col-md-4 Test Description
+          th.col-md-2 Quantity of Access Codes
+          th 
+          th.col-md-1 Unit Price
+          th
+          th.col-md-2 Total
+
+        - number_field_id = 1
+        - @tests.each do |test|
+          - unit_price_field_id = "unit_price_" + number_field_id.to_s
+          - total_price_field_id = "total_price_" + number_field_id.to_s
+          tr
+            td = check_box_tag "test_ids[]", test.id
+            td = test.name
+            td = test.description
+            td.text-center = number_field_tag "lineitems[#{test.id}][quantity]", 0, :id => "number_field_" + number_field_id.to_s, class: "form-control", min: 0
+            td.text-right $
+            td id=unit_price_field_id = test.price
+            td.text-right $
+            td id=total_price_field_id
+          - number_field_id = number_field_id + 1
+        tr
+          td
+          td
+          td.text-right
+            b Total Quantity
+          td#total_quantity
+          td 
+          td.text-right
+          	b Subtotal
+            b $
+          td#subtotal
+
+      .form-actions = f.submit 'Purchase', class: "btn btn-primary col-xs-offset-10"

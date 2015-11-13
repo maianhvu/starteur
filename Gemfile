@@ -17,6 +17,7 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'roo', '~> 2.1.1'
 # Use Puma server
 gem 'puma'
 

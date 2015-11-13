@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028085726) do
+ActiveRecord::Schema.define(version: 20151104140650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,10 +55,12 @@ ActiveRecord::Schema.define(version: 20151028085726) do
   add_index "authentication_tokens", ["user_id"], name: "index_authentication_tokens_on_user_id", using: :btree
 
   create_table "batches", force: :cascade do |t|
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "test_id"
     t.integer  "educator_id"
+    t.string   "email",       default: [],              array: true
+    t.string   "name"
   end
 
   create_table "batches_results", id: false, force: :cascade do |t|
@@ -123,8 +125,12 @@ ActiveRecord::Schema.define(version: 20151028085726) do
     t.string   "salt"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
+    t.string   "first_name"
     t.integer  "state"
+    t.string   "last_name"
+    t.string   "organization"
+    t.string   "title"
+    t.string   "secondary_email"
   end
 
   add_index "educators", ["email"], name: "index_educators_on_email", unique: true, using: :btree

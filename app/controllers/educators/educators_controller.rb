@@ -22,9 +22,28 @@ class Educators::EducatorsController < Educators::BaseController
     end
   end
 
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @educator.update_attributes(update_educator_params)
+      redirect_to educators_educator_path(@educator), notice: "Update successful"
+    else
+      render :edit
+    end
+  end
+
   private
 
   def educator_params
     params.require(:educator).permit(:email, :password, :password_confirmation)
   end
+
+  def update_educator_params
+    params.require(:educator).permit(:first_name, :last_name, :organization, :title, :secondary_email)
+  end
+
 end

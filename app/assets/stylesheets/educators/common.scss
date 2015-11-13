@@ -9,16 +9,30 @@
   left: 0;
   width: 230px;
   height: 100%;
+}
 
-  .navbar {
-    width: inherit;
-    height: 100%
-  }
+.simple-navbar{
+  margin-bottom: 0px;
+  width: inherit;
+  height: 48px;
+}
+
+.standard-navbar {
+  width: inherit;
+  height: 100%;
 }
 
 .application-container {
+  background-image: image_url('bg-pattern.png');
   position: absolute;
   left: 230px;
   right: 0px;
   height: 100%;
+}
+
+.simple-content {
+  background-image: image_url('bg-pattern.png');
+  min-height: -o-calc(100vh - 48px); /* opera */
+  min-height: -webkit-calc(100vh - 48px); /* google, safari */
+  min-height: -moz-calc(100vh - 48px); /* firefox */
 }

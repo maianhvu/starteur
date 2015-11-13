@@ -1,6 +1,10 @@
 .col-xs-4.col-xs-offset-4
   .panel-body
 
+    h2.text-center Educator login portal
+
+    br
+
     = form_for :educator, url: educators_educator_sessions_path, method: :post, :html => { :class => "form" } do |f|
 
       .form-group.text-left = email_field_tag :email, params[:email], autofocus: true, required: true, class: "form-control", placeholder: "Email address"
@@ -16,9 +20,9 @@
         /       = check_box_tag :remember_me
         /       | Stay logged in
 
-        .col-xs-6
+        .col-xs-12.text-center
           .form-group = link_to 'Sign up', new_educators_educator_path, class: 'btn btn-link'
-        .col-xs-6
-          .form-group.pull-right = link_to 'Forgot password?', '#', class: 'btn btn-link'
+        / .col-xs-6
+        /   .form-group.pull-right = link_to 'Forgot password?', '#', class: 'btn btn-link'
 
     / = link_to "Don't have an account? Get started here.", '#', class: "btn btn-default btn-block btn-lg"

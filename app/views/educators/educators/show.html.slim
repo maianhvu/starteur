@@ -1,0 +1,28 @@
+.panel-body
+  .container-fluid
+    h1 = "Welcome, #{@educator.name}"
+    
+    .new-educator-instructions class='#{ @educator.batches.count == 0 ? '' : 'hidden'}'
+      h1.text-center New to Starteur Educators?
+      table.table
+        tr
+          th.text-center
+            h3 Start by updating your profile
+          th.text-center
+            h3 Create a batch of users
+          th.text-center
+            h3 Or purchase some tests here
+        tr
+          td.text-center
+            = image_tag "profile.png", height: "30%"
+          td.text-center
+            = image_tag "batch.png", height: "30%"
+          td.text-center
+            = image_tag "test.png", height: "30%"
+        tr
+          td.text-center
+            h3 = link_to 'Update profile', edit_educators_educator_path
+          td.text-center
+            h3 = link_to 'Create batch', educators_batches_path
+          td.text-center
+            h3 = link_to 'Purchase test', display_tests_educators_billing_records_url

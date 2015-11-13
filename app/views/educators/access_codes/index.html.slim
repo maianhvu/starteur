@@ -1,0 +1,29 @@
+.panel-body
+  .container-fluid
+    h1 Access Code Management
+    - if @test_with_code_usages.size == 0
+      h2 You have not purchased any test yet.
+      = link_to 'Start by purchasing some tests here!', display_tests_educators_billing_records_url
+    - else  
+      div.access_code_list
+        table.table
+          thead
+            th
+              tr
+                th Test Name
+                th Test Description
+                th.text-center Total Code Usages
+                th.text-center Used Code Usages
+                th.text-center Remaining Code Usages
+            - @test_with_code_usages.each do|test, code_usage_details|
+              tr
+                td =link_to test.name, educators_access_code_path(test)
+                td =test.description
+                td.text-center =code_usage_details[0]
+                td.text-center =code_usage_details[1]
+                td.text-center =code_usage_details[2]
+            end
+
+      .btn.btn-primary = link_to "Manage batches", educators_batches_path, {:style=>'color:#FFFFFF;'}
+
+      .btn.btn-primary = link_to "Purchase Test", display_tests_educators_billing_records_url, {:style=>'color:#FFFFFF;'}

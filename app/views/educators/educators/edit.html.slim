@@ -1,0 +1,26 @@
+.panel-body
+  .col-xs-6.col-xs-offset-3.text-center
+
+    h2 Update your profile
+
+    .col-xs-12.text-left
+
+      = form_for @educator, url: educators_educator_path(@educator), method: :put, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+
+        .row.form-group
+          .col-xs-4.text-right = f.label 'Given name: '
+          .col-xs-6.text-left = f.text_field :first_name, autofocus: true
+        .row.form-group
+          .col-xs-4.text-right = f.label 'Surname: '
+          .col-xs-6.text-left = f.text_field :last_name
+        .row.form-group
+          .col-xs-4.text-right = f.label 'Organization: '
+          .col-xs-6.text-left = f.text_field :organization
+        .row.form-group
+          .col-xs-4.text-right = f.label 'Title: '
+          .col-xs-6.text-left = f.text_field :title
+        .row.form-group
+          .col-xs-4.text-right = f.label 'Secondary email: '
+          .col-xs-6.text-left = f.email_field :secondary_email
+
+        .form-actions.text-center = f.submit 'Update profile', class: "btn btn-primary"

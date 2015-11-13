@@ -1,0 +1,34 @@
+.panel-body
+  .container-fluid
+
+    - total = 0
+
+    = form_for :billing_line_items, url: educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+      table.table.col-xs-12
+  
+        tr
+          th Test
+          th 
+          th Quantity
+          th Amount
+        - @lineitems.each_pair do |id, item|
+          = hidden_field_tag "lineitems[#{id}]", item[:quantity]      
+          tr
+            td.col-md-5 = item[:name]
+            td 
+            td = item[:quantity]
+            - subtotal = item[:price] * item[:quantity].to_i
+            - total += subtotal
+            td = subtotal
+        end
+
+        tr 
+          td 
+          td 
+          td = "Total"
+          td = total
+      
+      .form-actions.col-xs-offset-10
+        = link_to(:controller => 'billing_records', :action => 'display_tests')
+          .btn.btn-primary-space Cancel 
+        = f.submit 'Confirm', class: "btn btn-primary-space" 

@@ -16,8 +16,12 @@ html
 
   body class=body_class
 
-    = render 'layouts/educators/flash_messages'
+    = render 'layouts/educators/simple_navigation'
 
-    = yield
+    .simple-content
 
-    #popup = render 'layouts/educators/modal'
+        = render 'layouts/educators/flash_messages'
+
+        = yield
+
+        #popup = render 'layouts/educators/modal'

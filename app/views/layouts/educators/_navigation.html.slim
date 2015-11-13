@@ -1,24 +1,24 @@
-nav.navbar.navbar-default
+nav.navbar.navbar-default.standard-navbar
 
   .navbar-header
-    = image_tag "header-logo.png"
+    = link_to image_tag("header-logo.png"), educators_educator_path(@educator)
 
   .navbar-content
     div.sidebar-nav.side_bar_title.text-center
       h3 Menu
     ul.list-group
       li.list-group-item
-        a href="#" My Profile
+        =link_to "Dashboard", educators_educator_path(@educator)
       li.list-group-item
-        a href="#" Purchase Test
+        = link_to "Edit Profile", edit_educators_educator_path(@educator)
       li.list-group-item
-        a href="#" Manage Batch
+        =link_to "Purchase Test", display_tests_educators_billing_records_url
       li.list-group-item
-        =link_to "View Access Code", "#"
-        / =link_to "View Access Code", educators_access_codes_path
+        =link_to "Manage Batch", educators_batches_path
       li.list-group-item
-        =link_to "View Billing History", "#"
-        / =link_to "View Billing History", educators_billing_history_path
+        =link_to "View Access Code", educators_access_codes_path
+      li.list-group-item
+        =link_to "View Payment History", educators_billing_records_path
       li.list-group-item
         a href="#" Redeem Promo Code
       li.list-group-item
