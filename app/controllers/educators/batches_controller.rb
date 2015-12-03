@@ -7,7 +7,7 @@ class Educators::BatchesController < Educators::BaseController
     else
       @batches = @educator.batches
       @test = Test.all
-    @edu = @educator.email
+      @edu = @educator.email
     end
   end
 
@@ -27,6 +27,15 @@ class Educators::BatchesController < Educators::BaseController
   def show
     if (params[:id]) 
       @batch = Batch.find(params[:id])
+      @codeusage = {}
+      @batch.email.each do |e|
+        cu = CodeUsage.find_by(email: e)
+        if cu.blank?
+          
+        else
+          @codeusage[e] = cu
+        end
+      end
     else  
       @batch = Batch.find(params[:upload_csv][:batch_id])
       @list = @email_list.all

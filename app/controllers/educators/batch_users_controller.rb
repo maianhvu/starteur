@@ -49,4 +49,77 @@ class Educators::BatchUsersController < Educators::BaseController
   	redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
   end
 
+  def assign
+    all_ac = AccessCode.all
+    email = params[:email]
+    users = User.all
+    user = nil
+    codeusage = nil
+    list = []
+    sum = 0 
+    all_ac.each do |ac|
+      if ac.educator_id == @educator.id && ac.test.id == params[:test].to_i
+        list.push(ac)
+        sum += ac.permits
+      end
+    end
+    
+    if users.blank?
+
+    else
+      users.each do |u|
+        if u.email == email
+          user = u
+        end
+      end
+    end
+
+    list.each do |ac|
+      if ac.permits > 0
+        if user.blank?
+          codeusage = CodeUsage.new(access_code: ac, state: 1, batch_id: params[:id], email: email)
+          codeusage.save
+        else
+          codeusage = CodeUsage.new(access_code: ac, user_id: user.id, state: 1, batch_id: params[:id], email: email)
+          codeusage.save
+        end
+        ac.update(:permits => ac.permits-1)
+        break
+      end
+    end
+
+    flash[:notice ] = "Code Assigned"
+    redirect_to controller: "batches", action: "show", id: params[:id]
+  end
+
+  def assignall
+    all_ac = AccessCode.all
+    list = []
+    sum = 0 
+    all_ac.each do |ac|
+      if ac.educator_id == @educator.id && ac.test.id == params[:test].to_i
+        list.push(ac)
+        sum += ac.permits
+      end
+    end
+
+    batch = Batch.find(params[:batch])
+    email_list = batch.email
+    num = email_list.count
+    
+    if sum >= num
+      email_list.each do |el|
+        list.each do |ac|
+          if ac.permits > 0
+            ac.update(:permits => ac.permits-1)
+            break
+          end
+        end
+      end
+       flash[:notice ] = "Code Assigned"
+    else
+      flash[:alert ] = "Not enough access codes"
+    end
+    redirect_to controller: "batches", action: "show", id: params[:batch]
+  end
 end

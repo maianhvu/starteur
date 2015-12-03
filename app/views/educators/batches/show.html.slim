@@ -37,14 +37,24 @@
               td
                 .btn.btn-primary View Report
               td
-                .btn.btn-success  Assign Code
+                -if @codeusage.blank?
+                  
+                -else
+                  -if @codeusage.include?(email)
+                    =@codeusage[email].state
+                  -else
+                    =link_to educators_assign_path(email: email, id: @batch.id, test: @batch.test), method: :assign, data:{confirm: 'Assign code to this user?'}
+                        .btn.btn-success  Assign Code              
+                  end
+                end
               td
                 =link_to educators_batch_user_path(email: email), method: :delete, data:{confirm: 'Are you sure you want to delete user?'}
                   .btn.btn-danger  Delete
           end
         end
 
-    .col-xs-3 = link_to "Assign codes to all emails", "#", class: 'btn btn-primary'
+    .col-xs-3 =link_to educators_assignall_path(batch: @batch, test: @batch.test), method: :assign, data:{confirm: 'Assign code to all users?'}
+                .btn.btn-success  Assign codes to all emails
 
     .btn.btn-primary.col-xs-3.col-xs-offset-6.text-center data-toggle="modal" data-target="#myModalStudent" Add User
 
