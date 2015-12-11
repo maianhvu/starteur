@@ -1,5 +1,20 @@
-.panel-body
-  .container-fluid
+#header
+  = stylesheet_link_tag 'educators/billing_records/display_tests'
+  .center-block
+    = link_to educators_educator_path(@educator)
+      = render "layouts/educators/navigation"
+    .profile
+      .profile-arrow
+      .profile-text Bobby Chan
+      .profile-icon style="background:#FFC006" B
+      .profile-break
+      =link_to "Dashboard", educators_educator_path(@educator)
+      =link_to "Profile", edit_educators_educator_path(@educator)
+      =link_to "Settings", "#"
+      =link_to "Sign out", educators_logout_path, method: :delete
+
+#content.center-block
+  #get-started-card.card
     h1 Starteur Test Store
 
     = javascript_include_tag "educators/display_tests"
@@ -7,39 +22,44 @@
 
       table.table
         tr
-          th.col-md-1 
-          th.col-md-1 Test
-          th.col-md-4 Test Description
-          th.col-md-2 Quantity of Access Codes
-          th 
-          th.col-md-1 Unit Price
           th
-          th.col-md-2 Total
+          th Test
+          th Test Description
+          th Quantity of Access Codes
+          th 
+          th Unit Price
+          th
+          th Total
 
         - number_field_id = 1
         - @tests.each do |test|
           - unit_price_field_id = "unit_price_" + number_field_id.to_s
           - total_price_field_id = "total_price_" + number_field_id.to_s
           tr
-            td = check_box_tag "test_ids[]", test.id
+            //td = check_box_tag "test_ids[]", test.id
+            td.text-center
             td = test.name
             td = test.description
-            td.text-center = number_field_tag "lineitems[#{test.id}][quantity]", 0, :id => "number_field_" + number_field_id.to_s, class: "form-control", min: 0
-            td.text-right $
+            td = number_field_tag "lineitems[#{test.id}][quantity]", 0, :id => "number_field_" + number_field_id.to_s, class: "form-control", min: 0
+            td $
             td id=unit_price_field_id = test.price
-            td.text-right $
+            td $
             td id=total_price_field_id
           - number_field_id = number_field_id + 1
         tr
           td
           td
-          td.text-right
+          td
             b Total Quantity
           td#total_quantity
           td 
-          td.text-right
-          	b Subtotal
+          td
+            b Subtotal
             b $
           td#subtotal
 
-      .form-actions = f.submit 'Purchase', class: "btn btn-primary col-xs-offset-10"
+      .form-actions = f.submit 'Purchase', class: "button right"
+
+    #popup = render 'layouts/educators/modal'
+
+  #footer-wrapper.center-block = render 'layouts/educators/footer'

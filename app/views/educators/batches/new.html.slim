@@ -1,19 +1,20 @@
-.panel-body
-  .container-fluid
-    h1 Manage Batches
-    p Welcome to your batch management. 
+#header
+  /= stylesheet_link_tag 'educators/batches/new'
+#content.center-block
+  h1 Manage Batches
+  p Welcome to your batch management. 
 
-    table.table
-      .thead
-        tr
-          th.col-md-0.5 No.
-          th.col-md-4 Batch Name
-          th.col-md-2 Educator
-          th.col-md-2 Number of Users
-          th.col-md-2 Sign-up Rate
-          th.col-md-1 Test
-          th.col-md-1 View
-          th.col-md-1 Delete
+  table.table
+    .thead
+      tr
+        th.col-md-0.5 No.
+        th.col-md-4 Batch Name
+        th.col-md-2 Educator
+        th.col-md-2 Number of Users
+        th.col-md-2 Sign-up Rate
+        th.col-md-1 Test
+        th.col-md-1 View
+        th.col-md-1 Delete
 
 
   .btn.btn-primary.col-xs-3.col-xs-offset-9.text-center  data-toggle="modal" data-target="#myModal" Create New Batch

@@ -8,7 +8,6 @@ class Educators::EducatorsController < Educators::BaseController
 
   def new
     @educator = Educator.new
-    render layout: 'educators/simple'
   end
 
   def create
@@ -18,11 +17,12 @@ class Educators::EducatorsController < Educators::BaseController
       redirect_to educators_login_path, notice: 'Account successfully created'
     else
       flash.now[:error] = @educator.errors.full_messages.join(", ")
-      render :new, layout: 'educators/simple'
+      render :new
     end
   end
 
   def show
+    @batches = @educator.batches
   end
 
   def edit

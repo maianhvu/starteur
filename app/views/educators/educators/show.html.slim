@@ -1,28 +1,110 @@
-.panel-body
-  .container-fluid
-    h1 = "Welcome, #{@educator.name}"
-    
-    .new-educator-instructions class='#{ @educator.batches.count == 0 ? '' : 'hidden'}'
-      h1.text-center New to Starteur Educators?
-      table.table
-        tr
-          th.text-center
-            h3 Start by updating your profile
-          th.text-center
-            h3 Create a batch of users
-          th.text-center
-            h3 Or purchase some tests here
-        tr
-          td.text-center
-            = image_tag "profile.png", height: "30%"
-          td.text-center
-            = image_tag "batch.png", height: "30%"
-          td.text-center
-            = image_tag "test.png", height: "30%"
-        tr
-          td.text-center
-            h3 = link_to 'Update profile', edit_educators_educator_path
-          td.text-center
-            h3 = link_to 'Create batch', educators_batches_path
-          td.text-center
-            h3 = link_to 'Purchase test', display_tests_educators_billing_records_url
+#header
+  = stylesheet_link_tag 'educators/educators/show'
+  .center-block
+    = link_to educators_educator_path(@educator)
+      = render "layouts/educators/navigation"
+    .profile
+      .profile-arrow
+      .profile-text Bobby Chan
+      .profile-icon style="background:#FFC006" B
+      .profile-break
+      =link_to "Dashboard", educators_educator_path(@educator)
+      =link_to "Profile", edit_educators_educator_path(@educator)
+      =link_to "Settings", "#"
+      =link_to "Sign out", educators_logout_path, method: :delete
+
+#content.center-block
+  .background
+  .left
+    #get-started-card.card
+      =image_tag "nus.png"
+      h3 National University of Singapore
+
+    #get-started-card.card
+      /h1 = "Welcome, #{@educator.name}"
+      /h2 New to Starteur Educators?
+      h1 Menu
+
+      .list-entry.uncomplete
+        =link_to "Purchase Test", display_tests_educators_billing_records_url
+      .list-entry.uncomplete
+        =link_to "Manage Batch", educators_batches_path
+      .list-entry.uncomplete
+        =link_to "View Access Code", educators_access_codes_path
+      .list-entry.uncomplete
+        =link_to "View Payment History", educators_billing_records_path
+  
+  .right
+    - if @batches.size == 0
+      #new-educator-card.card
+        h1 = "Welcome, #{@educator.name}"
+        h2 New to Starteur Educators?
+
+        .new-educator-block
+          =image_tag("student.png")
+          h1 Create a Student Batch
+          p
+            | A Student Batch is where you store the emails of your students. Import your list to get started or simply add a student. #{link_to "Learn More", "#"}
+          //h4 A Student Batch is where you store the emails of your students. Import your list to get started or simply add a student.
+          //h4 =link_to "Learn More", "#"
+          .button =link_to "Create a Student Batch", educators_batches_path
+
+        .new-educator-block
+          =image_tag("test.png")
+          h1 Purchase a Test & Access Codes
+          p
+            | Choose the test you would like your students to take and indicate the amount of codes you require for your class. #{link_to "Learn More", "#"}
+          //h4 Choose the test you would like your students to take and indicate the amount of codes you require for your class.
+          //h4 =link_to "Learn More", "#"
+          .button =link_to "Purchase a Test", display_tests_educators_billing_records_url
+
+    - else
+      .batch-search-field
+        = form_for :educator, url: educators_educator_sessions_path, method: :post, :html => { :class => "form" } do |f|
+          = search_field_tag :batch, params[:batch], class: "input-box search-box", placeholder: "Search by batch name, id, etc"
+
+      #dashboard-card.card
+        .batch-left
+          h1 Batch ABC
+          h2 Batch 1 - MN0209
+          .completion-rate-bar
+            span style="width:40%"
+        
+        .batch-center
+          a style="font-size:40px" 40%
+          h2 Complete      
+        
+        /.batch-right
+        .button Go to Batch
+
+      #dashboard-card.card
+        .batch-left
+          h1 Batch DEF
+          h2 Batch 2 - MN0209
+          .completion-rate-bar
+            span style="width:30%"
+        
+        .batch-center
+          a style="font-size:40px" 30%
+          h2 Complete      
+        
+        /.batch-right
+        .button Go to Batch
+
+      #dashboard-card.card
+        .batch-left
+          h1 Batch GHI
+          h2 Batch 3 - MN0209
+          .completion-rate-bar
+            span style="width:10%"
+        
+        .batch-center
+          a style="font-size:40px" 10%
+          h2 Complete      
+        
+        /.batch-right
+        .button Go to Batch    
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'

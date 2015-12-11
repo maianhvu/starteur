@@ -1,34 +1,52 @@
-.panel-body
-  .container-fluid
+#header
+  = stylesheet_link_tag 'educators/billing_records/new'
+  .center-block
+    = link_to educators_educator_path(@educator)
+      = render "layouts/educators/navigation"
+    .profile
+      .profile-arrow
+      .profile-text Bobby Chan
+      .profile-icon style="background:#FFC006" B
+      .profile-break
+      =link_to "Dashboard", educators_educator_path(@educator)
+      =link_to "Profile", edit_educators_educator_path(@educator)
+      =link_to "Settings", "#"
+      =link_to "Sign out", educators_logout_path, method: :delete
 
-    - total = 0
+#content.center-block
 
-    = form_for :billing_line_items, url: educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
-      table.table.col-xs-12
-  
+  - total = 0
+
+  = form_for :billing_line_items, url: educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+    table.table.col-xs-12
+
+      tr
+        th Test
+        th 
+        th Quantity
+        th Amount
+      - @lineitems.each_pair do |id, item|
+        = hidden_field_tag "lineitems[#{id}]", item[:quantity]      
         tr
-          th Test
-          th 
-          th Quantity
-          th Amount
-        - @lineitems.each_pair do |id, item|
-          = hidden_field_tag "lineitems[#{id}]", item[:quantity]      
-          tr
-            td.col-md-5 = item[:name]
-            td 
-            td = item[:quantity]
-            - subtotal = item[:price] * item[:quantity].to_i
-            - total += subtotal
-            td = subtotal
-        end
+          td.col-md-5 = item[:name]
+          td 
+          td = item[:quantity]
+          - subtotal = item[:price] * item[:quantity].to_i
+          - total += subtotal
+          td = subtotal
+      end
 
-        tr 
-          td 
-          td 
-          td = "Total"
-          td = total
-      
-      .form-actions.col-xs-offset-10
-        = link_to(:controller => 'billing_records', :action => 'display_tests')
-          .btn.btn-primary-space Cancel 
-        = f.submit 'Confirm', class: "btn btn-primary-space" 
+      tr 
+        td 
+        td 
+        td = "Total"
+        td = total
+    
+    .form-actions.col-xs-offset-10
+      = link_to(:controller => 'billing_records', :action => 'display_tests')
+        .btn.btn-primary-space Cancel 
+      = f.submit 'Confirm', class: "btn btn-primary-space" 
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'

@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     root to: 'educator_sessions#new'
   end
 
-  root to: redirect('https://www.starteur.com/')
+  #root to: redirect('https://www.starteur.com/')
 
   match '*others', to: 'authenticated#allow', via: [ :options ]
 
