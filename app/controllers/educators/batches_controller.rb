@@ -29,12 +29,8 @@ class Educators::BatchesController < Educators::BaseController
       @batch = Batch.find(params[:id])
       @codeusage = {}
       @batch.email.each do |e|
-        cu = CodeUsage.find_by(email: e)
-        if cu.blank?
-          
-        else
-          @codeusage[e] = cu
-        end
+        cu = CodeUsage.find_by(email: e, batch_id: params[:id])
+        cu.blank? ? "": @codeusage[e] = cu
       end
     else  
       @batch = Batch.find(params[:upload_csv][:batch_id])

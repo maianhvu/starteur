@@ -38,7 +38,8 @@
                 .btn.btn-primary View Report
               td
                 -if @codeusage.blank?
-                  
+                  =link_to educators_assign_path(email: email, id: @batch.id, test: @batch.test), method: :assign, data:{confirm: 'Assign code to this user?'}
+                        .btn.btn-success  Assign Code 
                 -else
                   -if @codeusage.include?(email)
                     =@codeusage[email].state
