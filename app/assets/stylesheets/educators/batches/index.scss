@@ -173,7 +173,7 @@ h2 {
 #content .right {
   float: right;
   width: 612px;
-  height: 492px;
+  height: auto;
 }
 .card h1 {
   font-size: 20px;
@@ -658,4 +658,64 @@ body {
 #content {
   height: 504px;
 }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.button {
+  width: 120px;
+  margin-left: 750px;
+  margin-bottom: 30px;
+}
+
+.table {
+  margin: 100px;
+  margin-top: 20px;
+}
+
+.table th {
+  height: 40px;
+  border-bottom: 1px solid;
+}
+
+.table tr {
+  height: 50px;
+}
+
+.col-min {
+  width: 20px;
+}
+
+.col-1 {
+  width: 100px;
+}
+
+.col-2 {
+  width: 200px;
+}
+
+.col-3 {
+  width: 300px;
+}
+
+.col-4 {
+  width: 400px;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-center: right;
+}
+
+.text-right {
+  text-align: right;
+}
+
+a:hover {
+  color: #49c6ad;
 }
