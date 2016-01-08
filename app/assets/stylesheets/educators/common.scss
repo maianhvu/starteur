@@ -39,6 +39,7 @@ strong {
   .message-content {
     float: left;
     margin-left: 10px;
+    width: 200px;
   }
 }
 
@@ -228,11 +229,11 @@ h2 {
 
 /* ----- FOOTER ----- */
 #footer-wrapper {
-  height: 160px;
+  height: 165px;
   background-image: image-url("footer-logo.png");
   background-repeat: no-repeat;
   background-position: center;
-  padding-top: 75px;
+  padding-top: 95px;
   box-sizing: border-box;
 }
 
