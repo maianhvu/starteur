@@ -1,5 +1,6 @@
 #header
   = stylesheet_link_tag 'educators/batches/show'
+  = stylesheet_link_tag 'educators/bootstrap'
   .center-block
     = link_to educators_educator_path(@educator)
       = render "layouts/educators/navigation"
@@ -13,99 +14,197 @@
       =link_to "Settings", "#"
       =link_to "Sign out", educators_logout_path, method: :delete
 
+    = render "layouts/educators/simple_menu"
+
 #content.center-block
-  .col-xs-12.text-left = link_to "<<< Back to batch management", educators_batches_path
-  h1.col-md-6.col-xs-6 ="Batch name: #{@batch.name}"
-  h1.col-md-6.col-xs-6.text-right ="Test name: #{@batch.test.name}"
-  p.text-right ="Description: #{@batch.test.description}"
+  = javascript_include_tag "educators/sorttable"
+  #get-started-card.card
+    h1 = "Batch name: #{@batch.name}"
+    h1 = "Test name: #{@batch.test.name}"
+    h2 = "Description: #{@batch.test.description}"
 
-  table.table
-    .thead
-      tr
-        th.col-md-1.text-left #
-        th.col-md-3.text-left E-mail
-        th.col-md-2.text-left Status
-        th.col-md-3.text-left Completion Rate
-        th.col-md-1.text-left Veiw Report
-        th.col-md-1.text-left Assign Code
-        th.col-md-2.text-left Delete
-
-      -if @batch.email.blank?
+    - if @batch.email.blank?
+      h1.text-center Please add students to this batch
+    - else
+      table.status.text-center
         tr
-          td
-          td
-          td
-          td
-          td
-          td
-          td
-      -else
-        -for email in @batch.email
+          td.green
+            h1 0
+            br Completed
+          td.yellow
+            h1 0
+            br In Progress
+          td.orange
+            h1 0
+            br Never Logged-In
+          td.red
+            h1 1 
+            br Not Accepted
+
+        table.status.text-center
+          td 
+            h1 = @batch.email.count
+            br Students in Batch
+
+      .button-grp
+        /button.btn.radius-left Manage Students
+        button.btn.radius =link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
+        /button.btn.radius-right
+          .caret
+
+      .access-codes = "#{@remaining_access_codes} Access Codes Available"
+
+      table.main
+        thead
           tr
-            td =@batch.email.find_index(email)+1
-            td =email
+            /th.col-min 
+            th.col-2 First Name
+            th.col-2 Last Name
+            th.col-3 Email
+            th.col-4 colspan="2" Status
+            th.col-1
+
+        tbody
+          tr
+            /td.col-1.text-center.table-border = check_box_tag 'selected'
+            td.col-2.text-center.table-merge-1 Tamara
+            td.col-2.text-center.table-merge-2 Lowe
+            td.col-3.text-center.table-border tamara@test.com
+            td.col-2.text-center.table-merge-1 style="font-size: 16px;" Completed
+            td.col-2.text-center.table-merge-2
+              .button.btn-status style="background-color: #008000;" View Report
+            td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: @batch.email), method: :delete, class: "button"
+
+          tr
+            /td.col-1.text-center.table-border =check_box_tag 'selected'
+            td.col-2.text-center.table-merge-1 Jake
+            td.col-2.text-center.table-merge-2 Arnold
+            td.col-3.text-center.table-border jake@test.com
+            td.col-2.text-center.table-merge-1 style="font-size: 16px;" In-Progress
+            td.col-2.text-center.table-merge-2
+              .button.btn-status style="background-color: #ffff00;" Review
+            td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: @batch.email), method: :delete, class: "button"
+
+          tr
+            /td.col-1.text-center.table-border =check_box_tag 'selected'
+            td.col-2.text-center.table-merge-1 Cecilia
+            td.col-2.text-center.table-merge-2 Nguyen
+            td.col-3.text-center.table-border cecilia@test.com
+            td.col-2.text-center.table-merge-1 style="font-size: 16px;" Never Logged-In
+            td.col-2.text-center.table-merge-2
+              .button.btn-status style="background-color: #ffa500;" Review
+            td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: @batch.email), method: :delete, class: "button"
+
+          tr
+            /td.col-1.text-center.table-border =check_box_tag 'selected'
+            td.col-2.text-center.table-merge-1 Shaun
+            td.col-2.text-center.table-merge-2 Murphy
+            td.col-3.text-center.table-border shaun@test.com
+            td.col-2.text-center.table-merge-1 style="font-size: 16px;" Not Activated
+            td.col-2.text-center.table-merge-2
+              .button.btn-status style="background-color: #FF0000;" Assign Access Code
+            td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: @batch.email), method: :delete, class: "button"
+
+          - @batch.email.each do |email|
+            tr
+              /td.col-1.text-center.table-border =check_box_tag 'selected'
+              td.col-2.text-center.table-merge-1
+              td.col-2.text-center.table-merge-2
+              td.col-3.text-center.table-border = email
+              td.col-2.text-center.table-merge-1 style="font-size: 16px;" Not Activated
+              td.col-2.text-center.table-merge-2
+                .button.btn-status style="background-color: #FF0000;" Assign Access Code
+              td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: @batch.email), method: :delete, class: "button"
+
+      /table.main
+        tr
+          th.col-1.text-center 
+          th.col-2.text-center First Name
+          th.col-2.text-center Last Name
+          th.col-3.text-center Email
+          th.col-3.text-center Status
+
+        -if @batch.email.blank?
+          tr
             td
             td
-              .progress
-              .progress-bar.progress-bar-success.progress-bar-striped role="s" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
             td
-              .btn.btn-primary View Report
             td
-              .btn.btn-success  Assign Code
             td
-              =link_to educators_batch_user_path(email: email), method: :delete, data:{confirm: 'Are you sure you want to delete user?'}
-                .btn.btn-danger  Delete
+            td
+            td
+        -else
+          -for email in @batch.email
+            tr
+              td.col-1.text-center =@batch.email.find_index(email)+1
+              td.col-3.text-center =email
+              td.col-2.text-center
+              td.col-3.text-center
+                .progress
+                .progress-bar.progress-bar-success.progress-bar-striped role="s" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
+              td.col-2.text-center
+                .btn.btn-primary View Report
+              td.col-2.text-center
+                .btn.btn-success  Assign Code
+              td.col-2.text-center
+                =link_to educators_batch_user_path(email: email), method: :delete, data:{confirm: 'Are you sure you want to delete user?'}
+                  .button.small  Delete
+          end
         end
-      end
 
-  .col-xs-3 = link_to "Assign codes to all emails", "#", class: 'btn btn-primary'
+    .add-group
+      .add-user
+        =image_tag "add_user.png"
+        p.text-center style="color:#49c6ad" data-toggle="modal" data-target="#myModalStudent" Add User
 
-  .btn.btn-primary.col-xs-3.col-xs-offset-6.text-center data-toggle="modal" data-target="#myModalStudent" Add User
+      .or.text-center or
 
-  p.col-xs-3.col-xs-offset-9.text-center or
+      .csv
+        =image_tag "csv.png"
+        p.text-center style="color:#49c6ad" data-toggle="modal" data-target="#myModal" Upload CSV
+    
+    .go-to-top
+      .up-triangle href="#top"
+      a href="#top" Go to Top
 
-  .btn.btn-primary.col-xs-3.col-xs-offset-9.text-center data-toggle="modal" data-target="#myModal" Upload CSV
+//--- Modal for CSV Upload---//
+.modal.fade#myModal tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  .modal-dialog role="document"
+      .modal-content
+        .modal-header
+          .close type="button" data-dismiss="modal" aria-label="Close"
+            .span aria-hidden="true" &times;
+          h4.modal-title#myModalLabel Add an e-mail
+        .modal-body
+          .container-fluid
+            = form_for :batch_users, url: educators_upload_path, method: :post, defaults: { input_html: { required: true, multipart: true, class: 'form-control' } } do |f|
 
-//--- Modal---//
-.div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  .div class="modal-dialog" role="document"
-    .div class="modal-content"
-      .div class="modal-header"
-        .btn type="button" class="close" data-dismiss="modal" aria-label="Close" 
-          .span aria-hidden="true" &times;
-        .h4 class="modal-title" id="myModalLabel" Add an e-mail
+              .form-field = f.file_field(:file)
 
-      .div class="modal-body"
-        .div.container-fluid
-          = form_for :batch_users, url: educators_upload_path, method: :post, defaults: { input_html: { required: true, multipart: true, class: 'form-control' } } do |f|
+              .form-field = f.hidden_field :batch_id, value: @batch.id
 
-            .form-field = f.file_field(:file)
+              label
+              .form-actions = f.submit 'Upload', class: "button modal-button"
 
-            .form-field = f.hidden_field :batch_id, value: @batch.id
+//--- Modal for Single User---//
+.modal.fade#myModalStudent tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  .modal-dialog role="document"
+      .modal-content
+        .modal-header
+          .close type="button" data-dismiss="modal" aria-label="Close"
+            .span aria-hidden="true" &times;
+          h4.modal-title#myModalLabel Add an e-mail
+        .modal-body
+          .container-fluid
+            = form_for :batch_users, url: educators_batch_users_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
-            label
-            .form-actions = f.submit 'upload', class: "btn btn-primary"
+              label Enter an e-mail address
+              .form-field = f.text_field :email, placeholder: 'Email address', autofocus: true
 
+              .form-field = f.hidden_field :batch_id, value: @batch.id
+              label
+              .form-actions = f.submit 'Create' , class: "button modal-button"
 
-//--- Modal for One User---//
-.div class="modal fade" id="myModalStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  .div class="modal-dialog" role="document"
-    .div class="modal-content"
-      .div class="modal-header"
-        .btn type="button" class="close" data-dismiss="modal" aria-label="Close" 
-          .span aria-hidden="true" &times;
-        .h4 class="modal-title" id="myModalLabel" Add an e-mail
-
-      .div class="modal-body"
-        .div.container-fluid
-          = form_for :batch_users, url: educators_batch_users_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
-
-            label Enter an e-mail address
-            .form-field = f.text_field :email, placeholder: 'Email address', autofocus: true
-
-            .form-field = f.hidden_field :batch_id, value: @batch.id
-            label
-            .form-actions = f.submit 'Create' , class: "btn btn-primary"
   #popup = render 'layouts/educators/modal'
 
 #footer-wrapper.center-block = render 'layouts/educators/footer'

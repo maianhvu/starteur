@@ -1,52 +1,37 @@
-#header
-  = stylesheet_link_tag 'educators/batches/index'
-  .center-block
-    = link_to educators_educator_path(@educator)
-      = render "layouts/educators/navigation"
-    .profile
-      .profile-arrow
-      .profile-text Bobby Chan
-      .profile-icon style="background:#FFC006" B
-      .profile-break
-      =link_to "Dashboard", educators_educator_path(@educator)
-      =link_to "Profile", edit_educators_educator_path(@educator)
-      =link_to "Settings", "#"
-      =link_to "Sign out", educators_logout_path, method: :delete
-
 #content.center-block
-  h1 Manage Batches
-  p Welcome to your batch management. 
+  #get-started-card.card
+    /h1 Manage Batches
+    h2 Welcome to your batch management. 
 
-  table.table
-    .thead
+    table.table
       tr
-        th.col-md-0.5 No.
-        th.col-md-4 Batch Name
-        th.col-md-2 Educator
-        th.col-md-2 Number of Users
-        th.col-md-2 Sign-up Rate
-        th.col-md-1 Test
-        th.col-md-1 View
-        th.col-md-1 Delete
+        th.col-1 No.
+        th.col-1 Batch Name
+        th.col-1 Educator
+        th.col-1 Number of Users
+        th.col-1 Sign-up Rate
+        th.col-1 Test
+        th.col-1 View
+        th.col-1 Delete
       - @batches.each_with_index do |batch, index|
         tr
-          td =index + 1
-          td =batch.name
-          td =batch.educator.email
-          td =batch.email.count
-          td 
+          td.col-1.text-center =index + 1
+          td.col-1.text-center =batch.name
+          td.col-1.text-center =batch.educator.email
+          td.col-1.text-center =batch.email.count
+          td.col-1.text-center 
             .progress
             .progress-bar.progress-bar-success.progress-bar-striped role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
 
-          td =batch.test.name
-          td =link_to(:controller => 'batches', :action => 'show', :id => batch.id)
-            .btn.btn-primary View
-          td 
-            =link_to educators_batch_path(batch.id) ,method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
-              .btn.btn-danger data-toggle="modal" data-target="#myModalRemoveStudent" Delete
+          td.text-center =batch.test.name
+          td.text-center =link_to(:controller => 'batches', :action => 'show', :id => batch.id)
+            .button.small View
+          td.text-center 
+            =link_to educators_batch_path(batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
+              .button.small data-toggle="modal" data-target="#myModalRemoveStudent" Delete
       end
 
-  .btn.btn-primary.col-xs-3.col-xs-offset-9.text-center  data-toggle="modal" data-target="#myModal" Create New Batch
+    .button.text-center  data-toggle="modal" data-target="#myModal" Create New Batch
 
 //--- Modal---//
 .div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

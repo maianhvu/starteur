@@ -1,5 +1,18 @@
 #header
-  /= stylesheet_link_tag 'educators/batches/new'
+  = stylesheet_link_tag 'educators/batches/new'
+  .center-block
+    = link_to educators_educator_path(@educator)
+      = render "layouts/educators/navigation"
+    .profile
+      .profile-arrow
+      .profile-text Bobby Chan
+      .profile-icon style="background:#FFC006" B
+      .profile-break
+      =link_to "Dashboard", educators_educator_path(@educator)
+      =link_to "Profile", edit_educators_educator_path(@educator)
+      =link_to "Settings", "#"
+      =link_to "Sign out", educators_logout_path, method: :delete
+
 #content.center-block
   h1 Manage Batches
   p Welcome to your batch management. 
@@ -17,7 +30,7 @@
         th.col-md-1 Delete
 
 
-  .btn.btn-primary.col-xs-3.col-xs-offset-9.text-center  data-toggle="modal" data-target="#myModal" Create New Batch
+  .btn.btn-primary.col-xs-3.col-xs-offset-9.text-center data-toggle="modal" data-target="#myModal" Create New Batch
 
   //--- Modal---//
   .div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
