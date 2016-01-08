@@ -121,7 +121,7 @@
           h4.modal-title#myModalLabel =@educator.email
 
         .modal-body
-          - if @purchased_tests.size == 0
+          - if @purchased_tests != nil && @purchased_tests.size == 0
             label Please purchase tests first
           - else
             = form_for :batch, url: educators_batches_path , method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
