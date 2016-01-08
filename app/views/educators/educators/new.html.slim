@@ -1,6 +1,6 @@
 #header.center-block
   = render "layouts/educators/navigation"
-  = stylesheet_link_tag 'educators/educators/new'
+  = render "layouts/educators/flash_messages"
 
 #content.center-block
   .sign-in-box.center
@@ -9,21 +9,22 @@
 
     = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true } } do |f|
 
-      = f.search_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
-      = f.search_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
+      /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
+      /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
       = f.email_field :email, placeholder: 'Email address', autofocus: true, class: "input-box"
-      = f.password_field :password, placeholder: 'Password', class: "input-box error"
-      = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box error"
-      
-      p
+      = f.password_field :password, placeholder: 'Password', class: "input-box"
+      = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
+
+      /p
         =check_box_tag "agreetoterms"
         =content_tag(:span, "I agree to the terms of service", class: "tos")
+
       .form-actions = f.submit 'Sign up', class: "button"
 
     p
       | Already have an account? #{link_to "Login here", educators_root_path}
 
-    small By creating an account, you agree to our #{link_to "Terms of Service", "#"} and #{link_to "Privacy Policy", "#"}.
+    /small By creating an account, you agree to our #{link_to "Terms of Service", "#"} and #{link_to "Privacy Policy", "#"}.
 
   #popup = render 'layouts/educators/modal'
 

@@ -1,38 +1,37 @@
-#header
-  = stylesheet_link_tag 'educators/educators/show'
-  .center-block
-    = link_to educators_educator_path(@educator)
-      = render "layouts/educators/navigation"
-    .profile
-      .profile-arrow
-      .profile-text Bobby Chan
-      .profile-icon style="background:#FFC006" B
-      .profile-break
-      =link_to "Dashboard", educators_educator_path(@educator)
-      =link_to "Profile", edit_educators_educator_path(@educator)
-      =link_to "Settings", "#"
-      =link_to "Sign out", educators_logout_path, method: :delete
+= render "layouts/educators/simple_menu"
+= render "layouts/educators/flash_messages"
 
 #content.center-block
+  = javascript_include_tag "educators/dashboard"
+  = javascript_include_tag "educators/add_batch"
   .background
   .left
-    #get-started-card.card
-      =image_tag "nus.png"
-      h3 National University of Singapore
+    #get-started-card.card-primary
+      =image_tag "institution.png"
+      h3 Your Institution
+
+      /.main-list
+        .menu-icon style="background:#FFC006" B
+        .menu-link
+          =link_to "My Batches", "#"
+      /.main-list
+        .menu-icon style="background:#0645ff" R
+        .menu-link
+          =link_to "My Reports", "#"
+      .main-list
+        .menu-icon style="background:#0645ff" P
+        .menu-link      
+          =link_to "View Payment History", educators_billing_records_path   
+      .main-list
+        .menu-icon style="background:#ff0645" T
+        .menu-link  
+          =link_to "Purchase Test", display_tests_educators_billing_records_url
 
     #get-started-card.card
-      /h1 = "Welcome, #{@educator.name}"
-      /h2 New to Starteur Educators?
-      h1 Menu
-
-      .list-entry.uncomplete
-        =link_to "Purchase Test", display_tests_educators_billing_records_url
-      .list-entry.uncomplete
-        =link_to "Manage Batch", educators_batches_path
-      .list-entry.uncomplete
-        =link_to "View Access Code", educators_access_codes_path
-      .list-entry.uncomplete
-        =link_to "View Payment History", educators_billing_records_path
+      .card-title Available Access Codes
+      .card-section
+        .card-number 12
+        .card-description MBTI
   
   .right
     - if @batches.size == 0
@@ -43,67 +42,98 @@
         .new-educator-block
           =image_tag("student.png")
           h1 Create a Student Batch
-          p
+          /p
             | A Student Batch is where you store the emails of your students. Import your list to get started or simply add a student. #{link_to "Learn More", "#"}
-          //h4 A Student Batch is where you store the emails of your students. Import your list to get started or simply add a student.
-          //h4 =link_to "Learn More", "#"
-          .button =link_to "Create a Student Batch", educators_batches_path
+          p A Student Batch is where you store the emails of your students. Import your list to get started or simply add a student.
+          .button data-toggle="modal" data-target="#myModal" Create a Student Batch
 
         .new-educator-block
           =image_tag("test.png")
           h1 Purchase a Test & Access Codes
-          p
+          /p
             | Choose the test you would like your students to take and indicate the amount of codes you require for your class. #{link_to "Learn More", "#"}
-          //h4 Choose the test you would like your students to take and indicate the amount of codes you require for your class.
-          //h4 =link_to "Learn More", "#"
+          p Choose the test you would like your students to take and indicate the amount of codes you require for your class.
           .button =link_to "Purchase a Test", display_tests_educators_billing_records_url
 
     - else
-      .batch-search-field
-        = form_for :educator, url: educators_educator_sessions_path, method: :post, :html => { :class => "form" } do |f|
-          = search_field_tag :batch, params[:batch], class: "input-box search-box", placeholder: "Search by batch name, id, etc"
+      #new-educator-card.card
+        h1.horizontal My Batches
+        
+        .batch-search-field.horizontal
+          /= form_for :educator, url: "#", method: :post, :html => { :class => "form" } do |f|
+            /= search_field_tag :batch, params[:batch], class: "input-box search-box", placeholder: "Search by batch name, id, etc"
+        
+          .dropdown-grp
+            /button.btn.radius-left data-toggle="modal" data-target="#myModal" Create Batch
+            /button.btn.radius-right.dropdown-toggle#menu1 data-toggle="dropdown"
+            button.btn.radius data-toggle="modal" data-target="#myModal" Create Batch
+            /.caret
+            /ul.dropdown-menu role="menu" aria-labelledby="menu1"
+              li role="presentation"
+                a role="menuitem" tabindex="-1" Delete All
+        
+      - @batches.each do |batch|
+        #dashboard-card.card
+          .batch-left
+            .batch-name = batch.name
+            .test-name = Test.find(batch.test_id).name
+            .completion-rate-bar
+              span style="width:#{batch.email.size}%"
+          .batch-center
+            .batch-id = "Batch ID: ##{batch.id}"
+            .completed-students = batch.email.size
+            .message Students Completed
+          .batch-right
+            .button-grp
+              /button.btn.radius-left =link_to "View batch", educators_batch_path(batch.id)
+              /button.btn.radius-right.dropdown-toggle#menu2 data-toggle="dropdown"
+              button.btn.radius =link_to "View batch", educators_batch_path(batch.id)
+              /.caret
+              /ul.dropdown-menu role="menu" aria-labelledby="menu2"
+                li role="presentation"
+                  a role="menuitem" tabindex="-1" Delete
 
-      #dashboard-card.card
-        .batch-left
-          h1 Batch ABC
-          h2 Batch 1 - MN0209
-          .completion-rate-bar
-            span style="width:40%"
-        
-        .batch-center
-          a style="font-size:40px" 40%
-          h2 Complete      
-        
-        /.batch-right
-        .button Go to Batch
+        /#dashboard-card.card
+          .batch-left
+            .batch-name Sample Batch
+            .test-name Sample Test Name
+            .completion-rate-bar
+              span style="width:40%"
+          .batch-center
+            .batch-id #0001
+            .completed-students 4/10
+            .message Students Completed
+          .batch-right
+            .button-grp
+              button.btn.radius-left =link_to "View batch", educators_batch_path(batch.id)
+              button.btn.radius-right.dropdown-toggle#menu2 data-toggle="dropdown"
+                .caret
+              /ul.dropdown-menu role="menu" aria-labelledby="menu2"
+                li role="presentation"
+                  a role="menuitem" tabindex="-1" Delete
 
-      #dashboard-card.card
-        .batch-left
-          h1 Batch DEF
-          h2 Batch 2 - MN0209
-          .completion-rate-bar
-            span style="width:30%"
-        
-        .batch-center
-          a style="font-size:40px" 30%
-          h2 Complete      
-        
-        /.batch-right
-        .button Go to Batch
+  .modal.fade#myModal tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    .modal-dialog role="document"
+      .modal-content
+        .modal-header
+          .close type="button" data-dismiss="modal" aria-label="Close"
+            .span aria-hidden="true" &times;
+          h4.modal-title#myModalLabel =@educator.email
 
-      #dashboard-card.card
-        .batch-left
-          h1 Batch GHI
-          h2 Batch 3 - MN0209
-          .completion-rate-bar
-            span style="width:10%"
-        
-        .batch-center
-          a style="font-size:40px" 10%
-          h2 Complete      
-        
-        /.batch-right
-        .button Go to Batch    
+        .modal-body
+          - if @purchased_tests.size == 0
+            label Please purchase tests first
+          - else
+            = form_for :batch, url: educators_batches_path , method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+
+              label Enter a batch name
+              .form-field = f.text_field :batch_name, placeholder: 'Enter Batch Name', autofocus: true
+
+              label Assign a test to this batch
+              .form-field = f.select :test_id, options_from_collection_for_select(@purchased_tests, :id, :name)
+
+              label
+              .form-actions = f.submit 'Create', class: "button modal-button"
 
   #popup = render 'layouts/educators/modal'
 
