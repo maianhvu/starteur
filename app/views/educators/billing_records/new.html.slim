@@ -88,7 +88,7 @@
           td.text-center.col-2 = "$ #{total}"
       
       .button-group  
-        .button.first = link_to "Cancel", display_tests_educators_billing_records_url(choices: @lineitems)
+        .button.first = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems)
         = f.submit 'Confirm', class: "button"
   
   = javascript_include_tag "educators/card"
