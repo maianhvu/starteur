@@ -1,23 +1,7 @@
-#header
-  = stylesheet_link_tag 'educators/batches/show'
-  = stylesheet_link_tag 'educators/bootstrap'
-  .center-block
-    = link_to educators_educator_path(@educator)
-      = render "layouts/educators/navigation"
-    .profile
-      .profile-arrow
-      .profile-text Bobby Chan
-      .profile-icon style="background:#FFC006" B
-      .profile-break
-      =link_to "Dashboard", educators_educator_path(@educator)
-      =link_to "Profile", edit_educators_educator_path(@educator)
-      =link_to "Settings", "#"
-      =link_to "Sign out", educators_logout_path, method: :delete
-
-    = render "layouts/educators/simple_menu"
+= render "layouts/educators/simple_menu"
+= render "layouts/educators/flash_messages"
 
 #content.center-block
-  = javascript_include_tag "educators/sorttable"
   #get-started-card.card
     h1 = "Batch name: #{@batch.name}"
     h1 = "Test name: #{@batch.test.name}"
