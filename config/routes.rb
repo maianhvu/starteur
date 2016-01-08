@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :billing_records, only: [ :index, :new, :create, :show, :edit, :update] do
       collection do
         get 'display_tests'
+        get 'purchase_success'
       end
     end
 
