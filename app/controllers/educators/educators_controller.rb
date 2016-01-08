@@ -22,7 +22,16 @@ class Educators::EducatorsController < Educators::BaseController
   end
 
   def show
+    # @batches: All of Batches belong to this Educator
     @batches = @educator.batches
+    # @purchased_tests: All of Tests belong to this Educator
+    @access_codes = AccessCode.where(educator_id: @educator.id)
+    @purchased_tests = []
+    @access_codes.each do |access_code|
+      if !@purchased_tests.include? access_code.test
+        @purchased_tests << access_code.test
+      end
+    end
   end
 
   def edit
