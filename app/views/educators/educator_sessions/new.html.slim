@@ -1,6 +1,6 @@
 #header.center-block
-  = stylesheet_link_tag 'educators/educator_sessions/new'
   = render "layouts/educators/navigation"
+  = render "layouts/educators/flash_messages"
   
 #content.center-block
   .sign-in-box.center
@@ -11,12 +11,10 @@
 
     = form_for :educator, url: educators_educator_sessions_path, method: :post, :html => { :class => "form" } do |f|
       
-      = render 'layouts/educators/flash_messages'
-      
       = email_field_tag :email, params[:email], autofocus: true, required: true, class: "input-box", placeholder: "Email address"
       = password_field_tag :password, params[:password], autocomplete: "off", required: true,  class: "input-box", placeholder: "Password"
 
-      p
+      /p
         = check_box_tag "rememberme"
         = content_tag(:span, "Remember Me", class: "tos")
 
