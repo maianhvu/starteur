@@ -1,52 +1,98 @@
-#header
-  = stylesheet_link_tag 'educators/billing_records/new'
-  .center-block
-    = link_to educators_educator_path(@educator)
-      = render "layouts/educators/navigation"
-    .profile
-      .profile-arrow
-      .profile-text Bobby Chan
-      .profile-icon style="background:#FFC006" B
-      .profile-break
-      =link_to "Dashboard", educators_educator_path(@educator)
-      =link_to "Profile", edit_educators_educator_path(@educator)
-      =link_to "Settings", "#"
-      =link_to "Sign out", educators_logout_path, method: :delete
+= render "layouts/educators/simple_menu"
 
 #content.center-block
+  #get-started-card.card
+    h1 Billing Details
 
-  - total = 0
+  /.left
+    #get-started-card.card.summary
+      h1 Summary
 
-  = form_for :billing_line_items, url: educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
-    table.table.col-xs-12
+      - total = 0
+      table.text-center
+        thead
+          th
+          th Quantity
+          th Subtotal
+        - @lineitems.each_pair do |id, item|
+          = hidden_field_tag "lineitems[#{id}]", item[:quantity]
+          tr
+            td.text-left = item[:name]
+            td = item[:quantity]
+            - subtotal = item[:price] * item[:quantity].to_i
+            - total += subtotal
+            td = subtotal
+        end
 
-      tr
-        th Test
-        th 
-        th Quantity
-        th Amount
-      - @lineitems.each_pair do |id, item|
-        = hidden_field_tag "lineitems[#{id}]", item[:quantity]      
+        tr.total-row
+          td Total
+          td
+          td = total
+
+      .button =link_to "Edit", display_tests_educators_billing_records_url
+
+  /.right
+    #new-educator-card.card
+      h1 Billing Address
+
+      .checkbox
+        = check_box_tag "same-as-profile"
+        = label_tag "same-as-profile", " Billing Details are same as my profile"
+      
+      .form-wrapper
+        = form_for :billing_line_items, url: purchase_success_educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+
+          = f.text_field :first_name, placeholder: 'First Name', autofocus: true, class: "input-box half"
+          = f.text_field :first_name, placeholder: 'Last Name', autofocus: true, class: "input-box half"
+          = f.text_field :first_name, placeholder: 'Address Line 1', autofocus: true, class: "input-box"
+          = f.text_field :first_name, placeholder: 'Address Line 2', autofocus: true, class: "input-box"
+          = f.text_field :first_name, placeholder: 'City', autofocus: true, class: "input-box half"
+          = f.text_field :first_name, placeholder: 'Country', autofocus: true, class: "input-box half"
+          = f.text_field :first_name, placeholder: 'Zip Code/Postal', autofocus: true, class: "input-box half"
+          = f.text_field :first_name, placeholder: 'Phone', autofocus: true, class: "input-box half"
+          
+          .card-wrapper
+
+          = f.text_field :first_name, placeholder: 'Card Number', autofocus: true, name: "number", class: "input-box"
+          = f.text_field :first_name, placeholder: 'Full Name', autofocus: true, name: "name", class: "input-box"
+          = f.text_field :first_name, placeholder: 'MM/YY', autofocus: true, name: "expiry", class: "input-box"
+          = f.text_field :first_name, placeholder: 'CVC', autofocus: true, name: "cvc", class: "input-box"
+          = f.submit 'Purchase', class: "button purchase"
+
+  #get-started-card.card
+    h1 Review
+    - total = 0 
+    = form_for :billing_line_items, url: educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+
+      table.table
         tr
-          td.col-md-5 = item[:name]
-          td 
-          td = item[:quantity]
-          - subtotal = item[:price] * item[:quantity].to_i
-          - total += subtotal
-          td = subtotal
-      end
+          th.text-center.col-3 Test
+          th 
+          th.text-center.col-2 Quantity
+          th.text-center.col-2 Amount
+        - @lineitems.each_pair do |id, item|
+          = hidden_field_tag "lineitems[#{id}]", item[:quantity]
+          tr
+            td.text-center.col-3 = item[:name]
+            td 
+            td.text-center.col-2 = item[:quantity]
+            - subtotal = item[:price] * item[:quantity].to_i
+            - total += subtotal
+            td.text-center.col-2 = "$ #{subtotal}"
+        end
 
-      tr 
-        td 
-        td 
-        td = "Total"
-        td = total
-    
-    .form-actions.col-xs-offset-10
-      = link_to(:controller => 'billing_records', :action => 'display_tests')
-        .btn.btn-primary-space Cancel 
-      = f.submit 'Confirm', class: "btn btn-primary-space" 
-
+        tr.total
+          td.text-center.col-3 Total
+          td
+          td.text-center.col-2 
+          td.text-center.col-2 = "$ #{total}"
+      
+      .button-group  
+        .button.first = link_to "Cancel", display_tests_educators_billing_records_url(choices: @lineitems)
+        = f.submit 'Confirm', class: "button"
+  
+  = javascript_include_tag "educators/card"
+  = javascript_include_tag "educators/card-form"
   #popup = render 'layouts/educators/modal'
 
 #footer-wrapper.center-block = render 'layouts/educators/footer'

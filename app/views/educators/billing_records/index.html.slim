@@ -1,50 +1,38 @@
-#header
-  = stylesheet_link_tag 'educators/billing_records/index'
-  .center-block
-    = link_to educators_educator_path(@educator)
-      = render "layouts/educators/navigation"
-    .profile
-      .profile-arrow
-      .profile-text Bobby Chan
-      .profile-icon style="background:#FFC006" B
-      .profile-break
-      =link_to "Dashboard", educators_educator_path(@educator)
-      =link_to "Profile", edit_educators_educator_path(@educator)
-      =link_to "Settings", "#"
-      =link_to "Sign out", educators_logout_path, method: :delete
+= render "layouts/educators/simple_menu"
 
 #content.center-block
-  h1 Payment History
+  #get-started-card.card
+    h1 Payment History
+    h2 Your payment history
 
-  - if @billing_records.size == 0
-    h2 You have not purchased any tests yet.
-  - else  
-    div.billing_records
-      table.table
-        .thead
-          tr
-            th Receipt Number
-            th.text-center Total
-            th.text-center Total Price
-            th Payment Date
-        tbody
-          - total_price = 0
-          - @billing_records.each do |record|
-            - total_quantity_per_billing = 0
-            - sub_price = 0
-            - quantity = 0
-            - record.billing_line_items.each do |line_item|
-              - quantity = line_item.quantity
-              - sub_price = sub_price + (line_item.test.price * quantity)
-              - total_quantity_per_billing = total_quantity_per_billing + quantity
-            - total_price = total_price + sub_price
+    - if @billing_records.size == 0
+      h2 You have not purchased any tests yet.
+    - else
+      .billing_records
+        table.table
             tr
-              td 
-                =link_to record.bill_number, educators_billing_record_path(record)
-              td.text-center =total_quantity_per_billing
-              td.text-center ="$ " + total_price.to_s + " SGD"
-              td =localize(record.created_at, :format => :long)
+              th.col-3.text-center Receipt Number
+              th.col-1.text-center Total
+              th.col-1.text-center Total Price
+              th.col-2.text-center Payment Date
             - total_price = 0
+            - @billing_records.each do |record|
+              - total_quantity_per_billing = 0
+              - sub_price = 0
+              - quantity = 0
+              - record.billing_line_items.each do |line_item|
+                - quantity = line_item.quantity
+                - sub_price = sub_price + (line_item.test.price * quantity)
+                - total_quantity_per_billing = total_quantity_per_billing + quantity
+              - total_price = total_price + sub_price
+              tr
+                td.col-3.text-center
+                  a
+                    =link_to record.bill_number, educators_billing_record_path(record)
+                td.col-1.text-center =total_quantity_per_billing
+                td.col-1.text-center ="$ " + total_price.to_s + " SGD"
+                td.col-2.text-center =localize(record.created_at, :format => :long)
+              - total_price = 0
 
   #popup = render 'layouts/educators/modal'
 

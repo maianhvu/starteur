@@ -1,58 +1,51 @@
-#header
-  = stylesheet_link_tag 'educators/billing_records/show'
-  .center-block
-    = link_to educators_educator_path(@educator)
-      = render "layouts/educators/navigation"
-    .profile
-      .profile-arrow
-      .profile-text Bobby Chan
-      .profile-icon style="background:#FFC006" B
-      .profile-break
-      =link_to "Dashboard", educators_educator_path(@educator)
-      =link_to "Profile", edit_educators_educator_path(@educator)
-      =link_to "Settings", "#"
-      =link_to "Sign out", educators_logout_path, method: :delete
+= render 'layouts/educators/simple_menu'
 
 #content.center-block
-  h1
-    | Receipt Detail for 
-    =@bill_number
-  h2
-    | Payment Date 
-    =localize(@created_at, :format => :long)
+  #get-started-card.card
 
-  .billing_line_item
-    table class="table"
-      .thead
-        tr
-          th Test Name
-          th Test Description
-          th.text-center Total
-          th.text-center Unit Price
-          th.text-center Subtotal
-        - total_price = 0.0
-        - total_quantity = 0
-        - @billing_details.each do|billing_line_item|
-          - total_quantity = total_quantity + billing_line_item.quantity
-          - test = Test.find(billing_line_item.test_id)
-          tr
-            td =test.name
-            td =test.description
-            td.text-center =billing_line_item.quantity
-            td.text-center ="$ " + test.price.to_s + " SGD"
-            td.text-center ="$ " + (billing_line_item.quantity * test.price).to_s + " SGD"
-            - total_price = total_price + billing_line_item.quantity * test.price
-        tr
-          td
-            b Total
-          td
-          td  
-          td
-          td.text-center 
-            b ="$ " + total_price.to_s + " SGD"
+    = image_tag("header-logo.png")
 
-  button class="btn btn-primary" type="button"
-    = link_to "Back to Payment History", educators_billing_records_path, {:style=>'color:#FFFFFF;'}
+    table
+      tr
+        td
+          h3 style="width: 140px" Invoice:
+        td
+          h3 = @bill_number
+      tr
+        td
+          h3 style="width: 140px" Invoice Date:
+        td
+          h3 = localize(@created_at, :format => :long)
+
+    table.table
+      tr
+        th.col-1 Test
+        th.text-left Description
+        th.text-center Total
+        th.text-center Unit Price
+
+      - total_price = 0.0
+      - total_quantity = 0
+      - @billing_details.each do|billing_line_item|
+        - total_quantity = total_quantity + billing_line_item.quantity
+        - test = Test.find(billing_line_item.test_id)
+        tr
+          td.text-left =test.name
+          td =test.description
+          td.text-center =billing_line_item.quantity
+          td.text-center ="$ " + test.price.to_s + " SGD"
+          /td.text-center ="$ " + (billing_line_item.quantity * test.price).to_s + " SGD"
+          - total_price = total_price + billing_line_item.quantity * test.price
+      tr style="border-top: 1px dashed"
+        td.text-center
+          b style="font-size: 16px" Total
+        td
+        td  
+        /td
+        td.text-center 
+          b style="font-size: 16px" ="$ " + total_price.to_s + " SGD"
+
+    .button = link_to "Back to Payment History", educators_billing_records_path
 
   #popup = render 'layouts/educators/modal'
 
