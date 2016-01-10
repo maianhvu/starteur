@@ -27,10 +27,14 @@
 
     #get-started-card.card
       .card-title Available Access Codes
-      - @remaining_access_codes.each do |test, remainings|
+      - if @remaining_access_codes.size == 0
         .card-section
-          .card-number = remainings
-          .card-description = test.name
+          p Please purchase tests first.
+      - else
+        - @remaining_access_codes.each do |test, remainings|
+          .card-section
+            .card-number = remainings
+            .card-description = test.name
   
   .right
     - if @batches.size == 0
