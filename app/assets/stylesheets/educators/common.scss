@@ -31,15 +31,22 @@ strong {
   font-weight: 400;
 }
 
-#messages {
-  color: red;
-  span {
-    float: left;
-  }
+.alert {
+  color: white;
+  margin-top: 64px;
+  height: 64px;
+  width: 100%;
+  background-color: #49c6ad;
+  position: relative;
   .message-content {
-    float: left;
-    margin-left: 10px;
-    width: 200px;
+    display: inline-block;
+    line-height: 64px;
+    margin-left: 20%;
+    width: auto;
+  }
+  span {
+    float: right;
+    width: 20px;
   }
 }
 

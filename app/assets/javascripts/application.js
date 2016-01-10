@@ -4,5 +4,6 @@
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
 //= require educators/display_tests
+//= require educators/flash_message
 //= require educators/card
 //= require educators/card-form
