@@ -1,9 +1,7 @@
-= render "layouts/educators/simple_menu"
+= render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
 
 #content.center-block
-  = javascript_include_tag "educators/dashboard"
-  = javascript_include_tag "educators/add_batch"
   .background
   .left
     #get-started-card.card-primary
@@ -29,9 +27,10 @@
 
     #get-started-card.card
       .card-title Available Access Codes
-      .card-section
-        .card-number 12
-        .card-description MBTI
+      - @remaining_access_codes.each do |test, remainings|
+        .card-section
+          .card-number = remainings
+          .card-description = test.name
   
   .right
     - if @batches.size == 0
@@ -78,11 +77,11 @@
             .batch-name = batch.name
             .test-name = Test.find(batch.test_id).name
             .completion-rate-bar
-              span style="width:#{batch.email.size}%"
+              span style="width:0"
           .batch-center
             .batch-id = "Batch ID: ##{batch.id}"
             .completed-students = batch.email.size
-            .message Students Completed
+            .message Students Enrolled
           .batch-right
             .button-grp
               /button.btn.radius-left =link_to "View batch", educators_batch_path(batch.id)
