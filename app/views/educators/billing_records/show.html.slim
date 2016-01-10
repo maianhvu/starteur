@@ -15,7 +15,7 @@
         td
           h3 style="width: 140px" Invoice Date:
         td
-          h3 = localize(@created_at, :format => :long)
+          h3 = localize(@created_at.in_time_zone("Singapore"), :format => :long)
 
     table.table
       tr
