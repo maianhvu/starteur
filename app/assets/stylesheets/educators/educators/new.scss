@@ -140,4 +140,23 @@
     padding-top: 175px;
   }
 
+  .alert {
+    color: white;
+    height: 64px;
+    width: 100%;
+    background-color: #49c6ad;
+    position: relative;
+
+    .message-content {
+      display: inline-block;
+      line-height: 64px;
+      float: left;
+      width: auto;
+    }
+
+    span {
+      float: right;
+      width: 20px;
+    }
+  }
 }
