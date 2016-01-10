@@ -144,4 +144,25 @@
     padding-top: 175px;
   }
 
+  .alert {
+    color: white;
+    height: 64px;
+    width: 100%;
+    background-color: #49c6ad;
+    position: relative;
+    margin-top: 0;
+    .message-content {
+      display: inline-block;
+      line-height: 64px;
+      float: left;
+      width: auto;
+      margin-left: 10px;
+      font-size: 15px;
+    }
+
+    span {
+      float: right;
+      width: 20px;
+    }
+  }
 }
