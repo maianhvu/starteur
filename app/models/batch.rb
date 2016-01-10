@@ -6,4 +6,5 @@ class Batch < ActiveRecord::Base
 
   validates :educator, presence: true
   validates :test, presence: true
+  validates :name, presence: true
 end
