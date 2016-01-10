@@ -752,7 +752,7 @@
 
   .access-codes {
     margin-top: 10px;
-    margin-left: 290px;
+    margin-left: 354px;
     box-sizing: border-box;
     background-color: #25A599;
     color: white;
@@ -789,6 +789,9 @@
 
   .table-border {
     border: 1px solid #e9e9e9;
+    p {
+      padding: 5px;
+    }
   }
 
   .table-merge-1 {
@@ -824,6 +827,7 @@
     background-color: #25A599;
     border: 1px solid transparent;
     color: white;
+    margin-left: 20px;
   }
 
   .btn.radius-left {

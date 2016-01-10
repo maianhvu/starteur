@@ -29,13 +29,15 @@
             h1 = @batch.email.count
             br Students in Batch
 
+      .access-codes = "#{@remaining_access_codes} Access Codes Available"
+
       .button-grp
         /button.btn.radius-left Manage Students
-        button.btn.radius =link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
         /button.btn.radius-right
-          .caret
-
-      .access-codes = "#{@remaining_access_codes} Access Codes Available"
+          /.caret
+        button.btn.radius =link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
+        button.btn.radius =link_to "Assign all access codes", "#"
+        button.btn.radius =link_to "Send Test Reminder", "#"
 
       table.main
         thead
@@ -53,10 +55,16 @@
               /td.col-1.text-center.table-border =check_box_tag 'selected'
               td.col-2.text-center.table-merge-1
               td.col-2.text-center.table-merge-2
-              td.col-3.text-center.table-border = email
-              td.col-2.text-center.table-merge-1 style="font-size: 16px;" Not Activated
-              td.col-2.text-center.table-merge-2
-                .button.btn-status style="background-color: #FF0000;" Assign Access Code
+              td.col-3.text-center.table-border style="font-size: 16px;"
+               p = email
+              - if #some condition here
+                td.col-2.text-center.table-merge-1 style="font-size: 16px;" Not Activated
+                td.col-2.text-center.table-merge-2
+                  .button.btn-status style="background-color: #FF0000;" Assign Access Code
+              - else
+                td.col-2.text-center.table-merge-1 style="font-size: 16px;" In Progress
+                td.col-2.text-center.table-merge-2
+                  .button.btn-status style="background-color: #0645ff;" Remind
               td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: email), method: :delete, class: "button"
 
     .add-group
