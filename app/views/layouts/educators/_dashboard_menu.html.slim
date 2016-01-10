@@ -11,11 +11,3 @@
         =link_to "Profile", edit_educators_educator_path(@educator)
         =link_to "Settings", "#"
         =link_to "Sign out", educators_logout_path, method: :delete
-    .profile
-      .profile-arrow
-      .profile-text Menu
-      .profile-icon style="background:#49c6ad" ≡
-      .profile-break
-        =link_to "Dashboard", educators_educator_path(@educator)
-        =link_to "View Payment History", educators_billing_records_path
-        =link_to "Purchase Test", display_tests_educators_billing_records_url
