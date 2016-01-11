@@ -3,33 +3,49 @@
 
 #content.center-block
   #get-started-card.card
-    h1 = "Batch name: #{@batch.name}"
-    h1 = "Test name: #{@batch.test.name}"
-    h2 = "Description: #{@batch.test.description}"
+    table.header-summary
+      tr
+        td
+          h1.text-center = "#{@batch.name}"
+        td 
+          h1.text-left = "#{@batch.email.count} Students Enrolled"
+        td.text-center
+          - if @batch.test.name == "MBTI"
+            h1 = image_tag "mbti.png"
+          - elsif @batch.test.name == "Holland Codes"
+            h1 = image_tag "jung.png"
+          - elsif @batch.test.name == "O*NET"
+            h1 = image_tag "onet.png"
+          - elsif @batch.test.name == "DISC Assessment"
+            h1 = image_tag "disc.png"
+        td.text-left
+          h1 = "#{@remaining_access_codes} Access Codes Available"
+      tr
+        td colspan="4"
+          h2
 
     - if @batch.email.blank?
       h1.text-center Please add students to this batch
     - else
-      table.status.text-center
+      table.completion-status.text-center
         tr
-          td.green
+          td
+            = image_tag "completed.png"
+          td
             /h1 = @students_not_accepted
-            h1 0
+            h1 style="font-size: 50px" 0
             br Completed
-          td.yellow
+          td
+            = image_tag "in_progress.png"
+          td
             /h1 = @students_in_progress
-            h1 0
+            h1 style="font-size: 50px" 0
             br In Progress
-          td.red
-            h1 = @batch.email.count
+          td
+            = image_tag "not_accepted.png"
+          td
+            h1 style="font-size: 50px" = @batch.email.count
             br Not Accepted
-
-        table.status.text-center
-          td 
-            h1 = @batch.email.count
-            br Students in Batch
-
-      .access-codes = "#{@remaining_access_codes} Access Codes Available"
 
       .button-grp
         /button.btn.radius-left Manage Students
@@ -38,6 +54,7 @@
         button.btn.radius =link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
         button.btn.radius =link_to "Assign all access codes", "#"
         button.btn.radius =link_to "Send Test Reminder", "#"
+        button.btn.radius =link_to "Add or Remove Co-Educators", "#"
 
       table.main
         thead
@@ -57,14 +74,9 @@
               td.col-2.text-center.table-merge-2
               td.col-3.text-center.table-border style="font-size: 16px;"
                p = email
-              - if #some condition here
-                td.col-2.text-center.table-merge-1 style="font-size: 16px;" Not Activated
-                td.col-2.text-center.table-merge-2
-                  .button.btn-status style="background-color: #FF0000;" Assign Access Code
-              - else
-                td.col-2.text-center.table-merge-1 style="font-size: 16px;" In Progress
-                td.col-2.text-center.table-merge-2
-                  .button.btn-status style="background-color: #0645ff;" Remind
+              td.col-2.text-center.table-merge-1 style="font-size: 16px;" Not Activated
+              td.col-2.text-center.table-merge-2
+                .button.btn-status style="background-color: #FF0000;" Assign Access Code
               td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: email), method: :delete, class: "button"
 
     .add-group
