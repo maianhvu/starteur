@@ -25,6 +25,7 @@
           h2
 
     - if @batch.email.blank?
+      button.btn.radius style="margin-top: 20px" = link_to "← Back to Dashboard", educators_educator_path(@educator)
       h1.text-center Please add students to this batch
     - else
       button.btn.radius style="margin-top: 20px" = link_to "← Back to Dashboard", educators_educator_path(@educator)
