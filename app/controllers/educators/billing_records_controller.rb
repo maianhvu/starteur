@@ -9,7 +9,7 @@ class Educators::BillingRecordsController < Educators::BaseController
     @lineitems = params[:lineitems] || {}  
     @lineitems.select! { |k, v| @checkedtests.include?(k) && v["quantity"].to_i > 0 }  
     if @lineitems.empty? 
-      flash[:error] = "Please select a test and indicate the quantity of access codes you want to purchase." 
+      flash[:error] = "Please select a test and indicate the quantity of access codes you want to purchase."
       redirect_to display_tests_educators_billing_records_path
     end
     test_ids = @lineitems.keys.map(&:to_i)
@@ -21,6 +21,10 @@ class Educators::BillingRecordsController < Educators::BaseController
 
   def display_tests
     @tests = Test.all
+    @choices = nil
+    if params[:choices] != nil
+      @choices = params[:choices]
+    end
   end
 
   def create
@@ -29,9 +33,11 @@ class Educators::BillingRecordsController < Educators::BaseController
     educator_id = @educator.id.to_s
     bill_number = current_time + "_" + educator_id
     record = BillingRecord.create(bill_number: bill_number, billable: @educator)
+    total_quantity = Hash.new
 
     lineitems.each_pair do |test_id, quantity|
       BillingLineItem.create(test: Test.find(test_id), quantity: quantity, billing_record: record)
+      total_quantity[Test.find(test_id).name] = quantity
     end
     if record.save
       lineitems.each_pair do |test_id, quantity|
@@ -39,7 +45,8 @@ class Educators::BillingRecordsController < Educators::BaseController
       end
       
       flash[:success] = "Successfully bought access codes"
-      redirect_to educators_educator_path(@educator)
+      flash[:summary] = total_quantity
+      redirect_to purchase_success_educators_billing_records_path
     else
       flash[:error] = "Unable to purchase access codes"
       redirect_to display_tests_educators_billing_records_path()
@@ -51,5 +58,9 @@ class Educators::BillingRecordsController < Educators::BaseController
     @bill_number = @billing_record.bill_number
     @created_at = @billing_record.created_at
     @billing_details = BillingLineItem.where(billing_record_id: @billing_record.id)
+  end
+
+  def purchase_confirmation
+    
   end
 end

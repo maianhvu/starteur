@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151104140650) do
+ActiveRecord::Schema.define(version: 20160106053241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,10 +21,11 @@ ActiveRecord::Schema.define(version: 20151104140650) do
     t.string   "code"
     t.integer  "test_id"
     t.datetime "last_used_at"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "educator_id"
-    t.integer  "permits",      default: 1
+    t.integer  "permits",           default: 1
+    t.integer  "code_usages_count", default: 0, null: false
   end
 
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree
@@ -54,6 +55,12 @@ ActiveRecord::Schema.define(version: 20151104140650) do
 
   add_index "authentication_tokens", ["user_id"], name: "index_authentication_tokens_on_user_id", using: :btree
 
+  create_table "batch_code_usages", force: :cascade do |t|
+    t.integer "batch_id"
+    t.integer "code_usage_id"
+    t.boolean "own",           default: false
+  end
+
   create_table "batches", force: :cascade do |t|
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
@@ -62,6 +69,15 @@ ActiveRecord::Schema.define(version: 20151104140650) do
     t.string   "email",       default: [],              array: true
     t.string   "name"
   end
+
+  create_table "batches_coeducators", id: false, force: :cascade do |t|
+    t.integer "batch_id"
+    t.integer "educator_id"
+  end
+
+  add_index "batches_coeducators", ["batch_id", "educator_id"], name: "index_batches_coeducators_on_batch_id_and_educator_id", unique: true, using: :btree
+  add_index "batches_coeducators", ["batch_id"], name: "index_batches_coeducators_on_batch_id", using: :btree
+  add_index "batches_coeducators", ["educator_id"], name: "index_batches_coeducators_on_educator_id", using: :btree
 
   create_table "batches_results", id: false, force: :cascade do |t|
     t.integer "batch_id"
@@ -105,7 +121,8 @@ ActiveRecord::Schema.define(version: 20151104140650) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.integer  "state"
-    t.integer  "batch_id"
+    t.string   "email"
+    t.string   "uuid"
   end
 
   add_index "code_usages", ["access_code_id"], name: "index_code_usages_on_access_code_id", using: :btree
@@ -120,13 +137,16 @@ ActiveRecord::Schema.define(version: 20151104140650) do
   end
 
   create_table "educators", force: :cascade do |t|
-    t.string   "email",            null: false
+    t.string   "email",                           null: false
     t.string   "crypted_password"
     t.string   "salt"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "first_name"
     t.integer  "state"
+    t.string   "reset_password_token"
+    t.datetime "reset_password_token_expires_at"
+    t.datetime "reset_password_email_sent_at"
     t.string   "last_name"
     t.string   "organization"
     t.string   "title"
@@ -134,6 +154,7 @@ ActiveRecord::Schema.define(version: 20151104140650) do
   end
 
   add_index "educators", ["email"], name: "index_educators_on_email", unique: true, using: :btree
+  add_index "educators", ["reset_password_token"], name: "index_educators_on_reset_password_token", using: :btree
 
   create_table "promotion_codes", force: :cascade do |t|
     t.integer  "billing_record_id"
@@ -188,27 +209,25 @@ ActiveRecord::Schema.define(version: 20151104140650) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "type"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.boolean  "deactivated"
-    t.integer  "state",                           default: 1
-    t.string   "reset_password_token"
-    t.datetime "reset_password_token_expires_at"
-    t.datetime "reset_password_email_sent_at"
+    t.integer  "state",                        default: 1
     t.string   "remember_me_token"
     t.datetime "remember_me_token_expires_at"
   end
 
   add_index "users", ["remember_me_token"], name: "index_users_on_remember_me_token", using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", using: :btree
 
   add_foreign_key "access_codes", "tests"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "tests"
   add_foreign_key "answers", "users"
   add_foreign_key "authentication_tokens", "users"
+  add_foreign_key "batches_coeducators", "batches"
+  add_foreign_key "batches_coeducators", "educators"
   add_foreign_key "batches_results", "batches"
   add_foreign_key "batches_results", "results"
   add_foreign_key "categories", "tests"

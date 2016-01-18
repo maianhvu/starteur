@@ -1,0 +1,11 @@
+.col-xs-4.col-xs-offset-4
+  .panel-body
+
+    h2 Recover my password
+
+    p Please enter the email address that you used when creating your account.
+
+    = form_tag educators_password_resets_path, class: 'form' do
+
+      .form-group = email_field_tag :email, '', placeholder: 'Email address', autofocus: true, required: true, class: 'form-control'
+      .form-actions = submit_tag 'Reset Password' , class: "button btn btn-lg btn-primary btn-block"

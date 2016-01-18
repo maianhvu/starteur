@@ -37,6 +37,8 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-turbolinks'
 
+gem 'sendgrid'
+
 group :development, :test do
   # Use RSpec for testing
   gem 'rspec-rails'

@@ -5,6 +5,7 @@ class Educator < ActiveRecord::Base
   has_many :access_codes
   has_many :batches
   has_many :billing_records, as: :billable
+  has_and_belongs_to_many :cobatches, class_name: 'Batch', join_table: 'batches_coeducators'
 
   validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes["password"] }

@@ -1,0 +1,2 @@
+module Educators::PasswordResetsHelper
+end

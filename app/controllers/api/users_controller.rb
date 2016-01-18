@@ -26,6 +26,7 @@ module API
       u = User.find_by(email: params[:escaped_email].strip.downcase)
       if u.may_confirm?(params[:token])
         u.confirm!(params[:token])
+        Educators::UserCodeUsageAssignmentService.assign_code_usages(u)
         head :ok
       else
         render json: { errors: "Invalid confirmation token" }, status: :unprocessable_entity

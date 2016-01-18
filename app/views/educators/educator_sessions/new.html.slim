@@ -1,28 +1,30 @@
-.col-xs-4.col-xs-offset-4
-  .panel-body
+#header.center-block
+  = render "layouts/educators/navigation"
+  = render "layouts/educators/flash_messages"
 
-    h2.text-center Educator login portal
+#content.center-block
+  .sign-in-box.center
+
+    h2 Educator login portal
 
     br
 
     = form_for :educator, url: educators_educator_sessions_path, method: :post, :html => { :class => "form" } do |f|
 
-      .form-group.text-left = email_field_tag :email, params[:email], autofocus: true, required: true, class: "form-control", placeholder: "Email address"
-      .form-group.text-left = password_field_tag :password, params[:password], autocomplete: "off", required: true,  class: "form-control", placeholder: "Password"
+      = email_field_tag :email, params[:email], autofocus: true, required: true, class: "input-box", placeholder: "Email address"
+      = password_field_tag :password, params[:password], autocomplete: "off", required: true,  class: "input-box", placeholder: "Password"
 
-      .form-actions = f.submit "Log in", class: "btn btn-primary btn-block btn-lg"
+      /p
+        = check_box_tag "rememberme"
+        = content_tag(:span, "Remember Me", class: "tos")
 
-      .row
-
-        / .col-xs-6
-        /   .form-group.pull-left
-        /     .checkbox = label_tag :remember_me do
-        /       = check_box_tag :remember_me
-        /       | Stay logged in
-
-        .col-xs-12.text-center
-          .form-group = link_to 'Sign up', new_educators_educator_path, class: 'btn btn-link'
+      = f.submit "Log in", class: "button half"
+      = link_to 'Create Account', new_educators_educator_path, class: 'button half ghost'
         / .col-xs-6
         /   .form-group.pull-right = link_to 'Forgot password?', '#', class: 'btn btn-link'
 
     / = link_to "Don't have an account? Get started here.", '#', class: "btn btn-default btn-block btn-lg"
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'
