@@ -53,10 +53,12 @@
         /button.btn.radius-left Manage Students
         /button.btn.radius-right
           /.caret
-        button.btn.radius =link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
-        button.btn.radius =link_to "Assign all access codes", "#"
-        button.btn.radius =link_to "Send Test Reminder", "#"
-        button.btn.radius =link_to "Add or Remove Co-Educators", "#"
+        - if @batch.educator == @educator
+          button.btn.radius = link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
+        button.btn.radius = link_to "Assign codes to all emails", educators_batch_assign_code_usages_path(@batch)
+        button.btn.radius = link_to "Send test reminders", educators_batch_batch_test_reminder_path(@batch)
+        - if @batch.educator == @educator
+          button.btn.radius = link_to "Add or Remove Co-Educators", educators_batch_coeducators_path(@batch)
 
       table.main
         thead
@@ -65,7 +67,7 @@
             th.col-2 First Name
             th.col-2 Last Name
             th.col-3 Email
-            th.col-4 colspan="2" Status
+            th.col-4 Status
             th.col-1
 
         tbody
@@ -74,11 +76,17 @@
               /td.col-1.text-center.table-border =check_box_tag 'selected'
               td.col-2.text-center.table-merge-1
               td.col-2.text-center.table-merge-2
-              td.col-3.text-center.table-border style="font-size: 16px;"
-               p = email
-              td.col-2.text-center.table-merge-1 style="font-size: 16px;" Not Activated
-              td.col-2.text-center.table-merge-2
-                .button.btn-status style="background-color: #FF0000;" Assign Access Code
+              td.col-3.text-center.table-border = email
+              td.col-4.text-center
+                - if (code_usage = @batch.code_usages.find_by(email: email))
+                  - if code_usage.user
+                    = code_usage.state.capitalize
+                  - else
+                    = 'Email sent'
+                - else
+                  .col-xs-6 Not Activated
+                  .col-xs-6
+                    .button.btn-status style="background-color: #FF0000;" = link_to 'Assign Access Code', educators_batch_assign_code_usages_path(@batch), method: :get, data: { email: email }
               td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: email), method: :delete, class: "button"
 
     .add-group
@@ -91,7 +99,7 @@
       .csv
         =image_tag "csv.png"
         p.text-center style="color:#49c6ad" data-toggle="modal" data-target="#myModal" Upload CSV
-    
+
     .go-to-top
       .up-triangle href="#top"
       a href="#top" Go to Top
@@ -113,6 +121,7 @@
               .form-field = f.hidden_field :batch_id, value: @batch.id
 
               label
+
               .form-actions = f.submit 'Upload', class: "button modal-button"
 
 //--- Modal for Single User---//

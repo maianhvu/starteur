@@ -31,15 +31,16 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :batches, only: [ :index, :create, :show, :edit, :update, :destroy]
+    resources :batches, only: [ :index, :create, :show, :edit, :update, :destroy] do
+      resources :coeducators, only: [:index, :create, :destroy]
+      get 'batch_test_reminder', to: 'batches#batch_test_reminder'
+      get 'assign_code_usages', to: 'batches#assign_code_usages'
+    end
     resources :batch_users, only: [ :index, :create, :destroy]
 
     post 'upload', to: 'batch_users#read'
 
-    resources :batches, only: [ :index, :create, :show, :edit, :update, :destroy]
-    resources :batch_users, only: [ :index, :create, :destroy]
-
-    post 'upload', to: 'batch_users#read'
+    resources :password_resets, only: [ :new, :create, :edit, :update ]
 
     get 'login', to: 'educator_sessions#new'
     post 'login', to: 'educator_sessions#create'
@@ -48,7 +49,7 @@ Rails.application.routes.draw do
     root to: 'educator_sessions#new'
   end
 
-  #root to: redirect('https://www.starteur.com/')
+  root to: redirect('http://app.starteur.com/')
 
   match '*others', to: 'authenticated#allow', via: [ :options ]
 

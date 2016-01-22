@@ -1,0 +1,9 @@
+.col-xs-4.col-xs-offset-4
+  .panel-body
+
+    h2 Reset Password
+    
+    = form_tag educators_password_reset_path(@educator.reset_password_token), method: :patch do
+    
+      .form-group = password_field_tag :password, '', placeholder: 'Type your new password', required: true, class: 'form-control'
+      .form-group = submit_tag 'Change Password', class: 'btn btn-lg btn-primary btn-block'

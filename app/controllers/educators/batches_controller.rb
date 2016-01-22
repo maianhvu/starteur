@@ -6,8 +6,8 @@ class Educators::BatchesController < Educators::BaseController
       render "new"
     else
       @batches = @educator.batches
+      @cobatches = @educator.cobatches
       @test = Test.all
-    @edu = @educator.email
     end
   end
 
@@ -28,13 +28,21 @@ class Educators::BatchesController < Educators::BaseController
   end
 
   def show
-    if (params[:id]) 
+    if params[:id]
       @batch = Batch.find(params[:id])
-      @remaining_access_codes = AccessCode.where(educator_id: @educator.id, test_id: @batch.test.id).count
-    else  
+
+      @remaining_access_codes = AccessCode.where(educator: @educator, test_id: @batch.test.id).inject(0) { |a, e| a + e.permits - e.code_usages_count }
+    else
       @batch = Batch.find(params[:upload_csv][:batch_id])
-      @remaining_access_codes = AccessCode.where(educator_id: @educator.id, test_id: @batch.test.id).count
+      @remaining_access_codes = AccessCode.where(educator: @educator, test_id: @batch.test.id).inject(0) { |a, e| a + e.permits - e.code_usages_count }
       @list = @email_list.all
+    end
+
+    if @batch.educator == @educator || @batch.coeducators.exists?(@educator)
+      render :show
+    else
+      flash[:notice ] = "Invalid access"
+      redirect_to educators_batches_path
     end
 
     # code to count number of students in different state. Commented out for now.
@@ -70,10 +78,32 @@ class Educators::BatchesController < Educators::BaseController
     end
   end
 
+  def batch_test_reminder
+    batch = Batch.find(params[:batch_id])
+    email_list = batch.code_usages.where(email: batch.email).reject(&:completed?).map(&:email)
+    email_list.each do |email|
+      Educators::UserMailer.batch_test_reminder(email).deliver_now
+    end
+    flash[:notice ] = "Reminder has been sent"
+    redirect_to educators_batch_path(batch)
+  end
+
+  def assign_code_usages
+    batch = Batch.find(params[:batch_id])
+    email_list = params[:email] ? [params[:email]] : batch.email
+    service = Educators::BatchCodeUsageService.new
+    if service.assign_code_usages_for_emails(email_list, batch) && service.errors.empty?
+      flash[:notice] = 'Code usage has been assigned'
+    else
+      flash[:error] = service.errors.values.join(', ')
+    end
+    redirect_to educators_batch_path(batch)
+  end
+
   private
 
-  def educator_params
-    params.require(:educator).permit(:email, :password)
+  def coeducator_params
+    params.require(:educator).permit(:email)
   end
 
 end

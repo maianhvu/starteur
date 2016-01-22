@@ -1,13 +1,15 @@
 class CodeUsage < ActiveRecord::Base
   include AASM
 
-  belongs_to :access_code
+  belongs_to :access_code, counter_cache: true
   belongs_to :user
-  belongs_to :batch
+  has_many :batch_code_usages
+  has_many :batches, through: :batch_code_usages
   has_one :result
 
   validates_presence_of :access_code
   validate :unique_under_single_use_code
+  after_create :set_uuid
 
   enum state: {
     generated: 1,
@@ -68,6 +70,11 @@ class CodeUsage < ActiveRecord::Base
     Result.create!(answers: answers_hash, user: self.user, test: test, code_usage: self)
     # Remove temporary answer objects
     user_answers_for_test.destroy_all
+  end
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid
+    self.save!
   end
 
 end

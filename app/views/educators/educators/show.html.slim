@@ -37,7 +37,7 @@
             .card-description = test.name
   
   .right
-    - if @batches.size == 0
+    - if @batches.empty? && @cobatches.empty?
       #new-educator-card.card
         h1 = "Welcome, #{@educator.name}"
         h2 New to Starteur Educators?
@@ -95,6 +95,45 @@
               /ul.dropdown-menu role="menu" aria-labelledby="menu2"
                 li role="presentation"
                   a role="menuitem" tabindex="-1" Delete
+
+        /#dashboard-card.card
+          .batch-left
+            .batch-name Sample Batch
+            .test-name Sample Test Name
+            .completion-rate-bar
+              span style="width:40%"
+          .batch-center
+            .batch-id #0001
+            .completed-students 4/10
+            .message Students Completed
+          .batch-right
+            .button-grp
+              button.btn.radius-left =link_to "View batch", educators_batch_path(batch.id)
+              button.btn.radius-right.dropdown-toggle#menu2 data-toggle="dropdown"
+                .caret
+              /ul.dropdown-menu role="menu" aria-labelledby="menu2"
+                li role="presentation"
+                  a role="menuitem" tabindex="-1" Delete
+
+      - @cobatches.each do |batch|
+        #dashboard-card.card
+          .batch-left
+            .batch-name = batch.name
+            .test-name = Test.find(batch.test_id).name
+            .completion-rate-bar
+              span style="width:0"
+          .batch-center
+            .batch-id = "Batch ID: ##{batch.id}"
+            .completed-students = batch.email.size
+            .message Students Enrolled
+          .batch-right
+            .button-grp
+              /button.btn.radius-left =link_to "View batch", educators_batch_path(batch.id)
+              /button.btn.radius-right.dropdown-toggle#menu2 data-toggle="dropdown"
+              button.btn.radius =link_to "View batch", educators_batch_path(batch.id)
+              /.caret
+              /ul.dropdown-menu role="menu" aria-labelledby="menu2"
+                li role="presentation"
 
         /#dashboard-card.card
           .batch-left

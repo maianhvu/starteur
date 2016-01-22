@@ -59,6 +59,21 @@ Rails.application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
+  config.force_ssl = true
+
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.sendgrid.net',
+    :port           => '465',
+    :authentication => :plain,
+    :user_name      => ENV['SENDGRID_USERNAME'],
+    :password       => ENV['SENDGRID_PASSWORD'],
+    :domain         => 'heroku.com',
+    :enable_starttls_auto => true,
+    :ssl            => true
+  }
+  ActionMailer::Base.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: ENV['MAIL_HOST'] }
+  routes.default_url_options[:host] = ENV['ROUTES_HOST']
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

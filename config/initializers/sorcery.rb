@@ -3,7 +3,7 @@
 # Available submodules are: :user_activation, :http_basic_auth, :remember_me,
 # :reset_password, :session_timeout, :brute_force_protection, :activity_logging, :external
 # Rails.application.config.sorcery.submodules = [:http_basic_auth, :reset_password, :remember_me]
-Rails.application.config.sorcery.submodules = [:http_basic_auth]
+Rails.application.config.sorcery.submodules = [:http_basic_auth, :reset_password]
 
 # Here you can configure each submodule's features.
 Rails.application.config.sorcery.configure do |config|
@@ -334,7 +334,7 @@ Rails.application.config.sorcery.configure do |config|
     # mailer class. Needed.
     # Default: `nil`
     #
-    # user.reset_password_mailer = Educators::EducatorMailer
+    user.reset_password_mailer = Educators::EducatorMailer
 
 
     # reset password email method on your mailer class.

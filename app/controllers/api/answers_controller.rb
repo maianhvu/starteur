@@ -15,6 +15,7 @@ module API
       if completed
         usage = @user.code_usages.used.includes(:access_code).where('access_codes.test_id' => test.id).last
         usage.complete!
+        Educators::EducatorReminderService.check_batch_completion(usage)
       end
       render json: { question_ids: qids, completed: @user.completed?(test) }, status: :ok
     end

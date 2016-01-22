@@ -24,6 +24,7 @@ class Educators::EducatorsController < Educators::BaseController
   def show
     # @batches: All of Batches belong to this Educator
     @batches = @educator.batches
+    @cobatches = @educator.cobatches
 
     # @purchased_tests: All of Tests belong to this Educator
     @access_codes = AccessCode.where(educator_id: @educator.id)

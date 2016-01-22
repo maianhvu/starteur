@@ -178,6 +178,8 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sendgrid (1.2.0)
+      json
     shoulda-matchers (3.0.0)
       activesupport (>= 4.0.0)
     slim (3.0.6)
@@ -239,6 +241,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (>= 3.2)
   sdoc (~> 0.4.0)
+  sendgrid
   shoulda-matchers
   slim-rails
   sorcery

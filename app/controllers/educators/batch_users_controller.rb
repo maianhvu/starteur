@@ -29,7 +29,16 @@ class Educators::BatchUsersController < Educators::BaseController
     email_list = batch.email
     puts params[:email]
     email_list.delete(params[:email])
-    puts email_list
+    cu = batch.code_usages.find_by(email: params[:email])
+    bcu = batch.batch_code_usages.find_by(batch: batch, code_usage: cu)
+    if bcu
+      if bcu.own
+        cu.batch_code_usages.destroy_all
+        cu.destroy
+      else
+        bcu.destroy
+      end
+    end
     batch.save
     flash[:alert ] = "Email has been deleted!"
     redirect_to controller: "batches", action: "show", id: params[:id]
@@ -57,4 +66,5 @@ class Educators::BatchUsersController < Educators::BaseController
     end
     redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
   end
+
 end
