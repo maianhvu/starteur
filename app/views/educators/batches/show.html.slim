@@ -5,6 +5,9 @@
     h1.col-md-6.col-xs-6.text-right ="Test name: #{@batch.test.name}"
     p.text-right ="Description: #{@batch.test.description}"
 
+    .col-xs-3 =link_to educators_generate_batch_report_path(batch_id: @batch.id, test: @batch.test), method: :generate_batch_report
+      .btn.btn-success  Generate Batch Report
+
     table.table
       .thead
         tr

@@ -61,4 +61,10 @@ class Educators::BatchUsersController < Educators::BaseController
     acs.assign_to_all ? flash[:notice ] = "Codes assigned" : flash[:notice ] = "Insufficient number of codes"
     redirect_to controller: "batches", action: "show", id: params[:batch]
   end
+
+  def generate_batch_report
+    # bg = "#{Rails.root}/app/assets/images/bg-pattern.png"
+    pdf = Educators::ReportPdfService.new(batch_id: params[:batch_id])
+    send_data pdf.render, filename: 'report.pdf', type: 'application/pdf'
+  end
 end

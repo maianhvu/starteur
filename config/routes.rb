@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     post 'upload', to: 'batch_users#read'
     post 'assign', to: 'batch_users#assign'
     post 'assignall', to: 'batch_users#assignall'
+    post 'generate_batch_report', to: 'batch_users#generate_batch_report'
 
     resources :batches, only: [ :index, :create, :show, :edit, :update, :destroy]
     resources :batch_users, only: [ :index, :create, :destroy]
