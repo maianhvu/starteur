@@ -1,9 +1,12 @@
 class User < ActiveRecord::Base
-  has_secure_password
+  # Include default devise modules. Others available are:
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable, :confirmable,
+         :recoverable, :rememberable, :trackable, :validatable
+
   include AASM
 
   # ActiveRecord Relations
-  has_many :authentication_tokens, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :results, dependent: :destroy
   has_many :code_usages, dependent: :destroy
@@ -11,7 +14,6 @@ class User < ActiveRecord::Base
   has_many :billing_records, as: :billable
 
   # Callbacks
-  before_create :generate_confirmation_token
   before_validation :normalize_email, on: :create
   before_save :capitalize_names
 
@@ -25,6 +27,7 @@ class User < ActiveRecord::Base
     confirmed: 8,
     deactivated: 32
   }
+
   aasm :column => :state do
     state :registered, :initial => true
     state :confirmed
@@ -59,22 +62,5 @@ class User < ActiveRecord::Base
   def capitalize_names
     self.first_name = self.first_name.strip.titleize if self.first_name
     self.last_name = self.last_name.strip.titleize if self.last_name
-  end
-
-  def generate_confirmation_token
-    self.confirmation_token = SecureRandom.hex(32)
-  end
-
-  def validate_confirmation_token(token)
-    self.confirmation_token == token
-  end
-
-  def set_confirmed_date
-    self.confirmed_at = Time.now
-    self.save!
-  end
-
-  def generate_auth_token
-    AuthenticationToken.create!(user: self)
   end
 end

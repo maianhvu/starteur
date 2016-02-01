@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
+  devise_for :users
+  # -------------------------------------------------------------------------------------------------
+  # STARTEUR WEB APP NAMESPACE
+  # -------------------------------------------------------------------------------------------------
+  root to: 'dashboard#index'
 
+  # -------------------------------------------------------------------------------------------------
+  # STARTEUR EDUCATOR NAMESPACE
+  # -------------------------------------------------------------------------------------------------
   namespace :educators do
     resources :educators, only: [ :index, :new, :create, :show, :edit, :update ]
     resource :educator_sessions, only: [ :new, :create ]
