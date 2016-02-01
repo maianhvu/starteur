@@ -43,14 +43,8 @@ gem 'jquery-turbolinks'
 gem 'sendgrid'
 
 group :development, :test do
-  # Use RSpec for testing
-  gem 'rspec-rails'
-
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
-  # Use Factory Girls for fixtures
-  gem 'factory_girl_rails', '~> 4.0'
 
   # tzinfo-data for windows
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
@@ -66,6 +60,15 @@ group :test do
   # Use faker for testing
   gem 'faker'
   gem 'shoulda-matchers', require: false
+
+  # Use RSpec for testing
+  gem 'rspec-rails'
+  # With capybara
+  gem 'capybara'
+
+  # Use Factory Girls for fixtures
+  gem 'factory_girl_rails', '~> 4.0'
+
 end
 
 group :development, :production do
