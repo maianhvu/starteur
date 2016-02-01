@@ -1,0 +1,169 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "UTF-8"}/
+    %title Starteur | Unlock Your Potential
+    %meta{:content => "width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no", :name => "viewport"}/
+    %link{:href => "images/apple-touch-icon-57x57.png", :rel => "apple-touch-icon", :sizes => "57x57"}/
+    %link{:href => "images/apple-touch-icon-60x60.png", :rel => "apple-touch-icon", :sizes => "60x60"}/
+    %link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}/
+    %link{:href => "images/apple-touch-icon-76x76.png", :rel => "apple-touch-icon", :sizes => "76x76"}/
+    %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}/
+    %link{:href => "images/apple-touch-icon-120x120.png", :rel => "apple-touch-icon", :sizes => "120x120"}/
+    %link{:href => "images/apple-touch-icon-144x144.png", :rel => "apple-touch-icon", :sizes => "144x144"}/
+    %link{:href => "images/apple-touch-icon-152x152.png", :rel => "apple-touch-icon", :sizes => "152x152"}/
+    %link{:href => "images/apple-touch-icon-180x180.png", :rel => "apple-touch-icon", :sizes => "180x180"}/
+    %link{:href => "images/favicon-32x32.png", :rel => "icon", :sizes => "32x32", :type => "image/png"}/
+    %link{:href => "images/favicon-194x194.png", :rel => "icon", :sizes => "194x194", :type => "image/png"}/
+    %link{:href => "images/favicon-96x96.png", :rel => "icon", :sizes => "96x96", :type => "image/png"}/
+    %link{:href => "images/android-chrome-192x192.png", :rel => "icon", :sizes => "192x192", :type => "image/png"}/
+    %link{:href => "images/favicon-16x16.png", :rel => "icon", :sizes => "16x16", :type => "image/png"}/
+    %link{:href => "images/manifest.json", :rel => "manifest"}/
+    %link{:href => "images/favicon.ico", :rel => "shortcut icon"}/
+    %meta{:content => "#00aba9", :name => "msapplication-TileColor"}/
+    %meta{:content => "images/mstile-144x144.png", :name => "msapplication-TileImage"}/
+    %meta{:content => "images/browserconfig.xml", :name => "msapplication-config"}/
+    %meta{:content => "#25A599", :name => "theme-color"}/
+    %link{:href => "css/normalize.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "css/starteur.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "css/landing.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "css/modal.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "css/filmstrip.css", :rel => "stylesheet", :type => "text/css"}/
+    %script{:src => "js/jquery-2.1.4.min.js"}
+    %script{:language => "javascript", :src => "js/landing.js"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700", :rel => "stylesheet", :type => "text/css"}/
+  %body.preload{:onload => "removePreload()"}
+    / ---- HEADER ----
+    #top-break.sm-break.large-screen
+    #header-wrapper.large-screen
+      .center-block
+        %img.header-logo{:src => "images/header-logo.png"}/
+        .sign-in
+          %a{:href => "#login"}
+            Already have an account?
+            %span.emphasis Sign in here.
+    / ---- MOBILE HEADER ----
+    #mobile-header.small-screen
+    / ---- PRELOADING PRIORITY IMAGES ----
+    .large-screen.preload-images
+      %img{:src => "images/hero-frame-20.png"}/
+      %img{:src => "images/discover-filmstrip.png"}/
+      %img{:src => "images/understand-filmstrip.png"}/
+      %img{:src => "images/develop-filmstrip.png"}/
+    / ---- SPLASH ----
+    #splash-wrapper.center-block
+      %h1.small-screen You are more talented than you imagine
+      .filmstrip-size-wrapper.large-screen
+        .filmstrip-outer-wrapper.hero-image
+          .filmstrip-wrapper
+            .filmstrip
+      %img.med-screen-hero-image{:src => "images/hero-image-static.png"}/
+      .sm-break.large-screen
+      .description
+        %h1.large-screen You are more talented than you imagine
+        %h2 Starteur helps you discover, understand and develop your hidden entrepreneurial talents.
+        %a.button.small-screen{:href => "#signup"} Start now
+        .sign-in.small-screen
+          %a{:href => "#login"}
+            Already have an account?
+            %span.emphasis Sign in here.
+      %form#splash-signup.signup-form.large-screen
+        %input.input-box.first-name{:name => "firstname", :placeholder => "First name", :type => "text"}/
+        %input.input-box.last-name{:name => "lastname", :placeholder => "Last name", :type => "text"}/
+        %input.input-box{:name => "email", :placeholder => "Email", :type => "email"}/
+        %input.input-box{:name => "password", :placeholder => "Password", :type => "password"}/
+        %input{:name => "agreetoterms", :type => "checkbox"}/
+        %span.tos
+          I agree to the
+          = succeed "." do
+            %a{:href => "terms.html"} terms of service
+        %input#sign-up-button-top.button{:type => "submit", :value => "Sign up"}/
+      .small-screen.portrait
+        %img.hero-image-square{:src => "images/hero-image-square.png"}/
+      .small-screen.landscape
+        %img.hero-image-square{:src => "images/hero-image-static.png"}/
+    / ---- DISCOVER ----
+    #discover-wrapper.feature-wrapper.center-block
+      %h1.small-screen Discover.
+      .filmstrip-outer-wrapper.discover-image.right-image
+        .filmstrip-wrapper
+          .filmstrip
+      .description.left
+        %h1.large-screen Discover.
+        %h2 Backed by extensive research, Starteur analyzes your answers to a list of questions and reveals your strengths and entreprenuerial potential.
+    / ---- UNDERSTAND ----
+    #understand-wrapper.feature-wrapper.center-block
+      %h1.small-screen Understand.
+      .filmstrip-outer-wrapper.understand-image.left-image
+        .filmstrip-wrapper
+          .filmstrip
+      .description.right
+        %h1.large-screen Understand.
+        %h2 Recieve your own unique Starteur Profile Report and gain critical insights on your many strengths and attributes.
+    / ---- DEVELOP ----
+    #develop-wrapper.feature-wrapper.center-block
+      %h1.small-screen Develop.
+      .filmstrip-outer-wrapper.develop-image.right-image
+        .filmstrip-wrapper
+          .filmstrip
+      .description.left
+        %h1.large-screen Develop.
+        %h2 With personalized growth tips provided by Starteur, you will be reaching your full entreprenuerial potential in no time.
+    / ---- SIGNUP ----
+    #signup
+      .center-block
+        %h2 Start now.
+        %form#footer-signup.signup-form.center-horizontal
+          %input.input-box.first-name{:name => "firstname", :placeholder => "First name", :type => "text"}/
+          %input.input-box.last-name{:name => "lastname", :placeholder => "Last name", :type => "text"}/
+          %input.input-box{:name => "email", :placeholder => "Email", :type => "email"}/
+          %input.input-box{:name => "password", :placeholder => "Password", :type => "password"}/
+          %input{:name => "agreetoterms", :type => "checkbox"}/
+          %span.tos
+            I agree to the
+            = succeed "." do
+              %a{:href => "terms.html"} terms of service
+          %input.button{:type => "submit", :value => "Sign up"}/
+        .sign-in.small-screen
+          %a{:href => "#login"}
+            Already have an account?
+            %span.emphasis Sign in here.
+    / ---- FOOTER ----
+    #footer-wrapper
+      .center-block
+        .divider.large-screen
+        .links
+          %a{:href => "terms.html"} About Us
+          .tab
+          %a{:href => "terms.html"} Terms
+          .tab
+          %a{:href => "terms.html"} FAQ
+        .copyright
+          © 2015 Starteur
+          %br/
+          All rights reserved
+    / ---- DIALOGS ----
+    #login.modal-dialog
+      .main
+        %a{:href => "#close"}
+          %img.close{:src => "images/close-icon.png"}/
+        %h2 Sign in
+        .content
+          %form#sign-in-form
+            %input.input-box{:name => "email", :placeholder => "Email", :type => "email"}/
+            %input.input-box{:name => "password", :placeholder => "Password", :type => "password"}/
+            %p
+              %input{:name => "rememberme", :type => "checkbox"}/
+              %span.tos Remember me
+            %input#sign-up-button-bottom.button{:formaction => "signin.html", :type => "submit", :value => "Sign in"}/
+          .forgot-password
+            %a{:href => "#"} Forgot your password?
+    :javascript
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-42637034-2', 'auto');
+      ga('send', 'pageview');

@@ -32,6 +32,7 @@ gem 'sorcery'
 
 # View templating
 gem 'slim-rails'
+gem 'haml-rails'
 
 # Front-end
 gem 'bootstrap-sass', '~> 3.3.5'
