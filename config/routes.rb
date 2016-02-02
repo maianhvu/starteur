@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users
   # ---------------------------------------------------------------------------------
   # STARTEUR WEB APP NAMESPACE
   # ---------------------------------------------------------------------------------
-  root to: 'dashboard#index'
+  devise_for :users
+
+  # PagesController
+  get 'pages/index'
+
+  root to: 'pages#index'
 
   # ---------------------------------------------------------------------------------
   # STARTEUR EDUCATOR NAMESPACE

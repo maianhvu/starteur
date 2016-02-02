@@ -1,0 +1,47 @@
+#report-card {
+	padding: 32px;
+	height: auto !important;
+}
+#report-card .label {
+	display: inline-block;
+	padding-top: 24px;
+	height: 80px;
+	font-size: 36px;
+	font-weight: 200;
+}
+#report-roles {
+	width: 100%;
+	text-align: center;
+	font-size: 32px;
+	margin-bottom: 32px;
+	font-weight: 600;
+}
+#report-gears {
+	display: inline-block;
+	width: auto;
+	height: 64px;
+	margin-right: 24px;
+	-ms-transform: translate(0, 20px); /* IE 9 */
+	-webkit-transform: translate(0, 20px); /* Safari */
+	transform: translate(0, 20px);
+}
+#report-gears img {
+	width: auto;
+	height: 100%;
+}
+.attribute-column {
+	display: inline-block;
+	width: 33%;
+	height: auto;
+	padding-left: 16px;
+	padding-right: 16px;
+	box-sizing: border-box;
+}
+.attribute-title {
+	color: #49c6ae;
+	font-weight: 400;
+	margin-top: 8px;
+}
+.attribute-description {
+	font-size: 12px;
+}
