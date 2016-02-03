@@ -5,11 +5,10 @@ html
     title Starteur | Unlock Your Potential
     = favicon_tags
 
-    = stylesheet_link_tag 'starteur_application', 'starteur_webapp/landing', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'starteur_application', 'starteur_webapp/subpages', media: 'all', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
   body.preload onload='removePreload()'
-    | <!------ HEADER ------
     #header.center-block
       = link_to root_path do
         = image_tag 'shared/header-logo', class: 'header-logo'

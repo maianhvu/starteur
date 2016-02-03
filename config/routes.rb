@@ -2,10 +2,19 @@ Rails.application.routes.draw do
   # ---------------------------------------------------------------------------------
   # STARTEUR WEB APP NAMESPACE
   # ---------------------------------------------------------------------------------
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }, path_names: {
+    sign_in: 'sign-in',
+    sign_out: 'sign-out',
+    sign_up: 'register'
+  }
 
   # PagesController
   get 'pages/index'
+
+  # DashboardController
+  get 'dashboard/index'
 
   root to: 'pages#index'
 

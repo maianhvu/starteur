@@ -60,12 +60,14 @@ strong {
 	-moz-transition: all 200ms;
 	-o-transition: all 200ms;
 	transition: all 200ms;
+  outline: none;
 }
 .input-box:hover {
 	box-shadow: 0 0 2px 0 rgba(0,0,0,0.05), 0 2px 5px 0 rgba(0,0,0,0.05);
 }
 .input-box:focus {
 	box-shadow: 0 0 2px 0 rgba(0,0,0,0.05), 0 2px 5px 0 rgba(0,0,0,0.05);
+  border-color: #25A599;
 }
 .input-box::-webkit-input-placeholder {
  color: #3F3F3F;
@@ -82,6 +84,9 @@ color: #3F3F3F;
 .input-box:-ms-input-placeholder {
 color: #3F3F3F;
  opacity:1;
+}
+label {
+  cursor: pointer;
 }
 /* ----- BUTTONS ----- */
 .button {

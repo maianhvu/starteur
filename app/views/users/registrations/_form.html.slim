@@ -1,0 +1,14 @@
+= form_for @user, url: registration_path(@user), html: { id: 'splash-signup', class: 'signup-form large-screen' } do |f|
+  = f.text_field :first_name, placeholder: 'First name', class: 'input-box first-name'
+  = f.text_field :last_name, placeholder: 'Last name', class: 'input-box last-name'
+  = f.email_field :email, placeholder: 'Email', class: 'input-box'
+  = f.password_field :password, placeholder: 'Password', class: 'input-box'
+  / Terms of Service checkbox
+  = check_box_tag :agreetoterms
+  label<(for='agreetoterms')
+    | I agree to the&nbsp;
+    = link_to '#' do
+      | terms of service
+    | .
+  = f.submit 'Sign up', class: 'button'
+  /*<input id="sign-up-button-top" type="submit" class="button" value="Sign up">*/

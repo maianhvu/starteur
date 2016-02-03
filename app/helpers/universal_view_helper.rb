@@ -4,6 +4,7 @@ module UniversalViewHelper
   PATH_TAGS_DEFAULT_META= 'shared/default_meta_tags'
   PATH_TAGS_FAVICON = 'shared/favicon_tags'
   PATH_FOOTER = 'shared/footer'
+  PATH_DEVISE_SHARED_LINKS = 'users/shared/links'
 
   SIZES_APPLE_TOUCH_ICONS = [57, 60, 72, 76, 114, 120, 144, 152, 180]
 
@@ -38,6 +39,13 @@ module UniversalViewHelper
       icon_url = root_path + "apple-touch-icon-#{raw_size}.png"
       favicon_link_tag icon_url, rel: 'apple-touch-icon', sizes: raw_size
     }.join('')
+  end
+
+  # ------------------------------------------------------------------------------------------------
+  # DEVISE
+  # ------------------------------------------------------------------------------------------------
+  def devise_shared_links
+    render partial: PATH_DEVISE_SHARED_LINKS
   end
 
 end

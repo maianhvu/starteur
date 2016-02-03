@@ -33,16 +33,9 @@
       a href='#login'
         | Already have an account?
         span.emphasis Sign in here.
-  form#splash-signup.signup-form.large-screen
-    input.input-box.first-name name='firstname' placeholder=('First name') type='text' /
-    input.input-box.last-name name='lastname' placeholder=('Last name') type='text' /
-    input.input-box name='email' placeholder='Email' type='email' /
-    input.input-box name='password' placeholder='Password' type='password' /
-    input name='agreetoterms' type='checkbox' /
-    span.tos
-      | I agree to the
-      a href='terms.html'  terms of service
-    input#sign-up-button-top.button type='submit' value=('Sign up') /
+
+  = render partial: 'users/registrations/form'
+
   .small-screen.portrait
     img.hero-image-square src=image_url('home/hero-image-square.png') /
   .small-screen.landscape
