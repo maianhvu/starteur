@@ -1,15 +1,15 @@
-!!!
-%html
-  %head
+doctype html
+html
+  head
     = default_meta_tags
-    %title Starteur | Unlock Your Potential
+    title Starteur | Unlock Your Potential
     = favicon_tags
 
     = stylesheet_link_tag 'starteur_application', 'starteur_webapp/landing', media: 'all', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
-  %body.preload{:onload => 'removePreload()'}
-    <!------ HEADER ------>
+  body.preload onload='removePreload()'
+    | <!------ HEADER ------
     #header.center-block
       = link_to root_path do
         = image_tag 'shared/header-logo', class: 'header-logo'

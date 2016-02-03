@@ -12,7 +12,7 @@
 /! ---- PRELOADING PRIORITY IMAGES ----
 .large-screen.preload-images
   ruby:
-    | preload_images = ['hero-frame-20.png', 'discover-filmstrip.png', 'understand-filmstrip.png', 'develop-filmstrip.png']
+    preload_images = ['hero-frame-20.png', 'discover-filmstrip.png', 'understand-filmstrip.png', 'develop-filmstrip.png']
   - preload_images.each do |image|
     = image_tag "home/#{image}"
 
@@ -41,8 +41,7 @@
     input name='agreetoterms' type='checkbox' /
     span.tos
       | I agree to the
-      = succeed '.' do
-        a href='terms.html'  terms of service
+      a href='terms.html'  terms of service
     input#sign-up-button-top.button type='submit' value=('Sign up') /
   .small-screen.portrait
     img.hero-image-square src=image_url('home/hero-image-square.png') /
@@ -87,8 +86,7 @@
       input name='agreetoterms' type='checkbox' /
       span.tos
         | I agree to the
-        = succeed '.' do
-          a href='terms.html'  terms of service
+        a href='terms.html'  terms of service
       input.button type='submit' value=('Sign up') /
     .sign-in.small-screen
       a href='#login'
