@@ -27,7 +27,7 @@
 	padding-bottom: 18.018%;
 }
 .hero-image .filmstrip {
-	background-image: url(../images/hero-frame-20.png);
+	background-image: image-url('home/hero-frame-20.png');
 	background-position: -2000.0% 0;
 	background-size: 100% 100%;
 	-webkit-animation: hero-filmstrip 2s infinite; /* Safari 4+ */
@@ -44,7 +44,7 @@
 	padding-bottom: 75%;
 }
 .discover-image .filmstrip {
-	background-image: url(../images/discover-filmstrip.png);
+	background-image: image-url('home/discover-filmstrip.png');
 	background-size: 3000% 100%;
 	-webkit-animation: hero-filmstrip 2s infinite; /* Safari 4+ */
 	-moz-animation: hero-filmstrip 2s infinite; /* Fx 5+ */
@@ -60,7 +60,7 @@
 	padding-bottom: 75%;
 }
 .understand-image .filmstrip {
-	background-image: url(../images/understand-filmstrip.png);
+	background-image: image-url('home/understand-filmstrip.png');
 	background-size: 1000% 100%;
 	-webkit-animation: understand-filmstrip 0.6666667s infinite; /* Safari 4+ */
 	-moz-animation: understand-filmstrip 0.6666667s infinite; /* Fx 5+ */
@@ -76,7 +76,7 @@
 	padding-bottom: 75%;
 }
 .develop-image .filmstrip {
-	background-image: url(../images/develop-filmstrip.png);
+	background-image: image-url('home/develop-filmstrip.png');
 	background-position: -1500.0% 0;
 	background-size: 3000% 100%;
 	-webkit-animation: develop-filmstrip 4s infinite; /* Safari 4+ */
@@ -87,7 +87,7 @@
 
 @media screen and (max-width:952px) {
 .discover-image .filmstrip {
-	background-image: url(../images/discover-static.png);
+	background-image: image-url('home/discover-static.png');
 	background-size: 100% 100%;
 	-webkit-animation: none; /* Safari 4+ */
 	-moz-animation: none; /* Fx 5+ */
@@ -95,7 +95,7 @@
 	animation: none; /* IE 10+, Fx 29+ */
 }
 .understand-image .filmstrip {
-	background-image: url(../images/understand-static.png);
+	background-image: image-url('home/understand-static.png');
 	background-size: 100% 100%;
 	-webkit-animation: none; /* Safari 4+ */
 	-moz-animation: none; /* Fx 5+ */
@@ -103,7 +103,7 @@
 	animation: none; /* IE 10+, Fx 29+ */
 }
 .develop-image .filmstrip {
-	background-image: url(../images/develop-static.png);
+	background-image: image-url('home/develop-static.png');
 	background-size: 100% 100%;
 	-webkit-animation: none; /* Safari 4+ */
 	-moz-animation: none; /* Fx 5+ */
