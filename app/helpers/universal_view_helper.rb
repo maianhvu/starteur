@@ -35,7 +35,7 @@ module UniversalViewHelper
     SIZES_APPLE_TOUCH_ICONS.map { |size|
       # Determine size in the form of sizexsize
       raw_size = "#{size}x#{size}"
-      icon_url = root_path + "/apple-touch-icon-#{raw_size}.png"
+      icon_url = root_path + "apple-touch-icon-#{raw_size}.png"
       favicon_link_tag icon_url, rel: 'apple-touch-icon', sizes: raw_size
     }.join('')
   end
