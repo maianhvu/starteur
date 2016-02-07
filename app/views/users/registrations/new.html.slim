@@ -1,0 +1,21 @@
+ruby:
+  password_placeholder = 'Password'
+  if @minimum_password_length
+    password_placeholder << " (minimum #{@minimum_password_length} characters)"
+  end
+/ TODO: Set correct fields to contain errors
+
+#content.center-block
+  .sign-in-box.center
+    h2 Register
+    .error-text= devise_error_messages!
+
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      = f.text_field :first_name, placeholder: 'First name', class: 'input-box first-name', autofocus: true
+      = f.text_field :last_name, placeholder: 'Last name', class: 'input-box last-name'
+      = f.email_field :email, placeholder: 'Email', class: 'input-box'
+      = f.password_field :password, placeholder: password_placeholder, class: 'input-box', autocomplete: 'off'
+      = terms_of_service_check_box
+      .actions
+        = f.submit 'Register', class: 'button'
+        = devise_shared_links

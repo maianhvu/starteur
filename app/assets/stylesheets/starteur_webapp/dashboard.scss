@@ -1,7 +1,7 @@
 /* ----- MAIN ----- */
 body {
 	color: #616161;
-	background: url(../images/bg-pattern.png) repeat /*fixed*/;
+	background: image-url('shared/bg-pattern.png') repeat;
 }
 h2 {
 	margin: 32px 0 8px 0;
@@ -278,6 +278,7 @@ h2 {
 	box-sizing: border-box;
 	font-weight: 400;
 }
+// TODO: Unrefactored
 #get-started-card .uncomplete {
 	background: url(../images/getstarted-uncomplete.png) left 8px center no-repeat;
 }
@@ -388,6 +389,7 @@ h2 {
 	width: 100%;
 	display: inline-block;
 }
+// TODO: Unrefactored
 .progress-container .uncomplete {
 	background: #e9e9e9 no-repeat;
 	background-image: url(../images/milestone-flag.png);

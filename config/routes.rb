@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   # PagesController
   get 'pages/index'
+  get 'pages/registration_successful'
+  get 'registration-successful', to: 'pages#registration_successful', as: 'registration_successful'
 
   # DashboardController
   get 'dashboard/index'

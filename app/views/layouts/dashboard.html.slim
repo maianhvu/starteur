@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    = default_meta_tags
+    title Starteur | Unlock Your Potential
+    = favicon_tags
+
+    = stylesheet_link_tag 'starteur_application', 'starteur_webapp/dashboard', media: 'all', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  body
+    / Header
+    #header
+      .center-block
+        = link_to (user_signed_in? ? dashboard_index_path : root_path) do
+          = image_tag 'shared/header-logo', class: 'header-logo'
+      - if user_signed_in?
+        .profile
+          .profile-arrow
+          .profile-text= current_user.first_name
+          / Profile pic not set
+          .profile-icon style='background: #ffc006' = current_user.first_name[0].upcase
+          / Profile pic set: .profile-icon style='background: url-to-picture'
+          .profile-break
+          = link_to 'Dashboard', dashboard_index_path
+          = link_to 'Profile', '#'
+          = link_to 'Settings', '#'
+          = link_to 'Sign out', destroy_user_session_path, method: :delete
+    = yield
+    = footer
+
+    = javascript_include_tag 'starteur_application', 'data-turbolinks-track' => true
+    = included_scripts

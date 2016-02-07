@@ -48,4 +48,13 @@ module UniversalViewHelper
     render partial: PATH_DEVISE_SHARED_LINKS
   end
 
+  def terms_of_service_check_box
+    html = <<-HTML
+      <!-- Terms of service checkbox -->
+      <input type='checkbox' name='toc' />
+      <label for='toc'>&nbsp;I agree to the <a href='#'>terms of service</a>.</label>
+    HTML
+    html.html_safe
+  end
+
 end
