@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   # STARTEUR WEB APP NAMESPACE
   # ---------------------------------------------------------------------------------
   devise_for :users, controllers: {
-    sessions: 'users/sessions'
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
   }, path_names: {
     sign_in: 'sign-in',
     sign_out: 'sign-out',

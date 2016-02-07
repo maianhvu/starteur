@@ -11,9 +11,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
-# Use Devise for authentication
-gem 'devise'
-
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -29,6 +26,7 @@ gem 'aasm'
 
 # User authentication and authorization
 gem 'sorcery'
+gem 'devise'
 
 # View templating
 gem 'slim-rails'
@@ -41,6 +39,9 @@ gem 'jquery-ui-rails'
 gem 'jquery-turbolinks'
 
 gem 'sendgrid'
+
+# Use postgresql as the database for Active Record
+gem 'pg'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -69,11 +70,6 @@ group :test do
   # Use Factory Girls for fixtures
   gem 'factory_girl_rails', '~> 4.0'
 
-end
-
-group :development, :production do
-  # Use postgresql as the database for Active Record
-  gem 'pg'
 end
 
 group :production do
