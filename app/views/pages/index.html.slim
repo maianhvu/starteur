@@ -83,14 +83,6 @@
       img.close src=image_url('shared/close-icon.png') /
     h2 Sign in
     .content
-      form#sign-in-form
-        input.input-box name='email' placeholder='Email' type='email' /
-        input.input-box name='password' placeholder='Password' type='password' /
-        p
-          input name='rememberme' type='checkbox' /
-          span.tos Remember me
-        input#sign-up-button-bottom.button formaction='signin.html' type='submit' value=('Sign in') /
-      .forgot-password
-        a href='#'  Forgot your password?
+      = render partial: 'users/sessions/form', locals: { form_id: 'sign-in-form' }
 
 - include_script 'home/landing'

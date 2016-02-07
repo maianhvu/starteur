@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Authentication: Registration", type: :feature do
+feature 'Authentication: Registration', type: :feature do
 
   context 'Registering from landing page' do
 
