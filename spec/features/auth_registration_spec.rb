@@ -14,6 +14,12 @@ feature "Authentication: Registration", type: :feature do
       expect(current_path).to eq(registration_successful_path)
     end
 
+    scenario 'using the form below with valid credentials' do
+      fill_in_register_form '#footer-signup'
+      check_last_created_user_and_mail
+      expect(current_path).to eq(registration_successful_path)
+    end
+
   end
 
   context 'Registering from default registration page' do
@@ -39,7 +45,6 @@ feature "Authentication: Registration", type: :feature do
         fill_in 'Last name', with: 'Mai'
         fill_in 'Email', with: 'me@maianhvu.com'
         fill_in :user_password, with: 'secretpassword'
-        check :toc
         click_button 'Register'
       end
     }.to change { User.count }.by(1)

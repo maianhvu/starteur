@@ -15,7 +15,7 @@ ruby:
       = f.text_field :last_name, placeholder: 'Last name', class: 'input-box last-name'
       = f.email_field :email, placeholder: 'Email', class: 'input-box'
       = f.password_field :password, placeholder: password_placeholder, class: 'input-box', autocomplete: 'off'
-      = terms_of_service_check_box
+      = terms_of_service
       .actions
         = f.submit 'Register', class: 'button'
         = devise_shared_links

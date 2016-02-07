@@ -1,8 +1,11 @@
-= form_for @user, url: registration_path(@user), html: { id: 'splash-signup', class: 'signup-form large-screen' } do |f|
+ruby:
+  form_class = ['signup-form', form_classes].compact.flatten.join(' ')
+
+= form_for @user, url: registration_path(@user), html: { id: form_id, class: form_class } do |f|
   = f.text_field :first_name, placeholder: 'First name', class: 'input-box first-name'
   = f.text_field :last_name, placeholder: 'Last name', class: 'input-box last-name'
   = f.email_field :email, placeholder: 'Email', class: 'input-box'
   = f.password_field :password, placeholder: 'Password', class: 'input-box'
-  = terms_of_service_check_box
+  = terms_of_service
   = f.submit 'Register', class: 'button'
-  /*<input id="sign-up-button-top" type="submit" class="button" value="Sign up">*/
+-# <input id="sign-up-button-top" type="submit" class="button" value="Sign up">
