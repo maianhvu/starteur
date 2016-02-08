@@ -12,12 +12,12 @@ Rails.application.config.assets.version = '1.0'
 additional_assets = %w(
   starteur_application.css starteur_application.js
 
-  starteur_webapp/landing.scss home/landing.js
+  starteur_webapp/landing.scss landing/landing.js
   starteur_webapp/subpages.scss
-  starteur_webapp/dashboard.scss
+  starteur_webapp/dashboard.scss dashboard/payments.js
 
   landing/*.png shared/*.png
-  dasboard/*.svg
+  dashboard/*.svg
 
   educators/**/*.css
   educators/*.js

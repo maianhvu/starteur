@@ -16,9 +16,9 @@ module UniversalViewHelper
     render partial: PATH_TAGS_FAVICON
   end
 
-  def include_script(script_name)
+  def include_scripts(*scripts)
     @included_scripts ||= []
-    @included_scripts << script_name
+    @included_scripts.push(*scripts)
   end
 
   def included_scripts

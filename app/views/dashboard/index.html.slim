@@ -1,3 +1,5 @@
+- include_scripts 'https://checkout.stripe.com/checkout.js', 'dashboard/payments'
+
 .background
 .left
   #get-started-card.card
@@ -20,6 +22,6 @@
     h2
       | Take the Starteur Profiling Assessment to discover your strengths and reveal
         your hidden entrepreneurial potential.
-    .button.half Purchase
+    #purchaseTestButton.button.half Purchase
     = link_to '#access-code' do
       .button.half.ghost Enter Access Code
