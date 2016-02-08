@@ -33,10 +33,8 @@ class User < ActiveRecord::Base
     state :confirmed
     state :deactivated
 
-    event :confirm do
-      transitions :from => :registered, :to => :confirmed,
-        :guards => :validate_confirmation_token,
-        :after  => [ :set_confirmed_date, :generate_auth_token ]
+    event :confirm_email do
+      transitions :from => :registered, :to => :confirmed
     end
 
     event :deactivate do

@@ -66,6 +66,7 @@ group :test do
   gem 'rspec-rails'
   # With capybara
   gem 'capybara'
+  gem 'capybara-email'
 
   # Use Factory Girls for fixtures
   gem 'factory_girl_rails', '~> 4.0'
