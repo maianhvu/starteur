@@ -51,6 +51,11 @@ class User < ActiveRecord::Base
     (answers_count >= test.questions.count) || (answers_count == 0 && Result.where(user: self, test: test).count > 0)
   end
 
+  # Convenience methods
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
   private
 
   def normalize_email

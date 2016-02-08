@@ -14,19 +14,23 @@ html
       .center-block
         = link_to (user_signed_in? ? dashboard_index_path : root_path) do
           = image_tag 'shared/header-logo', class: 'header-logo'
-      - if user_signed_in?
-        .profile
-          .profile-arrow
-          .profile-text= current_user.first_name
-          / Profile pic not set
-          .profile-icon style='background: #ffc006' = current_user.first_name[0].upcase
-          / Profile pic set: .profile-icon style='background: url-to-picture'
-          .profile-break
-          = link_to 'Dashboard', dashboard_index_path
-          = link_to 'Profile', '#'
-          = link_to 'Settings', '#'
-          = link_to 'Sign out', destroy_user_session_path, method: :delete
-    = yield
+        - if user_signed_in?
+          .profile
+            .profile-arrow
+            .profile-text= current_user.full_name
+            / Profile pic not set
+            .profile-icon style='background: #ffc006' = current_user.first_name[0].upcase
+            / Profile pic set: .profile-icon style='background: url-to-picture'
+            .profile-break
+            = link_to 'Dashboard', dashboard_index_path
+            = link_to 'Profile', '#'
+            = link_to 'Settings', '#'
+            = link_to 'Sign out', destroy_user_session_path, method: :delete
+
+    / Content
+    #content.center-block= yield
+
+    / Footer
     = footer
 
     = javascript_include_tag 'starteur_application', 'data-turbolinks-track' => true
