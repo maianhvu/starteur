@@ -21,6 +21,5 @@ additional_assets = %w(
   educators/**/*.css
   educators/*.js
 )
-puts additional_assets
 
 Rails.application.config.assets.precompile.push(*additional_assets)
