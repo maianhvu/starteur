@@ -1,1 +1,25 @@
-h1 Hello World!
+.background
+.left
+  #get-started-card.card
+    h1 Get Started
+    h2
+      | Complete
+      strong<> 1
+      | more steps to get the most out of Starteur!
+    .list-entry.completed Verify your email
+    .list-entry.uncompleted= link_to 'Update your profile', '#update-profile'
+    .list-entry.uncompleted= link_to 'Discover your Starteur Profile', '#discover'
+  = link_to '#feedback' do
+    #feedback-card.card
+      h1 Your feedback helps us improve.
+      h2 Let us know what you think about Starteur &rsaquo;
+#dashboard-card.card.right
+  .center-in-card.center
+    = image_tag 'home/discover-static.png'
+    h1 Discover your potential.
+    h2
+      | Take the Starteur Profiling Assessment to discover your strengths and reveal
+        your hidden entrepreneurial potential.
+    .button.half Purchase
+    = link_to '#access-code' do
+      .button.half.ghost Enter Access Code
