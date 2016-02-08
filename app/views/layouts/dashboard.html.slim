@@ -13,7 +13,7 @@ html
     #header
       .center-block
         = link_to (user_signed_in? ? dashboard_index_path : root_path) do
-          = image_tag 'shared/header-logo', class: 'header-logo'
+          = image_tag 'shared/header-logo.svg', class: 'header-logo'
         - if user_signed_in?
           .profile
             .profile-arrow
