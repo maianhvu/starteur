@@ -14,3 +14,6 @@
 
 # Ignore Byebug history
 .byebug_history
+
+# Ignore rbenv vars
+.rbenv-vars
