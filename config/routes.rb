@@ -22,6 +22,11 @@ Rails.application.routes.draw do
 
   # CodeUsagesController
   resources :code_usages, only: [ :create ]
+  resources :tests, only: [ :show ] do
+    member do
+      get 'begin'
+    end
+  end
 
   root to: 'pages#index'
 

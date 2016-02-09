@@ -34,7 +34,8 @@
     h2 Enter your access code
     .content
       = form_tag controller: 'code_usages', action: 'create', method: 'post'
-        = text_field_tag :access_code, nil, placeholder: 'Access Code', class: 'input-box'
+        = hidden_field :access_code, :test_id, value: @test_id
+        = text_field :access_code, :code, placeholder: 'Access Code', class: 'input-box'
         p/
         = submit_tag 'Submit', class: 'button'
       .forgot-password

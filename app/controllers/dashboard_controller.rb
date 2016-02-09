@@ -3,5 +3,6 @@ class DashboardController < ApplicationController
   layout 'dashboard'
 
   def index
+    @test_id = Test.published.last.id
   end
 end
