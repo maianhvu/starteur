@@ -20,6 +20,15 @@ Rails.application.routes.draw do
   # DashboardController
   get 'dashboard/index'
 
+  # Application resources
+  resources :code_usages, only: [ :create ]
+  resources :tests, only: [ :show ] do
+    member do
+      get 'begin'
+    end
+  end
+  resources :feedbacks, only: [ :create ]
+
   root to: 'pages#index'
 
   # ---------------------------------------------------------------------------------

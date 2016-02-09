@@ -9,7 +9,8 @@ require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'shoulda/matchers'
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
+# helper modules
+require 'helpers/starteur_webapp_helpers'
 
 ActiveRecord::Migration.maintain_test_schema!
 
@@ -17,6 +18,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.include FactoryGirl::Syntax::Methods
+  config.include StarteurWebappHelpers
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
