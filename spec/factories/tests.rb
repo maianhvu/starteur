@@ -14,5 +14,11 @@ FactoryGirl.define do
     trait :shuffle do
       shuffle true
     end
+
+    # Custom factories
+    factory :starteur_profiling_test do
+      name 'Starteur Profiling Assessment'
+    end
+
   end
 end
