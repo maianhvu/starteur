@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Authentication: Registration', type: :feature do
 
-  let!(:user) { FactoryGirl.build(:user) }
+  let!(:user) { FactoryGirl.build_stubbed(:user) }
 
   context 'Registering from landing page' do
 

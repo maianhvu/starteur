@@ -26,5 +26,50 @@
     = link_to '#access-code' do
       .button.half.ghost Enter Access Code
 
+/ Dialogue
+#access-code.modal-dialog
+  #access-code-dialog.main
+    = link_to '#close' do
+      = image_tag 'dashboard/close-icon.svg', class: 'close'
+    h2 Enter your access code
+    .content
+      = form_tag controller: 'code_usages', action: 'create', method: 'post'
+        = text_field_tag :access_code, nil, placeholder: 'Access Code', class: 'input-box'
+        p/
+        = submit_tag 'Submit', class: 'button'
+      .forgot-password
+        = link_to 'mailto: hello@starteur.com' do
+          | Forgot your access code? Drop us an Email.
+
+<div id="feedback" class="modal-dialog">
+	<div class="main"> <a href="#close"><img class="close" src="images/close-icon.png"></a>
+		<h2>Your feedback</h2>
+		<div class="content">
+			<form id="feedback-form">
+				<textarea name="comments" rows="5" cols="20" type="text" class="input-box tall" name="code" cols="50" rows="10">
+				</textarea>
+				<input type="checkbox" name="rememberme">
+				<span class="tos">Anonymous feedback</span>
+				</p>
+				<input type="submit" class="button" value="Submit" formaction="assessment.html">
+			</form>
+		</div>
+	</div>
+</div>
+<div id="verify-email" class="modal-dialog">
+	<div class="main"> <a href="#close"><img class="close" src="images/close-icon.png"></a>
+		<h2>Verify your email</h2>
+		<div class="content small">
+			<p>Check your email inbox for a verification email. Your email address is:</p>
+			<p class="center-text"><strong>bobby.chan@gmail.com</strong></p>
+			<div class="button">Resend verification</div>
+			<div class="forgot-password">Wrong email address?</div>
+			<!-- Link to settings -->
+		</div>
+	</div>
+</div>
+</body>
+</html>
+
 javascript:
   var currentUserEmail = "#{current_user.email}";

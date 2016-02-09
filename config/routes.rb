@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   # DashboardController
   get 'dashboard/index'
 
+  # CodeUsagesController
+  resources :code_usages, only: [ :create ]
+
   root to: 'pages#index'
 
   # ---------------------------------------------------------------------------------

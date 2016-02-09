@@ -4,7 +4,7 @@ feature 'Authentication: Confirmation', type: :feature do
 
   scenario 'Confirming from email' do
     # Try to register for a new account first
-    user = FactoryGirl.build(:user)
+    user = FactoryGirl.build_stubbed(:user)
     user_password = user.password
 
     expect {
