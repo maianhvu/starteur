@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Dashboard: Test Tasks', type: :feature do
 
   let!(:user) { FactoryGirl.create(:user, :confirmed) }
-  let!(:test) { FactoryGirl.create(:test) }
+  let!(:test) { FactoryGirl.create(:starteur_profiling_test) }
   let!(:access_code) { FactoryGirl.create(:access_code, test: test) }
 
   before(:each) do
