@@ -9,6 +9,9 @@ require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'shoulda/matchers'
 
+# helper modules
+require 'helpers/starteur_webapp_helpers'
+
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
