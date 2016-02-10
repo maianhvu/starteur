@@ -18,13 +18,64 @@
 #dashboard-card.card.right
   .center-in-card.center
     = image_tag 'home/discover-static.png'
-    h1 Discover your potential.
-    h2
-      | Take the Starteur Profiling Assessment to discover your strengths and reveal
-        your hidden entrepreneurial potential.
-    #purchaseTestButton.button.half Purchase
-    = link_to '#access-code' do
-      .button.half.ghost Enter Access Code
+    / When there is a published test
+    - if @test_id
+      h1 Discover your potential.
+      h2
+        | Take the Starteur Profiling Assessment to discover your strengths and reveal
+          your hidden entrepreneurial potential.
+      #purchaseTestButton.button.half Purchase
+      = link_to '#access-code' do
+        .button.half.ghost Enter Access Code
+    / When there are no published test
+    - else
+      h1 You have completed all our tests!
+      h2
+        | Attaboy! Now please stay tuned for more of our awesome profiling tests
+          in the future.
+
+/ Dialogue
+#access-code.modal-dialog
+  #access-code-dialog.main
+    = link_to '#close' do
+      = image_tag 'dashboard/close-icon.svg', class: 'close'
+    h2 Enter your access code
+    .content
+      = form_tag controller: 'code_usages', action: 'create', method: 'post'
+        = hidden_field :access_code, :test_id, value: @test_id
+        = text_field :access_code, :code, placeholder: 'Access Code', class: 'input-box'
+        p/
+        = submit_tag 'Submit', class: 'button'
+      .forgot-password
+        = link_to 'mailto: hello@starteur.com' do
+          | Forgot your access code? Drop us an Email.
+
+/ TODO: Implement these two dialogs
+#feedback.modal-dialog
+  .main
+    = link_to '#close' do
+      = image_tag 'dashboard/close-icon.svg', class: 'close'
+    h2 Your feedback
+    .content
+      = form_tag controller: 'feedbacks', action: 'create', method: 'post'
+        = text_area :feedback, :message, cols: 20, rows: 5, class: 'input-box tall'
+        = check_box_tag 'feedback[anonymous]'
+        = label_tag 'feedback[anonymous]' do
+          span.tos Anonymous feedback
+        p/
+        = submit_tag 'Submit', class: 'button'
+
+#verify-email.modal-dialog
+  .main
+    = link_to '#close' do
+      = image_tag 'dashboard/close-icon.svg', class: 'close'
+    h2 Verify your email
+    .content.small
+      p Check your email inbox for a verification email. Your email address is:
+      p.center-text
+        strong= current_user.email
+      .button Resend verification
+      .forgot-password Wrong email address?
 
 javascript:
   var currentUserEmail = "#{current_user.email}";

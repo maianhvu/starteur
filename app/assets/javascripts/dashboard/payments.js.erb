@@ -2,7 +2,7 @@ $(function() {
 
   // Set Stripe handler
   var handler = StripeCheckout.configure({
-    key: 'pk_test_CVZM4RivH5GBnvVIgT3sgVmD',
+    key: "<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>",
     image: "<%= image_url('shared/acorn.png') %>",
     locale: 'auto',
     token: function(token) {

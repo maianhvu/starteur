@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160207034732) do
+ActiveRecord::Schema.define(version: 20160209164051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
 
   create_table "access_codes", force: :cascade do |t|
     t.string   "code"
@@ -37,9 +36,11 @@ ActiveRecord::Schema.define(version: 20160207034732) do
     t.integer  "test_id"
     t.integer  "question_id"
     t.integer  "value"
+    t.integer  "result_id"
   end
 
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
+  add_index "answers", ["result_id"], name: "index_answers_on_result_id", using: :btree
   add_index "answers", ["test_id"], name: "index_answers_on_test_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
 
@@ -144,6 +145,15 @@ ActiveRecord::Schema.define(version: 20160207034732) do
   add_index "educators", ["email"], name: "index_educators_on_email", unique: true, using: :btree
   add_index "educators", ["reset_password_token"], name: "index_educators_on_reset_password_token", using: :btree
 
+  create_table "feedbacks", force: :cascade do |t|
+    t.text     "message"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
+
   create_table "promotion_codes", force: :cascade do |t|
     t.integer  "billing_record_id"
     t.string   "code"
@@ -168,7 +178,6 @@ ActiveRecord::Schema.define(version: 20160207034732) do
   add_index "questions", ["choices"], name: "index_questions_on_choices", using: :gin
 
   create_table "results", force: :cascade do |t|
-    t.hstore   "answers"
     t.integer  "user_id"
     t.integer  "test_id"
     t.integer  "code_usage_id"
@@ -233,6 +242,7 @@ ActiveRecord::Schema.define(version: 20160207034732) do
   add_foreign_key "categories", "tests"
   add_foreign_key "code_usages", "access_codes"
   add_foreign_key "code_usages", "users"
+  add_foreign_key "feedbacks", "users"
   add_foreign_key "questions", "categories"
   add_foreign_key "results", "code_usages"
   add_foreign_key "results", "tests"
