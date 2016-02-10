@@ -14,3 +14,7 @@
 
 # Ignore Byebug history
 .byebug_history
+
+# Ignore rbenv files
+.rbenv-vars
+.ruby-version
