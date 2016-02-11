@@ -28,9 +28,8 @@ class ProgressBar extends React.Component {
     // Map each position to a node
     milestoneNodes = milestoneNodes.map((element, index) => {
       let classes = classNames("progress__milestone", {
-        "completed": index*division <= this.props.progress
+        "completed": index*division < this.props.progress
       });
-      console.log(element, index*division, this.props.progress);
       return (
         <div key={element} className={classes} />
       );
