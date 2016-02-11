@@ -16,6 +16,6 @@ class TestsController < ApplicationController
   end
 
   def take
-    render plain: 'hello world!'
+
   end
 end
