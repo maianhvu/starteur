@@ -56,6 +56,29 @@ class User < ActiveRecord::Base
     "#{self.first_name} #{self.last_name}"
   end
 
+  def code_usages_for_test(test)
+    test_id = test
+    test_id = test.id if test.respond_to? :id
+    # Query for existence of code usage
+    query_string = <<-SQL
+    SELECT cu.id, cu.state FROM code_usages cu, access_codes ac
+    WHERE cu.user_id=#{self.id} AND
+    cu.access_code_id=ac.id AND ac.test_id=#{test_id}
+    SQL
+    query_result = ActiveRecord::Base.connection.execute(query_string)
+    # Postgres requires using .values
+    query_result = query_result.values if query_result.respond_to? :values
+    # Interpret results
+    result = []
+    unless query_result.empty?
+      result = query_result.map do |row|
+        row = row.map(&:to_i)
+        { id: row[0], state: row[1] }
+      end
+    end
+    result
+  end
+
   private
 
   def normalize_email
