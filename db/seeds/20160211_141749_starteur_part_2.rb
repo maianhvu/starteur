@@ -1,4 +1,4 @@
-test = Test.find_by(name: "Starteur Profiling Assessment")
+test = Test.where('name ILIKE %Starteur Profiling Assessment%').first
 
 categories = {
   :achiever => {
