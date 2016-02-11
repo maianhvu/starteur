@@ -17,6 +17,7 @@ $ rbenv install 2.1.3
 $ rbenv local 2.1.3
 $ ruby --version
 $ # should show correct version (2.1.3)
+$ gem install bundler
 ```
 
 Set up your local machine before running the application.
