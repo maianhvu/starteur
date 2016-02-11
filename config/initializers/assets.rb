@@ -15,6 +15,7 @@ additional_assets = %w(
   starteur_webapp/landing.scss landing/landing.js
   starteur_webapp/subpages.scss
   starteur_webapp/dashboard.scss dashboard/payments.js
+  starteur_webapp/tests.scss
 
   landing/*.png
   shared/*.png shared/*.svg

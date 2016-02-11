@@ -5,16 +5,14 @@ html
     title Starteur | Unlock Your Potential
     = favicon_tags
 
-    = stylesheet_link_tag 'starteur_application', 'starteur_webapp/dashboard', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'starteur_application', 'starteur_webapp/dashboard', 'starteur_webapp/tests', media: 'all', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
   body
     / Header
     = render partial: 'shared/dashboard_topbar'
-
     / Content
     #content.center-block= yield
-
     / Footer
     = footer
 
