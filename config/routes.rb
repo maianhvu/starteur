@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :tests, only: [ :show ] do
     member do
       get 'begin'
+      get 'take'
     end
   end
   resources :feedbacks, only: [ :create ]
