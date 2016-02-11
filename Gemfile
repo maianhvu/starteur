@@ -45,6 +45,7 @@ gem 'pg'
 
 # Use React for JS component
 gem 'react-rails', '~> 1.6.0'
+gem 'classnames-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

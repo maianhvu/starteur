@@ -1,0 +1,54 @@
+class QuestionBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      progress: 0,
+      currentQuestionId: 0
+    };
+  }
+
+  componentDidMount() {
+    this.loadQuestions();
+  }
+
+  loadQuestions() {
+
+  }
+
+  render () {
+    if (this.state.loading) {
+      return loadingView;
+    }
+
+    return (
+      <div className="question-box">
+        <QuestionProgress progress={this.state.progress} />
+        <QuestionContent />
+        <QuestionActions />
+      </div>
+    );
+  }
+}
+
+QuestionBox.propTypes = {
+  questionsFetchUrl: React.PropTypes.string.isRequired,
+  questionsPostUrl: React.PropTypes.string.isRequired,
+  questions: React.PropTypes.array.isRequired,
+  answered: React.PropTypes.number.isRequired
+};
+
+//-------------------------------------------------------------------------------------------------
+// VIEWS DEFINITION
+//-------------------------------------------------------------------------------------------------
+let feedbackUrl = "<%= Rails.application.routes.url_helpers.dashboard_index_path %>#feedback";
+let loadingView = (
+  <div className="test-loader">
+    <h1>Loading...</h1>
+    <p>
+      If the tests are unable to load, it's probably because your browser has its
+      JavaScript turned off. If you notice any issues, please provide some feedback
+      to us <span><a href={feedbackUrl} className="link">here</a></span>.
+    </p>
+  </div>
+);

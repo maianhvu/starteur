@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       get 'begin'
       get 'take'
     end
+
+    resources :questions, only: [ :index, :create ]
   end
   resources :feedbacks, only: [ :create ]
 

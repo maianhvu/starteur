@@ -16,6 +16,6 @@ class TestsController < ApplicationController
   end
 
   def take
-
+    @questions_url = test_questions_path(params[:id])
   end
 end
