@@ -19,5 +19,11 @@ FactoryGirl.define do
       sequence(:name) { |n| "Test Number #{n}" }
     end
 
+    trait :full do
+      after(:build) do |test|
+        create_list(:category, 3, :full, test: test)
+      end
+    end
+
   end
 end

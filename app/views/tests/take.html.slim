@@ -1,10 +1,3 @@
 #question-card.card.full.flex
-  #sliderMountPoint.test-wrapper
-    .test-loader
-      h1 Loading...
-      p
-        | If the tests are unable to load, it's probably because your browser
-          has its JavaScript turned off. If you noticed any issues, please
-          provide some feedback to us
-        span<= link_to 'here', "#{dashboard_index_path}#feedback"
-        | .
+  = react_component 'QuestionBox', questions: [], answered: 0,
+    questionsFetchUrl: @questions_url, questionsPostUrl: @questions_url

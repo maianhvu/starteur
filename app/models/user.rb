@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   include AASM
+  include SQLHelper
 
   # ActiveRecord Relations
   has_many :answers, dependent: :destroy
@@ -65,9 +66,7 @@ class User < ActiveRecord::Base
     WHERE cu.user_id=#{self.id} AND
     cu.access_code_id=ac.id AND ac.test_id=#{test_id}
     SQL
-    query_result = ActiveRecord::Base.connection.execute(query_string)
-    # Postgres requires using .values
-    query_result = query_result.values if query_result.respond_to? :values
+    query_result = raw_query(query_string)
     # Interpret results
     result = []
     unless query_result.empty?
