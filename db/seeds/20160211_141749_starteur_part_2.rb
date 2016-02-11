@@ -1,4 +1,4 @@
-test = Test.where('name ILIKE %Starteur Profiling Assessment%').first
+test = Test.where("name ILIKE '%Starteur Profiling Assessment%'").first
 
 categories = {
   :achiever => {
