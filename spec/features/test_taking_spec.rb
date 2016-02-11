@@ -57,7 +57,8 @@ RSpec.feature 'Test Taking', type: :feature do
       # Build one whole full test first
       full_test = FactoryGirl.create(:test, :generic, :full)
       #visit take_test_path(full_test.id)
-      visit test_questions_path(full_test.id)
+      visit(test_questions_path(full_test.id) + ".json")
+      byebug
     end
   end
 end
