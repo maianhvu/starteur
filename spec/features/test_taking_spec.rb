@@ -52,5 +52,21 @@ RSpec.feature 'Test Taking', type: :feature do
       click_link 'Ready to go!'
       expect(current_path).to eq(take_test_path(test.id))
     end
+
+    scenario 'User takes test' do
+      # Build one whole full test first
+      # BUILD: Categories
+      categories = FactoryGirl.generate(:category, 3, test: test)
+      # BUILD: Questions
+      questions = []
+      categories.each do |category|
+        current_questions = FactoryGirl.generate(:question, 3, category: category)
+        current_questions << FactoryGirl.generate(:question, 2, :yes_no, category: category)
+        questions << current_questions
+      end
+      # Done building questions
+
+      visit take_test_path(test.id)
+    end
   end
 end

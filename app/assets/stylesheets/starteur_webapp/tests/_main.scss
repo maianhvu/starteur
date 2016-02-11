@@ -1,0 +1,30 @@
+a {
+  color: #25A599;
+  border-bottom: 1px solid rgba(#25A599, 0);
+  transition: border-bottom-color 0.25s ease-out 0s;
+
+  &:hover {
+    border-bottom-color: rgba(#25A599, 1);
+  }
+}
+
+.test-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.test-loader {
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  p {
+    width: 100%;
+    max-width: 37.5rem;
+    margin: auto;
+  }
+}
