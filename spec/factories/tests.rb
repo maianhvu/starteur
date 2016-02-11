@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :test do
-    sequence(:name) { |n| "Test Number #{n}" }
+    name 'Starteur Profiling Assessment'
     description "This is a Starteur test"
     state Test.states[:published]
     price 10.0
@@ -15,9 +15,8 @@ FactoryGirl.define do
       shuffle true
     end
 
-    # Custom factories
-    factory :starteur_profiling_test do
-      name 'Starteur Profiling Assessment'
+    trait :generic do
+      sequence(:name) { |n| "Test Number #{n}" }
     end
 
   end

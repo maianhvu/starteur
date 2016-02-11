@@ -1,1 +1,7 @@
-h1 Hello World!
+#dashboard-card.card.full
+  .center-in-card.center
+    = image_tag 'home/develop-static.png'
+    h1= @test.name
+    = render partial: @instruction_partial
+    = link_to take_test_path(@test.id) do
+      .button.half.center-horizontal Ready to go!
