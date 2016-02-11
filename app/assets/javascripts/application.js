@@ -7,3 +7,6 @@
 //= require educators/flash_message
 //= require educators/card
 //= require educators/card-form
+//= require react
+//= require react_ujs
+//= require components
