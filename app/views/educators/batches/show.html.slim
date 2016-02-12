@@ -5,9 +5,6 @@
     h1.col-md-6.col-xs-6.text-right ="Test name: #{@batch.test.name}"
     p.text-right ="Description: #{@batch.test.description}"
 
-    .col-xs-3 =link_to educators_generate_batch_report_path(batch_id: @batch.id, test: @batch.test), method: :generate_batch_report
-      .btn.btn-success  Generate Batch Report
-
     table.table
       .thead
         tr
@@ -39,7 +36,7 @@
                 .progress-bar.progress-bar-success.progress-bar-striped role="s" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
               td
                 -if !User.find_by(email: email).blank? && !Result.find_by(user_id: User.find_by(email: email).id).blank?
-                  .col-xs-3 =link_to educators_generate_batch_report_path(batch_id: @batch.id, test: @batch.test, user_id: User.find_by(email: email).id), method: :generate_batch_report
+                  .col-xs-3 =link_to educators_generate_batch_report_path(batch_id: @batch.id, user_id: User.find_by(email: email).id), method: :generate_batch_report
                     .btn.btn-success  Generate Invividual Batch Report
               td
                 -if @codeusage.blank?
