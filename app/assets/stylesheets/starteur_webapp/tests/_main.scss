@@ -107,6 +107,7 @@ a.link {
   font-size: 40px;
   line-height: 48px;
   margin: 48px auto 0 auto;
+  min-height: 9rem;
 }
 
 .question__choices {
@@ -165,4 +166,53 @@ a.link {
   display: block;
   margin: 24px 0 32px 0;
   font-weight: 400;
+}
+
+.question__next-button {
+  float: right;
+  width: 100%;
+  max-width: 168px;
+  margin: 4px 8px;
+
+  .chevron::after {
+    border-style: solid;
+    border-width: 1.5px 1.5px 0 0;
+    content: '';
+    display: inline-block;
+    height: 0.45em;
+    position: relative;
+    top: -0.05em;
+    width: 0.45em;
+    left: 0;
+    transform: rotate(45deg);
+  }
+}
+
+.question__minor-actions {
+  float: left;
+  text-align: left;
+}
+
+.actions__skip-question {
+  opacity: 0.375;
+  font-size: 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+    text-decoration: underline;
+  }
+}
+
+.actions__help {
+  color: #49c6ad;
+  height: 20px;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
 }
