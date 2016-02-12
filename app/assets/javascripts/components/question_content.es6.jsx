@@ -116,7 +116,7 @@ class QuestionSlider extends React.Component {
 
     return (
       <div className="question__slider--wrapper">
-        <div className="question__choices">
+        <div className="question__choices no-select">
           {choicesNodes}
         </div>
         <div className="question__slider" ref="sliderBar">
@@ -127,7 +127,7 @@ class QuestionSlider extends React.Component {
           />
           {sliderMarks}
         </div>
-        <div className="question__choice-text">{choiceText}</div>
+        <div className="question__choice-text no-select">{choiceText}</div>
       </div>
     );
   }
