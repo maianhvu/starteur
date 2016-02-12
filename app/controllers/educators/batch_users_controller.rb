@@ -31,12 +31,7 @@ class Educators::BatchUsersController < Educators::BaseController
     cu = batch.code_usages.find_by(email: params[:email])
     bcu = batch.batch_code_usages.find_by(batch: batch, code_usage: cu)
     if bcu
-      if bcu.own
-        cu.batch_code_usages.destroy_all
-        cu.destroy
-      else
-        bcu.destroy
-      end
+      bcu.destroy
     end
     batch.save
     flash[:alert ] = "Email has been deleted!"

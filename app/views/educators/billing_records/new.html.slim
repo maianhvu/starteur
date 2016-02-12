@@ -38,7 +38,7 @@
       .checkbox
         = check_box_tag "same-as-profile"
         = label_tag "same-as-profile", " Billing Details are same as my profile"
-      
+
       .form-wrapper
         = form_for :billing_line_items, url: purchase_success_educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
@@ -50,7 +50,7 @@
           = f.text_field :first_name, placeholder: 'Country', autofocus: true, class: "input-box half"
           = f.text_field :first_name, placeholder: 'Zip Code/Postal', autofocus: true, class: "input-box half"
           = f.text_field :first_name, placeholder: 'Phone', autofocus: true, class: "input-box half"
-          
+
           .card-wrapper
 
           = f.text_field :first_name, placeholder: 'Card Number', autofocus: true, name: "number", class: "input-box"
@@ -61,20 +61,20 @@
 
   #get-started-card.card
     h1 Review
-    - total = 0 
+    - total = 0
     = form_for :billing_line_items, url: educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
       table.table
         tr
           th.text-center.col-3 Test
-          th 
+          th
           th.text-center.col-2 Quantity
           th.text-center.col-2 Amount
         - @lineitems.each_pair do |id, item|
           = hidden_field_tag "lineitems[#{id}]", item[:quantity]
           tr
             td.text-center.col-3 = item[:name]
-            td 
+            td
             td.text-center.col-2 = item[:quantity]
             - subtotal = item[:price] * item[:quantity].to_i
             - total += subtotal
@@ -84,13 +84,22 @@
         tr.total
           td.text-center.col-3 Total
           td
-          td.text-center.col-2 
+          td.text-center.col-2
           td.text-center.col-2 = "$ #{total}"
-      
-      .button-group  
+
+
+      .button-group
         .button.first = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems)
         = f.submit 'Confirm', class: "button"
-  
+
+    - if @dc
+      label.text-center Discount code:
+      label.text-center = @dc.code
+    - else
+      = form_tag apply_discount_educators_billing_records_path, method: :post, remote: true
+        .text-center = text_field_tag :code
+        .text-center = submit_tag 'Apply Discount Code'
+
   #popup = render 'layouts/educators/modal'
 
 #footer-wrapper.center-block = render 'layouts/educators/footer'

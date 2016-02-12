@@ -1,0 +1,18 @@
+.col-cs-6.col-xs-offset-3
+  .col-xs-12 = form_tag educators_admin_admin_transfer_access_codes_path(@educator), method: :post
+    .col-xs-12
+      table
+        tr
+          th
+          th Test
+          th Total permits
+          th Used
+        - @access_codes.each do |ac|
+          tr
+            th = check_box_tag "access_code_ids[]", ac.id
+            th = ac.test.name
+            th = ac.permits
+            th = ac.code_usages_count
+
+    .col-xs-12 = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
+    .col-xs-12 = submit_tag "Transfer"
