@@ -101,3 +101,68 @@ a.link {
     background-image: image-url('dashboard/milestone-completed.svg');
   }
 }
+
+.question__text {
+  width: 85%;
+  font-size: 40px;
+  line-height: 48px;
+  margin: 48px auto 0 auto;
+}
+
+.question__choices {
+  width: 60%;
+  height: 32px;
+  margin: 28px auto 20px auto;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.question__choice {
+  flex: 1 1 33%;
+  line-height: 32px;
+}
+
+.question__slider {
+  position: relative;
+  width: 60%;
+  margin: 0 auto;
+  z-index: 10;
+  background-color: #ade5da;
+  $height: .75em;
+  height: $height;
+  border-radius: $height/2;
+}
+
+.question__slider-knob {
+  background-color: #49c6ad;
+  border-radius: 50%;
+  position: absolute;
+  $size: 2rem;
+  width: $size;
+  height: $size;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  border: 0px solid rgba(#49c6ad, 0);
+  transition: border 0.25s ease-out 0s;
+  background-clip: padding-box;
+  z-index: 4;
+
+  &:hover {
+    border: .875em solid rgba(#ade5da, .375);
+  }
+}
+
+.question__slider-mark {
+  background-color: #c8eee6;
+  position: absolute;
+  z-index: 3;
+  height: 100%;
+}
+
+.question__choice-text {
+  display: block;
+  margin: 24px 0 32px 0;
+  font-weight: 400;
+}

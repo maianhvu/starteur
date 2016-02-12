@@ -21,7 +21,6 @@ class QuestionBox extends React.Component {
       dataType: 'json',
       contentType: 'application/json',
       success: (data) => {
-        console.log(data);
         this.setState({
           questions: data.questions,
           answeredCount: data.answeredCount,
