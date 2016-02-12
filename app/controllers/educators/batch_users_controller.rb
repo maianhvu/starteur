@@ -63,8 +63,7 @@ class Educators::BatchUsersController < Educators::BaseController
   end
 
   def generate_batch_report
-    # bg = "#{Rails.root}/app/assets/images/bg-pattern.png"
-    pdf = Educators::ReportPdfService.new(batch_id: params[:batch_id])
+    pdf = Educators::ReportPdfService.new(batch_id: params[:batch_id], user_id: params[:user_id])
     send_data pdf.render, filename: 'report.pdf', type: 'application/pdf'
   end
 end

@@ -1,8 +1,10 @@
 class Educators::ReportPdfService < Prawn::Document
   def initialize(params)
     super()
+    @userid = params[:user_id]
     @batch_id = params[:batch_id]
     @batch = Batch.find(@batch_id)
+    # identify test
     @test = Test.find(@batch.test_id)
     header
     text_content
@@ -10,71 +12,356 @@ class Educators::ReportPdfService < Prawn::Document
   end
 
   def header
-    #This inserts an image in the pdf file and sets the size of the image
-    #image "#{Rails.root}/public/images/header-logo.png", width: 213, height: 48
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
-    text "#{@batch.name}", size: 30, style: :bold
-    text "#{@test.name}", size: 20, style: :bold
+
+    # expose results
+    categories = @test.categories.includes(:questions).map do |category|
+      attrib = category.attributes.select do |k, v|
+        [:id, :rank, :title, :description].include? k.intern
+      end
+      attrib[:questions] = category.questions.all.map do |question|
+        question.attributes.select { |k, v| [:id, :polarity].include? k.intern }.symbolize_keys
+      end
+      attrib.symbolize_keys
+    end
+    #answers = user.results.order('created_at DESC').find_by(:test_id => params[:test_id]).answers
+    answers = Result.order('created_at DESC').find_by(user_id: @userid, test_id: @test.id).answers
+    # require file
+    #processor_path = Rails.root.join('app', 'processors', "#{test.processor_file}.rb")
+    processor_path = Rails.root.join('app', 'processors', "starteur_profiling_assessment.rb")
+    require processor_path
+    # include the class
+    self.class.class_eval do
+      include Processor
+    end
+    # process result
+    @content = Processor.process({
+      :categories => categories,
+      :answers => answers
+    })
+
+    # top attributes
+    @attriblist = []
+    i = 1
+    max = @content[:attributes].count
+
+    while i <= max do
+      @attriblist.push(@content[:attributes][i])
+      i += 1
+    end
+
+    @topattrib = []
+    j = 0
+    jmax = @attriblist.count
+    k = 0
+    kmax = @attriblist[j].count
+    
+    while j < jmax do
+      while k < kmax do
+        if @topattrib[j].blank?
+          @topattrib[j] = @attriblist[j][k]
+        else
+          if @topattrib[j][:score] < @attriblist[j][k][:score]
+            @topattrib[j] = @attriblist[j][k]
+          end
+        end
+        k += 1
+      end
+      j += 1
+      k = 0
+      kmax = 5
+    end
+
+    # bottom attributes
+    @botattrib = []
+    j = 0
+    jmax = @attriblist.count
+    k = 0
+    kmax = @attriblist[j].count
+    
+    while j < jmax do
+      while k < kmax do
+        if @botattrib[j].blank?
+          @botattrib[j] = @attriblist[j][k]
+        else
+          if @botattrib[j][:score] > @attriblist[j][k][:score]
+            @botattrib[j] = @attriblist[j][k]
+          end
+        end
+        k += 1
+      end
+      j += 1
+      k = 0
+      kmax = 5
+    end
+
+    # set starteur potential icon
+    @potentialstr = ""
+    case "#{@content[:potential]}"
+    when "beginning"
+      @potentialstr = "icon-potential-1.png"
+    when "developing"
+      @potentialstr = "icon-potential-2.png"
+    when "maturing"
+      @potentialstr = "icon-potential-3.png"
+    when "eceptional"
+      @potentialstr = "icon-potential-4.png"
+    end
+
+    # set first role icons
+    @imagestr1 = ""
+    case "#{@content[:roles][0][:title]}"
+    when "Engineer"
+      @imagestr1 = "role_icons_engineer.png"
+    when "Product Manager"
+      @imagestr1 = "role_icons_product.png"
+    when "Sales Manager"
+      @imagestr1 = "role_icons_sales.png"
+    when "Business Developer"
+      @imagestr1 = "role_icons_business.png"
+    when "Marcomms Manager"
+      @imagestr1 = "role_icons_marcomms.png"
+    when "Designer"
+      @imagestr1 = "role_icons_designer.png"
+    when "Marketer"
+      @imagestr1 = "role_icons_marketer.png"
+    when "Customer Service Manager"
+      @imagestr1 = "role_icons_customer.png"
+    when "Admin Manager"
+      @imagestr1 = "role_icons_admin.png"
+    when "Finance Manager"
+      @imagestr1 = "role_icons_finance.png"
+    end 
+
+    # set second role icons
+    @imagestr2 = ""
+    case "#{@content[:roles][1][:title]}"
+    when "Engineer"
+      @imagestr2 = "role_icons_engineer.png"
+    when "Product Manager"
+      @imagestr2 = "role_icons_product.png"
+    when "Sales Manager"
+      @imagestr2 = "role_icons_sales.png"
+    when "Business Developer"
+      @imagestr2 = "role_icons_business.png"
+    when "Marcomms Manager"
+      @imagestr2 = "role_icons_marcomms.png"
+    when "Designer"
+      @imagestr2 = "role_icons_designer.png"
+    when "Marketer"
+      @imagestr2 = "role_icons_marketer.png"
+    when "Customer Service Manager"
+      @imagestr2 = "role_icons_customer.png"
+    when "Admin Manager"
+      @imagestr2 = "role_icons_admin.png"
+    when "Finance Manager"
+      @imagestr2 = "role_icons_finance.png"
+    end 
   end
 
   def text_content
-    # The cursor for inserting content starts on the top left of the page. Here we move it down a little to create more space between the text and the image inserted above
     y_position = cursor - 30
+    spacing_value = 80
+    left_column_font_size = 15
+    right_column_font_size = 10
+    left_column_font_color = "8BC34A"
+    left_column_font_color_bottom = "#03A9F4"
+    right_column_font_color = "616161"
 
-    bounding_box([0, y_position],:width => bounds.width, :height => bounds.height) do
-      text "General Information", size: 20, style: :bold
-    end
-    
-    # The bounding_box takes the x and y coordinates for positioning its content and some options to style it
-    bounding_box([0, y_position - 30], :width => 270, :height => bounds.height) do
-      text "#{@batch.email.size} students participated in this profiling tool"
-      text " "
-      text "Profiling began on #{@test.created_at} and ended on #{}"
-      text " "
-      text "Students were from #{} and average age is #{}"
-    end
+    font_families.update("Open Sans Light" => {
+      :normal => "#{Rails.root}/app/assets/fonts/OpenSans-Light.ttf"
+    })
 
-    bounding_box([300, y_position], :width => 270, :height => bounds.height) do
-      text "Batch Report", style: :bold
-      text "Generated on #{DateTime.now.to_date}"
+    bounding_box([0, y_position],:width => 180, :height => bounds.height) do
+      font "Open Sans Light"
+      text "Your top attributes", size: left_column_font_size, :color => left_column_font_color
     end
 
-    bounding_box([0, y_position - 150],:width => 270, :height => bounds.height) do
-      text "Summary of Results", size: 20, style: :bold
-      text "#{@test.description}",align: :justify
-      text " "
-      text "This batch report collates the individual profile of students in a particular batch.",align: :justify
-      text " "
-      text "Use this customised batch report to better understand the profile of your class, and bring out the best in your student's entrepreneural aptitudes.",align: :justify
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "Your top attributes are the attributes you display most often. Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", size: right_column_font_size, :color => right_column_font_color
+      y_position -= 60
     end
 
-    bounding_box([400, y_position - 150],:width => 270, :height => bounds.height) do
-      # image 
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "#{@topattrib[0][:name]}", size: left_column_font_size, :color => left_column_font_color
     end
 
-    bounding_box([0, y_position - 330],:width => 270, :height => bounds.height) do
-      text "Starteur Attributes", size: 20, style: :bold
-      text "This section displays the most prominent attributes"
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "#{@topattrib[0][:description]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
     end
 
-    bounding_box([0, y_position - 380],:width => 270, :height => bounds.height) do
-      image "#{Rails.root}/app/assets/images/ic-pathfinder.png", scale: 0.3
-      image "#{Rails.root}/app/assets/images/ic-develop-static.png", scale: 0.1, at: [-13,cursor]
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "#{@topattrib[1][:name]}", size: left_column_font_size, :color => left_column_font_color
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "#{@topattrib[1][:description]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "#{@topattrib[2][:name]}", size: left_column_font_size, :color => left_column_font_color
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "#{@topattrib[2][:description]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= 120
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "Your Bottom Attributes", size: left_column_font_size, :color => left_column_font_color_bottom
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "Your bottom attributes are the attributes you display the least. Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", size: right_column_font_size, :color => right_column_font_color
+      y_position -= 60
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "#{@botattrib[0][:name]}", size: left_column_font_size, :color => left_column_font_color_bottom
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "#{@botattrib[1][:description]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "#{@botattrib[1][:name]}", size: left_column_font_size, :color => left_column_font_color_bottom
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "#{@botattrib[1][:description]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "#{@botattrib[2][:name]}", size: left_column_font_size, :color => left_column_font_color_bottom
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "#{@botattrib[2][:description]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    start_new_page
+    image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
+    y_position = cursor
+
+    bounding_box([0, y_position],:width => 180, :height => bounds.height) do
+      image "#{Rails.root}/app/assets/images/#{@potentialstr}", width: 150, at: [100,y_position]
+    end
+
+    bounding_box([270, y_position - 60],:width => 180, :height => bounds.height) do
+      text "Starteur Potential", size: 20
+      text "#{@content[:potential]}", size: 30
+      y_position -= 200
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "Determination", size: left_column_font_size, :color => left_column_font_color_bottom
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "Determination", size: left_column_font_size, :color => left_column_font_color_bottom
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    start_new_page
+    image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
+    y_position = cursor
+
+    bounding_box([0, y_position],:width => 180, :height => bounds.height) do
+      image "#{Rails.root}/app/assets/images/#{@imagestr1}", width: 300, at: [30,y_position]
+    end
+
+    bounding_box([270, y_position - 60],:width => 180, :height => bounds.height) do
+      text "Primary Role", size: 20
+      text "#{@content[:roles][0][:title]}", size: 30
+      y_position -= 180
+    end
+
+    bounding_box([0, y_position],:width => 540, :height => bounds.height) do
+      text "#{@content[:roles][0][:paragraphs][0]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= (spacing_value + 20)
+    end
+
+    bounding_box([0, y_position],:width => 540, :height => bounds.height) do
+      text "#{@content[:roles][0][:paragraphs][1]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= (spacing_value + 15)
+    end
+
+    bounding_box([0, y_position],:width => 180, :height => bounds.height) do
+      image "#{Rails.root}/app/assets/images/#{@imagestr2}", width: 300, at: [30,y_position + (2*spacing_value+220)]
+    end
+
+    bounding_box([270, y_position - 50],:width => 180, :height => bounds.height) do
+      text "Secondary Role", size: 20
+      text "#{@content[:roles][1][:title]}", size: 30
+      y_position -= 180
+    end
+
+    bounding_box([0, y_position],:width => 540, :height => bounds.height) do
+      text "#{@content[:roles][1][:paragraphs][1]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= (spacing_value + 15)
+    end
+
+    bounding_box([0, y_position],:width => 540, :height => bounds.height) do
+      text "#{@content[:roles][1][:paragraphs][1]}", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    start_new_page
+    image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
+    y_position = cursor
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "Very good tip", size: left_column_font_size, :color => left_column_font_color
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "Very very good tip", size: left_column_font_size, :color => left_column_font_color
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "Outstanding tip", size: left_column_font_size, :color => left_column_font_color
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
+    end
+
+    bounding_box([0, y_position],:width => 200, :height => bounds.height) do
+      text "Excellent tip", size: left_column_font_size, :color => left_column_font_color
+    end
+
+    bounding_box([180, y_position],:width => 360, :height => bounds.height) do
+      text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", size: right_column_font_size, :color => right_column_font_color
+      y_position -= spacing_value
     end
     
   end
-
-  # def table_content
-  #   # This makes a call to product_rows and gets back an array of data that will populate the columns and rows of a table
-  #   # I then included some styling to include a header and make its text bold. I made the row background colors alternate between grey and white
-  #   # Then I set the table column widths
-  #   table params.batch do
-  #     row(0).font_style = :bold
-  #     self.header = true
-  #     self.row_colors = ['DDDDDD', 'FFFFFF']
-  #     self.column_widths = [40, 300, 200]
-  #   end
-  # end
 
   def product_rows
     [['#', 'Name', 'Price']] +
