@@ -17,5 +17,6 @@ class TestsController < ApplicationController
 
   def take
     @questions_url = test_questions_path(params[:id])
+    @answers_url   = test_answers_path(params[:id])
   end
 end

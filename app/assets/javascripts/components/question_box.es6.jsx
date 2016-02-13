@@ -23,21 +23,33 @@ class QuestionBox extends React.Component {
       url: this.props.questionsFetchUrl,
       method: 'GET',
       dataType: 'json',
-      contentType: 'application/json',
-      success: (data) => {
+      contentType: 'application/json'
+    }).done((data) => {
+      // FIXME: Debug (swap last and first)
+      // var firstQuestion = data.questions[0];
+      // data.questions[0] = data.questions[data.questions.length - 1];
+      // data.questions[data.questions.length - 1] = firstQuestion;
 
-        // FIXME: Debug (swap last and first)
-        // var firstQuestion = data.questions[0];
-        // data.questions[0] = data.questions[data.questions.length - 1];
-        // data.questions[data.questions.length - 1] = firstQuestion;
+      // Initialize answer submitter
+      let answerSubmitter = new AnswerSubmitter(
+        this.props.answersPostUrl,
+        this.receiveAnswersSubmitResponse
+      );
 
-        this.setState({
-          questions: data.questions,
-          answeredCount: data.answeredCount,
-          loading: false
-        });
-        this.updateProgress();
-      }
+      // Check if first question can allow next button to activate
+      let firstQuestionAllowNextEnable = data.questions[0].choices.length > COUNT_CHOICES_YESNO;
+
+      this.setState({
+        questions: data.questions,
+        answeredCount: data.answeredCount,
+        loading: false,
+        isNextEnabled: firstQuestionAllowNextEnable,
+        answerSubmitter: answerSubmitter
+      });
+      this.updateProgress();
+
+      // Start submitting
+      answerSubmitter.start();
     });
   }
 
@@ -61,6 +73,13 @@ class QuestionBox extends React.Component {
     // Prevent going to next question if next is disabled
     if (!this.state.isNextEnabled) return;
 
+    // Queue current question for submission
+    this.state.answerSubmitter.queue({
+      questionId: this.getCurrentQuestion().id,
+      value: this.state.currentAnswerValue
+    });
+
+    // Update state to display the next question
     var nextQuestionId = this.state.currentQuestionId + 1;
     let nextButtonEnabled = this.state.questions[nextQuestionId].choices.length > COUNT_CHOICES_YESNO;
     this.setState({
@@ -76,6 +95,10 @@ class QuestionBox extends React.Component {
 
   getCurrentQuestion() {
     return this.state.questions[this.state.currentQuestionId];
+  }
+
+  receiveAnswersSubmitResponse(response) {
+    console.log('received response', response);
   }
 
   render () {
@@ -103,7 +126,7 @@ class QuestionBox extends React.Component {
 
 QuestionBox.propTypes = {
   questionsFetchUrl: React.PropTypes.string.isRequired,
-  questionsPostUrl: React.PropTypes.string.isRequired,
+  answersPostUrl: React.PropTypes.string.isRequired,
   feedbackUrl: React.PropTypes.string.isRequired
 };
 
