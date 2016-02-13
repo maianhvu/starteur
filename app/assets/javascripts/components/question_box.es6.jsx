@@ -1,3 +1,5 @@
+const COUNT_CHOICES_YESNO = 2;
+
 class QuestionBox extends React.Component {
   constructor(props) {
     super(props);
@@ -6,7 +8,9 @@ class QuestionBox extends React.Component {
       progress: 0,
       answeredCount: 0,
       questions: [],
-      currentQuestionId: 0
+      currentQuestionId: 0,
+      isNextEnabled: false,
+      currentAnswerValue: null
     };
   }
 
@@ -21,6 +25,12 @@ class QuestionBox extends React.Component {
       dataType: 'json',
       contentType: 'application/json',
       success: (data) => {
+
+        // FIXME: Debug (swap last and first)
+        // var firstQuestion = data.questions[0];
+        // data.questions[0] = data.questions[data.questions.length - 1];
+        // data.questions[data.questions.length - 1] = firstQuestion;
+
         this.setState({
           questions: data.questions,
           answeredCount: data.answeredCount,
@@ -31,13 +41,35 @@ class QuestionBox extends React.Component {
     });
   }
 
+  setNextButtonEnabled(status) {
+    this.setState({
+      isNextEnabled: status
+    });
+  }
+
   updateProgress() {
     let totalQuestionsCount = this.state.questions.length + this.state.answeredCount;
     var newProgress = 0;
     if (totalQuestionsCount > 0) {
       newProgress = (this.state.currentQuestionId + this.state.answeredCount) / totalQuestionsCount;
     }
+    // Based on question, see whether Next button should be enabled
     this.setState({ progress: newProgress });
+  }
+
+  goToNextQuestion() {
+    var nextQuestionId = this.state.currentQuestionId + 1;
+    let nextButtonEnabled = this.state.questions[nextQuestionId].choices.length > COUNT_CHOICES_YESNO;
+    this.setState({
+      currentQuestionId: nextQuestionId,
+      isNextEnabled: nextButtonEnabled
+    });
+    this.updateProgress();
+  }
+
+  setCurrentAnswerValue(answerValue) {
+    this.setState({ currentAnswerValue: answerValue });
+    console.log(answerValue);
   }
 
   render () {
@@ -48,8 +80,15 @@ class QuestionBox extends React.Component {
     return (
       <div className="question-box">
         <QuestionProgress progress={this.state.progress} />
-        <QuestionContent question={this.state.questions[this.state.currentQuestionId]} />
-        <QuestionActions />
+        <QuestionContent
+          question={this.state.questions[this.state.currentQuestionId]}
+          updateParentNextButtonEnabled={this.setNextButtonEnabled.bind(this)}
+          updateParentCurrentAnswerValue={this.setCurrentAnswerValue.bind(this)}
+        />
+        <QuestionActions
+          nextQuestion={this.goToNextQuestion.bind(this)}
+          isNextEnabled={this.state.isNextEnabled}
+        />
       </div>
     );
   }

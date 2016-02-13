@@ -1,13 +1,19 @@
 class QuestionActions extends React.Component {
-
-  notifyParentNextQuestion() {
-    console.log('next question');
-  }
-
   render() {
+    let nextButtonClasses = classNames(
+      'question__next-button',
+      'button', 'ghost', 'no-select',
+      { 'disabled': !this.props.isNextEnabled }
+    );
+
+    var nextButtonClick = function() { return false; }
+    if (this.props.isNextEnabled) {
+      nextButtonClick = this.props.nextQuestion;
+    }
+
     return (
       <div className="question__actions">
-        <div className="question__next-button button ghost" onClick={this.notifyParentNextQuestion}>
+        <div className={nextButtonClasses} onClick={nextButtonClick}>
           Next <span className="chevron" />
         </div>
         <div className="question__minor-actions">
@@ -18,3 +24,7 @@ class QuestionActions extends React.Component {
     );
   }
 }
+
+QuestionActions.propTypes = {
+  nextQuestion: React.PropTypes.func.isRequired
+};

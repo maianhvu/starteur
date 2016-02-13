@@ -86,6 +86,7 @@ a.link {
   position: absolute;
   height: 100%;
   background: #9CCC65;
+  transition: width 0.25s ease-out 0s;
 }
 
 .progress__milestone {
@@ -164,7 +165,7 @@ a.link {
   background-clip: padding-box;
   z-index: 4;
 
-  &:hover {
+  &:active, &:hover {
     border: .875em solid rgba(#ade5da, .375);
   }
 }
@@ -182,11 +183,64 @@ a.link {
   font-weight: 400;
 }
 
+.question__yesno--wrapper {
+  min-height: 180px;
+  box-sizing: border-box;
+}
+
+.question__answer {
+  display: inline-block;
+  height: auto;
+  width: auto;
+  padding: 24px;
+  margin: 16px;
+  font-size: 40px;
+  cursor: pointer;
+
+  &.chosen {
+    color: #49c6ad;
+
+    &::before {
+      background-image: image-url('dashboard/tick.svg');
+      background-repeat: no-repeat;
+      border: 4px solid #49c6ad;
+    }
+  }
+
+  &::before {
+    content: "";
+    display: inline-block;
+    border-radius: 50%;
+    $size: 40px;
+    width: $size;
+    height: $size;
+    border: 4px solid #BDBDBD;
+    box-sizing: border-box;
+    margin-right: 16px;
+    transform: translateY(6px);
+    transition: all 200ms;
+    background-position: center left 3px;
+  }
+
+  &:hover::before {
+    box-shadow: 0 0 0 16px rgba(76,181,171,0.15);
+    background-color: rgba(76,181,171,0.15)
+  }
+}
+
 .question__next-button {
   float: right;
   width: 100%;
   max-width: 168px;
   margin: 4px 8px;
+  cursor: pointer;
+
+  &.disabled {
+    color: #BDBDBD;
+    border: 1px solid #BDBDBD;
+    cursor: default;
+    background-color: transparent;
+  }
 
   .chevron::after {
     border-style: solid;
@@ -230,3 +284,4 @@ a.link {
     text-decoration: underline;
   }
 }
+

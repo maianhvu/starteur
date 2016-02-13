@@ -6,9 +6,9 @@ class QuestionsController < ApplicationController
   def index
     # Query for unanswered questions
     query_string = <<-SQL
-    SELECT q.id, q.content, q.choices, q.polarity, c.rank FROM questions q, categories c
-    WHERE q.category_id=c.id AND c.test_id=#{params[:test_id]}
-    AND q.id NOT IN (
+    SELECT q.id, q.content, q.choices, q.polarity, q.scale
+    FROM questions q, categories c WHERE q.category_id=c.id
+    AND c.test_id=#{params[:test_id]} AND q.id NOT IN (
       SELECT a.question_id FROM answers a
       WHERE a.user_id=#{current_user.id} AND a.test_id=#{params[:test_id]}
       AND a.result_id IS NULL
@@ -20,12 +20,7 @@ class QuestionsController < ApplicationController
     # TODO: Add shuffle test option
 
     # Query for number of questions answered
-    query_string = <<-SQL
-    SELECT COUNT(*) FROM answers a
-    WHERE a.user_id=#{current_user.id} AND a.test_id=#{params[:test_id]}
-    AND a.result_id IS NULL
-    SQL
-    @answered_count = extract_count(raw_query(query_string))
+    @answered_count = Answer.where(user: current_user, test_id: params[:test_id], result_id: nil).count
   end
 
 end

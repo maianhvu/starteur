@@ -1,4 +1,3 @@
-const COUNT_CHOICES_YESNO = 2;
 const OPACITY_CHOICE_HIGHLIGHTED = 1;
 const OPACITY_CHOICE_DEFAULT = 0.375;
 const SCALE_GROWTH_FACTOR = 0.5;
@@ -9,9 +8,21 @@ class QuestionContent extends React.Component {
 
     if (this.props.question.choices.length > COUNT_CHOICES_YESNO) {
       // Multiple choice
-      answeringNode = (<QuestionSlider choices={this.props.question.choices} />);
+      answeringNode = (
+        <QuestionSlider
+          choices={this.props.question.choices}
+          scale={this.props.question.scale}
+          updateParentCurrentAnswerValue={this.props.updateParentCurrentAnswerValue}
+        />
+      );
     } else {
-      answeringNode = (<QuestionYesNo />);
+      answeringNode = (
+        <QuestionYesNo
+          choices={this.props.question.choices}
+          updateParentNextButtonEnabled={this.props.updateParentNextButtonEnabled}
+          updateParentCurrentAnswerValue={this.props.updateParentCurrentAnswerValue}
+        />
+      );
     }
 
     return (
@@ -27,7 +38,8 @@ class QuestionSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliderValue: 0.5
+      sliderValue: 0.5,
+      previousAnswerValueUpdatedToParent: null
     };
   }
 
@@ -77,12 +89,30 @@ class QuestionSlider extends React.Component {
     let knobMouseDownEvent = function(e) {
       window.addEventListener('mousemove', moveKnob, true);
     };
-    let knobMouseUpEvent = function(e) {
+
+    let knobMouseUpEvent = (e) => {
       window.removeEventListener('mousemove', moveKnob, true);
+      // Update new value to parent ONLY when the knob is released
+      // and that the index has changed. Notice that the value returned
+      // is NOT the choiceId but rather the sliderValue mapped to the
+      // scale
+      let division = 1/(this.props.scale || this.choices.length);
+      let newValue = Math.floor(this.state.sliderValue / division);
+      if (newValue >= this.props.scale) newValue = this.props.scale - 1;
+      if (newValue === this.state.previousAnswerValueUpdatedToParent) return;
+      this.props.updateParentCurrentAnswerValue(newValue);
+      this.setState({ previousAnswerValueUpdatedToParent: newValue });
     };
 
     knob.addEventListener('mousedown', knobMouseDownEvent, false);
     window.addEventListener('mouseup', knobMouseUpEvent, false);
+  }
+
+  getCurrentChoiceId() {
+    let choices = this.props.choices;
+    let choiceIndex = Math.floor(this.state.sliderValue * choices.length);
+    if (choiceIndex >= choices.length) choiceIndex = choices.length - 1;
+    return choiceIndex;
   }
 
   render() {
@@ -98,9 +128,7 @@ class QuestionSlider extends React.Component {
     });
 
     // Calculate index of current choice
-    let choiceIndex = Math.floor(this.state.sliderValue * choices.length);
-    if (choiceIndex >= choices.length) choiceIndex = choices.length - 1;
-    let choiceText  = choices[choiceIndex];
+    let choiceText = choices[this.getCurrentChoiceId()];
 
     // Generate marks for slider
     let sliderMarks = [];
@@ -134,7 +162,38 @@ class QuestionSlider extends React.Component {
 }
 
 class QuestionYesNo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentChoiceId: -1
+    };
+  }
+
+  updateChoice(index) {
+    if (index < 0 || index >= this.props.choices.length) return;
+    this.props.updateParentNextButtonEnabled(true);
+    this.setState({
+      currentChoiceId: index
+    });
+    this.props.updateParentCurrentAnswerValue(index);
+  }
+
   render() {
-    return (<div className="question__yesno">Hello, QuestionYesNo</div>);
+    let choiceNodes = this.props.choices.map((choice, index) => {
+      let classes = classNames('question__answer', 'no-select', {
+        'chosen': this.state.currentChoiceId == index
+      });
+      return (
+        <div key={index} className={classes} onClick={this.updateChoice.bind(this, index)}>
+          {choice}
+        </div>
+      );
+    });
+
+    return (
+      <div className="question__yesno--wrapper">
+        {choiceNodes}
+      </div>
+    );
   }
 }
