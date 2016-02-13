@@ -30,7 +30,7 @@
             tr
               td =@batch.email.find_index(email)+1
               td =email
-              td =@batch.username[email][2..@batch.username[email].index(",")-2].concat(", " + @batch.username[email][@batch.username[email].index(",")+3..@batch.username[email].length-3])
+              td
               td
                 .progress
                 .progress-bar.progress-bar-success.progress-bar-striped role="s" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
@@ -98,12 +98,6 @@
         .div class="modal-body"
           .div.container-fluid
             = form_for :batch_users, url: educators_batch_users_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
-
-              label Enter first name
-              .form-field = f.text_field :first_name, placeholder: 'First name', autofocus: true
-
-              label Enter last name
-              .form-field = f.text_field :last_name, placeholder: 'Last name', autofocus: true
 
               label Enter an e-mail address
               .form-field = f.text_field :email, placeholder: 'Email address', autofocus: true
