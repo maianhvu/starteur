@@ -7,11 +7,14 @@ class Educators::BatchUsersController < Educators::BaseController
 
     @batch = Batch.find(params[:batch_users][:batch_id])
 
+    hlist = @batch.username
+
     list = @batch.email
     if list.include?(@email)
       flash[:alert ] = "The e-mail you entered already exists!"
       redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
     else
+      hlist[@email] = [@last_name, @first_name]
       list.push(@email)
       @batch.save
       flash[:notice ] = "Email has been added!"
@@ -36,8 +39,9 @@ class Educators::BatchUsersController < Educators::BaseController
   	uploaded_io = params[:batch_users][:file]
   	path = uploaded_io.path
 
-  	CSV.foreach(path) do |row|
-  		@email = row.first
+  	CSV.foreach(path, col_sep: ',') do |row|
+      @email = row[0]
+      @name = row[1]
   		if list.include?(@email)
 	      flash[:alert ] = "The e-mail #{@email} you entered already exists!"
 	    else
