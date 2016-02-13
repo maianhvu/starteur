@@ -137,6 +137,7 @@ a.link {
 .question__choice {
   flex: 1 1 33%;
   line-height: 32px;
+  transition: all 0.25s ease-out 0s;
 }
 
 .question__slider {
@@ -161,9 +162,13 @@ a.link {
   transform: translate(-50%, -50%);
   cursor: pointer;
   border: 0px solid rgba(#49c6ad, 0);
-  transition: border 0.25s ease-out 0s;
+  transition: all 0.25s ease-out 0s;
   background-clip: padding-box;
   z-index: 4;
+
+  &.dragging {
+    transition: border 0.25s ease-out 0s;
+  }
 
   &:active, &:hover {
     border: .875em solid rgba(#ade5da, .375);
@@ -196,6 +201,7 @@ a.link {
   margin: 16px;
   font-size: 40px;
   cursor: pointer;
+  transition: color 0.25s ease-out 0s;
 
   &.chosen {
     color: #49c6ad;

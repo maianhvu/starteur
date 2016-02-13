@@ -58,6 +58,9 @@ class QuestionBox extends React.Component {
   }
 
   goToNextQuestion() {
+    // Prevent going to next question if next is disabled
+    if (!this.state.isNextEnabled) return;
+
     var nextQuestionId = this.state.currentQuestionId + 1;
     let nextButtonEnabled = this.state.questions[nextQuestionId].choices.length > COUNT_CHOICES_YESNO;
     this.setState({
@@ -69,7 +72,6 @@ class QuestionBox extends React.Component {
 
   setCurrentAnswerValue(answerValue) {
     this.setState({ currentAnswerValue: answerValue });
-    console.log(answerValue);
   }
 
   render () {
@@ -84,6 +86,7 @@ class QuestionBox extends React.Component {
           question={this.state.questions[this.state.currentQuestionId]}
           updateParentNextButtonEnabled={this.setNextButtonEnabled.bind(this)}
           updateParentCurrentAnswerValue={this.setCurrentAnswerValue.bind(this)}
+          nextQuestion={this.goToNextQuestion.bind(this)}
         />
         <QuestionActions
           nextQuestion={this.goToNextQuestion.bind(this)}
@@ -114,4 +117,10 @@ let loadingView = function(feedbackUrl) {
       </p>
     </div>
   )
+};
+
+Number.prototype.constraint = function(min, max) {
+  if (this < min) { return min; }
+  if (this > max) { return max; }
+  return this.valueOf();
 };
