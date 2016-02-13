@@ -1,5 +1,7 @@
 class Educators::BatchUsersController < Educators::BaseController
 
+  skip_before_filter :require_login, only: [:allow_access]
+
   def create
     @email = params[:batch_users][:email]
     if @email == ""
@@ -59,6 +61,19 @@ class Educators::BatchUsersController < Educators::BaseController
       flash[:alert] = "Please choose the correct CSV file"
     end
     redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
+  end
+
+  def allow_access
+    batch = Batch.find(params[:batch_id])
+    user = User.find_by(email: params[:email])
+    if batch && user
+      cu = CodeUsage.find_by(user: user, access_code: AccessCode.where(user: user, test: test))
+      BatchCodeUsage.create(batch: batch, code_usage: cu)
+      flash[:success] = 'Permission granted'
+    else
+      flash[:error] = 'Invalid parameters'
+    end
+    redirect_to root_path
   end
 
 end

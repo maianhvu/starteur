@@ -24,6 +24,10 @@
         .menu-icon style="background:#ff0645" T
         .menu-link
           =link_to "Purchase Test", display_tests_educators_billing_records_url
+      .main-list
+        .menu-icon style="background:#ff0645" R
+        .menu-link
+          =link_to "Redeem Promotion Codes", educators_promotion_codes_path
       - if @educator.admin
         .main-list
           .menu-icon style="background:#ff0645" A

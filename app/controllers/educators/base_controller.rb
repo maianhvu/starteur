@@ -7,9 +7,9 @@ class Educators::BaseController < ActionController::Base
 
   private
 
-  def not_authenticated
-    redirect_to educators_login_path
-  end
+  # def not_authenticated
+  #   redirect_to educators_login_path
+  # end
 
   def prepare_educator
     @educator = current_user
