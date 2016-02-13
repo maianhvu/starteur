@@ -7,10 +7,10 @@ class QuestionBox extends React.Component {
       loading: true,
       progress: 0,
       answeredCount: 0,
+      updatedToServerCount: 0,
       questions: [],
       currentQuestionId: 0,
       isNextEnabled: false,
-      currentAnswerValue: null
     };
   }
 
@@ -33,7 +33,7 @@ class QuestionBox extends React.Component {
       // Initialize answer submitter
       let answerSubmitter = new AnswerSubmitter(
         this.props.answersPostUrl,
-        this.receiveAnswersSubmitResponse
+        this.receiveAnswersSubmitResponse.bind(this)
       );
 
       // Check if first question can allow next button to activate
@@ -81,7 +81,10 @@ class QuestionBox extends React.Component {
 
     // Update state to display the next question
     var nextQuestionId = this.state.currentQuestionId + 1;
-    let nextButtonEnabled = this.state.questions[nextQuestionId].choices.length > COUNT_CHOICES_YESNO;
+    var nextButtonEnabled = false;
+    if (nextQuestionId < this.state.questions.length) {
+      nextButtonEnabled = this.state.questions[nextQuestionId].choices.length > COUNT_CHOICES_YESNO;
+    }
     this.setState({
       currentQuestionId: nextQuestionId,
       isNextEnabled: nextButtonEnabled
@@ -98,7 +101,14 @@ class QuestionBox extends React.Component {
   }
 
   receiveAnswersSubmitResponse(response) {
-    console.log('received response', response);
+    if (response.constructor !== Array) return;
+    response.forEach((questionId) => {
+      this.props.answeredSet.add(questionId);
+    });
+    // Update count
+    this.setState({
+      updatedToServerCount: this.props.answeredSet.size
+    });
   }
 
   render () {
@@ -106,28 +116,45 @@ class QuestionBox extends React.Component {
       return loadingView(this.props.feedbackUrl);
     }
 
-    return (
-      <div className="question-box">
-        <QuestionProgress progress={this.state.progress} />
-        <QuestionContent
-          question={this.state.questions[this.state.currentQuestionId]}
-          updateParentNextButtonEnabled={this.setNextButtonEnabled.bind(this)}
-          updateParentCurrentAnswerValue={this.setCurrentAnswerValue.bind(this)}
-          nextQuestion={this.goToNextQuestion.bind(this)}
-        />
-        <QuestionActions
-          nextQuestion={this.goToNextQuestion.bind(this)}
-          isNextEnabled={this.state.isNextEnabled}
-        />
-      </div>
-    );
+    var currentQuestion = this.getCurrentQuestion();
+    // If the test has not concluded, display the question
+    if (currentQuestion) {
+      return (
+        <div className="question-box">
+          <QuestionProgress progress={this.state.progress} />
+          <QuestionContent
+            question={this.getCurrentQuestion()}
+            updateParentNextButtonEnabled={this.setNextButtonEnabled.bind(this)}
+            updateParentCurrentAnswerValue={this.setCurrentAnswerValue.bind(this)}
+            nextQuestion={this.goToNextQuestion.bind(this)}
+          />
+          <QuestionActions
+            nextQuestion={this.goToNextQuestion.bind(this)}
+            isNextEnabled={this.state.isNextEnabled}
+          />
+        </div>
+      );
+    } else {
+      // Wait for updating to server to conclude
+      if (this.state.updatedToServerCount < this.state.questions.length) {
+        return updatingToServerView();
+      } else {
+        // Redirect to specified page after finishing test
+        window.location = this.props.finishTestUrl;
+      }
+    }
   }
 }
 
 QuestionBox.propTypes = {
   questionsFetchUrl: React.PropTypes.string.isRequired,
   answersPostUrl: React.PropTypes.string.isRequired,
+  finishTestUrl: React.PropTypes.string.isRequired,
   feedbackUrl: React.PropTypes.string.isRequired
+};
+
+QuestionBox.defaultProps = {
+  answeredSet: new Set()
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -144,6 +171,18 @@ let loadingView = function(feedbackUrl) {
       </p>
     </div>
   )
+};
+
+let updatingToServerView = function() {
+  return (
+    <div className="test-loader">
+      <h1>Finishing Up...</h1>
+      <p>
+        Congratulations on completing the test! Now just sit back and relax while
+        we do some housekeeping. Should only take a jiffy!
+      </p>
+    </div>
+  );
 };
 
 Number.prototype.constraint = function(min, max) {
