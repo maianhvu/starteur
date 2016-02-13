@@ -74,6 +74,10 @@ class QuestionBox extends React.Component {
     this.setState({ currentAnswerValue: answerValue });
   }
 
+  getCurrentQuestion() {
+    return this.state.questions[this.state.currentQuestionId];
+  }
+
   render () {
     if (this.state.loading) {
       return loadingView(this.props.feedbackUrl);

@@ -3,7 +3,6 @@ json.questions(@questions) do |question|
     :id,
     :content,
     :choices,
-    :polarity,
     :scale
 end
 json.answeredCount @answered_count

@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   def index
     # Query for unanswered questions
     query_string = <<-SQL
-    SELECT q.id, q.content, q.choices, q.polarity, q.scale
+    SELECT q.id, q.content, q.choices, q.scale
     FROM questions q, categories c WHERE q.category_id=c.id
     AND c.test_id=#{params[:test_id]} AND q.id NOT IN (
       SELECT a.question_id FROM answers a
