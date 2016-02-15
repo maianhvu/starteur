@@ -67,7 +67,7 @@ class Educators::BatchUsersController < Educators::BaseController
     batch = Batch.find(params[:batch_id])
     user = User.find_by(email: params[:email])
     if batch && user
-      cu = CodeUsage.find_by(user: user, access_code: AccessCode.where(user: user, test: test))
+      cu = CodeUsage.find_by(user: user, access_code: user.access_codes.where(test: batch.test))
       BatchCodeUsage.create(batch: batch, code_usage: cu)
       flash[:success] = 'Permission granted'
     else

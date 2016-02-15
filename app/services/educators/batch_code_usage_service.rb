@@ -13,7 +13,7 @@ class Educators::BatchCodeUsageService
     @errors.store(:base, 'No available access codes') unless available_access_codes.any?
     while (email = email_list[counter]) && available_access_codes.any?
       user = User.find_by(email: email)
-      if user && cu = CodeUsage.find_by(user: user, access_code: AccessCode.where(user: user, test: test))
+      if user && cu = CodeUsage.find_by(user: user, access_code: user.access_codes.where(test: test))
         unless BatchCodeUsage.find_by(batch: batch, code_usage: cu)
           Educators::UserMailer.request_access_permission(email, batch).deliver_now
         end

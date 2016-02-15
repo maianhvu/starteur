@@ -5,59 +5,66 @@
     h1 Billing Details
 
   /.left
-    #get-started-card.card.summary
-      h1 Summary
+  /   #get-started-card.card.summary
+  /     h1 Summary
 
-      - total = 0
-      table.text-center
-        thead
-          th
-          th Quantity
-          th Subtotal
-        - @lineitems.each_pair do |id, item|
-          = hidden_field_tag "lineitems[#{id}]", item[:quantity]
-          tr
-            td.text-left = item[:name]
-            td = item[:quantity]
-            - subtotal = item[:price] * item[:quantity].to_i
-            - total += subtotal
-            td = subtotal
-        end
+  /     - total = 0
+  /     table.text-center
+  /       thead
+  /         th
+  /         th Quantity
+  /         th Subtotal
+  /       / - @lineitems.each_pair do |id, item|
+  /       /   = hidden_field_tag "lineitems[#{id}]", item[:quantity]
+  /       /   tr
+  /       /     td.text-left = item[:name]
+  /       /     td = item[:quantity]
+  /       /     - subtotal = item[:price] * item[:quantity].to_i
+  /       /     - total += subtotal
+  /       /     td = subtotal
+  /       / end
+  /       - @billing_form.line_items.each do |test, quantity|
+  /         tr
+  /           td.text-left = test.name
+  /           td = line_item.quantity
+  /           - subtotal = test.price * quantity
+  /           - total += subtotal
+  /           td = subtotal
 
-        tr.total-row
-          td Total
-          td
-          td = total
+  /       tr.total-row
+  /         td Total
+  /         td
+  /         td = @billing_form.calculate_total
 
-      .button =link_to "Edit", display_tests_educators_billing_records_url
+  /     .button =link_to "Edit", display_tests_educators_billing_records_url
 
-  /.right
-    #new-educator-card.card
-      h1 Billing Address
+  / /.right
+  /   #new-educator-card.card
+  /     h1 Billing Address
 
-      .checkbox
-        = check_box_tag "same-as-profile"
-        = label_tag "same-as-profile", " Billing Details are same as my profile"
+  /     .checkbox
+  /       = check_box_tag "same-as-profile"
+  /       = label_tag "same-as-profile", " Billing Details are same as my profile"
 
-      .form-wrapper
-        = form_for :billing_line_items, url: purchase_success_educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+  /     .form-wrapper
+  /       = form_for :billing_line_items, url: purchase_success_educators_billing_records_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
-          = f.text_field :first_name, placeholder: 'First Name', autofocus: true, class: "input-box half"
-          = f.text_field :first_name, placeholder: 'Last Name', autofocus: true, class: "input-box half"
-          = f.text_field :first_name, placeholder: 'Address Line 1', autofocus: true, class: "input-box"
-          = f.text_field :first_name, placeholder: 'Address Line 2', autofocus: true, class: "input-box"
-          = f.text_field :first_name, placeholder: 'City', autofocus: true, class: "input-box half"
-          = f.text_field :first_name, placeholder: 'Country', autofocus: true, class: "input-box half"
-          = f.text_field :first_name, placeholder: 'Zip Code/Postal', autofocus: true, class: "input-box half"
-          = f.text_field :first_name, placeholder: 'Phone', autofocus: true, class: "input-box half"
+  /         = f.text_field :first_name, placeholder: 'First Name', autofocus: true, class: "input-box half"
+  /         = f.text_field :first_name, placeholder: 'Last Name', autofocus: true, class: "input-box half"
+  /         = f.text_field :first_name, placeholder: 'Address Line 1', autofocus: true, class: "input-box"
+  /         = f.text_field :first_name, placeholder: 'Address Line 2', autofocus: true, class: "input-box"
+  /         = f.text_field :first_name, placeholder: 'City', autofocus: true, class: "input-box half"
+  /         = f.text_field :first_name, placeholder: 'Country', autofocus: true, class: "input-box half"
+  /         = f.text_field :first_name, placeholder: 'Zip Code/Postal', autofocus: true, class: "input-box half"
+  /         = f.text_field :first_name, placeholder: 'Phone', autofocus: true, class: "input-box half"
 
-          .card-wrapper
+  /         .card-wrapper
 
-          = f.text_field :first_name, placeholder: 'Card Number', autofocus: true, name: "number", class: "input-box"
-          = f.text_field :first_name, placeholder: 'Full Name', autofocus: true, name: "name", class: "input-box"
-          = f.text_field :first_name, placeholder: 'MM/YY', autofocus: true, name: "expiry", class: "input-box"
-          = f.text_field :first_name, placeholder: 'CVC', autofocus: true, name: "cvc", class: "input-box"
-          = f.submit 'Purchase', class: "button purchase"
+  /         = f.text_field :first_name, placeholder: 'Card Number', autofocus: true, name: "number", class: "input-box"
+  /         = f.text_field :first_name, placeholder: 'Full Name', autofocus: true, name: "name", class: "input-box"
+  /         = f.text_field :first_name, placeholder: 'MM/YY', autofocus: true, name: "expiry", class: "input-box"
+  /         = f.text_field :first_name, placeholder: 'CVC', autofocus: true, name: "cvc", class: "input-box"
+  /         = f.submit 'Purchase', class: "button purchase"
 
   #get-started-card.card
     h1 Review
@@ -70,6 +77,7 @@
           th
           th.text-center.col-2 Quantity
           th.text-center.col-2 Amount
+        / = raise @lineitems.inspect
         - @lineitems.each_pair do |id, item|
           = hidden_field_tag "lineitems[#{id}]", item[:quantity]
           tr
@@ -79,24 +87,34 @@
             - subtotal = item[:price] * item[:quantity].to_i
             - total += subtotal
             td.text-center.col-2 = "$ #{subtotal}"
+        / - @billing_form.line_items.each do |test, quantity|
+        /   = hidden_field_tag "test_ids[#{test.id}]", quantity
+        /   / = raise line_item.inspect
+        /   tr
+        /     td.text-center.col-3 = test.name
+        /     td
+        /     td.text-center.col-2 = quantity
+        /     - subtotal = test.price * quantity
+        /     - total += subtotal
         end
 
         tr.total
           td.text-center.col-3 Total
           td
           td.text-center.col-2
-          td.text-center.col-2 = "$ #{total}"
-
-
+          td.text-center.col-2 = "$ #{@dc ? total * (100 - @dc.percentage) / 100 : total}"
+      - if @dc
+        = hidden_field_tag :code, @dc.code
       .button-group
         .button.first = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems)
         = f.submit 'Confirm', class: "button"
 
     - if @dc
-      label.text-center Discount code:
-      label.text-center = @dc.code
+      .text-center = "Discount code: #{@dc.code}"
     - else
-      = form_tag apply_discount_educators_billing_records_path, method: :post, remote: true
+      = form_tag apply_discount_educators_billing_records_path, method: :post
+        - @lineitems.each_pair do |id, item|
+          = hidden_field_tag "lineitems[#{id}]", item[:quantity]
         .text-center = text_field_tag :code
         .text-center = submit_tag 'Apply Discount Code'
 
