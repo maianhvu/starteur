@@ -8,8 +8,9 @@ FactoryGirl.define do
 
     trait :full do
       after(:build) do |category|
-        create_list(:question, 3, category: category)
-        create_list(:question, 2, :yes_no, category: category)
+        create_list(:question, 3, category: category, test_id: category.test_id)
+        create_list(:question, 2, :yes_no, category: category, test_id: category.test_id)
+
       end
     end
   end

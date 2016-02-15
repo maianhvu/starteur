@@ -7,4 +7,8 @@ module SQLHelper
   def extract_count(result)
     result.flatten.first.to_i
   end
+
+  def extract_boolean(result)
+    't'.eql?(result.flatten.first)
+  end
 end

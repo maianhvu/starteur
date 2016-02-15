@@ -71,6 +71,8 @@ group :test do
   # With capybara
   gem 'capybara'
   gem 'capybara-email'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 
   # Use Factory Girls for fixtures
   gem 'factory_girl_rails', '~> 4.0'

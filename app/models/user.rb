@@ -10,8 +10,11 @@ class User < ActiveRecord::Base
   # ActiveRecord Relations
   has_many :answers, dependent: :destroy
   has_many :results, dependent: :destroy
-  has_many :code_usages, dependent: :destroy
+  has_many :scores, dependent: :destroy
+
   has_many :access_codes, through: :code_usages
+  has_many :code_usages, dependent: :destroy
+
   has_many :billing_records, as: :billable
 
   # Callbacks
@@ -55,27 +58,6 @@ class User < ActiveRecord::Base
   # Convenience methods
   def full_name
     "#{self.first_name} #{self.last_name}"
-  end
-
-  def code_usages_for_test(test)
-    test_id = test
-    test_id = test.id if test.respond_to? :id
-    # Query for existence of code usage
-    query_string = <<-SQL
-    SELECT cu.id, cu.state FROM code_usages cu, access_codes ac
-    WHERE cu.user_id=#{self.id} AND
-    cu.access_code_id=ac.id AND ac.test_id=#{test_id}
-    SQL
-    query_result = raw_query(query_string)
-    # Interpret results
-    result = []
-    unless query_result.empty?
-      result = query_result.map do |row|
-        row = row.map(&:to_i)
-        { id: row[0], state: row[1] }
-      end
-    end
-    result
   end
 
   private

@@ -30,13 +30,11 @@ ActiveRecord::Schema.define(version: 20160214150034) do
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree
 
   create_table "answers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "test_id"
-    t.integer  "question_id"
-    t.integer  "value"
-    t.integer  "result_id"
+    t.integer "user_id"
+    t.integer "test_id"
+    t.integer "question_id"
+    t.integer "value"
+    t.integer "result_id"
   end
 
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
@@ -112,9 +110,11 @@ ActiveRecord::Schema.define(version: 20160214150034) do
     t.integer  "state"
     t.string   "email"
     t.string   "uuid"
+    t.integer  "test_id"
   end
 
   add_index "code_usages", ["access_code_id"], name: "index_code_usages_on_access_code_id", using: :btree
+  add_index "code_usages", ["test_id"], name: "index_code_usages_on_test_id", using: :btree
   add_index "code_usages", ["user_id"], name: "index_code_usages_on_user_id", using: :btree
 
   create_table "discount_codes", force: :cascade do |t|
@@ -183,10 +183,13 @@ ActiveRecord::Schema.define(version: 20160214150034) do
     t.integer  "category_id"
     t.string   "choices",                              array: true
     t.integer  "polarity",    default: 1
+    t.integer  "scale"
+    t.integer  "test_id"
   end
 
   add_index "questions", ["category_id"], name: "index_questions_on_category_id", using: :btree
   add_index "questions", ["choices"], name: "index_questions_on_choices", using: :gin
+  add_index "questions", ["test_id"], name: "index_questions_on_test_id", using: :btree
 
   create_table "results", force: :cascade do |t|
     t.integer  "user_id"
@@ -199,6 +202,20 @@ ActiveRecord::Schema.define(version: 20160214150034) do
   add_index "results", ["code_usage_id"], name: "index_results_on_code_usage_id", using: :btree
   add_index "results", ["test_id"], name: "index_results_on_test_id", using: :btree
   add_index "results", ["user_id"], name: "index_results_on_user_id", using: :btree
+
+  create_table "scores", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "test_id"
+    t.integer "result_id"
+    t.integer "value"
+    t.integer "upon",        default: 100
+    t.integer "category_id"
+  end
+
+  add_index "scores", ["category_id"], name: "index_scores_on_category_id", using: :btree
+  add_index "scores", ["result_id"], name: "index_scores_on_result_id", using: :btree
+  add_index "scores", ["test_id"], name: "index_scores_on_test_id", using: :btree
+  add_index "scores", ["user_id"], name: "index_scores_on_user_id", using: :btree
 
   create_table "tests", force: :cascade do |t|
     t.string   "name"
@@ -252,10 +269,16 @@ ActiveRecord::Schema.define(version: 20160214150034) do
   add_foreign_key "batches_results", "results"
   add_foreign_key "categories", "tests"
   add_foreign_key "code_usages", "access_codes"
+  add_foreign_key "code_usages", "tests"
   add_foreign_key "code_usages", "users"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "questions", "categories"
+  add_foreign_key "questions", "tests"
   add_foreign_key "results", "code_usages"
   add_foreign_key "results", "tests"
   add_foreign_key "results", "users"
+  add_foreign_key "scores", "categories"
+  add_foreign_key "scores", "results"
+  add_foreign_key "scores", "tests"
+  add_foreign_key "scores", "users"
 end
