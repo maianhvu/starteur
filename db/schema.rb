@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160213095003) do
+ActiveRecord::Schema.define(version: 20160214030220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,9 +110,11 @@ ActiveRecord::Schema.define(version: 20160213095003) do
     t.integer  "state"
     t.string   "email"
     t.string   "uuid"
+    t.integer  "test_id"
   end
 
   add_index "code_usages", ["access_code_id"], name: "index_code_usages_on_access_code_id", using: :btree
+  add_index "code_usages", ["test_id"], name: "index_code_usages_on_test_id", using: :btree
   add_index "code_usages", ["user_id"], name: "index_code_usages_on_user_id", using: :btree
 
   create_table "discount_codes", force: :cascade do |t|
@@ -171,10 +173,12 @@ ActiveRecord::Schema.define(version: 20160213095003) do
     t.string   "choices",                              array: true
     t.integer  "polarity",    default: 1
     t.integer  "scale"
+    t.integer  "test_id"
   end
 
   add_index "questions", ["category_id"], name: "index_questions_on_category_id", using: :btree
   add_index "questions", ["choices"], name: "index_questions_on_choices", using: :gin
+  add_index "questions", ["test_id"], name: "index_questions_on_test_id", using: :btree
 
   create_table "results", force: :cascade do |t|
     t.integer  "user_id"
@@ -187,6 +191,20 @@ ActiveRecord::Schema.define(version: 20160213095003) do
   add_index "results", ["code_usage_id"], name: "index_results_on_code_usage_id", using: :btree
   add_index "results", ["test_id"], name: "index_results_on_test_id", using: :btree
   add_index "results", ["user_id"], name: "index_results_on_user_id", using: :btree
+
+  create_table "scores", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "test_id"
+    t.integer "result_id"
+    t.integer "value"
+    t.integer "upon",        default: 100
+    t.integer "category_id"
+  end
+
+  add_index "scores", ["category_id"], name: "index_scores_on_category_id", using: :btree
+  add_index "scores", ["result_id"], name: "index_scores_on_result_id", using: :btree
+  add_index "scores", ["test_id"], name: "index_scores_on_test_id", using: :btree
+  add_index "scores", ["user_id"], name: "index_scores_on_user_id", using: :btree
 
   create_table "tests", force: :cascade do |t|
     t.string   "name"
@@ -240,10 +258,16 @@ ActiveRecord::Schema.define(version: 20160213095003) do
   add_foreign_key "batches_results", "results"
   add_foreign_key "categories", "tests"
   add_foreign_key "code_usages", "access_codes"
+  add_foreign_key "code_usages", "tests"
   add_foreign_key "code_usages", "users"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "questions", "categories"
+  add_foreign_key "questions", "tests"
   add_foreign_key "results", "code_usages"
   add_foreign_key "results", "tests"
   add_foreign_key "results", "users"
+  add_foreign_key "scores", "categories"
+  add_foreign_key "scores", "results"
+  add_foreign_key "scores", "tests"
+  add_foreign_key "scores", "users"
 end

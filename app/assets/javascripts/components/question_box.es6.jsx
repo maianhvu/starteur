@@ -1,5 +1,7 @@
 const COUNT_CHOICES_YESNO = 2;
 
+const DEBUG_SUBMIT_ANSWERS = true;
+
 class QuestionBox extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +51,9 @@ class QuestionBox extends React.Component {
       this.updateProgress();
 
       // Start submitting
-      answerSubmitter.start();
+      if (DEBUG_SUBMIT_ANSWERS) {
+        answerSubmitter.start();
+      }
     });
   }
 
@@ -59,11 +63,11 @@ class QuestionBox extends React.Component {
     });
   }
 
-  updateProgress() {
+  updateProgress(currentQuestionId = 0) {
     let totalQuestionsCount = this.state.questions.length + this.state.answeredCount;
     var newProgress = 0;
     if (totalQuestionsCount > 0) {
-      newProgress = (this.state.currentQuestionId + this.state.answeredCount) / totalQuestionsCount;
+      newProgress = (currentQuestionId + this.state.answeredCount) / totalQuestionsCount;
     }
     // Based on question, see whether Next button should be enabled
     this.setState({ progress: newProgress });
@@ -89,7 +93,7 @@ class QuestionBox extends React.Component {
       currentQuestionId: nextQuestionId,
       isNextEnabled: nextButtonEnabled
     });
-    this.updateProgress();
+    this.updateProgress(nextQuestionId);
   }
 
   setCurrentAnswerValue(answerValue) {

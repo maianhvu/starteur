@@ -3,10 +3,13 @@ class Test < ActiveRecord::Base
 
   # ActiveRecord Associations
   has_many :categories, dependent: :destroy
-  has_many :questions, through: :categories
+  has_many :questions, dependent: :destroy
+
+  has_many :access_codes, dependent: :destroy
+
   has_many :answers, dependent: :destroy
   has_many :results, dependent: :destroy
-  has_many :access_codes, dependent: :destroy
+  has_many :scores, dependent: :destroy
 
   # Validations
   validates :name, presence: true, uniqueness: true

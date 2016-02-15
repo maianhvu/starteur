@@ -21,6 +21,12 @@ class AnswersController < ApplicationController
     SQL
     ActiveRecord::Base.connection.execute(insert_query)
 
+    # Check completion status
+    code_usage = current_user.code_usages.used.where(test_id: params[:test_id]).last
+    if code_usage && code_usage.may_complete?
+      code_usage.complete!
+    end
+
     render json: question_ids.to_json, status: :ok
   end
 

@@ -10,8 +10,11 @@ class User < ActiveRecord::Base
   # ActiveRecord Relations
   has_many :answers, dependent: :destroy
   has_many :results, dependent: :destroy
-  has_many :code_usages, dependent: :destroy
+  has_many :scores, dependent: :destroy
+
   has_many :access_codes, through: :code_usages
+  has_many :code_usages, dependent: :destroy
+
   has_many :billing_records, as: :billable
 
   # Callbacks

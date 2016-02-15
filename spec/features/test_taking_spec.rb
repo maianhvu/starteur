@@ -34,7 +34,7 @@ RSpec.feature 'Test Taking', type: :feature do
     given(:access_code) { FactoryGirl.create(:access_code, test: test) }
 
     before(:each) do
-      CodeUsage.create!(user: user, access_code: access_code)
+      CodeUsage.create!(user: user, access_code: access_code, test: test)
     end
 
     scenario 'User is allowed to take test' do
@@ -53,12 +53,5 @@ RSpec.feature 'Test Taking', type: :feature do
       expect(current_path).to eq(take_test_path(test.id))
     end
 
-    scenario 'User takes test' do
-      # Build one whole full test first
-      full_test = FactoryGirl.create(:test, :generic, :full)
-      #visit take_test_path(full_test.id)
-      visit(test_questions_path(full_test.id) + ".json")
-      byebug
-    end
   end
 end

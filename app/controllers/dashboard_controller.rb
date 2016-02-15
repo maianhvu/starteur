@@ -14,7 +14,12 @@ class DashboardController < ApplicationController
       # Query for code usages
       code_usages = current_user.code_usages_for_test(test.id)
       if !code_usages.select { |cu| cu[:state] == CodeUsage.states[:used] }.empty?
-        @test_status = :code_entered
+        # Check if the user is in the middle of taking a test
+        if Answer.exists?(test: test, user: current_user, result_id: nil)
+          @test_status = :uncompleted
+        else
+          @test_status = :code_entered
+        end
       elsif !code_usages.select { |cu| cu[:state] == CodeUsage.states[:completed] }.empty?
         @test_status = :completed
       end

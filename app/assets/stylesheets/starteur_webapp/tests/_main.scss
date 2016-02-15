@@ -149,6 +149,7 @@ a.link {
   $height: .75em;
   height: $height;
   border-radius: $height/2;
+  cursor: pointer;
 }
 
 .question__slider-knob {

@@ -14,11 +14,21 @@ require 'helpers/starteur_webapp_helpers'
 
 ActiveRecord::Migration.maintain_test_schema!
 
+DatabaseCleaner.strategy = :truncation
+
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.include FactoryGirl::Syntax::Methods
   config.include StarteurWebappHelpers
+
+  config.before :each do
+    DatabaseCleaner.start
+  end
+
+  config.after :each do
+    DatabaseCleaner.clean
+  end
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

@@ -50,6 +50,38 @@ class QuestionContent extends React.Component {
   }
 }
 
+
+let sliderKeyDownListener = function(e) {
+  // Skip if knob is being dragged
+  if ($(ReactDOM.findDOMNode(this.refs.sliderKnob)).hasClass('dragging'))
+    return true;
+
+  let windowEvent = e || window.event;
+
+  // Skip irrelevant keys
+  if (e.keyCode !== KEYCODE_ARROW_LEFT && e.keyCode !== KEYCODE_ARROW_RIGHT)
+    return true;
+
+  // Skip if value is already at extreme
+  let divisionsCount = this.props.scale || this.choices.length;
+  let division = 1 / divisionsCount;
+  if (e.keyCode === KEYCODE_ARROW_LEFT  && this.state.sliderValue <= division) return;
+  if (e.keyCode === KEYCODE_ARROW_RIGHT && this.state.sliderValue > division * divisionsCount) return;
+
+  // Calculate new value
+  var newValue = Math.floor(this.state.sliderValue / division).constraint(0, divisionsCount - 1);
+  if (e.keyCode === KEYCODE_ARROW_LEFT) newValue--;
+  else if (e.keyCode === KEYCODE_ARROW_RIGHT) newValue++;
+
+  // Set new sliderValue
+  var newSliderValue = ((newValue + 0.5) * division).constraint(0, division * (divisionsCount - 0.5));
+
+  this.setState({ sliderValue: newSliderValue });
+  this.props.updateParentCurrentAnswerValue(newValue);
+  this.setState({ previousAnswerValueUpdatedToParent: newValue });
+};
+
+
 class QuestionSlider extends React.Component {
   constructor(props) {
     super(props);
@@ -128,34 +160,17 @@ class QuestionSlider extends React.Component {
     window.addEventListener('mouseup', knobMouseUpEvent, false);
 
     // Set keyboard event listeners
-    document.addEventListener('keydown', (e) => {
-      // Skip if knob is being dragged
-      if ($(ReactDOM.findDOMNode(this.refs.sliderKnob)).hasClass('dragging'))
-        return true;
+    document.addEventListener('keydown', sliderKeyDownListener.bind(this), true);
+  }
 
-      let windowEvent = e || window.event;
+  handleSliderBarClick(e) {
+    let windowEvent = e || window.event;
+    console.log(e.clientX);
+  }
 
-      // Skip irrelevant keys
-      if (e.keyCode !== KEYCODE_ARROW_LEFT && e.keyCode !== KEYCODE_ARROW_RIGHT)
-        return true;
-
-      // Skip if value is already at extreme
-      let divisionsCount = this.props.scale || this.choices.length;
-      let division = 1 / divisionsCount;
-      if (e.keyCode === KEYCODE_ARROW_LEFT  && this.state.sliderValue <= division) return;
-      if (e.keyCode === KEYCODE_ARROW_RIGHT && this.state.sliderValue > division * divisionsCount) return;
-
-      // Calculate new value
-      var newValue = Math.floor(this.state.sliderValue / division).constraint(0, divisionsCount - 1);
-      if (e.keyCode === KEYCODE_ARROW_LEFT) newValue--;
-      else if (e.keyCode === KEYCODE_ARROW_RIGHT) newValue++;
-
-      // Set new sliderValue
-      var newSliderValue = ((newValue + 0.5) * division).constraint(0, division * (divisionsCount - 0.5));
-      this.setState({ sliderValue: newSliderValue });
-      this.props.updateParentCurrentAnswerValue(newValue);
-      this.setState({ previousAnswerValueUpdatedToParent: newValue });
-    });
+  componentWillUnmount() {
+    // Remove keyboard event listeners
+    document.removeEventListener('keydown', sliderKeyDownListener.bind(this), true);
   }
 
   getCurrentChoiceId() {
@@ -196,7 +211,7 @@ class QuestionSlider extends React.Component {
         <div className="question__choices no-select">
           {choicesNodes}
         </div>
-        <div className="question__slider" ref="sliderBar">
+        <div className="question__slider" ref="sliderBar" onClick={this.handleSliderBarClick.bind(this)}>
           <div
             className="question__slider-knob"
             style={{ left: this.state.sliderValue*100 + '%' }}
