@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       collection do
         get 'display_tests'
         get 'purchase_success'
+        post 'apply_discount'
       end
     end
 
@@ -37,6 +38,18 @@ Rails.application.routes.draw do
       get 'assign_code_usages', to: 'batches#assign_code_usages'
     end
     resources :batch_users, only: [ :index, :create, :destroy]
+
+    namespace :admin do
+      resources :admins, only: [ :index ] do
+        get 'payment_history', to: 'admins#payment_history'
+        get 'generate_codes', to: 'admins#generate_codes'
+        get 'manage_access_codes', to: 'admins#manage_access_codes'
+        post 'generate_access_code', to: 'admins#generate_access_code'
+        post 'generate_discount_code', to: 'admins#generate_discount_code'
+        post 'generate_promotion_code', to: 'admins#generate_promotion_code'
+        post 'transfer_access_codes', to: 'admins#transfer_access_codes'
+      end
+    end
 
     post 'upload', to: 'batch_users#read'
 

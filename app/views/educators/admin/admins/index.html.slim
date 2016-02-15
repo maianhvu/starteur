@@ -8,26 +8,18 @@
       =image_tag "institution.png"
       h3 Your Institution
 
-      /.main-list
-        .menu-icon style="background:#FFC006" B
-        .menu-link
-          =link_to "My Batches", "#"
-      /.main-list
-        .menu-icon style="background:#0645ff" R
-        .menu-link
-          =link_to "My Reports", "#"
       .main-list
         .menu-icon style="background:#0645ff" C
         .menu-link      
-          =link_to "Code Management", "#"
+          =link_to "Code Management", educators_admin_admin_generate_codes_path(@educator)
       .main-list
         .menu-icon style="background:#ff0645" T
         .menu-link  
-          =link_to "Transfer Ownership", "#"
+          =link_to "Transfer Ownership", educators_admin_admin_manage_access_codes_path(@educator)
       .main-list
         .menu-icon style="background:#FFC006" P
         .menu-link  
-          =link_to "Payment Details", "#"
+          =link_to "Payment Details", educators_admin_admin_payment_history_path(@educator)
       .main-list
         .menu-icon style="background:#04E03A" G
         .menu-link  
@@ -53,7 +45,7 @@
       .summary-card
         .number
           a 1541
-        .type Completed Tasks
+        .type Complete Tasks
 
 
   #popup = render 'layouts/educators/modal'

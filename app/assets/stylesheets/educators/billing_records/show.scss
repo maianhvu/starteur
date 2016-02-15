@@ -4,10 +4,28 @@
     text-align: center;
   }
 
-  .button {
-    width: 250px;
-    margin-left: 650px;
+  #logo img {
+    width: 142px;
+    height: 32px;
+    float: left;
+    border-radius: 0%;
+    padding: 16px 16px 16px 16px;
+    margin-right: 400px;
     margin-bottom: 30px;
+  }
+
+  #get-started-card h3 {
+    padding: 0;
+    margin-left: 30px;
+    height: 30px;
+  }
+
+  .table-top {
+    margin-top: 20px;
+  }
+
+  .table-top .title {
+    width: 140px;
   }
 
   .table {
@@ -29,6 +47,14 @@
 
   .table td {
     font-size: 13px;
+  }
+
+  .table .bottom {
+    border-top: 1px dashed;
+  }
+
+  .table .bottom b {
+    font-size: 16px;
   }
 
   .col-min {

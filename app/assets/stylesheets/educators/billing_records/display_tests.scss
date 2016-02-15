@@ -127,14 +127,12 @@
   }
 
   .button-group {
-    margin-left: 600px;
+    margin-left: 750px;
     margin-bottom: 50px;
   }
 
-  .button {
-    width: 120px;
-    margin-left: 20px;
-    display: inline-block;
+  .button-group .button {
+    padding: 8px 40px;
   }
 
   input[type=number]::-webkit-inner-spin-button,

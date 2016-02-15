@@ -109,6 +109,20 @@
     margin-right: auto;
   }
 
+  .block-message p {
+    display: inline-block;
+  }
+
+  .block-message .quantity {
+    width: 30px;
+    display: inline-block;
+  }
+
+  .block-message .quantity p {
+    width: 30px;
+    border-bottom: 1px solid;
+  }
+
   .button-group {
     width: 540px;
     margin-top: 20px;

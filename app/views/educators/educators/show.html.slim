@@ -8,25 +8,22 @@
       =image_tag "institution.png"
       h3 Your Institution
 
-      /.main-list
-        .menu-icon style="background:#FFC006" B
-        .menu-link
-          =link_to "My Batches", "#"
-      /.main-list
-        .menu-icon style="background:#0645ff" R
-        .menu-link
-          =link_to "My Reports", "#"
       .main-list
-        .menu-icon style="background:#0645ff" P
+        .menu-icon.blue P
         .menu-link      
           =link_to "View Payment History", educators_billing_records_path   
       .main-list
-        .menu-icon style="background:#ff0645" T
+        .menu-icon.red T
         .menu-link  
           =link_to "Purchase Test", display_tests_educators_billing_records_url
+      .main-list
+        .menu-icon.yellow C
+        .menu-link  
+          =link_to "Client Management", educators_admin_admins_path
 
     #get-started-card.card
-      .card-title Available Access Codes
+      .card-title 
+        a Available Access Codes
       - if @remaining_access_codes.size == 0
         .card-section
           p Please purchase tests first.
@@ -63,28 +60,21 @@
         h1.horizontal My Batches
         
         .batch-search-field.horizontal
-          /= form_for :educator, url: "#", method: :post, :html => { :class => "form" } do |f|
-            /= search_field_tag :batch, params[:batch], class: "input-box search-box", placeholder: "Search by batch name, id, etc"
-        
           .dropdown-grp
-            /button.btn.radius-left data-toggle="modal" data-target="#myModal" Create Batch
-            /button.btn.radius-right.dropdown-toggle#menu1 data-toggle="dropdown"
             button.btn.radius data-toggle="modal" data-target="#myModal" Create Batch
-            /.caret
-            /ul.dropdown-menu role="menu" aria-labelledby="menu1"
-              li role="presentation"
-                a role="menuitem" tabindex="-1" Delete All
         
       - @batches.each do |batch|
         #dashboard-card.card
           .batch-left
-            .batch-name = batch.name
+            .batch-name
+              = link_to "#{batch.name}", educators_batch_path(batch.id)
             .test-name = Test.find(batch.test_id).name
-            .completion-rate-bar
-              span style="width:0"
+            /.completion-rate-bar
+              /span
           .batch-center
-            .batch-id = "Batch ID: ##{batch.id}"
-            .completed-students = batch.email.size
+            /.batch-id = "Batch ID: ##{batch.id}"
+            .completed-students
+              a = batch.email.size
             .message Students Enrolled
           .batch-right
             .button-grp
@@ -92,25 +82,6 @@
               /button.btn.radius-right.dropdown-toggle#menu2 data-toggle="dropdown"
               button.btn.radius =link_to "View batch", educators_batch_path(batch.id)
               /.caret
-              /ul.dropdown-menu role="menu" aria-labelledby="menu2"
-                li role="presentation"
-                  a role="menuitem" tabindex="-1" Delete
-
-        /#dashboard-card.card
-          .batch-left
-            .batch-name Sample Batch
-            .test-name Sample Test Name
-            .completion-rate-bar
-              span style="width:40%"
-          .batch-center
-            .batch-id #0001
-            .completed-students 4/10
-            .message Students Completed
-          .batch-right
-            .button-grp
-              button.btn.radius-left =link_to "View batch", educators_batch_path(batch.id)
-              button.btn.radius-right.dropdown-toggle#menu2 data-toggle="dropdown"
-                .caret
               /ul.dropdown-menu role="menu" aria-labelledby="menu2"
                 li role="presentation"
                   a role="menuitem" tabindex="-1" Delete
@@ -120,11 +91,12 @@
           .batch-left
             .batch-name = batch.name
             .test-name = Test.find(batch.test_id).name
-            .completion-rate-bar
-              span style="width:0"
+            /.completion-rate-bar
+              /span
           .batch-center
-            .batch-id = "Batch ID: ##{batch.id}"
-            .completed-students = batch.email.size
+            /.batch-id = "Batch ID: ##{batch.id}"
+            .completed-students
+              a = batch.email.size
             .message Students Enrolled
           .batch-right
             .button-grp
@@ -134,25 +106,6 @@
               /.caret
               /ul.dropdown-menu role="menu" aria-labelledby="menu2"
                 li role="presentation"
-
-        /#dashboard-card.card
-          .batch-left
-            .batch-name Sample Batch
-            .test-name Sample Test Name
-            .completion-rate-bar
-              span style="width:40%"
-          .batch-center
-            .batch-id #0001
-            .completed-students 4/10
-            .message Students Completed
-          .batch-right
-            .button-grp
-              button.btn.radius-left =link_to "View batch", educators_batch_path(batch.id)
-              button.btn.radius-right.dropdown-toggle#menu2 data-toggle="dropdown"
-                .caret
-              /ul.dropdown-menu role="menu" aria-labelledby="menu2"
-                li role="presentation"
-                  a role="menuitem" tabindex="-1" Delete
 
   .modal.fade#myModal tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     .modal-dialog role="document"

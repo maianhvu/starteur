@@ -1,19 +1,20 @@
 = render 'layouts/educators/simple_menu'
 
+.button.radius.ghost.back = link_to "← Back to Payment History", educators_billing_records_path
+
 #content.center-block
   #get-started-card.card
 
-    = image_tag("header-logo.png")
-
-    table
+    #logo = image_tag "header-logo.png"
+    table.table-top
       tr
         td
-          h3 style="width: 140px" Invoice:
+          h3.title Invoice:
         td
           h3 = @bill_number
       tr
         td
-          h3 style="width: 140px" Invoice Date:
+          h3.title Invoice Date:
         td
           h3 = localize(@created_at.in_time_zone("Singapore"), :format => :long)
 
@@ -36,16 +37,14 @@
           td.text-center ="$ " + test.price.to_s + " SGD"
           /td.text-center ="$ " + (billing_line_item.quantity * test.price).to_s + " SGD"
           - total_price = total_price + billing_line_item.quantity * test.price
-      tr style="border-top: 1px dashed"
+      tr
         td.text-center
-          b style="font-size: 16px" Total
+          b Total
         td
         td  
         /td
         td.text-center 
-          b style="font-size: 16px" ="$ " + total_price.to_s + " SGD"
-
-    .button = link_to "Back to Payment History", educators_billing_records_path
+          b = "$ " + total_price.to_s + " SGD"
 
   #popup = render 'layouts/educators/modal'
 

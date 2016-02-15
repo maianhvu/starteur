@@ -1,0 +1,86 @@
+.modal-dialog {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 99999;
+	opacity: 0;
+	-webkit-transition: opacity 200ms;
+	-moz-transition: opacity 200ms;
+	-o-transition: opacity 200ms;
+	transition: opacity 200ms;
+	pointer-events: none;
+	width: 100%;
+	height: 100%;
+}
+.modal-dialog:target {
+	opacity: 1;
+	pointer-events: auto;
+}
+.modal-dialog .main {
+	width: 90%;
+	max-width: 440px;
+	position: relative;
+	margin: 10% auto;
+	border: 1px solid rgba(0,0,0,0.15);
+	border-radius: 4px;
+	background: #f4f4f4;
+	box-sizing: border-box;
+}
+.modal-dialog h2 {
+	width: 100%;
+	background: #ffffff;
+	border-radius: 4px 4px 0 0;
+	padding: 16px 32px;
+	box-sizing: border-box;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+	margin: 0;
+}
+.modal-dialog .content {
+	padding: 32px;
+}
+.modal-dialog .small {
+	padding: 0px 32px 32px 32px;
+}
+.modal-dialog .close {
+	position: absolute;
+	height: 24px;
+	width: 24px;
+	top: 24px;
+	right: 24px;
+	opacity: 0.3;
+}
+.modal-dialog .close:hover {
+	opacity: 0.6;
+}
+.modal-dialog .button {
+	margin: 0px;
+	width: 100%;
+}
+.modal-dialog .tos {
+	font-size: 14px;
+	margin-left: 8px;
+	margin: 8px 0px 0px 8px;
+}
+.modal-dialog .forgot-password {
+	color: #49c6ad;
+	font-size: 14px;
+	margin-top: 8px;
+	display: inline-block;
+}
+.modal-dialog .forgot-password:hover {
+	opacity: 0.8;
+	text-decoration: underline;
+}
+.modal-dialog .tall {
+	height: 120px;
+}
+.modal-dialog p {
+	margin-bottom: 8px;
+}
+.modal-dialog .center-text {
+	text-align: center;
+	margin-bottom: 16px;
+}

@@ -1,0 +1,63 @@
+= render "layouts/educators/dashboard_menu"
+= render "layouts/educators/flash_messages"
+
+#content.center-block
+  .background
+  .left
+    #get-started-card.card-primary
+      =image_tag "institution.png"
+      h3 Your Institution
+
+      .main-list
+        .menu-icon style="background:#0645ff" C
+        .menu-link      
+          =link_to "Code Management", educators_admin_admin_generate_codes_path(@educator)
+      .main-list
+        .menu-icon style="background:#ff0645" T
+        .menu-link  
+          =link_to "Transfer Ownership", educators_admin_admin_manage_access_codes_path(@educator)
+      .main-list
+        .menu-icon style="background:#FFC006" P
+        .menu-link  
+          =link_to "Payment Details", educators_admin_admin_payment_history_path(@educator)
+      .main-list
+        .menu-icon style="background:#04E03A" G
+        .menu-link  
+          =link_to "Generate Reports", "#"
+  
+  .right
+      #new-educator-card.card
+        h1.horizontal style="font-weight: bold" Code Management
+        h2 Generate Codes
+
+        h1 Select a type of code to generate
+
+        select#select.btn
+          option value="access-code" Access Code ▾
+          option value="discount-code" Discount Code ▾
+          option value="promotion-code" Promotion Code ▾
+
+        #access-code.option
+          h1 Please enter the number of access codes you want to generate
+          = form_for :access_code, url: educators_admin_admin_generate_access_code_path(@educator), method: :post do |f|
+            /.col-xs-6 = f.select :test_id, options_from_collection_for_select(@tests, :id, :name)
+            .field = f.number_field :permits, value: 0, min: 1
+            .measure Codes
+            .submit = f.submit "Generate", class: "btn radius"
+        #discount-code.option
+          h1 Please enter the percentage of discount code you want to generate
+          = form_for :discount_code, url: educators_admin_admin_generate_discount_code_path(@educator), method: :post do |f|
+            .field = f.number_field :percentage, value: 0, min: 0, max: 100
+            .measure %
+            .submit = f.submit "Generate", class: "btn radius"
+        #promotion-code.option
+          h1 Please enter the number of promotion codes you want to generate
+          = form_for :promotion_code, url: educators_admin_admin_generate_promotion_code_path(@educator), method: :post do |f|
+            /.col-xs-6 = f.select :test_id, options_from_collection_for_select(@tests, :id, :name)
+            .field = f.number_field :quantity, value: 0, min: 1
+            .measure Codes
+            .submit = f.submit "Generate", class: "btn radius"
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'

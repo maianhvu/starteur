@@ -1,0 +1,362 @@
+/* ATTENTION: HIGHLY DELICATE CSS THAT MIGHT EXPLODE IN YOUR FACE (I'M SORRY)*/
+
+/* ----- MAIN ----- */
+
+body {
+	color: #616161;
+	background: #FBFBFB;
+}
+.preload-images {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+	opacity: 0;
+}
+/* ----- SECTION WRAPPERS ----- */
+#header-wrapper {
+	width: 100%;
+	height: 48px;
+}
+#header-wrapper * {
+	-webkit-transition: all 240ms ease;
+	-moz-transition: all 240ms ease;
+	-o-transition: all 240ms ease;
+	transition: all 240ms ease;
+}
+#splash-wrapper {
+	height: auto;
+	overflow: auto;
+	margin-top: 72px;
+}
+.feature-wrapper {
+	position: relative;
+	height: 270px;
+	margin-top: 160px;
+}
+#signup {
+	padding-top: 100px;
+	margin-top: 100px;
+	height: auto;
+	padding-bottom: 150px;
+	background: white;
+}
+/* ----- STICKY HEADER ----- */
+.sticky-header {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: rgba(255,255,255,0.875);
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+	z-index: 900;
+}
+.sticky-header .header-logo {
+	height: 40px;
+	padding: 8px 0;
+}
+.sticky-header .sign-in {
+	margin: 24px 0;
+}
+/* ----- HEADER SECTION ----- */
+.header-logo {
+	height: 48px;
+	float: left;
+}
+.sign-in {
+	float: right;
+	font-size: 12px;
+	line-height: 12px;
+	font-weight: 300;
+	margin: 24px 0;
+	cursor: pointer;
+}
+.sign-in .emphasis {
+	color: #49c6ad;
+	font-weight: 400;
+}
+.sign-in:hover .emphasis {
+	opacity: 0.8;
+	text-decoration: underline;
+}
+/* ----- MOBILE HEADER ----- */
+#mobile-header {
+	width: 100%;
+	height: 64px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+	z-index: 899;
+	background: rgba(255,255,255,0.875) url(../images/header-logo.png) no-repeat center;
+	background-size: auto 40px;
+}
+/* ----- SPLASH SECTION ----- */
+#splash-wrapper .description {
+	padding-top: 8px;
+	width: 50%;
+	float: left;
+}
+#splash-wrapper .sign-in {
+	float: none;
+	text-align: center;
+}
+#splash-wrapper .signup-form {
+	float: right;
+	margin-right: 1px;
+}
+#splash-wrapper .hero-image-square {
+	width: 100%;
+	display: block;
+	padding-top: 24px;
+}
+#splash-wrapper .med-screen-hero-image {
+	display: none;
+}
+/* ----- FEATURES SECTION ----- */
+.feature-wrapper .description {
+	padding-top: 32px;
+	width: 49%;
+}
+.feature-wrapper .right {
+	float: right;
+}
+.feature-wrapper .left {
+	float: left;
+}
+.feature-wrapper .right-image {
+	float: right;
+	margin-right: 7%;
+	width: 49%;
+}
+.feature-wrapper .left-image {
+	float: left;
+	margin-left: 36px;
+	width: 49%;
+}
+.feature-wrapper h2 {
+	font-size: 19px;
+	line-height: 36px;
+}
+/* ----- SIGNUP FORM ----- */
+
+.signup-form {
+	width: 100%;
+	max-width: 344px;
+}
+.signup-form .first-name {
+	width: 48.75%;
+	float: left;
+}
+.signup-form .last-name {
+	width: 48.75%;
+	float: right;
+}
+.signup-form .input-box::-webkit-input-placeholder {
+ color: #5b5b5b;
+opacity:1;
+}
+ .signup-form .input-box:-moz-placeholder {
+color: #5b5b5b;
+ opacity:  1;
+}
+.signup-form .input-box::-moz-placeholder {
+color: #5b5b5b;
+ opacity:  1;
+}
+.signup-form .input-box:-ms-input-placeholder {
+color: #5b5b5b;
+ opacity:1;
+}
+.signup-form .tos {
+	font-size: 14px;
+	margin-left: 8px;
+	margin: 8px 0px 0px 8px;
+}
+.signup-form .button {
+	margin-top: 16px;
+}
+.signup-form a {
+	color: #49c6ad;
+}
+.signup-form a:hover {
+	opacity: 0.8;
+	text-decoration: underline;
+}
+#signup h2 {
+	text-align: center;
+}
+#signup .sign-in {
+	float: none;
+	text-align: center;
+}
+
+@media screen and (max-width:952px) {
+/* ----- TYPOGRAPHY ----- */
+h1 {
+	font-size: 32px;
+	line-height: 48px;
+	font-weight: 300;
+	color: inherit;
+	margin: 0 0 16px 0;
+	letter-spacing: 0.5px;
+}
+h2 {
+	font-size: 16px;
+	line-height: 32px;
+	color: inherit;
+	margin: 0 0 8px 0;
+	font-weight: 300;
+	letter-spacing: 0.5px;
+}
+/* ----- SPLASH SECTION ----- */
+#splash-wrapper .description {
+	padding-top: 0px;
+	width: 55%;
+}
+#splash-wrapper .signup-form {
+	margin-right: 1px;
+	width: 40%;
+}
+#splash-wrapper .filmstrip-outer-wrapper {
+	display: none;
+}
+#splash-wrapper .med-screen-hero-image {
+	width: 100%;
+	display: block;
+}
+/* ----- FEATURES SECTION ----- */
+.feature-wrapper .description {
+	padding-top: 0px;
+	width: 55%;
+}
+.feature-wrapper .right {
+	float: right;
+}
+.feature-wrapper .left {
+	float: left;
+}
+.feature-wrapper .right-image {
+	float: right;
+	margin-right: 2%;
+	width: 40%;
+}
+.feature-wrapper .left-image {
+	float: left;
+	margin-left: 0.5%;
+	width: 40%;
+}
+.feature-wrapper h2 {
+	font-size: 19px;
+	line-height: 36px;
+}
+}
+
+@media screen and (max-width:688px) {
+/* ----- SECTION WRAPPERS ----- */
+#splash-wrapper {
+	height: auto;
+	overflow: hidden;
+	margin-top: 72px;
+}
+.feature-wrapper {
+	position: relative;
+	height: auto;
+	overflow: auto;
+	margin-top: 96px;
+}
+#signup {
+	padding-top: 64px;
+	margin-top: 64px;
+	height: auto;
+	padding-bottom: 96px;
+	background: white;
+}
+/* ----- TYPOGRAPHY ----- */
+
+h1 {
+	font-size: 36px;
+	line-height: 48px;
+	margin: 0 0 16px 0;
+	text-align: center;
+}
+h2 {
+	font-size: 20px;
+	line-height: 32px;
+	margin: 0 0 8px 0;
+	text-align: center;
+}
+/* ----- SPLASH SECTION ----- */
+#splash-wrapper .description {
+	padding-top: 8px;
+	width: 100%;
+	float: none;
+}
+#splash-wrapper h1 {
+	font-size: 32px;
+	line-height: 44px;
+	font-weight: 300;
+	margin: 8px 0;
+}
+#splash-wrapper .filmstrip-size-wrapper {
+	width: 75%;
+	margin: 0 auto;
+}
+#splash-wrapper .signup-form {
+	float: none;
+	width: 100%;
+	margin: 0 auto;
+}
+#splash-wrapper .button {
+	margin: 32px auto;
+	width: 160px;
+}
+#splash-wrapper .med-screen-hero-image {
+	display: none;
+}
+/* ----- FEATURES SECTION ----- */
+.feature-wrapper .description {
+	padding-top: 0px;
+	width: 100%;
+}
+.feature-wrapper .right {
+	float: center;
+}
+.feature-wrapper .left {
+	float: none;
+}
+.feature-wrapper .right-image {
+	float: none;
+	margin: 0 auto;
+	width: 75%;
+}
+.feature-wrapper .left-image {
+	float: none;
+	margin: 0 auto;
+	width: 75%;
+}
+.feature-wrapper h2 {
+	font-size: 20px;
+	line-height: 32px;
+	margin-top: 16px;
+}
+}
+
+@media screen and (max-width:688px) and (orientation: portrait) {
+.portrait {
+	display: inherit;
+}
+.landscape {
+	display: none;
+}
+}
+
+@media screen and (max-width:688px) and (orientation: landscape) {
+.portrait {
+	display: none;
+}
+.landscape {
+	display: inherit;
+}
+}

@@ -88,8 +88,8 @@
           td.text-center.col-2 = "$ #{total}"
       
       .button-group  
-        .button.first = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems)
-        = f.submit 'Confirm', class: "button"
+        = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems), class: "button radius"
+        = f.submit 'Confirm', class: "button radius"
   
   #popup = render 'layouts/educators/modal'
 
