@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
   root to: 'pages#index'
 
-  devise_for :educators, controllers: {
+  devise_for :educators, class_name: "Educator", controllers: {
     sessions: 'educators/sessions',
     registrations: 'educators/registrations',
     confirmations: 'educators/confirmations'

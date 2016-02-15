@@ -2,7 +2,7 @@ class Educators::BaseController < ActionController::Base
 
   layout 'educators/application'
 
-  before_action :require_login
+  # before_action :require_login
   before_action :prepare_educator
 
   private
@@ -12,7 +12,7 @@ class Educators::BaseController < ActionController::Base
   # end
 
   def prepare_educator
-    @educator = current_user
+    @educator = current_educator
   end
 
 end

@@ -29,6 +29,6 @@ class Educators::SessionsController < Devise::SessionsController
   end
 
   def after_sign_out_path_for(resource)
-    educators_root_path
+    new_educator_session_path
   end
 end
