@@ -80,11 +80,11 @@ Rails.application.routes.draw do
 
     resources :password_resets, only: [ :new, :create, :edit, :update ]
 
-    get 'login', to: 'educator_sessions#new'
-    post 'login', to: 'educator_sessions#create'
-    delete 'logout', to: 'educator_sessions#destroy'
+    # get 'login', to: 'educator_sessions#new'
+    # post 'login', to: 'educator_sessions#create'
+    # delete 'logout', to: 'educator_sessions#destroy'
 
-    root to: 'educator_sessions#new'
+    root to: 'educators/sessions#new'
   end
 
 end
