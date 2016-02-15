@@ -13,6 +13,8 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   def show
     super do |resource|
       resource.confirm_email!
+      service = Educators::UserCodeUsageAssignmentService.new
+      service.assign_code_usages(resource)
     end
   end
 
