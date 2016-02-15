@@ -2,11 +2,11 @@ class TestsController < ApplicationController
 
   include SQLHelper
 
-  before_action :authenticate_user!, :check_if_already_completed
+  before_action :authenticate_user! # , :check_if_already_completed
   layout 'tests'
 
   def begin
-    if current_user.code_usages_for_test(params[:id]).empty?
+    if CodeUsage.used.where(user: current_user, test_id: params[:id]).empty?
       # When user has not activated a code for this test
       redirect_to dashboard_index_path
     else

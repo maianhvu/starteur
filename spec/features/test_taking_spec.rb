@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Test Taking', type: :feature do
 
   given(:user) { FactoryGirl.create(:user, :confirmed) }
-  given(:generic_test) { FactoryGirl.create(:test, :generic) }
+  given(:test) { FactoryGirl.create(:test) }
 
   before(:each) do
     sign_in_using(user)
@@ -11,7 +11,7 @@ RSpec.feature 'Test Taking', type: :feature do
 
   scenario 'User has not signed in' do
     sign_out
-    visit begin_test_path(generic_test.id)
+    visit begin_test_path(test.id)
     expect(current_path).to eq(new_user_session_path)
   end
 
@@ -19,8 +19,8 @@ RSpec.feature 'Test Taking', type: :feature do
 
     scenario 'User is prevented from take test' do
       # Generate bait code (unused)
-      FactoryGirl.create(:access_code, test: generic_test)
-      visit begin_test_path(generic_test.id)
+      FactoryGirl.create(:access_code, test: test)
+      visit begin_test_path(test.id)
       # Redirects away
       expect(current_path).to eq(dashboard_index_path)
       # TODO: Check for error messages
@@ -29,12 +29,15 @@ RSpec.feature 'Test Taking', type: :feature do
   end
 
   context 'With code usage' do
-
-    given(:test) { FactoryGirl.create(:test) }
     given(:access_code) { FactoryGirl.create(:access_code, test: test) }
 
     before(:each) do
-      CodeUsage.create!(user: user, access_code: access_code, test: test)
+      CodeUsage.create!(
+        user: user,
+        access_code: access_code,
+        test: test,
+        state: CodeUsage.states[:used]
+      )
     end
 
     scenario 'User is allowed to take test' do
