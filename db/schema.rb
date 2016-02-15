@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160210102818) do
+ActiveRecord::Schema.define(version: 20160214150034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,10 +142,18 @@ ActiveRecord::Schema.define(version: 20160210102818) do
     t.string   "title"
     t.string   "secondary_email"
     t.boolean  "admin",                           default: false
+    t.string   "encrypted_password",              default: "",    null: false
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                   default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
   end
 
   add_index "educators", ["email"], name: "index_educators_on_email", unique: true, using: :btree
-  add_index "educators", ["reset_password_token"], name: "index_educators_on_reset_password_token", using: :btree
+  add_index "educators", ["reset_password_token"], name: "index_educators_on_reset_password_token", unique: true, using: :btree
 
   create_table "feedbacks", force: :cascade do |t|
     t.text     "message"

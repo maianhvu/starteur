@@ -1,0 +1,30 @@
+#header.center-block
+  = render "layouts/educators/navigation"
+  = render "layouts/educators/flash_messages"
+
+#content.center-block
+  .sign-in-box.center
+
+    h2 Educator login portal
+
+    br
+
+    = form_for :educator, url: educator_session_path, method: :post, :html => { :class => "form" } do |f|
+
+      = email_field_tag :email, params[:email], autofocus: true, required: true, class: "input-box", placeholder: "Email address"
+      = password_field_tag :password, params[:password], autocomplete: "off", required: true,  class: "input-box", placeholder: "Password"
+
+      /p
+        = check_box_tag "rememberme"
+        = content_tag(:span, "Remember Me", class: "tos")
+
+      = f.submit "Log in", class: "button half"
+      = link_to 'Create Account', new_educator_registration_path, class: 'button half ghost'
+        / .col-xs-6
+        /   .form-group.pull-right = link_to 'Forgot password?', '#', class: 'btn btn-link'
+
+    / = link_to "Don't have an account? Get started here.", '#', class: "btn btn-default btn-block btn-lg"
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'
