@@ -4,24 +4,23 @@ class Educators::BatchUsersController < Educators::BaseController
 
   def create
     @email = params[:batch_users][:email]
-    if @email == ""
-      flash[:alert] = "Please enter the user's email address"
+    @first_name = params[:batch_users][:first_name]
+    @last_name = params[:batch_users][:last_name]
+
+    @batch = Batch.find(params[:batch_users][:batch_id])
+
+    hlist = @batch.username
+
+    list = @batch.email
+    if list.include?(@email)
+      flash[:alert ] = "The e-mail you entered already exists!"
       redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
     else
-      @first_name = params[:batch_users][:first_name]
-      @last_name = params[:batch_users][:last_name]
-
-      @batch = Batch.find(params[:batch_users][:batch_id])
-
-      list = @batch.email
-      if list.include?(@email)
-        flash[:alert ] = "The e-mail you entered already exists!"
-      else
-        list.push(@email)
-        @batch.save
-        flash[:notice ] = "Email has been added!"
-      end
-      redirect_to educators_batch_path(@batch)
+      hlist[@email] = [@last_name, @first_name]
+      list.push(@email)
+      @batch.save
+      flash[:notice ] = "Email has been added!"
+      redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
     end
   end
 
@@ -45,22 +44,23 @@ class Educators::BatchUsersController < Educators::BaseController
   def read
     @batch = Batch.find(params[:batch_users][:batch_id])
     list = @batch.email
+    hlist = @batch.username
 
     uploaded_io = params[:batch_users][:file]
-    if uploaded_io
-      path = uploaded_io.path
-      CSV.foreach(path) do |row|
-        @email = row.first
-        if list.include?(@email)
-          flash[:alert ] = "The e-mail #{@email} you entered already exists!"
-        else
-          list.push(@email)
-          @batch.save
-          flash[:notice ] = "Uploaded CSV file"
-        end
+    path = uploaded_io.path
+
+    CSV.foreach(path, col_sep: ',') do |row|
+      @email = row[0]
+      @last_name = row[1]
+      @first_name = row[2]
+      if list.include?(@email)
+        flash[:alert ] = "The e-mail #{@email} you entered already exists!"
+      else
+        hlist[@email] = [@last_name, @first_name]
+        list.push(@email)
+        @batch.save
+        flash[:notice ] = "Uploaded CSV file"
       end
-    else
-      flash[:alert] = "Please choose the correct CSV file"
     end
     redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
   end
