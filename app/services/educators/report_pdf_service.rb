@@ -24,8 +24,14 @@ class Educators::ReportPdfService < Prawn::Document
       end
       attrib.symbolize_keys
     end
+
+    ans = Answer.where(user_id: @userid, test_id: @test.id).all
+    hlist = Hash.new
+    ans.each do |answ|
+      hlist[answ.question_id] = answ.value
+    end
+    answers = hlist
     #answers = user.results.order('created_at DESC').find_by(:test_id => params[:test_id]).answers
-    answers = Result.order('created_at DESC').find_by(user_id: @userid, test_id: @test.id).answers
     # require file
     #processor_path = Rails.root.join('app', 'processors', "#{test.processor_file}.rb")
     processor_path = Rails.root.join('app', 'processors', "starteur_profiling_assessment.rb")
@@ -96,7 +102,6 @@ class Educators::ReportPdfService < Prawn::Document
       k = 0
       kmax = 5
     end
-
     # set starteur potential icon
     @potentialstr = ""
     @potentialdesc = ""
@@ -122,7 +127,7 @@ class Educators::ReportPdfService < Prawn::Document
       @potentialdescpt1 = "You have strong fact-based knowledge about entrepreneurship, and are very interested to take on this career path. You well-formed ideas about entrepreneurship, stemming from your own personal experiences and that of others, though you are likely to always be searching for more valuable insight."
       @potentialdescpt2 = "You see entrepreneurship as a prospective career path for you, and are willing to give it a try. In fact, you are optimistic that you will make startups and entrepreneurship work for you, and are likely to have taken actionable, concrete steps to materialise your plans."
       @potentialdescpt3 = "Though you may feel settled or easily satisfied at times with what you have achieved, innately you feel compelled to achieve something more than what you have already done; you are aware of the untapped potential that is there."
-    when "eceptional"
+    when "exceptional"
       @potentialstr = "icon-potential-4.png"
       @potentialdesc = "Exceptional – Your Starteur™ Profile indicates your current potential as Exceptional, putting you amongst the highest of individuals who have completed the profiling tool. Review your results below, and consider the suggestions provided to realize your full entrepreneurial potential."
       @potentialdescpt1 = "You have deep knowledge about startups and entrepreneurship, and you believe that entrepreneurship is your calling. You have diverse ideas about entrepreneurship, stemming from your own personal experiences and that of others, and are always trying to find out more. You see yourself as a thought leader in certain aspects in which you claim domain mastery, and are likely to seek out other subject experts to maximize your own learning."
