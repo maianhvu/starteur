@@ -2,7 +2,7 @@ class DiscountCode < ActiveRecord::Base
 
   include AASM
 
-  before_save :generate_code
+  before_save :generate_code, if: -> { new_record? }
 
   belongs_to :billing_record
 
@@ -11,22 +11,29 @@ class DiscountCode < ActiveRecord::Base
 
   # State definitions
   enum state: {
-    unused: 1,
+    generated: 1,
+    unused: 3,
     used: 5,
     deactivated: 10
   }
 
   aasm :column => :state do
-    state :unused, :initial => true
+    state :generated, :initial => true
+    state :unused
     state :used
     state :deactivated
 
+    event :assign do
+      transitions :from => :generated, :to => :unused
+    end
+
     event :use do
-      transitions :from => :unused, :to => :used
+      transitions :from => :unused, :to => :used,
+      guards: :validate_billing_record
     end
 
     event :deactivate do
-      transitions :from => [ :unused, :used ], :to => :deactivated
+      transitions :from => [ :generated, :unused ], :to => :deactivated
     end
   end
 
@@ -43,6 +50,10 @@ class DiscountCode < ActiveRecord::Base
       end
     end
     self.code = code
+  end
+
+  def validate_billing_record
+    billing_record
   end
 
 end

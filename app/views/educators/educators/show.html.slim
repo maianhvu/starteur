@@ -41,6 +41,14 @@
           .menu-icon style="background:#ff0645" T
           .menu-link
             = link_to "Transfer access codes", educators_admin_admin_manage_access_codes_path(@educator)
+        .main-list
+          .menu-icon style="background:#ff0645" P
+          .menu-link
+            = link_to "View promotion codes", educators_admin_promotion_codes_path
+        .main-list
+          .menu-icon style="background:#ff0645" D
+          .menu-link
+            = link_to "View discount codes", educators_admin_discount_codes_path
 
     #get-started-card.card
       .card-title Available Access Codes

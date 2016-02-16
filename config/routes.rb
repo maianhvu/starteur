@@ -69,6 +69,14 @@ Rails.application.routes.draw do
         post 'generate_promotion_code', to: 'admins#generate_promotion_code'
         post 'transfer_access_codes', to: 'admins#transfer_access_codes'
       end
+
+      resources :promotion_codes, only: [ :index ] do
+        post 'assign_code'
+      end
+
+      resources :discount_codes, only: [ :index ] do
+        post 'assign_code'
+      end
     end
 
     resources :promotion_codes, only: [ :index ] do
