@@ -6,6 +6,10 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
   before_action :prepare_transfer_access_code_params, only: [:transfer_access_codes]
 
   def index
+    @educator_total = Educator.all.count
+    @batch_total = Batch.all.count
+    @user_total = User.all.count
+    @test_total = Test.all.count
   end
 
   def payment_history
@@ -24,19 +28,19 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
   def generate_access_code
     ac = AccessCode.new(test_id: params[:access_code][:test_id], permits: params[:access_code][:permits], educator: @educator)
     flash[:success] = ac.save ? 'Access code created' : ac.errors.full_messages.join(", ")
-    redirect_to educators_educator_path(@educator)
+    redirect_to educators_admin_admins_path(@educator)
   end
 
   def generate_discount_code
     dc = DiscountCode.new(percentage: params[:discount_code][:percentage])
     flash[:success] = dc.save ? 'Discount code created' : dc.errors.full_messages.join(", ")
-    redirect_to educators_educator_path(@educator)
+    redirect_to educators_admin_admins_path(@educator)
   end
 
   def generate_promotion_code
     pc = PromotionCode.new(test_id: params[:promotion_code][:test_id], quantity: params[:promotion_code][:quantity])
     flash[:success] = pc.save ? 'Promotion code created' : pc.errors.full_messages.join(", ")
-    redirect_to educators_educator_path(@educator)
+    redirect_to educators_admin_admins_path(@educator)
   end
 
   def transfer_access_codes
@@ -46,7 +50,7 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
       ac.update_attributes({educator: educator})
     end
     flash[:success] = 'Codes successfully transferred'
-    redirect_to educators_educator_path(@educator)
+    redirect_to educators_admin_admins_path(@educator)
   end
 
   private

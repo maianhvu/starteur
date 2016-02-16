@@ -110,7 +110,7 @@
                 - if (code_usage = @batch.code_usages.find_by(email: email))
                   - if code_usage.user
                     - if code_usage.complete?
-                      = link_to "View Report", "#", class: "user-status yellow"
+                      = link_to "View Report", educators_generate_batch_report_path(batch_id: @batch.id, user_id: User.find_by(email: email).id), method: :generate_batch_report, class: "user-status yellow"
                   - else
                     a Email sent
                 - else
