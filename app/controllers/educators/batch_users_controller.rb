@@ -16,13 +16,12 @@ class Educators::BatchUsersController < Educators::BaseController
       list = @batch.email
       if list.include?(@email)
         flash[:alert ] = "The e-mail you entered already exists!"
-        redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
       else
         list.push(@email)
         @batch.save
         flash[:notice ] = "Email has been added!"
-        redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
       end
+      redirect_to educators_batch_path(@batch)
     end
   end
 
@@ -34,6 +33,9 @@ class Educators::BatchUsersController < Educators::BaseController
     bcu = batch.batch_code_usages.find_by(batch: batch, code_usage: cu)
     if bcu
       bcu.destroy
+    end
+    if cu && cu.user.nil?
+      cu.destroy
     end
     batch.save
     flash[:alert ] = "Email has been deleted!"

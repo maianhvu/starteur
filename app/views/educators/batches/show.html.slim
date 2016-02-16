@@ -86,7 +86,7 @@
                 - else
                   .col-xs-6 Not Activated
                   .col-xs-6
-                    .button.btn-status style="background-color: #FF0000;" = link_to 'Assign Access Code', educators_batch_assign_code_usages_path(@batch), method: :get, data: { email: email }
+                    .button.btn-status style="background-color: #FF0000;" = link_to 'Assign Access Code', educators_batch_assign_code_usages_path(batch_id: @batch, email: email), method: :get
               td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: email), method: :delete, class: "button"
 
     .add-group

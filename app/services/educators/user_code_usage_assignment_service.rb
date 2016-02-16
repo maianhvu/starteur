@@ -6,7 +6,7 @@ class Educators::UserCodeUsageAssignmentService
     errors = {}
     code_usages = CodeUsage.where(email: user.email)
     code_usages.each do |cu|
-      unless cu.update(user: user)
+      unless cu.update(user: user) && cu.use!(user)
         errors.store(cu.uuid, cu.errors)
       end
     end
