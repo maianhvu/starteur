@@ -78,8 +78,6 @@ class Educators::ReportPdfService < Prawn::Document
       kmax = 5
     end
 
-
-
     # bottom attributes
     @botattrib = []
     j = 0
@@ -230,17 +228,17 @@ class Educators::ReportPdfService < Prawn::Document
 
     bounding_box([0, y_position],:width => 540, :height => bounds.height) do
       text "#{@potentialdesc}", size: right_column_font_size, :color => right_column_font_color
-      y_position -= spacing_value + 10
+      y_position -= spacing_value - 30
     end
 
-    bounding_box([0, y_position],:width => 540, :height => bounds.height) do
+    a = bounding_box([0, y_position],:width => 540, :height => bounds.height) do
       text "#{@potentialdescpt1}", size: right_column_font_size, :color => right_column_font_color
-      y_position -= spacing_value - 50
+      y_position -= spacing_value
     end
 
     bounding_box([0, y_position],:width => 540, :height => bounds.height) do
       text "#{@potentialdescpt2}", size: right_column_font_size, :color => right_column_font_color
-      y_position -= spacing_value - 40
+      y_position -= spacing_value
     end
 
     bounding_box([0, y_position],:width => 540, :height => bounds.height) do
@@ -306,7 +304,7 @@ class Educators::ReportPdfService < Prawn::Document
     end
 
     bounding_box([180, y_position],:width => 360, :height => bounds.height) do
-      text "#{Educators::AttributeDescriptionService.new(attribute: @botattrib[0][:name]).retrieve_top_description}", size: right_column_font_size, :color => right_column_font_color
+      text "#{Educators::AttributeDescriptionService.new(attribute: @botattrib[0][:name]).retrieve_low_description}", size: right_column_font_size, :color => right_column_font_color
       y_position -= spacing_value
     end
 
@@ -315,7 +313,7 @@ class Educators::ReportPdfService < Prawn::Document
     end
 
     bounding_box([180, y_position],:width => 360, :height => bounds.height) do
-      text "#{Educators::AttributeDescriptionService.new(attribute: @botattrib[1][:name]).retrieve_top_description}", size: right_column_font_size, :color => right_column_font_color
+      text "#{Educators::AttributeDescriptionService.new(attribute: @botattrib[1][:name]).retrieve_low_description}", size: right_column_font_size, :color => right_column_font_color
       y_position -= spacing_value
     end
 
@@ -324,7 +322,7 @@ class Educators::ReportPdfService < Prawn::Document
     end
 
     bounding_box([180, y_position],:width => 360, :height => bounds.height) do
-      text "#{Educators::AttributeDescriptionService.new(attribute: @botattrib[2][:name]).retrieve_top_description}", size: right_column_font_size, :color => right_column_font_color
+      text "#{Educators::AttributeDescriptionService.new(attribute: @botattrib[2][:name]).retrieve_low_description}", size: right_column_font_size, :color => right_column_font_color
       y_position -= spacing_value
     end
 
