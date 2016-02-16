@@ -1,0 +1,5 @@
+= form_tag redeem_code_educators_promotion_codes_path, method: :post
+  .text-center = text_field_tag :code
+  .text-center = submit_tag 'Redeem Promotion Code'
+
+= link_to "<<< Back", educators_educator_path(@educator)

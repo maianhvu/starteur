@@ -1,0 +1,294 @@
+//-------------------------------------------------------------------------------------------------
+// OVERRIDES
+//-------------------------------------------------------------------------------------------------
+a.link {
+  color: #25A599;
+  border-bottom: 1px solid rgba(#25A599, 0);
+  transition: border-bottom-color 0.25s ease-out 0s;
+
+  &:hover {
+    border-bottom-color: rgba(#25A599, 1);
+  }
+}
+
+//-------------------------------------------------------------------------------------------------
+// HELPERS
+//-------------------------------------------------------------------------------------------------
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently not supported by any browser */
+
+  cursor: default;
+}
+
+//-------------------------------------------------------------------------------------------------
+// TEST AREA (DEFAULT)
+//-------------------------------------------------------------------------------------------------
+.test-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  p {
+    width: 100%;
+    max-width: 37.5rem;
+    margin: auto;
+  }
+}
+//-------------------------------------------------------------------------------------------------
+// COMPONENTS
+//-------------------------------------------------------------------------------------------------
+.progress__label {
+  height: 1.25rem;
+  margin: 6px 0;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 400;
+  color: #e0e0e0;
+  text-transform: uppercase;
+}
+
+.progress {
+  opacity: 0.6;
+  position: relative;
+  width: 100%;
+  height: 28px;
+  text-align: justify;
+  transition: all 200ms;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.progress__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 10px 12px;
+  height: 8px;
+  background: #e9e9e9;
+  z-index: -1;
+}
+
+.progress__line {
+  position: absolute;
+  height: 100%;
+  background: #9CCC65;
+  transition: width 0.25s ease-out 0s;
+}
+
+.progress__milestone {
+  $size: 28px;
+  height: $size;
+  width: $size;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-sizing: border-box;
+
+  background-color: #e9e9e9;
+  background-repeat: no-repeat;
+  $bg-size: 11px;
+  background-size: $bg-size $bg-size;
+  background-position: center;
+
+  background-image: image-url('dashboard/milestone-uncompleted.svg');
+  transition: background-color 0.25s ease-out 0s;
+
+  &.completed {
+    background-color: #9CCC65;
+    background-image: image-url('dashboard/milestone-completed.svg');
+  }
+}
+
+.question__text {
+  width: 85%;
+  font-size: 40px;
+  line-height: 48px;
+  margin: 48px auto 0 auto;
+  min-height: 9rem;
+}
+
+.question__choices {
+  width: 60%;
+  height: 32px;
+  margin: 28px auto 20px auto;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.question__choice {
+  flex: 1 1 33%;
+  line-height: 32px;
+  transition: all 0.25s ease-out 0s;
+}
+
+.question__slider {
+  position: relative;
+  width: 60%;
+  margin: 0 auto;
+  z-index: 10;
+  background-color: #ade5da;
+  $height: .75em;
+  height: $height;
+  border-radius: $height/2;
+  cursor: pointer;
+}
+
+.question__slider-knob {
+  background-color: #49c6ad;
+  border-radius: 50%;
+  position: absolute;
+  $size: 2rem;
+  width: $size;
+  height: $size;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  border: 0px solid rgba(#49c6ad, 0);
+  transition: all 0.25s ease-out 0s;
+  background-clip: padding-box;
+  z-index: 4;
+
+  &.dragging {
+    transition: border 0.25s ease-out 0s;
+  }
+
+  &:active, &:hover {
+    border: .875em solid rgba(#ade5da, .375);
+  }
+}
+
+.question__slider-mark {
+  background-color: #c8eee6;
+  position: absolute;
+  z-index: 3;
+  height: 100%;
+}
+
+.question__choice-text {
+  display: block;
+  margin: 24px 0 32px 0;
+  font-weight: 400;
+}
+
+.question__yesno--wrapper {
+  min-height: 180px;
+  box-sizing: border-box;
+}
+
+.question__answer {
+  display: inline-block;
+  height: auto;
+  width: auto;
+  padding: 24px;
+  margin: 16px;
+  font-size: 40px;
+  cursor: pointer;
+  transition: color 0.25s ease-out 0s;
+
+  &.chosen {
+    color: #49c6ad;
+
+    &::before {
+      background-image: image-url('dashboard/tick.svg');
+      background-repeat: no-repeat;
+      border: 4px solid #49c6ad;
+    }
+  }
+
+  &::before {
+    content: "";
+    display: inline-block;
+    border-radius: 50%;
+    $size: 40px;
+    width: $size;
+    height: $size;
+    border: 4px solid #BDBDBD;
+    box-sizing: border-box;
+    margin-right: 16px;
+    transform: translateY(6px);
+    transition: all 200ms;
+    background-position: center left 3px;
+  }
+
+  &:hover::before {
+    box-shadow: 0 0 0 16px rgba(76,181,171,0.15);
+    background-color: rgba(76,181,171,0.15)
+  }
+}
+
+.question__next-button {
+  float: right;
+  width: 100%;
+  max-width: 168px;
+  margin: 4px 8px;
+  cursor: pointer;
+
+  &.disabled {
+    color: #BDBDBD;
+    border: 1px solid #BDBDBD;
+    cursor: default;
+    background-color: transparent;
+  }
+
+  .chevron::after {
+    border-style: solid;
+    border-width: 1.5px 1.5px 0 0;
+    content: '';
+    display: inline-block;
+    height: 0.45em;
+    position: relative;
+    top: -0.05em;
+    width: 0.45em;
+    left: 0;
+    transform: rotate(45deg);
+  }
+}
+
+.question__minor-actions {
+  float: left;
+  text-align: left;
+}
+
+.actions__skip-question {
+  opacity: 0.375;
+  font-size: 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+    text-decoration: underline;
+  }
+}
+
+.actions__help {
+  color: #49c6ad;
+  height: 20px;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+}
+

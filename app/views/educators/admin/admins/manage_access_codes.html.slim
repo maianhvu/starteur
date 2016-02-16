@@ -48,7 +48,7 @@
                 td = ac.permits
                 td = ac.code_usages_count
 
-        /.select = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
+        .select = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
         h1 Please indicate the educator
         = select_tag :educator_id
         .submit = submit_tag "Transfer", class: "btn radius"

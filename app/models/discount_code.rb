@@ -2,7 +2,12 @@ class DiscountCode < ActiveRecord::Base
 
   include AASM
 
+  before_save :generate_code
+
   belongs_to :billing_record
+
+  validates :percentage, presence: true
+  validates :percentage, numericality: { more_than_or_equal_to: 0, integer: true }
 
   # State definitions
   enum state: {
@@ -23,6 +28,21 @@ class DiscountCode < ActiveRecord::Base
     event :deactivate do
       transitions :from => [ :unused, :used ], :to => :deactivated
     end
+  end
+
+  private
+
+  def generate_code
+    unique = false
+    code = SecureRandom.hex
+    while !unique
+      if DiscountCode.find_by(code: code)
+        code = SecureRandom.hex
+      else
+        unique = true
+      end
+    end
+    self.code = code
   end
 
 end

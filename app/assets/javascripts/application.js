@@ -1,7 +1,7 @@
 //= require jquery
-//= require jquery-ui/widget
 //= require jquery_ujs
 //= require jquery.turbolinks
+//= require jquery-ui/widget
 //= require bootstrap-sprockets
 //= require bootstrap-table
 //= require educators/display_tests

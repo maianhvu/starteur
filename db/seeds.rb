@@ -7,13 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Case 1: Create educator1 - no batch / no test
-educator1 = Educator.create!(email:'educator1@test.com',password:'test',password_confirmation:'test')
+educator1 = Educator.create!(email:'educator1@test.com',password:'test1234',password_confirmation:'test1234')
 
 # Case 2: Create educator2 - no batch / 3 tests
-educator2 = Educator.create!(email:'educator2@test.com',password:'test',password_confirmation:'test')
+educator2 = Educator.create!(email:'educator2@test.com',password:'test1234',password_confirmation:'test1234')
 
 # Case 3: Create educator3 - 3 batches / 5 tests
-educator3 = Educator.create!(email:'educator3@test.com',password:'test',password_confirmation:'test')
+educator3 = Educator.create!(email:'educator3@test.com',password:'test1234',password_confirmation:'test1234')
 
 # Create 5 tests
 MBTI = Test.create!(name: 'MBTI', description: 'This test indicates psychological preferences in how people perceive the world', price: 10)

@@ -16,6 +16,7 @@
         .menu-icon.red T
         .menu-link  
           =link_to "Purchase Test", display_tests_educators_billing_records_url
+    - if @educator.admin
       .main-list
         .menu-icon.yellow C
         .menu-link  

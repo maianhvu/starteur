@@ -6,6 +6,7 @@ class AccessCode < ActiveRecord::Base
   belongs_to :educator
   has_many :code_usages, dependent: :destroy
   has_many :users, through: :code_usages
+  has_one :promotion_code
 
   after_create :set_code_usages_counter
 

@@ -1,0 +1,88 @@
+/! ---- HEADER ----
+#top-break.sm-break.large-screen
+#header-wrapper.large-screen
+  .center-block
+    img.header-logo src=image_url('shared/header-logo.svg')
+    .sign-in
+      a href='#login'
+        | Already have an account?
+        span.emphasis< Sign in here.
+/! ---- MOBILE HEADER ----
+#mobile-header.small-screen
+/! ---- PRELOADING PRIORITY IMAGES ----
+.large-screen.preload-images
+  ruby:
+    preload_images = ['hero-frame-20.png', 'discover-filmstrip.png', 'understand-filmstrip.png', 'develop-filmstrip.png']
+  - preload_images.each do |image|
+    = image_tag "home/#{image}"
+
+/! ---- SPLASH ----
+#splash-wrapper.center-block
+  h1.small-screen You are more talented than you imagine
+  .filmstrip-size-wrapper.large-screen
+    .filmstrip-outer-wrapper.hero-image
+      .filmstrip-wrapper
+        .filmstrip
+  img.med-screen-hero-image src=image_url('home/hero-image-static.png') /
+  .sm-break.large-screen
+  .description
+    h1.large-screen You are more talented than you imagine
+    h2 Starteur helps you discover, understand and develop your hidden entrepreneurial talents.
+    a.button.small-screen href='#signup'  Start now
+    .sign-in.small-screen
+      a href='#login'
+        | Already have an account?
+        span.emphasis Sign in here.
+
+  = render partial: 'users/registrations/form', locals: { form_id: 'splash-signup', form_classes: 'large-screen' }
+
+  .small-screen.portrait
+    img.hero-image-square src=image_url('home/hero-image-square.png') /
+  .small-screen.landscape
+    img.hero-image-square src=image_url('home/hero-image-static.png') /
+/! ---- DISCOVER ----
+#discover-wrapper.feature-wrapper.center-block
+  h1.small-screen Discover.
+  .filmstrip-outer-wrapper.discover-image.right-image
+    .filmstrip-wrapper
+      .filmstrip
+  .description.left
+    h1.large-screen Discover.
+    h2 Backed by extensive research, Starteur analyzes your answers to a list of questions and reveals your strengths and entreprenuerial potential.
+/! ---- UNDERSTAND ----
+#understand-wrapper.feature-wrapper.center-block
+  h1.small-screen Understand.
+  .filmstrip-outer-wrapper.understand-image.left-image
+    .filmstrip-wrapper
+      .filmstrip
+  .description.right
+    h1.large-screen Understand.
+    h2 Receive your own unique Starteur Profile Report and gain critical insights on your many strengths and attributes.
+/! ---- DEVELOP ----
+#develop-wrapper.feature-wrapper.center-block
+  h1.small-screen Develop.
+  .filmstrip-outer-wrapper.develop-image.right-image
+    .filmstrip-wrapper
+      .filmstrip
+  .description.left
+    h1.large-screen Develop.
+    h2 With personalized growth tips provided by Starteur, you will be reaching your full entreprenuerial potential in no time.
+/! ---- SIGNUP ----
+#signup
+  .center-block
+    h2 Start now.
+    = render partial: 'users/registrations/form', locals: { form_id: 'footer-signup', form_classes: 'center-horizontal' }
+    .sign-in.small-screen
+      a href='#login'
+        | Already have an account?
+        span.emphasis< Sign in here.
+/! ---- DIALOGS ----
+#login.modal-dialog
+  .main
+    a href='#close'
+      img.close src=image_url('shared/close-icon.png') /
+    h2 Sign in
+    .content
+      = render partial: 'users/sessions/form', locals: { form_id: 'sign-in-form' }
+
+- include_scripts 'landing/main'

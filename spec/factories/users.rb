@@ -1,33 +1,25 @@
-require 'faker'
-
 FactoryGirl.define do
   factory :user do
+    email 'me@maianhvu.com'
+    first_name 'Anh Vu'
+    last_name 'Mai'
+    password 'secretpassword'
+    type 'UserMember'
 
-    transient do
-      email_addr { Faker::Internet.email }
-      f_name Faker::Name.first_name
-      l_name Faker::Name.last_name
-    end
-    email      { "#{email_addr}" }
-    password   { Faker::Internet.password(8) }
-    first_name { "#{f_name}" }
-    last_name  { "#{l_name}" }
+    confirmation_token 'ePKeQiyKMztHfR77q3V7'
+    confirmed_at nil # unconfirmed
+    confirmation_sent_at { 3.weeks.ago }
 
-    factory :user_with_bloated_email do
-      email { "   #{email_addr.upcase}     " }
-    end
+    deactivated false
+    state User.states[:registered]
 
-    factory :user_with_downcased_names do
-      first_name { "#{f_name.upcase}" }
-      last_name  { "#{l_name.upcase}" }
+    trait :confirmed do
+      confirmed_at { 1.day.ago }
+      state User.states[:confirmed]
     end
 
-    # For AASM
-    User.states.each_key do |s|
-      trait s do
-        state s
-      end
-      factory "#{s.to_s}_user".to_sym, traits: [s]
+    trait :generic do
+      sequence(:email) { |n| "user#{n}@example.com" }
     end
 
   end

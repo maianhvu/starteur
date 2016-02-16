@@ -1,18 +1,14 @@
-class Educators::Admin::BaseController < ActionController::Base
+class Educators::Admin::BaseController < Educators::BaseController
 
-  layout 'educators/application'
-
-  before_action :require_login
-  before_action :prepare_educator
+  before_action :verify_admin
 
   private
 
-  def not_authenticated
-    redirect_to educators_login_path
-  end
-
-  def prepare_educator
-    @educator = current_user
+  def verify_admin
+    unless @educator.admin
+      flash[:error] = 'Unauthorised'
+      redirect_to educators_educators_path
+    end
   end
 
 end

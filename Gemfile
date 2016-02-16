@@ -26,6 +26,7 @@ gem 'aasm'
 
 # User authentication and authorization
 gem 'sorcery'
+gem 'devise'
 
 # View templating
 gem 'slim-rails'
@@ -41,15 +42,16 @@ gem "font-awesome-rails"
 
 gem 'sendgrid'
 
-group :development, :test do
-  # Use RSpec for testing
-  gem 'rspec-rails'
+# Use postgresql as the database for Active Record
+gem 'pg'
 
+# Use React for JS component
+gem 'react-rails', '~> 1.6.0'
+gem 'classnames-rails'
+
+group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
-  # Use Factory Girls for fixtures
-  gem 'factory_girl_rails', '~> 4.0'
 
   # tzinfo-data for windows
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
@@ -65,11 +67,18 @@ group :test do
   # Use faker for testing
   gem 'faker'
   gem 'shoulda-matchers', require: false
-end
 
-group :development, :production do
-  # Use postgresql as the database for Active Record
-  gem 'pg'
+  # Use RSpec for testing
+  gem 'rspec-rails'
+  # With capybara
+  gem 'capybara'
+  gem 'capybara-email'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
+
+  # Use Factory Girls for fixtures
+  gem 'factory_girl_rails', '~> 4.0'
+
 end
 
 group :production do

@@ -1,5 +1,9 @@
 class Educator < ActiveRecord::Base
-  authenticates_with_sorcery!
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+  # authenticates_with_sorcery!
   include AASM
 
   has_many :access_codes
@@ -8,7 +12,7 @@ class Educator < ActiveRecord::Base
   has_and_belongs_to_many :cobatches, class_name: 'Batch', join_table: 'batches_coeducators'
 
   validates :email, presence: true, uniqueness: true
-  validates :password, length: { minimum: 3 }, if: -> { new_record? || changes["password"] }
+  validates :password, length: { minimum: 8 }, if: -> { new_record? || changes["password"] }
   validates :password, confirmation: true, if: -> { new_record? || changes["password"] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes["password"] }
 

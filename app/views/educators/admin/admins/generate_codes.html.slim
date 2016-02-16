@@ -40,7 +40,7 @@
         #access-code.option
           h1 Please enter the number of access codes you want to generate
           = form_for :access_code, url: educators_admin_admin_generate_access_code_path(@educator), method: :post do |f|
-            /.col-xs-6 = f.select :test_id, options_from_collection_for_select(@tests, :id, :name)
+            .col-xs-6 = f.select :test_id, options_from_collection_for_select(@tests, :id, :name)
             .field = f.number_field :permits, value: 0, min: 1
             .measure Codes
             .submit = f.submit "Generate", class: "btn radius"
@@ -53,7 +53,7 @@
         #promotion-code.option
           h1 Please enter the number of promotion codes you want to generate
           = form_for :promotion_code, url: educators_admin_admin_generate_promotion_code_path(@educator), method: :post do |f|
-            /.col-xs-6 = f.select :test_id, options_from_collection_for_select(@tests, :id, :name)
+            .col-xs-6 = f.select :test_id, options_from_collection_for_select(@tests, :id, :name)
             .field = f.number_field :quantity, value: 0, min: 1
             .measure Codes
             .submit = f.submit "Generate", class: "btn radius"
