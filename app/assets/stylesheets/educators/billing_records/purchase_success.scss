@@ -1,5 +1,9 @@
 .educators_billing_records.purchase_success {
 
+  #content .card {
+    min-height: 0px;
+  }
+
   .text-center {
     text-align: center;
   }
@@ -72,15 +76,15 @@
       /*Add another block-level blank space*/
       content: '';
       display: block;
-   
+
       /*Make it a small rectangle so the border will create an L-shape*/
       width: 50px;
       height: 100px;
-   
+
       /*Add a white border on the bottom and left, creating that 'L' */
       border: solid #49c6ad;
       border-width: 0 20px 20px 0;
-   
+
       /*Rotate the L 45 degrees to turn it into a checkmark*/
       transform: rotate(45deg);
      }
@@ -139,11 +143,11 @@
   .return-link {
     width: 200px;
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
   }
 
   .return-link a {
-    color: #49c6ad; 
+    color: #49c6ad;
   }
 
   .return-link a:hover {
