@@ -1,25 +1,46 @@
 Rails.application.routes.draw do
-  scope module: 'api' do
-    resources :users, only: [ :create, :show ]
-    resources :tests, only: [ :index, :show ] do
-      resources :questions, only: [ :index ]
-      resources :answers,   only: [ :create ]
-      resources :results,   only: [ :index ]
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    confirmations: 'users/confirmations'
+  }, path_names: {
+    sign_in: 'sign-in',
+    sign_out: 'sign-out',
+    sign_up: 'register'
+  }
 
-      get 'use-code/:code', to: 'access_codes#use', as: 'use_code'
+  # PagesController
+  get 'pages/index'
+  get 'pages/registration_successful'
+  get 'registration-successful', to: 'pages#registration_successful', as: 'registration_successful'
+
+  # DashboardController
+  get 'dashboard/index'
+
+  # Application resources
+  resources :code_usages, only: [ :create ]
+  resources :tests, only: [ :show ] do
+    member do
+      get 'begin'
+      get 'take'
     end
 
-    post 'register', to: 'users#create', as: :register
-    post 'sign-in', to: 'users#sign_in'
-    post 'sign-out', to: 'users#sign_out'
-
-    constraints(escaped_email: /[^\/]+/) do
-      get 'confirm/:escaped_email/:token', to: 'users#confirm'
-    end
-
-    get 'profile', to: 'users#show'
+    resources :questions, only: [ :index, :create ]
+    resources :answers, only: [ :create ]
   end
+  resources :feedbacks, only: [ :create ]
 
+  root to: 'pages#index'
+
+  devise_for :educators, class_name: "Educator", controllers: {
+    sessions: 'educators/sessions',
+    registrations: 'educators/registrations',
+    confirmations: 'educators/confirmations'
+  }, path_names: {
+    sign_in: 'sign-in',
+    sign_out: 'sign-out',
+    sign_up: 'register'
+  }
   namespace :educators do
     resources :educators, only: [ :index, :new, :create, :show, :edit, :update ]
     resource :educator_sessions, only: [ :new, :create ]
@@ -27,10 +48,16 @@ Rails.application.routes.draw do
     resources :billing_records, only: [ :index, :new, :create, :show, :edit, :update] do
       collection do
         get 'display_tests'
+        get 'purchase_success'
+        post 'apply_discount'
       end
     end
 
-    resources :batches, only: [ :index, :create, :show, :edit, :update, :destroy]
+    resources :batches, only: [ :index, :create, :show, :edit, :update, :destroy] do
+      resources :coeducators, only: [:index, :create, :destroy]
+      get 'batch_test_reminder', to: 'batches#batch_test_reminder'
+      get 'assign_code_usages', to: 'batches#assign_code_usages'
+    end
     resources :batch_users, only: [ :index, :create, :destroy]
 
     post 'upload', to: 'batch_users#read'
@@ -38,20 +65,39 @@ Rails.application.routes.draw do
     post 'assignall', to: 'batch_users#assignall'
     post 'generate_batch_report', to: 'batch_users#generate_batch_report'
 
-    resources :batches, only: [ :index, :create, :show, :edit, :update, :destroy]
-    resources :batch_users, only: [ :index, :create, :destroy]
+    namespace :admin do
+      resources :admins, only: [ :index ] do
+        get 'generate_codes', to: 'admins#generate_codes'
+        get 'manage_access_codes', to: 'admins#manage_access_codes'
+        post 'generate_access_code', to: 'admins#generate_access_code'
+        post 'generate_discount_code', to: 'admins#generate_discount_code'
+        post 'generate_promotion_code', to: 'admins#generate_promotion_code'
+        post 'transfer_access_codes', to: 'admins#transfer_access_codes'
+      end
+
+      resources :promotion_codes, only: [ :index ] do
+        post 'assign_code'
+      end
+
+      resources :discount_codes, only: [ :index ] do
+        post 'assign_code'
+      end
+    end
+
+    resources :promotion_codes, only: [ :index ] do
+      post 'redeem_code', on: :collection
+    end
 
     post 'upload', to: 'batch_users#read'
+    get 'allow_access', to: 'batch_users#allow_access'
 
-    get 'login', to: 'educator_sessions#new'
-    post 'login', to: 'educator_sessions#create'
-    delete 'logout', to: 'educator_sessions#destroy'
+    resources :password_resets, only: [ :new, :create, :edit, :update ]
 
-    root to: 'educator_sessions#new'
+    # get 'login', to: 'educator_sessions#new'
+    # post 'login', to: 'educator_sessions#create'
+    # delete 'logout', to: 'educator_sessions#destroy'
+
+    root to: 'educators/sessions#new'
   end
-
-  root to: redirect('https://www.starteur.com/')
-
-  match '*others', to: 'authenticated#allow', via: [ :options ]
 
 end

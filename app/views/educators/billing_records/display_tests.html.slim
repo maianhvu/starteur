@@ -1,45 +1,73 @@
-.panel-body
-  .container-fluid
-    h1 Starteur Test Store
+= render "layouts/educators/simple_menu"
+= render "layouts/educators/flash_messages" 
+
+#content.center-block
+  #get-started-card.card
+    h1 Purchase Tests
+    h2 Select the desired tests here
 
     = javascript_include_tag "educators/display_tests"
     = form_for :billing_line_item, url: new_educators_billing_record_path,  method: :get, defaults: { input_html: { required: true, class: 'form-control'} } do |f|
 
-      table.table
-        tr
-          th.col-md-1 
-          th.col-md-1 Test
-          th.col-md-4 Test Description
-          th.col-md-2 Quantity of Access Codes
-          th 
-          th.col-md-1 Unit Price
+      table
+        tr.header-row
           th
-          th.col-md-2 Total
+          th.col-1
+          th.col-4
+          th.col-2.text-center Unit Price
+          th.col-1.text-center Quantity
+          th.col-1.text-center Subtotal
 
         - number_field_id = 1
+        - @previous_quantity = 0
         - @tests.each do |test|
           - unit_price_field_id = "unit_price_" + number_field_id.to_s
           - total_price_field_id = "total_price_" + number_field_id.to_s
-          tr
-            td = check_box_tag "test_ids[]", test.id
-            td = test.name
-            td = test.description
-            td.text-center = number_field_tag "lineitems[#{test.id}][quantity]", 0, :id => "number_field_" + number_field_id.to_s, class: "form-control", min: 0
-            td.text-right $
-            td id=unit_price_field_id = test.price
-            td.text-right $
-            td id=total_price_field_id
+          tr.body-row
+            - if @choices != nil && @choices.has_key?(test.id.to_s)
+              td = check_box_tag "test_ids[]", test.id, {:checked => "checked"}
+              - @previous_quantity = @choices[test.id.to_s]["quantity"]
+            - else
+              td = check_box_tag "test_ids[]", test.id
+            /td
+            td.col-1 
+              - if number_field_id == 1
+                = image_tag "mbti.png"
+              - elsif number_field_id == 2
+                = image_tag "jung.png"
+              - elsif number_field_id == 3
+                = image_tag "onet.png"
+              - elsif number_field_id == 4
+                = image_tag "disc.png"
+            td.col-4
+              .test-name = test.name
+              br
+              .test-description = test.description
+            td.col-2.text-center.price id=unit_price_field_id = test.price
+            td.col-1 = number_field_tag "lineitems[#{test.id}][quantity]", @previous_quantity, :id => "number_field_" + number_field_id.to_s, class: "quantity", min: 0
+            td.col-1.text-center.price id=total_price_field_id
           - number_field_id = number_field_id + 1
-        tr
-          td
-          td
-          td.text-right
-            b Total Quantity
-          td#total_quantity
-          td 
-          td.text-right
-          	b Subtotal
-            b $
-          td#subtotal
+          - @previous_quantity = 0
 
-      .form-actions = f.submit 'Purchase', class: "btn btn-primary col-xs-offset-10"
+        tr.code-section
+          td
+          td colspan="2"
+          /td.text-center.promo-code colspan="2" Have a Promo or Discount code?
+          td.text-center.total-quantity#total_quantity
+          td.text-center.total.price#subtotal colspan="2"
+        
+        tr.code-section
+          td
+          td colspan="2"
+          /td.text-left.promo-code colspan="2" = search_field_tag :batch, params[:batch], class: "input-box search-box", placeholder: "Enter a promotion/discount code"
+          td
+            /.button.apply Apply
+          td
+          td
+      .button-group
+        .button.ghost =link_to "Back", educators_educator_path(@educator)
+        = f.submit 'Next', class: "button"
+
+    #popup = render 'layouts/educators/modal'
+
+  #footer-wrapper.center-block = render 'layouts/educators/footer'

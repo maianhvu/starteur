@@ -6,4 +6,12 @@ class BillingRecord < ActiveRecord::Base
 
   validates :billable, presence: true
 
+  def calculate_value
+    subtotal = billing_line_items.inject(0) { |a, e| a + e.calculate_value }
+    if discount_code
+      subtotal *= (100 - discount_code.percentage) / 100
+    end
+    subtotal
+  end
+
 end

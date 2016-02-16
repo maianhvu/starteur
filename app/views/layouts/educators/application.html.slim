@@ -10,18 +10,9 @@ html
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    
+
     = csrf_meta_tags
 
   body class=body_class
 
-    .navbar-container = render "layouts/educators/navigation"
-
-    .application-container
-
-      = render 'layouts/educators/flash_messages'
-
-      = yield
-
-      #popup = render 'layouts/educators/modal'
-
+    = yield

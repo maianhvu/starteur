@@ -7,13 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Case 1: Create educator1 - no batch / no test
-educator1 = Educator.create!(email:'educator1@test.com',password:'test',password_confirmation:'test')
+educator1 = Educator.create!(email:'educator1@test.com',password:'test1234',password_confirmation:'test1234')
 
 # Case 2: Create educator2 - no batch / 3 tests
-educator2 = Educator.create!(email:'educator2@test.com',password:'test',password_confirmation:'test')
+educator2 = Educator.create!(email:'educator2@test.com',password:'test1234',password_confirmation:'test1234')
 
 # Case 3: Create educator3 - 3 batches / 5 tests
-educator3 = Educator.create!(email:'educator3@test.com',password:'test',password_confirmation:'test')
+educator3 = Educator.create!(email:'educator3@test.com',password:'test1234',password_confirmation:'test1234')
 
 # Create 5 tests
 MBTI = Test.create!(name: 'MBTI', description: 'This test indicates psychological preferences in how people perceive the world', price: 10)
@@ -23,9 +23,9 @@ DISC = Test.create!(name: 'DISC Assessment', description: 'This test indicates b
 PMAI = Test.create!(name: 'PMAI', description: 'This test indicates personality types and archetypes', price: 25)
 
 # Create 3 batches for educator 3
-batch1 = Batch.create!(educator: educator3, test: MBTI)
-batch2 = Batch.create!(educator: educator3, test: ONET)
-batch3 = Batch.create!(educator: educator3, test: DISC)
+batch1 = Batch.create!(educator: educator3, test: MBTI, name: 'batch1')
+batch2 = Batch.create!(educator: educator3, test: ONET, name: 'batch2')
+batch3 = Batch.create!(educator: educator3, test: DISC, name: 'batch3')
 
 # Create 10 Access Codes for educator2 - MBTI
 educator2_MBTI_accessCode1 = AccessCode.create!(code: '1Q2W3E4R', educator: educator2, test: MBTI, permits: 5)

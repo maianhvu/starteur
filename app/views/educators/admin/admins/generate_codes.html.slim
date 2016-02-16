@@ -1,0 +1,16 @@
+.col-cs-6.col-xs-offset-3
+  .col-xs-12 = form_for :access_code, url: educators_admin_admin_generate_access_code_path(@educator), method: :post do |f|
+    .col-xs-6 = f.select :test_id, options_from_collection_for_select(@tests, :id, :name)
+    .col-xs-3 = f.number_field :permits, value: 0, min: 1
+    .col-xs-3 = f.submit "Generate"
+
+  .col-xs-12 = form_for :discount_code, url: educators_admin_admin_generate_discount_code_path(@educator), method: :post do |f|
+    .col-xs-6 = f.number_field :percentage, value: 0, min: 0, max: 100
+    .col-xs-3 = f.submit "Generate"
+
+  .col-xs-12 = form_for :promotion_code, url: educators_admin_admin_generate_promotion_code_path(@educator), method: :post do |f|
+    .col-xs-6 = f.select :test_id, options_from_collection_for_select(@tests, :id, :name)
+    .col-xs-3 = f.number_field :quantity, value: 0, min: 1
+    .col-xs-3 = f.submit "Generate"
+
+= link_to "<<< Back", educators_educator_path(@educator)

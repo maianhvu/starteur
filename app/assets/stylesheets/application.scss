@@ -1,4 +1,24 @@
-@import "bootstrap-sprockets";
-@import "bootstrap";
+//@import "bootstrap-sprockets";
+//@import "bootstrap";
 
-@import "educators/**/*";
+@import "educators/common.scss";
+@import "educators/bootstrap.scss";
+
+@import "educators/educators/show.scss";
+@import "educators/educators/new.scss";
+@import "educators/educators/create.scss";
+@import "educators/educators/edit.scss";
+
+@import "educators/educator_sessions/new.scss";
+@import "educators/educator_sessions/create.scss";
+
+@import "educators/billing_records/index.scss";
+@import "educators/billing_records/show.scss";
+@import "educators/billing_records/display_tests.scss";
+@import "educators/billing_records/new.scss";
+@import "educators/billing_records/purchase_success.scss";
+
+@import "educators/batches/show.scss";
+@import "educators/coeducators/index.scss";
+//Add the import statement for CSS for coeducators below
+//Example: w@import "educators/coeducators/show.scss";

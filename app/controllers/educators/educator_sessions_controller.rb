@@ -1,7 +1,5 @@
 class Educators::EducatorSessionsController < Educators::BaseController
 
-  layout 'educators/simple'
-
   skip_before_action :require_login
   skip_before_action :prepare_educator, only: [:new, :create]
 

@@ -1,0 +1,8 @@
+= form_for(@user, url: session_path(@user), html: { id: form_id }) do |f|
+  = f.email_field :email, placeholder: 'Email', class: 'input-box'
+  = f.password_field :password, placeholder: 'Password', autocomplete: 'off', class: 'input-box'
+  p
+    = f.check_box :remember_me
+    = f.label :remember_me, class: 'tos'
+  .actions
+    = f.submit 'Sign in', class: 'button half'

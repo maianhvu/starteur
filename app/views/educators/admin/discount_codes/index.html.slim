@@ -1,0 +1,20 @@
+table
+  tr
+    th Code
+    th Percentage
+    th Status
+    th
+  - @discount_codes.each do |code|
+    tr
+      td = code.code
+      td = code.percentage
+      - if code.used?
+        td Used
+      - elsif code.unused?
+        td Assigned
+      - elsif code.generated?
+        td
+          label Generated
+          = link_to 'Assign code', educators_admin_discount_code_assign_code_path(code), method: :post, class: 'btn'
+
+= link_to 'Back', educators_educator_path(@educator), class: 'btn'

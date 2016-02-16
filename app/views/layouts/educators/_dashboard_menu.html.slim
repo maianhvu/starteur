@@ -1,0 +1,13 @@
+#header
+  .center-block
+    = link_to educators_educator_path(@educator)
+      = render "layouts/educators/navigation"
+    .profile
+      .profile-arrow
+      .profile-text = @educator.name
+      .profile-icon style="background:#FFC006" E
+      .profile-break
+        =link_to "Dashboard", educators_educator_path(@educator)
+        =link_to "Profile", edit_educators_educator_path(@educator)
+        =link_to "Settings", "#"
+        =link_to "Sign out", destroy_educator_session_path, method: :delete

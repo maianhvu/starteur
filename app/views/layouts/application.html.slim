@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    = default_meta_tags
+    title Starteur | Unlock Your Potential
+    = favicon_tags
+    = stylesheet_link_tag 'starteur_application', 'starteur_webapp/landing', media: 'all', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  body.preload onload="removePreload()"
+    = yield
+    = footer
+
+    = javascript_include_tag 'starteur_application', 'data-turbolinks-track' => true
+    = included_scripts

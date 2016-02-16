@@ -1,0 +1,77 @@
+#yesno-selector-container * {
+	-webkit-transition: all 200ms;
+	-moz-transition: all 200ms;
+	-o-transition: all 200ms;
+	transition: all 200ms;
+}
+#yesno-selector-container {
+	min-height: 180px;
+	box-sizing: border-box;
+}
+.yesno-selector {
+	display: inline-block;
+	height: auto;
+	width: auto;
+	padding: 24px;
+	margin: 16px;
+	font-size: 40px;
+	cursor: pointer;
+}
+.yesno-selector:before {
+	content: "";
+	display: inline-block;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	border: 4px solid #BDBDBD;
+	box-sizing: border-box;
+	margin-right: 16px;
+	transform: translateY(4px);
+	-webkit-transition: all 200ms;
+	-moz-transition: all 200ms;
+	-o-transition: all 200ms;
+	transition: all 200ms;
+	background-position: center left 3px;
+}
+.yesno-selector:focus {
+	background: none;
+}
+.yesno-selector:hover:before {
+	box-shadow: 0 0 0 16px rgba(76,181,171,0.15);
+	background-color: rgba(76,181,171,0.15);
+}
+.yesno-selector:focus:before {
+	box-shadow: 0 0 0 11px rgba(76,181,171,0.15) !important;
+}
+.yesno-ticked {
+	color: #49c6ad;
+}
+.yesno-ticked:before {
+	background-image: url(../images/tick.svg);
+	background-repeat: no-repeat;
+	border: 4px solid #49c6ad;
+}
+.yesno-disabled {
+	opacity: 0.6;
+}
+.yesno-disabled:hover {
+	opacity: 1;
+}
+.disabled-button {
+	color: #BDBDBD;
+	;
+	border: 1px solid #BDBDBD;
+	cursor: default;
+}
+.disabled-button:hover {
+	background: none !important;
+}
+
+@media screen and (max-width:688px) {
+.yesno-selector {
+	padding: 8px;
+	margin-top: 24px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+}
