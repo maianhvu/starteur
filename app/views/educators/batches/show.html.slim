@@ -113,7 +113,7 @@
                       - if (bcu = BatchCodeUsage.find(code_usage: code_usage, batch: @batch)) && bcu.own
                         = link_to "View Report", educators_generate_batch_report_path(batch_id: @batch.id, user_id: User.find_by(email: email).id), method: :generate_batch_report, class: "user-status yellow"
                     - else
-                      p In Progess
+                      p In Progress
                     /- if !User.find_by(email: email).blank? && !Answer.where(user_id: User.find_by(email: email).id).blank?
 
                   - else
