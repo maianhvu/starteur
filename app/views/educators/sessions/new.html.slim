@@ -54,7 +54,7 @@ html
 
           /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
           /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
-          = f.email_field :email, placeholder: 'Email address', autofocus: true, class: "input-box"
+          = f.email_field :email, placeholder: 'Email address', class: "input-box"
           = f.password_field :password, placeholder: 'Password', class: "input-box"
           = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
           .form-actions = f.submit 'Sign up', class: "button"
@@ -107,7 +107,7 @@ html
 
             /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
             /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
-            = f.email_field :email, placeholder: 'Email address', autofocus: true, class: "input-box"
+            = f.email_field :email, placeholder: 'Email address', class: "input-box"
             = f.password_field :password, placeholder: 'Password', class: "input-box"
             = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
             .form-actions = f.submit 'Sign up', class: "button"
