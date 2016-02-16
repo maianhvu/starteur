@@ -1,4 +1,4 @@
-const INTERVAL_ANSWER_UPDATE = 2000;
+const INTERVAL_ANSWER_UPDATE = <%= ENV['RAILS_ENV'].downcase.eql?('test') ? 10 : 2000 %>;
 
 class AnswerSubmitter {
   constructor(submitUrl, responseFunc) {
@@ -13,6 +13,7 @@ class AnswerSubmitter {
 
   queue(answerObject) {
     this.queue_[answerObject.questionId] = answerObject.value;
+    console.log('queued', answerObject);
   }
 
   start() {

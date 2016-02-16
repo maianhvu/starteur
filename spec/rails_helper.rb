@@ -9,18 +9,21 @@ require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'shoulda/matchers'
 
-# helper modules
-require 'helpers/starteur_webapp_helpers'
+# support modules
+Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
 
 DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
+
   config.infer_spec_type_from_file_location!
   config.include FactoryGirl::Syntax::Methods
-  config.include StarteurWebappHelpers
+
+  config.include StarteurWebappHelper, type: :feature
+  config.include AjaxHelper, type: :feature
 
   config.before :each do
     DatabaseCleaner.start
@@ -30,6 +33,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec

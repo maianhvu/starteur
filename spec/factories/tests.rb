@@ -20,8 +20,8 @@ FactoryGirl.define do
     end
 
     trait :full do
-      after(:build) do |test|
-        create_list(:category, 3, :full, test: test)
+      after(:create) do |test|
+        create_list(:category, 3, :full, test_id: test.id)
       end
     end
 
