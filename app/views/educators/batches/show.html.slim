@@ -18,7 +18,7 @@
                 .email
                   a = coeducator.email
                 = link_to "", educators_batch_coeducator_path(@batch, coeducator), method: :delete, class: "i fa fa-trash fa-lg", data:{confirm: 'Are you sure you want to delete coeducator?'}
-          /.batch-tag-group 
+          /.batch-tag-group
           /  .batch-tag 2016
           /  .batch-tag National University of Singapore
         td
@@ -70,7 +70,7 @@
                 .number ①
                 .menu-item = link_to "Send Access Codes to All Students", educators_batch_assign_code_usages_path(@batch)
                 .completion-mark ✔
-              li 
+              li
                 .number ②
                 .menu-item = link_to "Send Email Reminder to All Students", educators_batch_batch_test_reminder_path(@batch)
                 .completion-mark ✔︎
@@ -87,35 +87,35 @@
                 li = link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
 
         .ul.action-icons
-          button.btn.i.fa.fa-ticket.fa-2x
-          button.btn.middle.i.fa.fa-bell-o.fa-2x
-          button.btn.i.fa.fa-trash-o.fa-2x
+          /button.btn.i.fa.fa-ticket.fa-2x
+          /button.btn.middle.i.fa.fa-bell-o.fa-2x
+          /button.btn.i.fa.fa-trash-o.fa-2x
 
       table data-toggle="table"
         thead
           tr
-            th = check_box_tag "btSelectAll"
+            /th = check_box_tag "btSelectAll"
             th data-sortable="true" Full Name
             th data-sortable="true" Email
             th data-sortable="true" Status
+            th Delete
 
         tbody
           - @batch.email.each do |email|
             tr
-              td = check_box_tag "btSelectItem"
+              /td = check_box_tag "btSelectItem"
               td
               td = email
               td
                 - if (code_usage = @batch.code_usages.find_by(email: email))
                   - if code_usage.user
-                    /= code_usage.state.capitalize
-                    = link_to "View Report", "#", class: "user-status yellow"
+                    - if code_usage.complete?
+                      = link_to "View Report", "#", class: "user-status yellow"
                   - else
                     a Email sent
                 - else
-                  = link_to "Send Access Code", "#", class: "user-status"
-                  /= link_to "Send Access Code", educators_batch_assign_code_usages_path(@batch), method: :get, data: { email: email }, class: "user-status"
-                  /= link_to "Delete", educators_batch_user_path(id: @batch.id, email: email), method: :delete, class: "button"
+                  = link_to 'Send Access Code', educators_batch_assign_code_usages_path(batch_id: @batch, email: email), method: :get, class: "user-status"
+              td = link_to "", educators_batch_user_path(id: @batch.id, email: email), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}, class: "fa fa-trash-o fa-2x"
 
     .add-group#upload
       .add-user data-toggle="modal" data-target="#myModalStudent"

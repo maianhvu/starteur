@@ -10,20 +10,24 @@
 
       .main-list
         .menu-icon.blue P
-        .menu-link      
-          =link_to "View Payment History", educators_billing_records_path   
+        .menu-link
+          =link_to "View Payment History", educators_billing_records_path
       .main-list
         .menu-icon.red T
-        .menu-link  
+        .menu-link
           =link_to "Purchase Test", display_tests_educators_billing_records_url
-    - if @educator.admin
       .main-list
-        .menu-icon.yellow C
-        .menu-link  
-          =link_to "Client Management", educators_admin_admins_path
+        .menu-icon style="background:#ff0645" R
+        .menu-link
+          =link_to "Redeem Promotion Codes", educators_promotion_codes_path
+      - if @educator.admin
+        .main-list
+          .menu-icon.yellow C
+          .menu-link
+            =link_to "Client Management", educators_admin_admins_path
 
     #get-started-card.card
-      .card-title 
+      .card-title
         a Available Access Codes
       - if @remaining_access_codes.size == 0
         .card-section
@@ -33,7 +37,7 @@
           .card-section
             .card-number = remainings
             .card-description = test.name
-  
+
   .right
     - if @batches.empty? && @cobatches.empty?
       #new-educator-card.card
@@ -59,11 +63,11 @@
     - else
       #new-educator-card.card
         h1.horizontal My Batches
-        
+
         .batch-search-field.horizontal
           .dropdown-grp
             button.btn.radius data-toggle="modal" data-target="#myModal" Create Batch
-        
+
       - @batches.each do |batch|
         #dashboard-card.card
           .batch-left

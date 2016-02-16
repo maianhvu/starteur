@@ -17,7 +17,7 @@ class Educators::EducatorsController < Educators::BaseController
       redirect_to new_educator_session_path, notice: 'Account successfully created'
     else
       flash[:error] = @educator.errors.full_messages.join(", ")
-      redirect_to new_educator_registration_path
+      redirect_to new_educator_session_path
     end
   end
 

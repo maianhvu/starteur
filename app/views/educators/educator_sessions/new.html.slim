@@ -10,7 +10,7 @@ html
     = stylesheet_link_tag "educators/landing/filmstrip"
     = javascript_include_tag "educators/landing"
     link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css"
-  body.preload onload="removePreload()" 
+  body.preload onload="removePreload()"
 
     /! ---- HEADER ----
     #top-break.sm-break.large-screen
@@ -18,7 +18,7 @@ html
       .center-block
         = image_tag "header-logo.png"
         .sign-in
-          a href="#login" 
+          a href="#login"
             | Already have an account?
             span.emphasis  Sign in here.
 
@@ -42,18 +42,18 @@ html
       = image_tag "hero-image-static.png", class: "med-screen-hero-image"
       .sm-break.large-screen
       .description
-        h1.large-screen Help your students fulfill their entrepreneurial potential. 
+        h1.large-screen Help your students fulfill their entrepreneurial potential.
         h2 StarteurEd is a classroom management tool for educators to develop an entrepreneurial mindset in students.
         a.button.small-screen href="#signup"  Start now
         .sign-in.small-screen
-          a href="#login" 
+          a href="#login"
             | Already have an account?
             span.emphasis Sign in here.
       form#splash-signup.signup-form.large-screen
         = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true } } do |f|
 
-          = f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
-          = f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
+          /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
+          /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
           = f.email_field :email, placeholder: 'Email address', autofocus: true, class: "input-box"
           = f.password_field :password, placeholder: 'Password', class: "input-box"
           = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
@@ -86,11 +86,11 @@ html
           .filmstrip
       .description.right
         h1.large-screen Understand.
-        h2 All the tools to manage a class, right from a single dashboard. Download the Starteur™ Profile of each student conveniently. Get to know them as individuals, and coach them to give their best. 
+        h2 All the tools to manage a class, right from a single dashboard. Download the Starteur™ Profile of each student conveniently. Get to know them as individuals, and coach them to give their best.
 
     /! ---- DEVELOP ----
     #develop-wrapper.feature-wrapper.center-block
-      h1.small-screen Develop classroom strategies. 
+      h1.small-screen Develop classroom strategies.
       .filmstrip-outer-wrapper.develop-image.right-image
         .filmstrip-wrapper
           .filmstrip
@@ -105,8 +105,8 @@ html
         form#footer-signup.signup-form.center-horizontal
           = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true } } do |f|
 
-            = f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
-            = f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
+            /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
+            /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
             = f.email_field :email, placeholder: 'Email address', autofocus: true, class: "input-box"
             = f.password_field :password, placeholder: 'Password', class: "input-box"
             = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
@@ -117,7 +117,7 @@ html
           /  = succeed "." do
           /    a href="terms.html"  terms of service
         .sign-in.small-screen
-          a href="#login" 
+          a href="#login"
             | Already have an account?
             span.emphasis Sign in here.
 
@@ -139,15 +139,15 @@ html
     /! ---- DIALOGS ----
     #login.modal-dialog
       .main
-        a href="#close" 
+        a href="#close"
           = image_tag "close-icon.png", class: "close"
 
         h2 Sign in
         .content
-          = form_for :educator, url: educators_educator_sessions_path, method: :post, :html => { :class => "form" } do |f|
-            
-            = email_field_tag :email, params[:email], autofocus: true, required: true, class: "input-box", placeholder: "Email address"
-            = password_field_tag :password, params[:password], autocomplete: "off", required: true,  class: "input-box", placeholder: "Password"
+          = form_for :educator, url: educator_session_path, method: :post, :html => { :class => "form" } do |f|
+
+            = f.email_field :email, autofocus: true, required: true, class: "input-box", placeholder: "Email address"
+            = f.password_field :password, autocomplete: "off", required: true,  class: "input-box", placeholder: "Password"
 
             /p
               = check_box_tag "rememberme"

@@ -1,5 +1,6 @@
 = render "layouts/educators/dashboard_menu"
-= render "layouts/educators/flash_messages"
+
+.button.radius.ghost.back = link_to "← Back to Dashboard", educators_admin_admins_path
 
 #content.center-block
   .background
@@ -34,27 +35,30 @@
           = link_to "View discount codes", educators_admin_discount_codes_path
 
   .right
-      #new-educator-card.card
-        h1.horizontal style="font-weight: bold" Client Management
-        h2 Overview of your clients
-
-      .summary-card
-        .number
-          a 32
-        .type Unique Educators
-      .summary-card
-        .number
-          a 478
-        .type Enrolled Groups
-      .summary-card
-        .number
-          a 1678
-        .type Unique Students
-      .summary-card
-        .number
-          a 1541
-        .type Complete Tasks
-
+    #new-educator-card.card
+      h1 View Promotion Codes
+      h2 View Promotion Codes
+      table data-toggle="table"
+        thead
+          tr
+            th Code
+            th Test
+            th Quantity
+            th Status
+        - @promotion_codes.each do |code|
+          tbody
+            tr
+              td = code.code
+              td = code.test.name
+              td = code.quantity
+              - if code.used?
+                td 'Used'
+              - elsif code.unused?
+                td 'Assigned'
+              - elsif code.generated?
+                td
+                  /label Generated
+                  = link_to 'Assign code', educators_admin_promotion_code_assign_code_path(code), method: :post, class: 'user-status'
 
   #popup = render 'layouts/educators/modal'
 

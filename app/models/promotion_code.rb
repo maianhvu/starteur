@@ -1,6 +1,8 @@
 class PromotionCode < ActiveRecord::Base
 
-  before_save :generate_code
+  include AASM
+
+  before_save :generate_code, if: -> { new_record? }
 
   belongs_to :billing_record
   belongs_to :access_code
@@ -8,6 +10,34 @@ class PromotionCode < ActiveRecord::Base
 
   validates :quantity, presence: true
   validates :quantity, numericality: { greater_than: 0 }
+
+  # State definitions
+  enum state: {
+    generated: 1,
+    unused: 3,
+    used: 5,
+    deactivated: 10
+  }
+
+  aasm :column => :state do
+    state :generated, :initial => true
+    state :unused
+    state :used
+    state :deactivated
+
+    event :assign do
+      transitions :from => :generated, :to => :unused
+    end
+
+    event :use do
+      transitions :from => :unused, :to => :used,
+      guards: :validate_access_code
+    end
+
+    event :deactivate do
+      transitions :from => [ :generated, :unused ], :to => :deactivated
+    end
+  end
 
   private
 
@@ -22,6 +52,10 @@ class PromotionCode < ActiveRecord::Base
       end
     end
     self.code = code
+  end
+
+  def validate_access_code
+    access_code
   end
 
 end

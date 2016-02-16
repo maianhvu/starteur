@@ -1,6 +1,8 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
 
+.button.radius.ghost.back = link_to "← Back to Dashboard", educators_admin_admins_path
+
 #content.center-block
   .background
   .left
@@ -10,21 +12,29 @@
 
       .main-list
         .menu-icon style="background:#0645ff" C
-        .menu-link      
+        .menu-link
           =link_to "Code Management", educators_admin_admin_generate_codes_path(@educator)
       .main-list
         .menu-icon style="background:#ff0645" T
-        .menu-link  
+        .menu-link
           =link_to "Transfer Ownership", educators_admin_admin_manage_access_codes_path(@educator)
       .main-list
         .menu-icon style="background:#FFC006" P
-        .menu-link  
+        .menu-link
           =link_to "Payment Details", educators_admin_admin_payment_history_path(@educator)
       .main-list
         .menu-icon style="background:#04E03A" G
-        .menu-link  
+        .menu-link
           =link_to "Generate Reports", "#"
-  
+      .main-list
+        .menu-icon style="background:#ff0645" P
+        .menu-link
+          = link_to "View promotion codes", educators_admin_promotion_codes_path
+      .main-list
+        .menu-icon style="background:#ff0645" D
+        .menu-link
+          = link_to "View discount codes", educators_admin_discount_codes_path
+
   .right
       #new-educator-card.card
         h1.horizontal style="font-weight: bold" Payment History
