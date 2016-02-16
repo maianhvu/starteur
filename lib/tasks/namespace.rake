@@ -31,7 +31,6 @@ namespace :csv do
 
   	CSV.foreach(csv_file_path) do |row|
       Test.create!({
-      	:id => row[0],
         :name => row[1],
         :description => row[2],
         :state => row[3],  
@@ -91,12 +90,10 @@ namespace :csv do
   	CSV.foreach(csv_file_path) do |row|
       Answer.create!({
       	:id => row[0],
-        :user_id => row[1],
-        :created_at => row[2],
-        :updated_at => row[3],  
-        :test_id => row[4],
-        :question_id => row[5],
-        :value => row[6]
+        :user_id => row[1],  
+        :test_id => row[2],
+        :question_id => row[3],
+        :value => row[4]
       })
       puts "Answer for test #{row[4]} question #{row[5]} added!"
     end
@@ -182,6 +179,11 @@ namespace :csv do
   
   desc "Run all tasks"
   task :runall => [:importusers, :importtests, :importcategories, :importquestions, :importanswers, :importaccesscodes, :importcodeusages, :importresults, :importtokens ] do
+    # This will run after all those tasks have run
+  end
+  
+  desc "Run Mid-term tasks"
+  task :runmidterms => [:importtests, :importcategories, :importquestions] do
     # This will run after all those tasks have run
   end
 end
