@@ -76,9 +76,6 @@
               /td.col-1.text-center.table-border =check_box_tag 'selected'
               td.col-2.text-center.table-merge-1
               td.col-2.text-center.table-merge-2 
-                -if !User.find_by(email: email).blank? && !Answer.where(user_id: User.find_by(email: email).id).blank?
-                  .col-xs-3 =link_to educators_generate_batch_report_path(batch_id: @batch.id, user_id: User.find_by(email: email).id), method: :generate_batch_report
-                    .btn.btn-success  Generate Invividual Report
               td.col-3.text-center.table-border = email
               td.col-4.text-center
                 - if (code_usage = @batch.code_usages.find_by(email: email))
