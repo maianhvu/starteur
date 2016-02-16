@@ -110,11 +110,14 @@
                 - if (code_usage = @batch.code_usages.find_by(email: email))
                   - if code_usage.user
                     - if code_usage.completed?
-                      = link_to "View Report", educators_generate_batch_report_path(batch_id: @batch.id, user_id: User.find_by(email: email).id), method: :generate_batch_report, class: "user-status yellow"
+                      - if (bcu = BatchCodeUsage.find(code_usage: code_usage, batch: @batch)) && bcu.own
+                        = link_to "View Report", educators_generate_batch_report_path(batch_id: @batch.id, user_id: User.find_by(email: email).id), method: :generate_batch_report, class: "user-status yellow"
+                    - else
+                      p In Progess
                     /- if !User.find_by(email: email).blank? && !Answer.where(user_id: User.find_by(email: email).id).blank?
 
                   - else
-                    a Email sent
+                    p Email sent
                 - else
                   = link_to 'Send Access Code', educators_batch_assign_code_usages_path(batch_id: @batch, email: email), method: :get, class: "user-status"
               td = link_to "", educators_batch_user_path(id: @batch.id, email: email), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}, class: "fa fa-trash-o fa-2x"
