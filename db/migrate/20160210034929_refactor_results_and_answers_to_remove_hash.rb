@@ -1,8 +1,11 @@
 class RefactorResultsAndAnswersToRemoveHash < ActiveRecord::Migration
   def up
     add_reference :answers, :result, index: true
+
     # Create answers first
-    Result.where.not(answers: nil).each do |result|
+    # Search for all results with actual answers
+    results = Result.find_by_sql("SELECT * FROM results r WHERE r.answers IS NOT NULL")
+    results.each do |result|
       answers_hash = result.answers
       answer_values = answers_hash.keys.map { |question_id|
         answer_value = answers_hash[question_id]
