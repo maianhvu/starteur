@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20160214150034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "access_codes", force: :cascade do |t|
     t.string   "code"
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 20160214150034) do
     t.integer  "educator_id"
     t.string   "email",       default: [],              array: true
     t.string   "name"
+    t.hstore   "username",    default: {}, null: false
   end
 
   create_table "batches_coeducators", id: false, force: :cascade do |t|

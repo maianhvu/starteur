@@ -58,7 +58,7 @@
           br Completed
 
     - if @batch.email.blank?
-      h1.text-center Please add students to this batch
+      h1.text-center Please add students to this Group
 
     - else
       .button-grp
@@ -82,9 +82,9 @@
         - if @batch.educator == @educator
           .ul.menu2.dropdown
             li
-              =link_to "Batch Management ▾", "#", class: "dropdown-button btn"
+              =link_to "Group Management ▾", "#", class: "dropdown-button btn"
               ul
-                li = link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
+                li = link_to "Delete this Group", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}
 
         .ul.action-icons
           /button.btn.i.fa.fa-ticket.fa-2x
@@ -98,24 +98,26 @@
             th data-sortable="true" Full Name
             th data-sortable="true" Email
             th data-sortable="true" Status
-            th Delete
+            th data-sortable="true" Delete
 
         tbody
           - @batch.email.each do |email|
             tr
               /td = check_box_tag "btSelectItem"
-              td
+              td = @batch.username[email][2..@batch.username[email].index(",")-2].concat(", " + @batch.username[email][@batch.username[email].index(",")+3..@batch.username[email].length-3])
               td = email
               td
                 - if (code_usage = @batch.code_usages.find_by(email: email))
                   - if code_usage.user
-                    - if code_usage.complete?
+                    - if code_usage.completed?
                       = link_to "View Report", educators_generate_batch_report_path(batch_id: @batch.id, user_id: User.find_by(email: email).id), method: :generate_batch_report, class: "user-status yellow"
+                    /- if !User.find_by(email: email).blank? && !Answer.where(user_id: User.find_by(email: email).id).blank?
+
                   - else
                     a Email sent
                 - else
                   = link_to 'Send Access Code', educators_batch_assign_code_usages_path(batch_id: @batch, email: email), method: :get, class: "user-status"
-              td = link_to "", educators_batch_user_path(id: @batch.id, email: email), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}, class: "fa fa-trash-o fa-2x"
+              td = link_to "", educators_batch_user_path(id: @batch.id, email: email), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}, class: "fa fa-trash-o fa-2x"
 
     .add-group#upload
       .add-user data-toggle="modal" data-target="#myModalStudent"
@@ -183,6 +185,12 @@
         .modal-body
           .container-fluid
             = form_for :batch_users, url: educators_batch_users_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+
+              label Enter first name
+              .form-field = f.text_field :first_name, placeholder: 'First name', autofocus: true
+
+              label Enter last name
+              .form-field = f.text_field :last_name, placeholder: 'Last name', autofocus: true
 
               label Enter an e-mail address
               .form-field = f.text_field :email, placeholder: 'Email address', autofocus: true

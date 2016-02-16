@@ -10,23 +10,23 @@
       h3 Your Institution
 
       .main-list
-        .menu-icon style="background:#0645ff" C
+        .menu-icon.blue C
         .menu-link
           =link_to "Code Management", educators_admin_admin_generate_codes_path(@educator)
       .main-list
-        .menu-icon style="background:#ff0645" T
+        .menu-icon.red T
         .menu-link
           =link_to "Transfer Ownership", educators_admin_admin_manage_access_codes_path(@educator)
       .main-list
-        .menu-icon style="background:#FFC006" P
+        .menu-icon.yellow P
         .menu-link
           =link_to "Payment Details", educators_admin_admin_payment_history_path(@educator)
       .main-list
-        .menu-icon style="background:#04E03A" P
+        .menu-icon.green P
         .menu-link
           = link_to "View promotion codes", educators_admin_promotion_codes_path
       .main-list
-        .menu-icon style="background:#ff0645" D
+        .menu-icon.red D
         .menu-link
           = link_to "View discount codes", educators_admin_discount_codes_path
 

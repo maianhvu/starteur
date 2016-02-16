@@ -9,7 +9,7 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
     @educator_total = Educator.all.count
     @batch_total = Batch.all.count
     @user_total = User.all.count
-    @test_total = Test.all.count
+    @test_total = CodeUsage.completed.count
   end
 
   def payment_history

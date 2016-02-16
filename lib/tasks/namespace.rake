@@ -11,7 +11,7 @@ namespace :csv do
       	:id => row[0],
         :email => row[1],
         :password_digest => row[2],
-        :first_name => row[3],  
+        :first_name => row[3],
         :last_name => row[4],
         :type => row[5],
         :created_at => row[6],
@@ -33,12 +33,13 @@ namespace :csv do
       Test.create!({
         :name => row[1],
         :description => row[2],
-        :state => row[3],  
+        :state => row[3],
         :price => row[4],
         :created_at => row[5],
         :updated_at => row[6],
         :shuffle => row[7],
-        :processor_file => row[8]
+        :processor_file => row[8],
+        :price => 10
       })
       puts "Test #{row[1]} added!"
     end
@@ -72,7 +73,7 @@ namespace :csv do
       Question.create!({
       	:id => row[0],
         :content => row[2],
-        :created_at => row[3],  
+        :created_at => row[3],
         :updated_at => row[4],
         :category_id => row[5],
         :choices => row[6],
@@ -90,7 +91,7 @@ namespace :csv do
   	CSV.foreach(csv_file_path) do |row|
       Answer.create!({
       	:id => row[0],
-        :user_id => row[1],  
+        :user_id => row[1],
         :test_id => row[2],
         :question_id => row[3],
         :value => row[4]
@@ -109,7 +110,7 @@ namespace :csv do
       	:id => row[0],
         :code => row[1],
         :test_id => row[2],
-        :last_used_at => row[3],  
+        :last_used_at => row[3],
         :created_at => row[4],
         :updated_at => row[5],
         :educator_id => row[6],
@@ -129,7 +130,7 @@ namespace :csv do
       	:id => row[0],
         :access_code_id => row[1],
         :user_id => row[2],
-        :created_at => row[3],  
+        :created_at => row[3],
         :updated_at => row[4],
         :state => row[5],
         :batch_id => row[6]
@@ -137,7 +138,7 @@ namespace :csv do
       puts "Code Usage added!"
     end
   end
-  
+
   desc "Import Results data"
   task :importresults => :environment do
   	Result.delete_all
@@ -148,7 +149,7 @@ namespace :csv do
       	:id => row[0],
         :answers => row[1],
         :user_id => row[2],
-        :test_id => row[3],  
+        :test_id => row[3],
         :code_usage_id => row[4],
         :created_at => row[5],
         :updated_at => row[6]
@@ -167,7 +168,7 @@ namespace :csv do
       	:id => row[0],
         :token => row[1],
         :user_id => row[2],
-        :expires_at => row[3],  
+        :expires_at => row[3],
         :last_used_at => row[4],
         :created_at => row[5],
         :updated_at => row[6],
@@ -176,12 +177,12 @@ namespace :csv do
       puts "Token #{row[1]} added!"
     end
   end
-  
+
   desc "Run all tasks"
   task :runall => [:importusers, :importtests, :importcategories, :importquestions, :importanswers, :importaccesscodes, :importcodeusages, :importresults, :importtokens ] do
     # This will run after all those tasks have run
   end
-  
+
   desc "Run Mid-term tasks"
   task :runmidterms => [:importtests, :importcategories, :importquestions] do
     # This will run after all those tasks have run
