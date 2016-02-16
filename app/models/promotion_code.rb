@@ -43,9 +43,9 @@ class PromotionCode < ActiveRecord::Base
 
   def generate_code
     unique = false
-    code = SecureRandom.hex
+    code = self.code || SecureRandom.hex
     while !unique
-      if DiscountCode.find_by(code: code)
+      if PromotionCode.exists?(code: code)
         code = SecureRandom.hex
       else
         unique = true

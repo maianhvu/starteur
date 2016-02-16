@@ -16,6 +16,7 @@ class Educators::BatchCodeUsageService
       cu = user ? CodeUsage.find_by(user: user, test: test) : CodeUsage.find_by(email: email, test: test)
       if user && cu
         unless BatchCodeUsage.find_by(batch: batch, code_usage: cu)
+          BatchCodeUsage.create(batch: batch, code_usage: cu, own: false)
           Educators::UserMailer.request_access_permission(email, batch).deliver_now
         end
       else
