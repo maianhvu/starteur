@@ -6,7 +6,10 @@ class DashboardController < ApplicationController
     # Define initial test status to complete
     @test_status = :completed
     # Created specifically for Starteur Profiling Assessment
-    test = Test.published.where("name ILIKE '%Starteur Profiling Assessment%'").last
+
+    # FIXME: Remove this debug line
+    test = Test.last
+    # test = Test.published.where("name ILIKE '%Starteur Profiling Assessment%'").last
     # Find out if the user has any code_usage that belongs to this test
     if test
       @test_status = :code_not_entered
