@@ -60,6 +60,11 @@ Rails.application.routes.draw do
     end
     resources :batch_users, only: [ :index, :create, :destroy]
 
+    post 'upload', to: 'batch_users#read'
+    post 'assign', to: 'batch_users#assign'
+    post 'assignall', to: 'batch_users#assignall'
+    post 'generate_batch_report', to: 'batch_users#generate_batch_report'
+
     namespace :admin do
       resources :admins, only: [ :index ] do
         get 'payment_history', to: 'admins#payment_history'
