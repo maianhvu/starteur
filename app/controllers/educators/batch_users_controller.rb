@@ -27,6 +27,7 @@ class Educators::BatchUsersController < Educators::BaseController
   def destroy
     batch = Batch.find(params[:id])
     email_list = batch.email
+    puts params[:email]
     email_list.delete(params[:email])
     cu = batch.code_usages.find_by(email: params[:email])
     bcu = batch.batch_code_usages.find_by(batch: batch, code_usage: cu)
@@ -79,4 +80,8 @@ class Educators::BatchUsersController < Educators::BaseController
     redirect_to root_path
   end
 
+  def generate_batch_report
+    pdf = Educators::ReportPdfService.new(batch_id: params[:batch_id], user_id: params[:user_id])
+    send_data pdf.render, filename: 'report.pdf', type: 'application/pdf'
+  end
 end

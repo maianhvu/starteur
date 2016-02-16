@@ -1,30 +1,156 @@
-#header.center-block
-  = render "layouts/educators/navigation"
-  = render "layouts/educators/flash_messages"
+= render "layouts/educators/flash_messages"
 
-#content.center-block
-  .sign-in-box.center
+html
+  head
+    title Starteur | Unlock Your Potential
+    = stylesheet_link_tag "educators/landing/normalize"
+    = stylesheet_link_tag "educators/landing/starteur"
+    = stylesheet_link_tag "educators/landing/landing"
+    = stylesheet_link_tag "educators/landing/modal"
+    = stylesheet_link_tag "educators/landing/filmstrip"
 
-    h2 Educator login portal
+    link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css"
+  body.preload onload="removePreload()"
 
-    br
+    /! ---- HEADER ----
+    #top-break.sm-break.large-screen
+    #header-wrapper.large-screen
+      .center-block
+        = image_tag "header-logo.png"
+        .sign-in
+          a href="#login"
+            | Already have an account?
+            span.emphasis  Sign in here.
 
-    = form_for :educator, url: educators_educator_sessions_path, method: :post, :html => { :class => "form" } do |f|
+    /! ---- MOBILE HEADER ----
+    #mobile-header.small-screen
 
-      = email_field_tag :email, params[:email], autofocus: true, required: true, class: "input-box", placeholder: "Email address"
-      = password_field_tag :password, params[:password], autocomplete: "off", required: true,  class: "input-box", placeholder: "Password"
+    /! ---- PRELOADING PRIORITY IMAGES ----
+    .large-screen.preload-images
+      = image_tag "hero-frame-20.png"
+      = image_tag "discover-filmstrip.png"
+      = image_tag "understand-filmstrip.png"
+      = image_tag "develop-filmstrip.png"
 
-      /p
-        = check_box_tag "rememberme"
-        = content_tag(:span, "Remember Me", class: "tos")
+    /! ---- SPLASH ----
+    #splash-wrapper.center-block
+      h1.small-screen You are more talented than you imagine
+      .filmstrip-size-wrapper.large-screen
+        .filmstrip-outer-wrapper.hero-image
+          .filmstrip-wrapper
+            .filmstrip
+      = image_tag "hero-image-static.png", class: "med-screen-hero-image"
+      .sm-break.large-screen
+      .description
+        h1.large-screen Help your students fulfill their entrepreneurial potential.
+        h2 StarteurEd is a classroom management tool for educators to develop an entrepreneurial mindset in students.
+        a.button.small-screen href="#signup"  Start now
+        .sign-in.small-screen
+          a href="#login"
+            | Already have an account?
+            span.emphasis Sign in here.
+      form#splash-signup.signup-form.large-screen
+        = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true } } do |f|
 
-      = f.submit "Log in", class: "button half"
-      = link_to 'Create Account', new_educators_educator_path, class: 'button half ghost'
-        / .col-xs-6
-        /   .form-group.pull-right = link_to 'Forgot password?', '#', class: 'btn btn-link'
+          /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
+          /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
+          = f.email_field :email, placeholder: 'Email address', class: "input-box"
+          = f.password_field :password, placeholder: 'Password', class: "input-box"
+          = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
+          .form-actions = f.submit 'Sign up', class: "button"
+        /input name="agreetoterms" type="checkbox" /
+        /span.tos
+          /| I agree to the
+          /= succeed "." do
+          /  a href="terms.html"  terms of service
 
-    / = link_to "Don't have an account? Get started here.", '#', class: "btn btn-default btn-block btn-lg"
+      .small-screen.portrait
+        = image_tag "hero-image-square.png"
+      .small-screen.landscape
+        = image_tag "hero-image-static.png"
 
-  #popup = render 'layouts/educators/modal'
+    /! ---- DISCOVER ----
+    #discover-wrapper.feature-wrapper.center-block
+      h1.small-screen Discover.
+      .filmstrip-outer-wrapper.discover-image.right-image
+        .filmstrip-wrapper
+          .filmstrip
+      .description.left
+        h1.large-screen Profile your class.
+        h2 Discover the distribution of Starteur™ Attributes and Starteur™ Roles in your class. Find out the strengths and areas for improvement of each student, as well as the roles that they would most enjoy in a startup environment.
+    /! ---- UNDERSTAND ----
+    #understand-wrapper.feature-wrapper.center-block
+      h1.small-screen Manage students seamlessly.
+      .filmstrip-outer-wrapper.understand-image.left-image
+        .filmstrip-wrapper
+          .filmstrip
+      .description.right
+        h1.large-screen Understand.
+        h2 All the tools to manage a class, right from a single dashboard. Download the Starteur™ Profile of each student conveniently. Get to know them as individuals, and coach them to give their best.
 
-#footer-wrapper.center-block = render 'layouts/educators/footer'
+    /! ---- DEVELOP ----
+    #develop-wrapper.feature-wrapper.center-block
+      h1.small-screen Develop classroom strategies.
+      .filmstrip-outer-wrapper.develop-image.right-image
+        .filmstrip-wrapper
+          .filmstrip
+      .description.left
+        h1.large-screen Develop.
+        h2 Generate group reports for each class, based on 21st Century Competencies (21CC).  Starteur™ Growth Tips for Classes  help you in developing curriculum and pedagogy that’s not only innovation-focused, but also fun and engaging.
+
+    /! ---- SIGNUP ----
+    #signup
+      .center-block
+        h2 Start now.
+        form#footer-signup.signup-form.center-horizontal
+          = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true } } do |f|
+
+            /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
+            /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
+            = f.email_field :email, placeholder: 'Email address', class: "input-box"
+            = f.password_field :password, placeholder: 'Password', class: "input-box"
+            = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
+            .form-actions = f.submit 'Sign up', class: "button"
+          /input name="agreetoterms" type="checkbox" /
+          /span.tos
+          /  | I agree to the
+          /  = succeed "." do
+          /    a href="terms.html"  terms of service
+        .sign-in.small-screen
+          a href="#login"
+            | Already have an account?
+            span.emphasis Sign in here.
+
+    /! ---- FOOTER ----
+    #footer-wrapper
+      .center-block
+        .divider.large-screen
+        .links
+          a href="terms.html"  About Us
+          .tab
+          a href="terms.html"  Terms
+          .tab
+          a href="terms.html"  FAQ
+        .copyright
+          | &copy; 2015 Starteur
+          br/
+          | All rights reserved
+
+    /! ---- DIALOGS ----
+    #login.modal-dialog
+      .main
+        a href="#close"
+          = image_tag "close-icon.png", class: "close"
+
+        h2 Sign in
+        .content
+          = form_for :educator, url: educator_session_path, method: :post, :html => { :class => "form" } do |f|
+
+            = f.email_field :email, required: true, class: "input-box", placeholder: "Email address"
+            = f.password_field :password, autocomplete: "off", required: true,  class: "input-box", placeholder: "Password"
+
+            /p
+              = check_box_tag "rememberme"
+              = content_tag(:span, "Remember Me", class: "tos")
+
+            = f.submit "Sign in", class: "button half"

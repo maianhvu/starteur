@@ -1,46 +1,60 @@
-#header
-  = stylesheet_link_tag 'educators/access_codes/index'
-  .center-block
-    = link_to educators_educator_path(@educator)
-      = render "layouts/educators/navigation"
-    .profile
-      .profile-arrow
-      .profile-text Bobby Chan
-      .profile-icon style="background:#FFC006" B
-      .profile-break
-      =link_to "Dashboard", educators_educator_path(@educator)
-      =link_to "Profile", edit_educators_educator_path(@educator)
-      =link_to "Settings", "#"
-      =link_to "Sign out", educators_logout_path, method: :delete
+= render "layouts/educators/dashboard_menu"
+= render "layouts/educators/flash_messages"
 
 #content.center-block
-  h1 Access Code Management
-  - if @test_with_code_usages.size == 0
-    h2 You have not purchased any test yet.
-    = link_to 'Start by purchasing some tests here!', display_tests_educators_billing_records_url
-  - else  
-    div.access_code_list
-      table.table
-        thead
-          th
-            tr
-              th Test Name
-              th Test Description
-              th.text-center Total Code Usages
-              th.text-center Used Code Usages
-              th.text-center Remaining Code Usages
-          - @test_with_code_usages.each do|test, code_usage_details|
-            tr
-              td =link_to test.name, educators_access_code_path(test)
-              td =test.description
-              td.text-center =code_usage_details[0]
-              td.text-center =code_usage_details[1]
-              td.text-center =code_usage_details[2]
-          end
+  .background
+  .left
+    #get-started-card.card-primary
+      =image_tag "institution.png"
+      h3 Your Institution
 
-    .btn.btn-primary = link_to "Manage batches", educators_batches_path, {:style=>'color:#FFFFFF;'}
+      /.main-list
+        .menu-icon style="background:#FFC006" B
+        .menu-link
+          =link_to "My Batches", "#"
+      /.main-list
+        .menu-icon style="background:#0645ff" R
+        .menu-link
+          =link_to "My Reports", "#"
+      .main-list
+        .menu-icon style="background:#0645ff" C
+        .menu-link      
+          =link_to "Code Management", "#"
+      .main-list
+        .menu-icon style="background:#ff0645" T
+        .menu-link  
+          =link_to "Transfer Ownership", "#"
+      .main-list
+        .menu-icon style="background:#FFC006" P
+        .menu-link  
+          =link_to "Payment Details", "#"
+      .main-list
+        .menu-icon style="background:#04E03A" G
+        .menu-link  
+          =link_to "Generate Reports", "#"
+  
+  .right
+      #new-educator-card.card
+        h1.horizontal style="font-weight: bold" Client Management
+        h2 Overview of your clients
 
-    .btn.btn-primary = link_to "Purchase Test", display_tests_educators_billing_records_url, {:style=>'color:#FFFFFF;'}
+      .summary-card
+        .number 
+          a 32
+        .type Unique Educators
+      .summary-card
+        .number
+          a 478
+        .type Enrolled Groups
+      .summary-card
+        .number
+          a 1678
+        .type Unique Students
+      .summary-card
+        .number
+          a 1541
+        .type Completed Tasks
+
 
   #popup = render 'layouts/educators/modal'
 

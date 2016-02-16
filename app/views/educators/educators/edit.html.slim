@@ -16,7 +16,7 @@
   #get-started-card.card
     h1 Update Profile
     h2 Edit your personal profile
-
+  
     .form-wrapper
       = form_for @educator, url: educators_educator_path(@educator), method: :put, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 

@@ -11,6 +11,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'prawn'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -33,10 +35,12 @@ gem 'slim-rails'
 
 # Front-end
 gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap-table-rails'
 gem 'sass-rails', '>= 3.2'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-turbolinks'
+gem "font-awesome-rails"
 
 gem 'sendgrid'
 

@@ -1,18 +1,64 @@
-.col-cs-6.col-xs-offset-3
-  .col-xs-12 = form_tag educators_admin_admin_transfer_access_codes_path(@educator), method: :post
-    .col-xs-12
-      table
-        tr
-          th
-          th Test
-          th Total permits
-          th Used
-        - @access_codes.each do |ac|
-          tr
-            th = check_box_tag "access_code_ids[]", ac.id
-            th = ac.test.name
-            th = ac.permits
-            th = ac.code_usages_count
+= render "layouts/educators/dashboard_menu"
+= render "layouts/educators/flash_messages"
 
-    .col-xs-12 = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
-    .col-xs-12 = submit_tag "Transfer"
+.button.radius.ghost.back = link_to "← Back to Dashboard", educators_admin_admins_path
+
+#content.center-block
+  .background
+  .left
+    #get-started-card.card-primary
+      =image_tag "institution.png"
+      h3 Your Institution
+
+      .main-list
+        .menu-icon.blue C
+        .menu-link
+          =link_to "Code Management", educators_admin_admin_generate_codes_path(@educator)
+      .main-list
+        .menu-icon.red T
+        .menu-link
+          =link_to "Transfer Ownership", educators_admin_admin_manage_access_codes_path(@educator)
+      .main-list
+        .menu-icon.yellow P
+        .menu-link
+          =link_to "Payment Details", educators_admin_admin_payment_history_path(@educator)
+      .main-list
+        .menu-icon.green P
+        .menu-link
+          = link_to "View promotion codes", educators_admin_promotion_codes_path
+      .main-list
+        .menu-icon.red D
+        .menu-link
+          = link_to "View discount codes", educators_admin_discount_codes_path
+
+  .right
+      #new-educator-card.card
+        h1.horizontal style="font-weight: bold" Code Management
+        h2 Generate Codes
+
+        h1 Select access codes and Educator to send the code
+
+        = form_tag educators_admin_admin_transfer_access_codes_path(@educator), method: :post
+          table data-toggle="table"
+            thead
+              tr
+                th
+                th data-sortable="true" Test
+                th data-sortable="true" Total permits
+                th data-sortable="true" Used
+            tbody
+            - @access_codes.each do |ac|
+              tr
+                td = check_box_tag "access_code_ids[]", ac.id
+                td = ac.test.name
+                td = ac.permits
+                td = ac.code_usages_count
+
+          h1 Please indicate the educator
+          = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
+        .submit = submit_tag "Transfer", class: "btn radius"
+
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'

@@ -31,7 +31,7 @@ class CodeUsage < ActiveRecord::Base
 
     event :complete do
       transitions :from => :used, :to => :completed,
-        guards: :check_test_completion_status,
+        #guards: :check_test_completion_status,
         after: [ :generate_result ]
     end
   end

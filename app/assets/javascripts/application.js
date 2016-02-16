@@ -3,7 +3,10 @@
 //= require jquery.turbolinks
 //= require jquery-ui/widget
 //= require bootstrap-sprockets
+//= require bootstrap-table
 //= require educators/display_tests
 //= require educators/flash_message
 //= require educators/card
 //= require educators/card-form
+//= require educators/dropit
+//= require educators/select

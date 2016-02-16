@@ -30,6 +30,7 @@ class Educators::BatchesController < Educators::BaseController
   def show
     if params[:id]
       @batch = Batch.find(params[:id])
+
       @remaining_access_codes = AccessCode.where(educator: @educator, test_id: @batch.test.id).inject(0) { |a, e| a + e.permits - e.code_usages_count }
     else
       @batch = Batch.find(params[:upload_csv][:batch_id])

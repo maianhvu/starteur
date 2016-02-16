@@ -22,10 +22,10 @@ class Educators::RegistrationsController < Devise::RegistrationsController
     @educator = Educator.new(educator_params)
 
     if @educator.save
-      redirect_to educators_login_path, notice: 'Account successfully created'
+      redirect_to new_educator_session_path, notice: 'Account successfully created'
     else
-      flash.now[:error] = @educator.errors
-      render :new
+      flash[:error] = @educator.errors
+      redirect_to new_educator_session_path
     end
   end
 
@@ -71,7 +71,7 @@ class Educators::RegistrationsController < Devise::RegistrationsController
   end
 
   # The path used after sign up for inactive accounts.
-  def after_inactive_sign_up_path_for(resource)
-    :registration_successful
-  end
+  # def after_inactive_sign_up_path_for(resource)
+  #   :registration_successful
+  # end
 end
