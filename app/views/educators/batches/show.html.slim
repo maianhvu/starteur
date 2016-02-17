@@ -42,12 +42,12 @@
         td
           = image_tag "in_progress.png"
         td.td
-          h1.number 0
+          h1.number = @batch.code_usages.used.count
           br In Progress
         td
           = image_tag "completed.png"
         td.td
-          h1.number 0
+          h1.number = @batch.code_usages.completed.count
           br Completed
 
     - if @batch.email.blank?
