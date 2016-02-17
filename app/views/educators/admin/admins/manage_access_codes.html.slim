@@ -47,16 +47,16 @@
                 th data-sortable="true" Total permits
                 th data-sortable="true" Used
             tbody
-            - @access_codes.each do |ac|
-              tr
-                td = check_box_tag "access_code_ids[]", ac.id
-                td = ac.test.name
-                td = ac.permits
-                td = ac.code_usages_count
+              - @access_codes.each do |ac|
+                tr
+                  td = check_box_tag "access_code_ids[]", ac.id
+                  td = ac.test.name
+                  td = ac.permits
+                  td = ac.code_usages_count
 
           h1 Please indicate the educator
           = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
-        .submit = submit_tag "Transfer", class: "btn radius"
+          .submit = submit_tag "Transfer", class: "btn radius"
 
 
   #popup = render 'layouts/educators/modal'

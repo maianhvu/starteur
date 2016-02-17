@@ -41,8 +41,8 @@
             th Percentage
             th Status
             th
-        - @discount_codes.each do |code|
-          tbody
+        tbody
+          - @discount_codes.each do |code|
             tr
               td = code.code
               td = code.percentage

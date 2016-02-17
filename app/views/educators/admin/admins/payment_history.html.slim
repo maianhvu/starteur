@@ -45,24 +45,24 @@
               th data-sortable="true" Payment Date
               th data-sortable="true" Educator
 
-          - total_price = 0
-          - @billing_records.each do |record|
-            - total_quantity_per_billing = 0
-            - sub_price = 0
-            - quantity = 0
-            - record.billing_line_items.each do |line_item|
-              - quantity = line_item.quantity
-              /- sub_price = sub_price + (line_item.test.price * quantity)
-              - total_quantity_per_billing = total_quantity_per_billing + quantity
-            - total_price = total_price + sub_price
-            tbody
+          tbody
+            - total_price = 0
+            - @billing_records.each do |record|
+              - total_quantity_per_billing = 0
+              - sub_price = 0
+              - quantity = 0
+              - record.billing_line_items.each do |line_item|
+                - quantity = line_item.quantity
+                /- sub_price = sub_price + (line_item.test.price * quantity)
+                - total_quantity_per_billing = total_quantity_per_billing + quantity
+              - total_price = total_price + sub_price
               tr
                 td = link_to record.bill_number, educators_billing_record_path(record)
                 td = total_quantity_per_billing
                 td = "$ " + total_price.to_s + " SGD"
                 td = localize(record.created_at.in_time_zone("Singapore"), :format => :long)
                 td = Educator.where(id: record.billable_id).name
-            - total_price = 0
+              - total_price = 0
 
 
   #popup = render 'layouts/educators/modal'
