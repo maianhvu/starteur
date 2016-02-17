@@ -13,3 +13,5 @@ cu.use!(u)
 cu.complete!
 cu2 = CodeUsage.create(access_code_id: ac.id, test_id: 1, email: "choryi.poon.2012@sis.smu.edu.sg", user_id: u2.id)
 cu2.use!(u2)
+
+e = Educator.create(email: 'rusydi@reactor.sg', password: '123123123', password_confirmation: '123123123', admin: true)
