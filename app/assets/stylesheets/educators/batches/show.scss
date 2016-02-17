@@ -58,7 +58,6 @@
   }
 
   .email-count {
-    font-size: 30px;
     border-bottom: 1px solid black;
   }
 
@@ -300,6 +299,52 @@
   }
 
   .btn:focus {
+    outline: 0;
+  }
+
+  .btn-red {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #ff0645;
+    border: 1px solid transparent;
+    color: white;
+  }
+
+  .btn-red:hover {
+    background-color: #FF4574;
+  }
+
+  .btn-red:active {
+    background-color: #DE0B40;
+    outline: 0;
+  }
+
+  .btn-yellow {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #ffc006;
+    border: 1px solid transparent;
+    color: white;
+  }
+
+  .btn-yellow:hover {
+    background-color: #FFCC36;
+  }
+
+  .btn-yellow:active {
+    background-color: #D9A407;
     outline: 0;
   }
 

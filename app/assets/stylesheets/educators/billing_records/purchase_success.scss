@@ -100,7 +100,7 @@
   }
 
   .block-message {
-    width: 400px;
+    width: 450px;
     height: auto;
     border: 3px solid #25A599;
     border-radius: 8px;
@@ -115,6 +115,8 @@
 
   .block-message p {
     display: inline-block;
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 
   .block-message .quantity {
@@ -125,6 +127,7 @@
   .block-message .quantity p {
     width: 30px;
     border-bottom: 1px solid;
+    font-weight: bold;
   }
 
   .button-group {

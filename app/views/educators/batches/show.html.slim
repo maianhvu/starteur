@@ -22,7 +22,7 @@
           /  .batch-tag 2016
           /  .batch-tag National University of Singapore
         td
-          a.email-count = "#{@batch.email.count}"
+          a.email-count style="font-size: 30px" = "#{@batch.email.count}"
         td.text-left colspan="2"
           - if @batch.email.size == 1
             a Student Enrolled
@@ -30,22 +30,15 @@
             a Students Enrolled
 
       tr.tr
-        td
-          - if @batch.test.name == "MBTI"
-            h1 = image_tag "mbti.png"
-          - elsif @batch.test.name == "Holland Codes"
-            h1 = image_tag "jung.png"
-          - elsif @batch.test.name == "O*NET"
-            h1 = image_tag "onet.png"
-          - elsif @batch.test.name == "DISC Assessment"
-            h1 = image_tag "disc.png"
-        td.td
-          h1 MBTI
+        td.test-logo
+          = image_tag "starteur.png"
+        td.td.test
+          h1.test-name = @batch.test.name
         td
           = image_tag "access_code.png"
         td.td
           h1.number = @remaining_access_codes
-          br Access Code Available
+          br Codes Available
         td
           = image_tag "in_progress.png"
         td.td
@@ -121,7 +114,7 @@
                   - else
                     p Email sent
                 - else
-                  = link_to 'Send Access Code', educators_batch_assign_code_usages_path(batch_id: @batch, email: email), method: :get, class: "user-status"
+                  = link_to 'Send Access Code', educators_batch_assign_code_usages_path(batch_id: @batch, email: email), method: :get, class: "user-status btn-red"
               td = link_to "", educators_batch_user_path(id: @batch.id, email: email), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}, class: "fa fa-trash-o fa-2x"
 
     .add-group#upload

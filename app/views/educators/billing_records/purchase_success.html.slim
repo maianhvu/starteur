@@ -3,21 +3,22 @@
 #content.center-block
   #get-started-card.card
     h1 Purchase Confirmation
-  
+
   .logo-wrapper
     .confirmation-logo
 
   .success-message Success!
 
-  /.block-message 
+  /.block-message
     p $20.00 has been deducted from
     p 1234-5678-9012-3456
-  
+
   .block-message
     - flash[:summary].each do |test, quantity|
       .quantity
         p = quantity
-      p = "access codes for #{test}"
+      p access codes for
+      p = "#{test}"
 
     p has been added to your account.
 
