@@ -106,8 +106,8 @@
       - if @dc
         = hidden_field_tag :code, @dc.code
       .button-group
-        .button.first = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems)
-        = f.submit 'Confirm', class: "button"
+        = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems), class: "button first btn"
+        = f.submit 'Confirm', class: "button first btn"
 
     - if @dc
       .text-center = "Discount code: #{@dc.code}"
@@ -115,8 +115,9 @@
       = form_tag apply_discount_educators_billing_records_path, method: :post
         - @lineitems.each_pair do |id, item|
           = hidden_field_tag "lineitems[#{id}]", item[:quantity]
-        .text-center = text_field_tag :code
-        .text-center = submit_tag 'Apply Discount Code'
+        .discount-group
+          .text-center = text_field_tag :code, "Please enter a discount code here", class: "discount-field"
+          = submit_tag 'Apply Discount Code', class: "button apply"
 
   #popup = render 'layouts/educators/modal'
 

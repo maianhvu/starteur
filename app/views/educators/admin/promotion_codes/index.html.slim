@@ -41,8 +41,8 @@
             th Test
             th Quantity
             th Status
-        - @promotion_codes.each do |code|
-          tbody
+        tbody
+          - @promotion_codes.each do |code|
             tr
               td = code.code
               td = code.test.name

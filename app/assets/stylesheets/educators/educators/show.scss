@@ -119,12 +119,17 @@
       vertical-align: middle;
     }
 
+    .card-number a {
+      border-bottom: 1px solid;
+    }
+
     .card-description {
       font-size: 15px;
-      line-height: 80px;
+      line-height: 20px;
       text-align: center;
       display: inline-block;
       vertical-align: middle;
+      width: 210px;
     }
 
     .card-error {
@@ -166,6 +171,10 @@
     margin-left: 20px;
     margin-bottom: 10px;
     font-size: 12px;
+  }
+
+  .title {
+    font-weight: bold;
   }
 
   .batch-id {
@@ -231,6 +240,29 @@
     border-top: 4px solid\9;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent
+  }
+
+  .btn-yellow {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #ffc006;
+    border: 1px solid transparent;
+    color: white;
+  }
+
+  .btn-yellow:hover {
+    background-color: #FFCC36;
+  }
+
+  .btn-yellow:active {
+    background-color: #D9A407;
+    outline: 0;
   }
 
   .btn:hover {

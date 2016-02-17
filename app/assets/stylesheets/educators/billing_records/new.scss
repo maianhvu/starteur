@@ -4,8 +4,11 @@
     text-align: center;
   }
 
-  .button {
+  .btn {
     padding: 4px;
+    margin-left: 180px;
+    margin-top: 10px;
+    width: 100px;
   }
 
   .button.first {
@@ -18,7 +21,7 @@
   }
 
   table {
-    width: 250px;
+    width: 400px;
     margin-left: calc((100% - 250px)/2);
   }
 
@@ -34,14 +37,28 @@
     height: 50px;
   }
 
-  .total-row {
-    border-top: 1px solid;
+  .discount-group {
+    width: 300px;
+    margin-left: 80px;
   }
 
-  .button {
-    margin-left: 180px;
+  .discount-field {
+    width: 250px;
+    height: 30px;
+    float: left;
+    margin-left: calc((100% - 250px)/2);
+  }
+
+  .apply {
+    width: 180px;
+    height: 30px;
     margin-top: 10px;
-    width: 100px;
+    margin-bottom: 30px;
+    margin-left: calc((100% - 180px)/2);
+  }
+
+  .total-row {
+    border-top: 1px solid;
   }
 
   .col-min {
@@ -113,7 +130,7 @@
   }
 
   .table {
-    width: 400px;
+    width: 700px;
     margin-left: auto;
     margin-right: auto;
     font-size: 16px;
@@ -122,14 +139,21 @@
       width: 100px;
     }
 
+    tr {
+      height: 80px;
+    }
+
     .total {
       border-top: 1px solid;
+      margin-top: 30px;
     }
   }
 
   .button-group {
     width: 30%;
-    margin-left: 35%;
+    margin-right: 10%;
+    float: right;
+    margin-top: 44px;
 
     .button {
       display: inline-block;
