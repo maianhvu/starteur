@@ -17,7 +17,8 @@
                 .tag Co-Educator:
                 .email
                   a = coeducator.email
-                = link_to "", educators_batch_coeducator_path(@batch, coeducator), method: :delete, class: "i fa fa-trash fa-lg", data:{confirm: 'Are you sure you want to delete coeducator?'}
+                - if @batch.educator == @educator
+                  = link_to "", educators_batch_coeducator_path(@batch, coeducator), method: :delete, class: "i fa fa-trash fa-lg", data:{confirm: 'Are you sure you want to delete coeducator?'}
           /.batch-tag-group
           /  .batch-tag 2016
           /  .batch-tag National University of Singapore
