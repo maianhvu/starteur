@@ -73,6 +73,7 @@ class Educators::BillingRecordsController < Educators::BaseController
     @bill_number = @billing_record.bill_number
     @created_at = @billing_record.created_at
     @billing_details = BillingLineItem.where(billing_record_id: @billing_record.id)
+    @dc = @billing_record.discount_code
   end
 
   def purchase_confirmation

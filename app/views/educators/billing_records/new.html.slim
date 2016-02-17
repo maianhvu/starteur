@@ -116,7 +116,7 @@
         - @lineitems.each_pair do |id, item|
           = hidden_field_tag "lineitems[#{id}]", item[:quantity]
         .discount-group
-          .text-center = text_field_tag :code, "Please enter a discount code here", class: "discount-field"
+          .text-center = text_field_tag :code, nil, placeholder: "Please enter a discount code here", class: "discount-field"
           = submit_tag 'Apply Discount Code', class: "button apply"
 
   #popup = render 'layouts/educators/modal'

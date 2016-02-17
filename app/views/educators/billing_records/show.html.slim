@@ -41,10 +41,10 @@
         td.text-center
           b Total
         td
-        td  
+        td
         /td
-        td.text-center 
-          b = "$ " + total_price.to_s + " SGD"
+        td.text-center
+          b = "$ #{@dc ? total_price * (100 - @dc.percentage) / 100 : total_price} SGD"
 
   #popup = render 'layouts/educators/modal'
 
