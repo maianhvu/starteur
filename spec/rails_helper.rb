@@ -13,7 +13,6 @@ require 'shoulda/matchers'
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
-
 DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
