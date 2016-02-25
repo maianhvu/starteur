@@ -1,7 +1,7 @@
 default: &default
   endpoint: 'https://acme-v01.api.letsencrypt.org/'
   email: 'vu@reactor.sg'
-  domain: 'starteur.com'
+  domain: 'www.starteur.com'
 
   # in Rails.root, path to private key
   private_key: 'key/keyfile.pem'
