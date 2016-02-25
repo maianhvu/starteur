@@ -12,7 +12,7 @@ default: &default
 
   # in Rails.root, path where challenge token
   # will be stored in case when DB will not be used
-  challenge_dir_name: 'challenge'
+  # challenge_dir_name: 'challenge'
 
 production:
   <<: *default
