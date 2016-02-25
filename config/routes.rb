@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   }
 
   # PagesController
-  get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
   get 'pages/registration_successful'
   get 'registration-successful', to: 'pages#registration_successful', as: 'registration_successful'
 
