@@ -49,7 +49,7 @@
   #access-code.modal-dialog
     #access-code-dialog.main
       = link_to '#close' do
-        = image_tag 'dashboard/close-icon.svg', class: 'close'
+        = image_tag 'shared/close-icon.svg', class: 'close'
       h2 Enter your access code
       .content
         = form_tag controller: 'code_usages', action: 'create', method: 'post'
@@ -65,7 +65,7 @@
 #feedback.modal-dialog
   .main
     = link_to '#close' do
-      = image_tag 'dashboard/close-icon.svg', class: 'close'
+      = image_tag 'shared/close-icon.svg', class: 'close'
     h2 Your feedback
     .content
       = form_tag controller: 'feedbacks', action: 'create', method: 'post'
@@ -79,7 +79,7 @@
 #verify-email.modal-dialog
   .main
     = link_to '#close' do
-      = image_tag 'dashboard/close-icon.svg', class: 'close'
+      = image_tag 'shared/close-icon.svg', class: 'close'
     h2 Verify your email
     .content.small
       p Check your email inbox for a verification email. Your email address is:

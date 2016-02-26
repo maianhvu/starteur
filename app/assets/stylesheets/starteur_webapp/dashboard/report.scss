@@ -1,0 +1,246 @@
+/* CSS Document */
+#content .right {
+  height: auto;
+}
+
+.card p {
+  font-size: 12px;
+  margin-top: 8px;
+}
+.learn-more {
+  color: rgb(73,198,173);
+  font-weight: 500;
+  text-decoration: underline;
+}
+.learn-more::after {
+  content: 'Learn more  >';
+  display: block;
+  margin-top: .5em;
+}
+.learn-more:hover {
+  opacity: 0.7;
+}
+.card {
+  overflow: hidden;
+}
+/*========== SUMMARY ==========*/
+.result-summary-container {
+  width: 100%;
+  float: left;
+  border-bottom: 1px solid #EFEFEF;
+  padding: 16px 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.result-summary-container:nth-child(3) {
+  border-bottom: none;
+}
+.result-summary-container img {
+  float: left;
+  margin-right: 16px;
+  max-height: 120px;
+  width: 6.625em;
+  margin: 0 26.5px 0 10.5px;
+}
+.result-summary-container h1 {
+  font-weight: 600;
+}
+.result-summary-container p {
+  margin-left: 12em;
+}
+/*========== ATTRIBUTES ==========*/
+.result-attributes {
+  padding: 16px;
+}
+.result-attributes h2 {
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.3;
+}
+.result-attributes ul {
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  margin: 8px -4px 16px -4px;
+}
+.result-attributes li {
+  padding: 4px 8px;
+  font-size: 14px;
+  display: inline-block;
+  float: left;
+  border-radius: 20px;
+  background: #8BC34A;
+  margin: 4px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.result-attributes li:hover {
+  opacity: 0.7;
+}
+.result-attributes-graph {
+  position: relative;
+  width: 100%;
+  height: 88px;
+  border-left: 1px solid #DEDEDE;
+  border-bottom: 1px solid #DEDEDE;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.result-attributes-graph .result-attributes-graph-bar {
+  position: relative;
+  width: 15%;
+  height: 100%;
+  background: #F2F2F2;
+  float: left;
+  margin-left: 13%;
+}
+.result-attributes-graph-bar div {
+  width: 100%;
+  height: 100%;
+  background: #8BC34A;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.result-attributes-graph-bar div:hover {
+  opacity: 0.7;
+}
+.top li {
+  background: #8BC34A;
+}
+.bottom li {
+  background: #03A9F4;
+}
+#result-attributes-graph-question {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  opacity: 0.3;
+  cursor: pointer;
+}
+#result-attributes-graph-question:hover {
+  opacity: 0.5;
+}
+/*========== DETAILS ==========*/
+#results-details {
+  position: relative;
+  height: auto !important;
+  padding-bottom:32px;
+}
+#results-details h1 {
+  float:left;
+  margin-left: 32px;
+  padding-top: 8px;
+  width:30%;
+}
+#results-details p {
+  float: left;
+  font-size: 14px;
+  width:60%;
+  box-sizing:border-box;
+  margin-bottom: 32px;
+}
+#results-details-navigation {
+  width: 100%;
+  height: 56px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 16px 0;
+  counter-reset: li; /* Initiate a counter */
+  list-style: none; /* Remove default numbering */
+  *list-style: decimal; /* Keep using default numbering for IE6/7 */
+}
+#results-details-navigation:before {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 1px;
+  background: #DEDEDE;
+  content: "";
+  width: 100%;
+  display: block;
+}
+#results-details-navigation li {
+  position: relative;
+  display: inline-block;
+  width: 15%;
+  margin: 0 2.5%;
+  z-index: 20;
+  background: white;
+  cursor: pointer;
+}
+#results-details-navigation li:before {
+  content: counter(li);
+  counter-increment: li;
+  background: #DEDEDE;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  border-radius: 12px;
+  color: white;
+  box-sizing: border-box;
+  margin-right: 8px;
+  font-size: 12px;
+  line-height: 24px;
+  transform: translateY(-2px);
+}
+#results-details-navigation .selected:before {
+  background: rgb(73,198,173);
+}
+#results-details-navigation li:hover {
+  color: #939393;
+}
+#results-details-navigation li:hover:before {
+  opacity: 0.7;
+}
+.results-details-header {
+  width: 52%;
+  margin: 32px auto;
+  overflow:hidden;
+}
+.results-details-header img:first-child {
+  max-width: 200px;
+  width: 50%;
+  float:left;
+  margin-right:24px;
+}
+.results-details-header h2 {
+  font-size: 24px;
+  margin-top:64px;
+  line-height: 32px;
+}
+.results-details-header h1 {
+  font-size: 40px;
+  line-height: 48px;
+  float:none !important;
+  margin-left: 0 !important;
+  padding-top: 0 !important;
+  width:100% !important;
+}
+#results-details .top {
+  color: #8BC34A;
+}
+#results-details .bottom {
+  color: #03A9F4;
+}
+
+@media screen and (max-width:688px) {
+  #content {
+    height: auto !important;
+  }
+  #dashboard-card {
+    height: auto !important;
+  }
+  .result-summary-container {
+    height: auto;
+  }
+  .result-summary-container img:first-child {
+    height: 120px;
+  }
+}

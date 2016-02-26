@@ -1,0 +1,89 @@
+.background
+.left
+  .card.result-attributes.top
+    h2 Top Attributes
+    = link_to '#' do # result-attributes
+      ul
+        li Vision
+        li Risk-Tolerance
+        li Flexibility
+        li Assertiveness
+        li Internality
+    .result-attributes-graph
+      = link_to '#results-graph' do
+        .result-attributes-graph-bar
+          / Margin-top is (100-x)*(0.88) where x is the desired percentage
+          div style="margin-top:34px" T1
+        .result-attributes-graph-bar
+          div style="margin-top:14px" T2
+        .result-attributes-graph-bar
+          div style="margin-top:54px" T3
+        = image_tag 'report/result-attributes-question.svg', id: 'result-attributes-graph-question'
+  .card.result-attributes.bottom
+    = link_to '#' do # result-attributes
+      ul
+        li Independence
+        li Vigor
+        li Resilience
+        li Self-Belief
+        li Transcendence
+
+      h2 Growth Tip
+      p
+        | Based on your test results, we have identified several areas where you could improve yourself.
+          We recommend you to take the following steps to become more well-rounded.
+        a.learn-more< href="results-growth.html"
+
+#dashboard-card.card.right
+  .result-summary-container
+    / Change the potential-0/1/2/3.png for other badges--
+    = image_tag 'report/icon-potential-2.png'
+    h2 Starteur Potential
+    h1 Maturing
+    p
+      | Your Starteur&trade; Profile indicates your current overall potential as Maturing,
+        in the upper range of individuals who have completed the Starteur Profiling Tool.
+        While your entrepreneurial aptitude may still be growing, your potential in each
+        of the individual 16 Starteur Attributes provides an opportunity for you to continue
+        levelling up. Review your results below, and consider the suggestions provided to
+        maximize your entrepreneurial development.
+      a.learn-more< href="results-potential.html"
+
+  .result-summary-container
+    = image_tag 'report/role_icons_designer.svg'
+    h2 Primary Role
+    h1 Designer
+    p
+      | Gifted designers are creative and appreciate originality. They relish free-thinking
+        experiences such as brainstorming and discussion groups. They have a natural capacity
+        to consider issues from multiple perspectives.
+      a.learn-more< href='#'
+      / "results-roles.html"
+
+
+  .result-summary-container
+    = image_tag 'report/role_icons_engineer.svg'
+    h2 Secondary Role
+    h1 Engineer
+    p
+      | Engineers tend to prioritize and then take action. They set goals. These goals serve as
+        their compass, helping them determine priorities and make alterations when needed to get
+        back on course.
+      a.learn-more< href='#'
+      / "results-roles.html"
+
+/ ---- DIALOGS ------
+#results-graph.modal-dialog
+  .main
+    = link_to '#close' do
+      = image_tag 'shared/close-icon.svg', class: 'close'
+
+    h2 My Attribute Graph
+    .content
+      | Your Attribute Graph provides a visual illustration of how well you scored for
+        each tier of attributes. Tier 1 is the most basic tier, whereas tier 3 is the most
+        advanced tier.
+      p/
+      = link_to '#close' do
+        button.button Back
+

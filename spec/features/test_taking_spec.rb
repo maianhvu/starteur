@@ -49,7 +49,7 @@ RSpec.feature 'Test Taking', type: :feature do
           end
         end
 
-        wait_for_ajax
+        sleep 2
       end
     }.to change { Result.count }.by(1)
       .and change { Score.count }.by(test.categories.count)
@@ -63,6 +63,8 @@ RSpec.feature 'Test Taking', type: :feature do
 
     scores = Score.where(test: test, user: user, result: result)
     expect(scores.count).to be(test.categories.count)
+
+    expect(current_path).to eq(dashboard_report_path)
   end
 
 end

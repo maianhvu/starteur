@@ -24,10 +24,16 @@ class DashboardController < ApplicationController
             @test_status = :code_entered
           end
         elsif !code_usages.select { |cu| cu[:state] == CodeUsage.states[:completed] }.empty?
-          @test_status = :completed
+          # This case happens when there is at least one completed code usage and where there is
+          # no test in progress that is being referenced by all code usages
+          # @test_status = :completed
+          redirect_to dashboard_report_path
         end
       end
 
     end
+  end
+
+  def report
   end
 end
