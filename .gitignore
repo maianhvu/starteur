@@ -54,3 +54,5 @@ config/secrets.yml
 bower.json
 
 certificates/*
+
+.idea
