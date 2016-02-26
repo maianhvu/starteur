@@ -1117,6 +1117,7 @@ question_params.each_pair do |categ, paramz|
   paramz.each do |question|
     q = Question.new(question)
     q.category = category
+    q.test = test
     q.save!
   end
 end

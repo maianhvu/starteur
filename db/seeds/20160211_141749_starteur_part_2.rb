@@ -285,6 +285,7 @@ categories.each_value do |category|
     q.category = cat
     q.choices = ['No', 'Yes']
     q.polarity = 1
+    q.test = test
     q.save!
   end
 end
