@@ -1,0 +1,100 @@
+-
+  role: "Engineer"
+  attributes:
+    analytical: false
+    discipline: false
+    input: false
+    deliberative: true
+    focus: true
+    learner: true
+    restorative: true
+-
+  role: "Product Manager"
+  attributes:
+    empathy: false
+    futuristic: false
+    woo: false
+    activator: true
+    focus: true
+    maximizer: true
+    strategic: true
+-
+  role: "Sales Manager"
+  attributes:
+    adaptability: false
+    discipline: false
+    maximizer: false
+    achiever: true
+    communication: true
+    competition: true
+    woo: true
+-
+  role: "Business Developer"
+  attributes:
+    ideation: false
+    relator: false
+    woo: false
+    adaptability: true
+    command: true
+    communication: true
+    strategic: true
+-
+  role: "Marcomms Manager"
+  attributes:
+    futuristic: false
+    individualization: false
+    strategic: false
+    adaptability: true
+    communication: true
+    ideation: true
+    woo: true
+-
+  role: "Designer"
+  attributes:
+    discipline: false
+    futuristic: false
+    individualization: false
+    empathy: true
+    ideation: true
+    input: true
+    strategic: true
+-
+  role: "Marketer"
+  attributes:
+    deliberative: false
+    focus: false
+    input: false
+    analytical: true
+    ideation: true
+    maximizer: true
+    strategic: true
+-
+  role: "Customer Service Manager"
+  attributes:
+    relator: false
+    responsibility: false
+    woo: false
+    communication: true
+    empathy: true
+    harmony: true
+    restorative: true
+-
+  role: "Admin Manager"
+  attributes:
+    harmony: false
+    relator: false
+    responsibility: false
+    arranger: true
+    consistency: true
+    discipline: true
+    restorative: true
+-
+  role: "Finance Manager"
+  attributes:
+    arranger: false
+    focus: false
+    maximizer: false
+    consistency: true
+    deliberative: true
+    discipline: true
+    responsibility: true

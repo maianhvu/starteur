@@ -21,7 +21,9 @@ FactoryGirl.define do
 
     trait :full do
       after(:create) do |test|
-        create_list(:category, 3, :full, test_id: test.id)
+        for rank in 1..3 do
+          create_list(:category, 3, :full, test_id: test.id, rank: rank)
+        end
       end
     end
 

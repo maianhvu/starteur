@@ -13,16 +13,7 @@ RSpec.feature 'Test Taking', type: :feature do
       access_code: access_code,
       state: CodeUsage.states[:used]
     )
-
-    ActiveRecord::Base.connection.execute(
-    <<-SQL
-    CREATE OR REPLACE FUNCTION real_score(answer_value integer, polarity integer, scale integer) RETURNS integer AS $$
-    BEGIN
-      RETURN ABS(answer_value + (polarity - 1) * (scale - 1) / 2);
-    END;
-    $$ LANGUAGE plpgsql;
-    SQL
-    )
+    define_real_score_function
   end
 
   scenario 'User takes a full test from start to end', :js => true do

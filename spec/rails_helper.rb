@@ -23,6 +23,7 @@ RSpec.configure do |config|
 
   config.include StarteurWebappHelper, type: :feature
   config.include AjaxHelper, type: :feature
+  config.include SqlHelper
 
   config.before :each do
     DatabaseCleaner.start

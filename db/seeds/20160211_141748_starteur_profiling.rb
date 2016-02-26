@@ -6,7 +6,8 @@ test = Test.create!(
   name: 'Starteur Profiling Assessment',
   description: '',
   price: 0.0,   # temporarily free
-  shuffle: true # shuffle questions
+  shuffle: true, # shuffle questions
+  processor_file: 'starteur_profiling_assessment/processor.rb'
 )
 
 # Create categories (Attributes)
