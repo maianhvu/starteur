@@ -64,7 +64,7 @@ RSpec.feature 'Test Taking', type: :feature do
     scores = Score.where(test: test, user: user, result: result)
     expect(scores.count).to be(test.categories.count)
 
-    expect(current_path).to eq(dashboard_report_path)
+    expect(current_path).to eq(view_report_path('index'))
   end
 
 end
