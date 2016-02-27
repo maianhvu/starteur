@@ -18,6 +18,7 @@ sub_assets = %w(
   starteur_webapp/subpages.scss
   starteur_webapp/dashboard.scss dashboard/payments.js
   starteur_webapp/tests.scss tests/main.js
+  starteur_webapp/report.scss
 )
 
 graphical_assets = %w(
