@@ -21,7 +21,6 @@ class Processor
   #
   def initialize(result_id)
     @result_id = result_id
-    @roles_data = self.class.load_roles_data
   end
 
   def process
@@ -47,26 +46,33 @@ class Processor
   end
 
   def get_roles
-    # byebug
+    # Return cache immediately
+
+    return @cached_roles if @cached_roles
+
+    @cached_role_data = self.class.load_roles_data
   end
 
   def get_tier_scores
     # Return the tier scores result if already calculated
-    return @tier_scores if @tier_scores
+    return @cached_tier_scores if @cached_tier_scores
 
     # If not, start calculating the tier scores
     result = raw_query(construct_tier_scores_query)
 
     # Result given is in array form [['<tier_no>', '<tier_average_score>']]
     # Convert result to hash form { <tier_no>: <tier_average_score> }
-    @tier_scores = {}
+    tier_scores = {}
     result.each do |row|
       row = row.map(&:to_i)
-      @tier_scores[row[0]] = row[1]
+      tier_scores[row[0]] = row[1]
     end
 
+    # Cache result first
+    @cached_tier_scores = tier_scores
+
     # Return result
-    @tier_scores
+    @cached_tier_scores
   end
 
   def self.get_human_readable_score(score)
@@ -79,7 +85,7 @@ class Processor
 
   private
 
-  def self.load_roles_data
+  def self.load_role_data
     data_file_path = File.join(__dir__, 'roles_data.yaml')
     YAML.load(File.read(data_file_path))
   end
