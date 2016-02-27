@@ -5,9 +5,10 @@ class DashboardController < ApplicationController
   def index
     # Define initial test status to complete
     @test_status = :completed
-    # Created specifically for Starteur Profiling Assessment
 
-    test = Test.published.where("name ILIKE '%Starteur Profiling Assessment%'").last
+    # Created specifically for Starteur Profiling Assessment
+    test = starteur_profiling_test
+
     # Find out if the user has any code_usage that belongs to this test
     if test
       @test_status = :code_not_entered
@@ -27,14 +28,18 @@ class DashboardController < ApplicationController
           # This case happens when there is at least one completed code usage and where there is
           # no test in progress that is being referenced by all code usages
           # @test_status = :completed
-          redirect_to dashboard_report_path
+
+          # Redirect to the report, since dashboard is now more or less useless
+          redirect_to report_index_path
         end
       end
 
     end
   end
 
-  def report
-    render layout: 'report'
+  private
+
+  def starteur_profiling_test
+    Test.published.where("name ILIKE '%Starteur Profiling Assessment%'").last
   end
 end

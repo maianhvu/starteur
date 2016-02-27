@@ -20,8 +20,8 @@ describe Processor do
   }
 
   context 'Testing roles' do
-    processor = Processor.new(nil)
-    processor.get_roles
+    # processor = Processor.new(nil)
+    # processor.get_tiers
   end
 
   context 'With high score answers' do
@@ -34,7 +34,7 @@ describe Processor do
     it 'should give high tier scores' do
       processor = Processor.new(Result.last.id)
       result = processor.get_tier_scores
-      expect(result.keys).to eq(Processor::get_tiers)
+      expect(result.keys).to eq(processor.get_tiers)
       expect(result.values.uniq).to(
         contain_exactly(Processor::get_human_readable_score(Processor::SCORE_POTENTIAL_MAX))
       )
@@ -42,7 +42,7 @@ describe Processor do
       # High scores should give exceptional
       potential = processor.get_potential
       expect(potential[:tier]).to be(3)
-      expect(potential[:name]).to eq('Exceptional')
+      expect(potential[:title]).to eq('Exceptional')
     end
   end
 
@@ -64,7 +64,7 @@ describe Processor do
       # Medium scores should still give beginning
       potential = processor.get_potential
       expect(potential[:tier]).to be(0)
-      expect(potential[:name]).to eq('Beginning')
+      expect(potential[:title]).to eq('Beginning')
     end
   end
 
@@ -84,7 +84,7 @@ describe Processor do
       # Low scores should definitely give beginning
       potential = processor.get_potential
       expect(potential[:tier]).to be(0)
-      expect(potential[:name]).to eq('Beginning')
+      expect(potential[:title]).to eq('Beginning')
     end
   end
 
@@ -99,7 +99,7 @@ describe Processor do
       processor = Processor.new(Result.last.id)
       potential = processor.get_potential
       expect(potential[:tier]).to be(developing_tier)
-      expect(potential[:name]).to eq('Developing')
+      expect(potential[:title]).to eq('Developing')
     end
   end
 
@@ -114,7 +114,7 @@ describe Processor do
       processor = Processor.new(Result.last.id)
       potential = processor.get_potential
       expect(potential[:tier]).to be(maturing_tier)
-      expect(potential[:name]).to eq('Maturing')
+      expect(potential[:title]).to eq('Maturing')
     end
   end
 
@@ -131,7 +131,7 @@ describe Processor do
 
   def answer_high_up_to_tier(tier)
     # Get all the tiers first
-    tiers = Processor::get_tiers
+    tiers = [1, 2, 3]
 
     test.categories.each do |attribute|
       if tiers.include?(attribute.rank)
@@ -140,15 +140,23 @@ describe Processor do
         if attribute.rank <= tier # Up to this tier only
           # Answer just at threshold
           attribute.questions.each do |question|
-            value = Processor::SCORE_POTENTIAL_THRESHOLD
+            # Ceiling the threshold to get value just above threshold
+            value = Processor::SCORE_POTENTIAL_THRESHOLD.ceil
+            # Switch polarity based on question
             value = Processor::SCORE_POTENTIAL_MAX - value if question.polarity < 0
+
             Answer.create!(user: user, test: test, question: question, value: value)
           end
         else
           # Answer below threshold
           attribute.questions.each do |question|
-            value = 0
+            # Floor the threshold to get value below
+            value = Processor::SCORE_POTENTIAL_THRESHOLD.floor
+            # Ensure scores is lower always
+            value -= 1 if value == Processor::SCORE_POTENTIAL_THRESHOLD
+            # Switch polarity based on question
             value = Processor::SCORE_POTENTIAL_MAX - value if question.polarity < 0
+
             Answer.create!(user: user, test: test, question: question, value: value)
           end
         end

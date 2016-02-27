@@ -1,6 +1,8 @@
 /* CSS Document */
-#content .right {
-  height: auto !important;
+#content {
+  .top, .bottom, .right {
+    height: auto !important;
+  }
 }
 
 .card p {
@@ -111,7 +113,9 @@
   float: left;
   margin-left: 13%;
 }
-.result-attributes-graph-bar div {
+
+.tier__graph {
+  position: relative;
   width: 100%;
   height: 100%;
   background: #8BC34A;
@@ -120,10 +124,33 @@
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
+  transition: opacity 0.25s ease-out 0s;
+
+  span {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transition: opacity 0.25s ease-out 0s;
+  }
+
+  .tier__graph--score {
+    opacity: 0;
+  }
+
+  &:hover {
+    opacity: 0.7;
+
+    .tier__graph--number {
+      opacity: 0;
+    }
+
+    .tier__graph--score {
+      opacity: 1;
+    }
+  }
 }
-.result-attributes-graph-bar div:hover {
-  opacity: 0.7;
-}
+
 .top li {
   background: #8BC34A;
 }

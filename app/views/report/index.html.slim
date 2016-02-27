@@ -4,29 +4,27 @@
     h2 Top Attributes
     = link_to '#' do # result-attributes
       ul
-        li Vision
-        li Risk-Tolerance
-        li Flexibility
-        li Assertiveness
-        li Internality
+        - @processed_result[:top_attributes].each do |attrib|
+          li= attrib
     .result-attributes-graph
       = link_to '#results-graph' do
-        .result-attributes-graph-bar
-          / Margin-top is (100-x)*(0.88) where x is the desired percentage
-          div style="margin-top:34px" T1
-        .result-attributes-graph-bar
-          div style="margin-top:14px" T2
-        .result-attributes-graph-bar
-          div style="margin-top:54px" T3
+        - @processed_result[:tier_scores].sort.to_h.each_pair do |tier, score|
+          .result-attributes-graph-bar
+            / Margin-top is (100-x)*(0.88) where x is the desired percentage
+            - margin_top = (1 - ((score - 1) / @processed_result[:tier_score_max])) * 88
+            .tier__graph style="margin-top: #{margin_top}px;"
+              span.tier__graph--number T#{tier}
+              span.tier__graph--score
+                == score.round(1)
+                | /
+                == Processor::get_human_readable_score(@processed_result[:tier_score_max])
         = image_tag 'report/result-attributes-question.svg', id: 'result-attributes-graph-question'
   .card.result-attributes.bottom
     = link_to '#' do # result-attributes
+      h2 Bottom Attributes
       ul
-        li Independence
-        li Vigor
-        li Resilience
-        li Self-Belief
-        li Transcendence
+        - @processed_result[:bottom_attributes].each do |attrib|
+          li= attrib
 
       h2 Growth Tip
       p
@@ -40,14 +38,9 @@
     / Change the potential-0/1/2/3.png for other badges--
     = image_tag 'report/icon-potential-2.png'
     h2 Starteur Potential
-    h1 Maturing
+    h1= @processed_result[:potential][:title]
     p
-      | Your Starteur&trade; Profile indicates your current overall potential as Maturing,
-        in the upper range of individuals who have completed the Starteur Profiling Tool.
-        While your entrepreneurial aptitude may still be growing, your potential in each
-        of the individual 16 Starteur Attributes provides an opportunity for you to continue
-        levelling up. Review your results below, and consider the suggestions provided to
-        maximize your entrepreneurial development.
+      == @processed_result[:potential][:description]
       a.learn-more< href='#'
       / "results-potential.html"
 

@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   # DashboardController
   get 'dashboard/index'
-  get 'dashboard/report'
+
+  # ReportController
+  get 'report/index'
 
   # Application resources
   resources :code_usages, only: [ :create ]
