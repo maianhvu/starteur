@@ -6,7 +6,7 @@
 }
 
 .card p {
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 8px;
 }
 
@@ -30,7 +30,6 @@
 .card {
   overflow: hidden;
 }
-
 /*========== SUMMARY ==========*/
 .result-summary-container {
   width: 100%;
@@ -46,6 +45,8 @@
 }
 
 .result-summary-container {
+  font-size: 16px;
+
   img {
     float: none;
     display: block;
@@ -57,11 +58,20 @@
   h2 {
     margin: 0.5em 0 0 0;
     text-align: center;
+    font-size: 1em;
+    color: #888;
   }
 
   h1 {
     text-align: center;
     font-weight: 600;
+    font-size: 1.5em;
+  }
+
+  p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-top: 1em;
   }
 }
 /*========== ATTRIBUTES ==========*/
@@ -173,19 +183,22 @@
   position: relative;
   height: auto !important;
   padding-bottom:32px;
-}
-#results-details h1 {
-  float:left;
-  margin-left: 32px;
-  padding-top: 8px;
-  width:30%;
-}
-#results-details p {
-  float: left;
-  font-size: 14px;
-  width:60%;
-  box-sizing:border-box;
-  margin-bottom: 32px;
+
+  h1 {
+    float: left;
+    margin-left: 32px;
+    padding-top: 8px;
+    width:30%;
+  }
+
+  p {
+    float: left;
+    font-size: 16px;
+    line-height: 1.6;
+    width: 60%;
+    box-sizing: border-box;
+    margin-bottom: 32px;
+  }
 }
 #results-details-navigation {
   width: 100%;
@@ -278,7 +291,7 @@
     img {
       float: left;
       display: inline-block;
-      margin: 0 26.5px 0 10.5px;
+      margin: .5em 26.5px 0 10.5px;
     }
 
     h1, h2 {
@@ -286,7 +299,7 @@
     }
 
     p {
-      margin-left: 12em;
+      margin-left: 9rem;
     }
   }
 }

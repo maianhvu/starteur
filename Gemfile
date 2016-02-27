@@ -43,6 +43,9 @@ gem 'sendgrid'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
+# Use redis for caching of test results
+gem 'redis-rails'
+
 # Use React for JS component
 gem 'react-rails', '~> 1.6.0'
 gem 'classnames-rails'

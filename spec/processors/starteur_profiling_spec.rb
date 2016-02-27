@@ -32,7 +32,7 @@ describe Processor do
     end
 
     it 'should give high tier scores' do
-      processor = Processor.new(Result.last.id)
+      processor = Processor.new(Result.last)
       result = processor.get_tier_scores
       expect(result.keys).to eq(processor.get_tiers)
       expect(result.values.uniq).to(
@@ -55,7 +55,7 @@ describe Processor do
     end
 
     it 'should give medium tier scores' do
-      processor = Processor.new(Result.last.id)
+      processor = Processor.new(Result.last)
       result = processor.get_tier_scores
       result.values.each do |average_tier_score|
         expect(average_tier_score).to be_within(1).of(medium_score)
@@ -75,7 +75,7 @@ describe Processor do
     end
 
     it 'should give low tier scores' do
-      processor = Processor.new(Result.last.id)
+      processor = Processor.new(Result.last)
       result = processor.get_tier_scores
       expect(result.values.uniq).to(
         contain_exactly(Processor::get_human_readable_score(Processor::SCORE_POTENTIAL_MIN))
@@ -96,7 +96,7 @@ describe Processor do
     end
 
     it 'should give developing potential' do
-      processor = Processor.new(Result.last.id)
+      processor = Processor.new(Result.last)
       potential = processor.get_potential
       expect(potential[:tier]).to be(developing_tier)
       expect(potential[:title]).to eq('Developing')
@@ -111,7 +111,7 @@ describe Processor do
     end
 
     it 'should give maturing potential' do
-      processor = Processor.new(Result.last.id)
+      processor = Processor.new(Result.last)
       potential = processor.get_potential
       expect(potential[:tier]).to be(maturing_tier)
       expect(potential[:title]).to eq('Maturing')

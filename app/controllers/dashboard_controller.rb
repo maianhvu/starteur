@@ -30,7 +30,7 @@ class DashboardController < ApplicationController
           # @test_status = :completed
 
           # Redirect to the report, since dashboard is now more or less useless
-          redirect_to report_index_path
+          redirect_to view_report_path(view: 'index')
         end
       end
 

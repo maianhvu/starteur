@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226054140) do
+ActiveRecord::Schema.define(version: 20160227130841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,11 +20,11 @@ ActiveRecord::Schema.define(version: 20160226054140) do
     t.string   "code"
     t.integer  "test_id"
     t.datetime "last_used_at"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",        default: "now()", null: false
+    t.datetime "updated_at",        default: "now()", null: false
     t.integer  "educator_id"
     t.integer  "permits",           default: 1
-    t.integer  "code_usages_count", default: 0, null: false
+    t.integer  "code_usages_count", default: 0,       null: false
   end
 
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree
@@ -217,13 +217,15 @@ ActiveRecord::Schema.define(version: 20160226054140) do
   create_table "tests", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "state",          default: 1
-    t.float    "price",          default: 0.0
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.boolean  "shuffle",        default: false
-    t.string   "processor_file"
+    t.integer  "state",       default: 1
+    t.float    "price",       default: 0.0
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "shuffle",     default: false
+    t.string   "identifier",                  null: false
   end
+
+  add_index "tests", ["identifier"], name: "index_tests_on_identifier", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"

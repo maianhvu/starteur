@@ -1,5 +1,30 @@
 -
   role: "Engineer"
+  icon_file: "report/role_icons_engineer.svg"
+  description:
+    - >
+      Engineers tend to prioritize and then take action. They set goals. These
+      goals serve as their compass, helping them determine priorities and make
+      alterations when needed to get back on course. They focus, and this
+      forces them to filter; they instinctively evaluate each action before
+      taking it to determine whether it will help them reach their goal. In the
+      end, strong engineers are efficient. They are extremely valuable team
+      members because their single-mindedness enhances the speed and quality of
+      their performance and keeps the team on track. While others start to
+      wander down divergent avenues, good engineers tend to stay on the main
+      road. They help others avoid time-consuming distractions and keep
+      everyone on point.
+    - >
+      Engineers tend to love to solve problems. While some are dismayed when
+      they encounter yet another breakdown, great engineers are energized by
+      it. They enjoy the challenge of analyzing symptoms, identifying what is
+      wrong, and finding the solution. They like bringing things back to life
+      by fixing them or rekindling their vitality. In short, they bring courage
+      and creativity to problematic situations. Great engineers bring a
+      solution-oriented mind-set to daily problems. They readily take on
+      projects that others believe “can’t be saved.” They can analyze a
+      situation, identify potential shortcomings, and make the necessary
+      adjustments.
   attributes:
     analytical: false
     discipline: false
@@ -10,6 +35,37 @@
     restorative: true
 -
   role: "Product Manager"
+  icon_file: "report/role_icons_product.svg"
+  description:
+    - >
+      “When can we start?” This is a recurring question for product managers.
+      They tend to be impatient for action. They may concede that analysis has its
+      uses or that debate and discussion can occasionally yield some valuable
+      insights, but deep down they know that only action is real. Once a decision
+      is made, they must act. Others may worry that “there are still some things we
+      don’t know,” but this doesn’t seem to slow great product managers down. They
+      make a decision, take action, look at the result, and learn. The bottom line
+      is this: product managers know they will be judged not by what they say or
+      what they think, but by what they get done. This does not frighten them. It
+      energizes them. Product managers are catalysts who get things started. They
+      naturally see how to turn ideas into action. As a result, they make things
+      happen. Their energy can be contagious and engaging. If you have an
+      important project or talented group that simply needs a “jump start,”, they
+      will bring energy and instant momentum.
+    - >
+      Great product managers have the ability to sort through the clutter and
+      find the best route. This is a skill that is difficult to be taught. It
+      is a distinct way of thinking — a special perspective on the world at
+      large. This outlook allows them to see patterns where others simply see
+      complexity. Mindful of these patterns, they are able to envision
+      alternative scenarios, always asking, “What if this happened?” This
+      recurring question helps them see, plan, and prepare for future
+      situations. They see a way when others assume there is no way. Armed with
+      this strategy, they strike forward. Great product managers bring creative
+      anticipation, imagination, and persistence to the groups and projects
+      they work on. They can quickly weigh alternative paths and determine the
+      one that will work best and most efficiently. They find the best route
+      moving forward.
   attributes:
     empathy: false
     futuristic: false
@@ -20,6 +76,37 @@
     strategic: true
 -
   role: "Sales Manager"
+  icon_file: "report/role_icons_sales.svg"
+  description:
+    - >
+      Great sales managers have a constant need for attainment. They have an
+      internal fire burning inside them. It pushes them to do more, to achieve
+      more. They often feel as if every day starts at zero. By the end of the day
+      they must accomplish something meaningful to feel good about themselves.
+      And “every day” means every single day — workdays, weekends, holidays, and
+      even vacations. If the day passes without some form of achievement, no
+      matter how small, they then to feel dissatisfied. Upon finishing a
+      challenging project, they rarely seek to be rewarded with a rest or an easy
+      assignment. While they appreciate recognition for past achievements, their
+      motivation lies in striving toward the next goal on the horizon. Great
+      sales managers love to complete tasks, and they derive fulfilment from
+      their accomplishments. Putting it simply, they have a strong inner drive —
+      an innate source of intensity, energy, and power that enables them to push
+      hard to get things done. As a result, they often set the pace and define
+      productivity levels for the people around them.
+    - >
+      Sales managers tend to compete and compare. For people with strong sales
+      manager talents, their performance is their ultimate yardstick. When they
+      look at the world, they are instinctively aware of other people’s
+      performance. They have a deep aspiration to be the best and will work hard
+      to excel — especially in comparison with others. It’s not about the effort;
+      it is about the win. Regardless of effort or intention, even if they reach
+      their goal, their achievement will feel hollow if they did not outperform
+      their peers. They need to compare. If they can compare, they can compete,
+      and if they can compete, they can win. Great sales managers have the
+      ability to stimulate themselves and others to a higher standard of
+      performance. They can raise a group’s achievement level by creating a
+      culture of winning and an aspiration to be the best.
   attributes:
     adaptability: false
     discipline: false
@@ -30,6 +117,36 @@
     woo: true
 -
   role: "Business Developer"
+  icon_file: "report/role_icons_business.svg"
+  description:
+    - >
+      Business developers tend to live in the moment. They don’t see the future
+      as a fixed destination. Instead, they see it as a place that they can create
+      out of the choices they make right now. They discover their future one choice
+      at a time. This doesn’t mean that they don’t have plans. But their
+      flexibility enables them to respond willingly to the demands of the moment,
+      even if circumstances pull them away from their plans. They don’t resent
+      sudden requests or unforeseen detours. They expect them. Indeed, on some
+      level they may actually look forward to them. They are, at heart, very
+      adaptable, and they can stay productive when circumstances pull them in many
+      different directions at once. The genius of great business developers lies in
+      the way they respond to chaos: they can quickly change and respond to
+      circumstances that would frighten or intimidate others. Great business
+      developers find ways to keep moving forward when the unexpected happens.
+      Their natural ability to be in the moment can help others see the way
+      forward.
+    - >
+      Great business developers naturally take charge. They see what needs to be
+      done, and they are willing to speak up. They are not frightened by
+      confrontation; rather, they understand that confrontation is the first step
+      toward resolution. They need things to be clear among people and will
+      challenge others to be realistic and honest. This pushes them to take
+      risks. At times, great business developers may intimidate others. And while
+      some may resent this, others often willingly hand them the reins. People
+      are drawn toward those who take a stand and are willing to lead. Great
+      business developers bring decisiveness and emotional clarity. They have the
+      ability to bring to light what is often avoided or unstated. This gives
+      them the ability to resolve conflicts and misunderstandings.
   attributes:
     ideation: false
     relator: false
@@ -40,6 +157,33 @@
     strategic: true
 -
   role: "Marcomms Manager"
+  icon_file: "report/role_icons_marcomms.svg"
+  description:
+    - >
+      Great marcomms managers like to explain, describe, host, present, and
+      write. Their natural talents enable them to bring ideas and events vividly
+      to life. They turn thoughts and actions into stories, images, examples, and
+      metaphors. They want their information — whether an idea, an event, a
+      discovery, or a lesson — to captivate the audience. This drives them to
+      hunt for the perfect phrase and draws them toward dramatic words and
+      powerful statements. In the end, this is why people like listening to them.
+      Their word pictures pique interest, provide clarity, and inspire others to
+      act. Great marcomms managers bring attention and focus to important
+      messages. They can find words for not only their own thoughts and feelings,
+      but for those of others. This gives them the ability to reach out and
+      connect with others in meaningful ways.
+    - >
+      Great marcomms managers are able to win others over. They enjoy the
+      challenge of encountering new people and gaining their esteem. They are
+      drawn to meeting new people. They want to learn others’ names, ask them
+      questions, and find common interests upon which to build rapport. Great
+      marcomms managers can enter a crowd and easily know what to do and say.
+      Some people shy away from starting up conversations because they worry
+      about running out of things to say. Great marcomms managers do not. They
+      see no strangers — only friends they haven’t met yet. They bring energy to
+      social situations. They can connect with others and act as catalysts in
+      helping people connect with one another. They have an exceptional ability
+      to draw others out of their shell.
   attributes:
     futuristic: false
     individualization: false
@@ -50,6 +194,36 @@
     woo: true
 -
   role: "Designer"
+  icon_file: "report/role_icons_designer.svg"
+  description:
+    - >
+      Gifted designers are creative and appreciate originality. They relish
+      free-thinking experiences such as brainstorming and discussion groups. They
+      have a natural capacity to consider issues from multiple perspectives. They
+      revel in taking the world we all know and turning it around so people can
+      view it from a strangely enlightening angle. They think outside the box.
+      They are fascinated by new ideas and concepts, which come to them easily.
+      They love ideas because they can be profound, they can be novel, they can
+      be clarifying, they can be contrary, and they can be bizarre. For all these
+      reasons they derive a jolt of energy whenever a new idea occurs to them.
+      Great designers are spontaneously creative and bring new and fresh
+      perspectives. They have a natural sense of innovation that defies
+      conventional thinking. Their innovative approach to problems and projects
+      can be a source of new and valuable ideas.
+    - >
+      Talented designers tend to be inquisitive. They always want to know more.
+      They crave information. They like to collect certain things, such as ideas,
+      books, memorabilia, quotations, or facts. Whatever they collect, they do it
+      because it interests them. They find many things interesting and have a
+      natural curiosity. The world is exciting precisely because of its infinite
+      variety and complexity. A few minutes of surfing the internet may turn into
+      hours once their curiosity takes off. They constantly acquire, compile, and
+      file things away. Their pursuits keep their minds fresh. And they know that
+      one day some of the information or things they have gathered will prove
+      valuable. Great designers bring tools that can facilitate growth and
+      performance. They love to provide relevant and tangible help to others.
+      Their resourcefulness and curiosity lead them to store knowledge that can
+      be culled and shared.
   attributes:
     discipline: false
     futuristic: false
@@ -60,6 +234,35 @@
     strategic: true
 -
   role: "Marketer"
+  icon_file: "report/role_icons_marketer.svg"
+  description:
+    - >
+      Strong marketers tend to challenge others to “Prove it.” They take a
+      critical approach to what others might quickly accept as truth. They search
+      for the reasons why things are the way they are. They want to understand
+      how certain patterns affect one another. How do they combine? What is the
+      outcome? Does this outcome fit with the theory offered or the situation at
+      hand? These are their questions. Others see them as logical and rigorous.
+      Some may feel that they are negative or unnecessarily critical when they
+      are simply trying to understand something. They bring an objective and
+      dispassionate examination that enables them to find the root causes and
+      effects, and then develop clear thoughts based on facts. Talented marketers
+      have valuable insights because they are able to uncover the essential facts
+      needed for excellence in any endeavour. This type of thinking helps them
+      and others become clearer about what excellence is and how it can be
+      attained.
+    - >
+      Gifted marketers see talents and strengths in others, usually before anyone
+      else does. Strengths — whether their own or someone else’s — fascinate them.
+      Great marketers love to drive projects or help others reach their maximum
+      potential. They have the capacity to see what aspects work best and what
+      methods reap the greatest payoff. Excellence, not average, is their measure
+      and pursuit. They have a quality orientation that leads them to focus on
+      areas of strength for themselves and others and to manage around weakness.
+      Gifted marketers have and bring to others a focus on quality. They naturally
+      prefer working with and for the best. They create strengths within groups by
+      enabling each person to do what he or she naturally does best. Their drive
+      toward excellence can lead to a new standard of success.
   attributes:
     deliberative: false
     focus: false
@@ -70,6 +273,36 @@
     strategic: true
 -
   role: "Customer Service Manager"
+  icon_file: "report/role_icons_customer.svg"
+  description:
+    - >
+      Great customer service managers can sense the emotions of those around
+      them. They can feel what others are feeling as though the emotions were
+      their own. They intuitively see the world through others’ eyes and share
+      their perspectives. They perceive people’s pain or joy — sometimes before
+      it is even expressed. Their instinctive ability to understand is powerful.
+      They can hear unvoiced questions and anticipate needs. Where others grapple
+      for words, they seem to find the right things to say and strike the right
+      tone. As a result, they help people express their feelings — to themselves
+      as well as to others. They help people give voice to their emotional lives.
+      Talented customer service managers are able to build and form relationships
+      that have great emotional depth. Others feel understood by them and seek
+      their company. Their innate ability to understand the emotions of those
+      around them provides comfort and stability.
+    - >
+      Talented customer service managers want peace and try to bring others
+      together. In their view, little can be gained from conflict and friction,
+      so they seek to hold these to a minimum. Those with innate talents of a
+      great customer service manager see what people have in common, even during
+      conflict. They try to steer others away from confrontation and toward
+      reconciliation. In fact, harmony is one of their guiding values. They seek
+      to help individuals, families, and organizations work together. When others
+      argue, they steer clear of the debate, preferring to talk about practical,
+      down-to-earth matters on which everyone can agree. The particular
+      brilliance of great customer service managers is their natural practicality
+      and preference for balance. By reducing friction, they can enhance
+      collaboration. They avert many contentious interactions before they start
+      and quickly help others find a resolution.
   attributes:
     relator: false
     responsibility: false
@@ -80,6 +313,34 @@
     restorative: true
 -
   role: "Admin Manager"
+  icon_file: "report/role_icons_admin.svg"
+  description:
+    - >
+      Admin managers are conductors. When faced with a complex situation
+      involving many factors, they enjoy managing all of the variables, aligning
+      and realigning them until they are sure they have arranged them in the most
+      productive configuration possible. They are shining examples of effective
+      flexibility, whether they are changing travel schedules at the last minute
+      because they found a better fare or are mulling over just the right
+      combination of people and resources to accomplish a new project. From the
+      mundane to the complex, they are always looking for the perfect
+      configuration. They are at their best in dynamic situations. Confronted
+      with the unexpected, they jump into the confusion, devise new options, hunt
+      for new paths, and figure out new partnerships — because, after all, there
+      might just be a better way.
+    - >
+      Great admin managers thrive in an organized and orderly environment. They
+      like their days to be predictable and planned, so they instinctively find
+      ways to organize their lives. They set up routines. They focus on timelines
+      and deadlines. They break long-term projects into a series of specific,
+      short-term steps, and follow their plan diligently. They are not
+      necessarily neat and tidy, but they do need precision. They create order
+      and structure where needed. Some people may label them as compulsive,
+      meticulous, or control freaks, but these attributes make them productive —
+      often more so than their critics. Talented admin managers love things that
+      are organized and orderly. They meet deadlines. And they can efficiently
+      manage limited resources. They bring a high level of organization, order,
+      and stability to the projects and groups in which they work.
   attributes:
     harmony: false
     relator: false
@@ -90,6 +351,36 @@
     restorative: true
 -
   role: "Finance Manager"
+  icon_file: "report/role_icons_finance.svg"
+  description:
+    - >
+      Great finance managers are careful and vigilant. Everything may seem in
+      order, but beneath the surface they sense many risks. Rather than
+      avoiding these hazards, they draw each one out into the open. Then each
+      risk can be identified, assessed, and ultimately reduced. Finance
+      managers bring a thorough and conscientious approach to making decisions.
+      They take care to consider options, thinking through the pros and cons of
+      each alternative.  To them, making the correct choice is more important
+      than the time it takes to do so. They see life as something of a
+      minefield. Others can run through it recklessly if they so choose, but
+      they take a different approach. They identify the dangers, weigh their
+      relative effect, and then place their feet deliberately. They walk with
+      care. Great finance managers bring a thorough and conscientious approach
+      to their endeavours. They have the ability to reduce risk and prevent
+      problems through natural anticipation and careful thought. As a result,
+      they tend to make outstanding decisions.
+    - >
+      Talented finance managers tend to take psychological ownership for
+      anything they commit to, whether it is large or small, and they feel
+      emotionally bound to follow it through to completion. They keep their
+      promises and honour their commitments. They don’t let people down, and
+      they work very hard to fulfil all of their responsibilities and keep
+      their word. Their conscientiousness, their drive for doing things right,
+      and their impeccable ethics combine to create the reputation of being
+      utterly dependable. The genius of great finance managers stems from the
+      deep sense of dedication and ownership they feel toward the things they
+      commit to. They are people of their word, and others know they can rely
+      on and trust them.
   attributes:
     arranger: false
     focus: false

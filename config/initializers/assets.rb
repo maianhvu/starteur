@@ -25,7 +25,7 @@ graphical_assets = %w(
   landing/*.png
   shared/*.png shared/*.svg
   dashboard/*.svg
-  report/*.svg
+  report/*.svg report/*.png
 )
 
 educator_assets = %w(

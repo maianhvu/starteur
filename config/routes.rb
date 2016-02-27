@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get 'dashboard/index'
 
   # ReportController
-  get 'report/index'
+  get 'report/:view', to: 'report#view', as: 'view_report'
 
   # Application resources
   resources :code_usages, only: [ :create ]
