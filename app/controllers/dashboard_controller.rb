@@ -35,5 +35,6 @@ class DashboardController < ApplicationController
   end
 
   def report
+    render layout: 'report'
   end
 end
