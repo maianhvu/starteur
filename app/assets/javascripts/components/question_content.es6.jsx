@@ -2,23 +2,7 @@ const OPACITY_CHOICE_HIGHLIGHTED = 1;
 const OPACITY_CHOICE_DEFAULT = 0.375;
 const SCALE_GROWTH_FACTOR = 0.5;
 
-const KEYCODE_ARROW_LEFT = 37;
-const KEYCODE_ARROW_RIGHT = 39;
-const KEYCODE_ARROW_DOWN = 40;
-
 class QuestionContent extends React.Component {
-
-  componentDidMount() {
-    document.addEventListener('keydown', (e) => {
-      let windowEvent = e || window.event;
-      if (windowEvent.keyCode === KEYCODE_ARROW_DOWN) {
-        this.props.nextQuestion();
-        e.preventDefault();
-        return false;
-      }
-    }, false);
-  }
-
   render() {
     var answeringNode = null;
 
@@ -28,14 +12,18 @@ class QuestionContent extends React.Component {
         <QuestionSlider
           choices={this.props.question.choices}
           scale={this.props.question.scale}
+          value={this.props.answerValue}
+          overridingParentValue={this.props.overridingParentValue}
+          updateParentSetOverrideValue={this.props.updateParentSetOverrideValue}
           updateParentCurrentAnswerValue={this.props.updateParentCurrentAnswerValue}
         />
       );
     } else {
+      // Yes-No type question
       answeringNode = (
         <QuestionYesNo
           choices={this.props.question.choices}
-          updateParentNextButtonEnabled={this.props.updateParentNextButtonEnabled}
+          currentChoiceId={this.props.answerValue}
           updateParentCurrentAnswerValue={this.props.updateParentCurrentAnswerValue}
         />
       );
@@ -50,45 +38,46 @@ class QuestionContent extends React.Component {
   }
 }
 
-
-let sliderKeyDownListener = function(e) {
-  // Skip if knob is being dragged
-  if ($(ReactDOM.findDOMNode(this.refs.sliderKnob)).hasClass('dragging'))
-    return true;
-
-  let windowEvent = e || window.event;
-
-  // Skip irrelevant keys
-  if (e.keyCode !== KEYCODE_ARROW_LEFT && e.keyCode !== KEYCODE_ARROW_RIGHT)
-    return true;
-
-  // Skip if value is already at extreme
-  let divisionsCount = this.props.scale || this.choices.length;
-  let division = 1 / divisionsCount;
-  if (e.keyCode === KEYCODE_ARROW_LEFT  && this.state.sliderValue <= division) return;
-  if (e.keyCode === KEYCODE_ARROW_RIGHT && this.state.sliderValue > division * divisionsCount) return;
-
-  // Calculate new value
-  var newValue = Math.floor(this.state.sliderValue / division).constraint(0, divisionsCount - 1);
-  if (e.keyCode === KEYCODE_ARROW_LEFT) newValue--;
-  else if (e.keyCode === KEYCODE_ARROW_RIGHT) newValue++;
-
-  // Set new sliderValue
-  var newSliderValue = ((newValue + 0.5) * division).constraint(0, division * (divisionsCount - 0.5));
-
-  this.setState({ sliderValue: newSliderValue });
-  this.props.updateParentCurrentAnswerValue(newValue);
-  this.setState({ previousAnswerValueUpdatedToParent: newValue });
-};
-
-
 class QuestionSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliderValue: 0.5,
-      previousAnswerValueUpdatedToParent: null
+      sliderValue: props.defaultSliderValue
     };
+  }
+
+  getDivision() {
+    let divisionCount = this.props.scale || this.props.choices.length;
+    return {
+      count: divisionCount,
+      amount: 1 / divisionCount
+    };
+  }
+
+  /**
+   * Calculates the actual slider value from the answerValue passed down
+   * from the parent node
+   * @param fromValue Number The value to use instead of the current props
+   * @return Number The slider value bounded between 0 and 1
+   */
+  calculateSliderValue() {
+    var value = this.props.value;
+    let division = this.getDivision();
+    let sliderValue = ((value + 0.5) * division.amount)
+      .constrain(0, 1 - division.amount / 2);
+    return sliderValue;
+  }
+
+  /**
+   * Calculate the answer value that corresponds to the
+   * current state of the sliderValue (or the specified
+   * fromValue)
+   * @param fromValue Number(optional) The value to override
+   */
+  calculateAnswerValue(fromValue) {
+    let sliderValue = fromValue || this.state.sliderValue;
+    let divisionAmount = this.getDivision().amount;
+    return Math.floor(sliderValue / divisionAmount);
   }
 
   styleForNode(nodeId) {
@@ -120,62 +109,69 @@ class QuestionSlider extends React.Component {
   componentDidMount() {
     // Set mouse event listeners
     let knob = this.refs.sliderKnob;
-    let sliderBar = this.refs.sliderBar;
-    let sliderBarRect = sliderBar.getBoundingClientRect();
-    let sliderStartX = sliderBarRect.left;
-    let sliderBarWidth = sliderBarRect.right - sliderStartX;
+    let sliderBarRect = this.refs.sliderBar.getBoundingClientRect();
+    let sliderBarWidth = sliderBarRect.right - sliderBarRect.left;
 
     let moveKnob = (e) => {
-      var newSliderValue = (e.clientX - sliderStartX) / sliderBarWidth;
-      if (newSliderValue < 0) newSliderValue = 0;
-      if (newSliderValue > 1) newSliderValue = 1;
+      var newSliderValue = ((e.clientX - sliderBarRect.left) / sliderBarWidth).constrain(0, 1);
       this.setState({
         sliderValue: newSliderValue
       });
     };
 
     let knobMouseDownEvent = (e) => {
+      // Add cursor movement tracker listener to be active
       window.addEventListener('mousemove', moveKnob, true);
+      window.addEventListener('mouseup', knobMouseUpEvent, false);
+      // Set override parent value
+      this.props.updateParentSetOverrideValue(true);
+      // Add styling class to DOM element of slider knob
       $(ReactDOM.findDOMNode(this.refs.sliderKnob)).addClass('dragging');
     };
 
     let knobMouseUpEvent = (e) => {
+      // Disable cursor movement tracker
       window.removeEventListener('mousemove', moveKnob, true);
-      // Update new value to parent ONLY when the knob is released
-      // and that the index has changed. Notice that the value returned
-      // is NOT the choiceId but rather the sliderValue mapped to the
-      // scale
-      let divisionsCount = this.props.scale || this.choices.length;
-      let division = 1 / divisionsCount;
-      var newValue = Math.floor(this.state.sliderValue / division).constraint(0, divisionsCount - 1);
-      if (newValue === this.state.previousAnswerValueUpdatedToParent) return;
-      this.props.updateParentCurrentAnswerValue(newValue);
+
+      // Update value to parent
+      let answerValue = this.calculateAnswerValue();
+      this.props.updateParentCurrentAnswerValue(answerValue);
+
+      // Set UN-override parent value
+      this.props.updateParentSetOverrideValue(false);
+
+      // Update internal state of sliderValue
       this.setState({
-        previousAnswerValueUpdatedToParent: newValue,
+        sliderValue: this.calculateSliderValue()
       });
+
+      // Remove styling class from element
       $(ReactDOM.findDOMNode(this.refs.sliderKnob)).removeClass('dragging');
+
+      // Remove listener
+      window.removeEventListener('mouseup', knobMouseUpEvent, false);
     };
 
+    // Register listeners
     knob.addEventListener('mousedown', knobMouseDownEvent, false);
-    window.addEventListener('mouseup', knobMouseUpEvent, false);
-
-    // Set keyboard event listeners
-    document.addEventListener('keydown', sliderKeyDownListener.bind(this), true);
   }
 
   handleSliderBarClick(e) {
     let windowEvent = e || window.event;
-    console.log(e.clientX);
-  }
+    let sliderBarRect = this.refs.sliderBar.getBoundingClientRect();
+    let sliderBarWidth = sliderBarRect.right - sliderBarRect.left;
 
-  componentWillUnmount() {
-    // Remove keyboard event listeners
-    document.removeEventListener('keydown', sliderKeyDownListener.bind(this), true);
+    var newSliderValue = ((windowEvent.clientX - sliderBarRect.left) / sliderBarWidth).constrain(0, 1);
+    this.props.updateParentCurrentAnswerValue(
+      this.calculateAnswerValue(newSliderValue)
+    );
+    this.setState({ sliderValue: this.calculateSliderValue() });
   }
 
   getCurrentChoiceId() {
     let choices = this.props.choices;
-    let choiceIndex = Math.floor(this.state.sliderValue * choices.length).constraint(0, choices.length - 1);
+    let choiceIndex = Math.floor(this.state.sliderValue * choices.length)
+      .constrain(0, choices.length - 1);
     return choiceIndex;
   }
 
@@ -206,6 +202,14 @@ class QuestionSlider extends React.Component {
       );
     }
 
+    var perceivedSliderPosition = null;
+    if (this.props.overridingParentValue) {
+      perceivedSliderPosition = this.state.sliderValue;
+    } else {
+      perceivedSliderPosition = this.calculateSliderValue();
+    }
+    perceivedSliderPosition = perceivedSliderPosition * 100 + '%';
+
     return (
       <div className="question__slider--wrapper">
         <div className="question__choices no-select">
@@ -214,7 +218,7 @@ class QuestionSlider extends React.Component {
         <div className="question__slider" ref="sliderBar" onClick={this.handleSliderBarClick.bind(this)}>
           <div
             className="question__slider-knob"
-            style={{ left: this.state.sliderValue*100 + '%' }}
+            style={{ left: perceivedSliderPosition }}
             ref="sliderKnob"
           />
           {sliderMarks}
@@ -225,6 +229,10 @@ class QuestionSlider extends React.Component {
   }
 }
 
+QuestionSlider.defaultProps = {
+  defaultSliderValue: 0.5
+};
+
 class QuestionYesNo extends React.Component {
   constructor(props) {
     super(props);
@@ -233,54 +241,14 @@ class QuestionYesNo extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // Set arrow keys detection
-    document.addEventListener('keydown', (e) => {
-      let windowEvent = window.event || e;
-      switch (windowEvent.keyCode) {
-        case KEYCODE_ARROW_LEFT:
-          if (!this.state.currentChoiceId) {
-            // Update empty state with extreme left choiceId
-            this.updateChoice(0);
-          } else {
-            // Else decrement choiceId
-            this.updateChoice(this.state.currentChoiceId - 1);
-          }
-          break;
-        case KEYCODE_ARROW_RIGHT:
-          if (!this.state.currentChoiceId) {
-            // Update empty state with extreme right choiceId
-            this.updateChoice(this.props.choices.length - 1);
-          } else {
-            // Else increment choiceId
-            this.updateChoice(this.state.currentChoiceId + 1);
-          }
-          break;
-        default:
-          return true;
-      }
-      e.preventDefault();
-    }, false);
-  }
-
-  updateChoice(index) {
-    if (index < 0 || index >= this.props.choices.length) return;
-    // Does not update again for repeated id
-    if (index === this.state.currentChoiceId) return;
-    this.props.updateParentNextButtonEnabled(true);
-    this.setState({
-      currentChoiceId: index
-    });
-    this.props.updateParentCurrentAnswerValue(index);
-  }
-
   render() {
     let choiceNodes = this.props.choices.map((choice, index) => {
       let classes = classNames('question__answer', 'no-select', {
-        'chosen': this.state.currentChoiceId == index
+        'chosen': this.props.currentChoiceId == index
       });
       return (
-        <div key={index} className={classes} onClick={this.updateChoice.bind(this, index)}>
+        <div key={index} className={classes}
+          onClick={this.props.updateParentCurrentAnswerValue.bind(this, index)}>
           {choice}
         </div>
       );

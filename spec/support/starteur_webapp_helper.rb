@@ -1,4 +1,4 @@
-module StarteurWebappHelpers
+module StarteurWebappHelper
 
   def sign_in_using(user)
     visit new_user_session_path
