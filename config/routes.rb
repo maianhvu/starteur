@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     post 'upload', to: 'batch_users#read'
     post 'assign', to: 'batch_users#assign'
     post 'assignall', to: 'batch_users#assignall'
+    post 'generate_report', to: 'batch_users#generate_report'
     post 'generate_batch_report', to: 'batch_users#generate_batch_report'
 
     namespace :admin do

@@ -1,3 +1,4 @@
+require 'prawn'
 class Educators::BatchUsersController < Educators::BaseController
 
   skip_before_filter :require_login, only: [:allow_access]
@@ -105,8 +106,13 @@ class Educators::BatchUsersController < Educators::BaseController
     redirect_to root_path
   end
 
-  def generate_batch_report
+  def generate_report
     pdf = Educators::ReportPdfService.new(batch_id: params[:batch_id], user_id: params[:user_id])
     send_data pdf.render, filename: 'report.pdf', type: 'application/pdf'
+  end
+
+  def generate_batch_report
+    pdf = Educators::BatchReportPdfService.new(batch_id: params[:batch_id])
+    send_data pdf.render, filename: 'batch_report.pdf', type: 'application/pdf'
   end
 end
