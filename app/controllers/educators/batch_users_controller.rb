@@ -50,17 +50,42 @@ class Educators::BatchUsersController < Educators::BaseController
     uploaded_io = params[:batch_users][:file]
     path = uploaded_io.path
 
-    CSV.foreach(path, col_sep: ',') do |row|
-      @email = row[0]
-      @last_name = row[1]
-      @first_name = row[2]
-      if list.include?(@email)
-        flash[:alert ] = "The e-mail #{@email} you entered already exists!"
-      else
-        hlist[@email] = [@last_name, @first_name]
-        list.push(@email)
-        @batch.save
-        flash[:notice ] = "Uploaded CSV file"
+    # Validate email
+    emails = []
+
+    CSV.foreach(path, col_sep: ',',:row_sep => :auto, skip_blanks: true) do |unstripped_row|
+      emails << unstripped_row[0].to_s.strip
+    end
+    
+    invalid_emails = []
+    emails.each do |email|
+      begin
+        address = Mail::Address.new(email)
+        valid = address.address == email && address.domain
+      rescue
+        valid = false
+      end
+      unless valid
+        invalid_emails << email
+      end
+    end
+
+    if invalid_emails.length > 0
+      flash[:alert] = "CSV file contains invalid emails (#{invalid_emails.join(', ')})"
+    else
+      CSV.foreach(path, col_sep: ',', skip_blanks: true) do |unstripped_row|
+        @email = unstripped_row[0].to_s.strip
+        @last_name = unstripped_row[1].to_s.strip
+        @first_name = unstripped_row[2].to_s.strip
+
+        if list.include?(@email)
+          flash[:alert ] = "The e-mail #{@email} you entered already exists!"
+        else
+          hlist[@email] = [@last_name, @first_name]
+          list.push(@email)
+          @batch.save
+          flash[:notice ] = "Uploaded CSV file"
+        end
       end
     end
     redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
