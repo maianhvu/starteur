@@ -1,0 +1,36 @@
+div#results-details.card.full
+  = render partial: "report/#{@test.identifier}/header_links"
+
+  - primary_role = @report_data[:top_roles].first
+  a name="primary-role"
+  .results-details-header
+    = image_tag primary_role[:icon_url]
+    h2 Primary Role
+    h1= primary_role[:title]
+
+  - first_primary_paragraph = true
+  - primary_role[:description].each do |paragraph|
+    - if first_primary_paragraph
+      h1 About Your Primary Role
+      / Only the first primary paragraph has the header
+      - first_primary_paragraph = false
+    - else
+      h1 &nbsp;
+    p== paragraph
+
+  - secondary_role = @report_data[:top_roles][1]
+  a name="secondary-role"
+  .results-details-header
+    = image_tag secondary_role[:icon_url]
+    h2 Secondary Role
+    h1= secondary_role[:title]
+
+  - first_secondary_paragraph = true
+  - secondary_role[:description].each do |paragraph|
+    - if first_secondary_paragraph
+      h1 About Your Secondary Role
+      / Only the first secondary paragraph has the header
+      - first_secondary_paragraph = false
+    - else
+      h1 &nbsp;
+    p== paragraph

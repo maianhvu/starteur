@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160214150034) do
+ActiveRecord::Schema.define(version: 20160227130841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,8 +100,10 @@ ActiveRecord::Schema.define(version: 20160214150034) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "symbol"
+    t.string   "alias"
   end
 
+  add_index "categories", ["test_id", "alias"], name: "index_categories_on_test_id_and_alias", unique: true, using: :btree
   add_index "categories", ["test_id"], name: "index_categories_on_test_id", using: :btree
 
   create_table "code_usages", force: :cascade do |t|
@@ -166,6 +168,12 @@ ActiveRecord::Schema.define(version: 20160214150034) do
 
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
 
+  create_table "letsencrypt_plugin_challenges", force: :cascade do |t|
+    t.text     "response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "promotion_codes", force: :cascade do |t|
     t.integer  "billing_record_id"
     t.string   "code"
@@ -222,13 +230,15 @@ ActiveRecord::Schema.define(version: 20160214150034) do
   create_table "tests", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "state",          default: 1
-    t.float    "price",          default: 0.0
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.boolean  "shuffle",        default: false
-    t.string   "processor_file"
+    t.integer  "state",       default: 1
+    t.float    "price",       default: 0.0
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "shuffle",     default: false
+    t.string   "identifier",                  null: false
   end
+
+  add_index "tests", ["identifier"], name: "index_tests_on_identifier", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"

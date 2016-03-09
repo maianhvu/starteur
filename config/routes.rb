@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  mount LetsencryptPlugin::Engine, at: '/'
+  # ---------------------------------------------------------------------------------
+  # STARTEUR WEB APP NAMESPACE
+  # ---------------------------------------------------------------------------------
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
@@ -10,12 +14,14 @@ Rails.application.routes.draw do
   }
 
   # PagesController
-  get 'pages/index'
   get 'pages/registration_successful'
   get 'registration-successful', to: 'pages#registration_successful', as: 'registration_successful'
 
   # DashboardController
   get 'dashboard/index'
+
+  # ReportController
+  get 'report/:view', to: 'report#view', as: 'view_report'
 
   # Application resources
   resources :code_usages, only: [ :create ]
