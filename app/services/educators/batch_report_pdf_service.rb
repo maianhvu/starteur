@@ -1,3 +1,5 @@
+require 'squid'
+require 'prawn'
 class Educators::BatchReportPdfService < Prawn::Document
   def initialize(params)
     super()
@@ -120,6 +122,13 @@ class Educators::BatchReportPdfService < Prawn::Document
     end
   end
 
+  def sa_rows_bottom
+    [['Tier', 'Attribute', 'Bottom']] +
+      @sa_bottom.map do |k,v|
+      ['1', k, v]
+    end
+  end
+
   def sr_rows
     [['#', 'Roles', 'Names']] +
       @sr.map do |k,v|
@@ -152,45 +161,11 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     start_new_page
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
-    y_position = cursor - 100
+    y_position = cursor
 
-    bounding_box([90, y_position],:width => 400, :height => bounds.height) do
-      text "#{@beginning}", size: 70
-      y_position -= 90
-    end
-
-    bounding_box([10, y_position],:width => 400, :height => bounds.height) do
-      text "Beginning", size: 40
-      y_position += 90
-    end
-
-    bounding_box([390, y_position],:width => 400, :height => bounds.height) do
-      text "#{@developing}", size: 70
-      y_position -= 90
-    end
-
-    bounding_box([310, y_position],:width => 400, :height => bounds.height) do
-      text "Developing", size: 40
-      y_position -= 150
-    end
-
-    bounding_box([90, y_position],:width => 400, :height => bounds.height) do
-      text "#{@maturing}", size: 70
-      y_position -= 90
-    end
-
-    bounding_box([10, y_position],:width => 400, :height => bounds.height) do
-      text "Maturing", size: 40
-      y_position += 90
-    end
-
-    bounding_box([390, y_position],:width => 400, :height => bounds.height) do
-      text "#{@exceptional}", size: 70
-      y_position -= 90
-    end
-
-    bounding_box([310, y_position],:width => 400, :height => bounds.height) do
-      text "Exceptional", size: 40
+    bounding_box([0, y_position],:width => bounds.width, :height => bounds.height) do
+      data = {"Starteur Potential" => {"Beginning" => @beginning, "Developing" => @developing, "Maturing" => @maturing, "Exceptional" => @exceptional}}
+      chart data, colors: %w(e7a13d bc2d30)
     end
     
     start_new_page
@@ -203,10 +178,23 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     start_new_page
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
-    table sa_rows do
-      self.header = true
-      self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [40, 300, 200]
+    y_position = cursor
+    bounding_box([0, y_position],:width => 540) do
+      table sa_rows do
+        self.header = true
+        self.row_colors = ['DDDDDD', 'FFFFFF']
+        self.column_widths = [40, 300, 200]
+      end
+    end
+
+    y_position = cursor - 30
+
+    bounding_box([0, y_position],:width => 540, :height => bounds.height) do
+      table sa_rows_bottom do
+        self.header = true
+        self.row_colors = ['DDDDDD', 'FFFFFF']
+        self.column_widths = [40, 300, 200]
+      end
     end
 
     start_new_page
@@ -219,10 +207,20 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     start_new_page
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
-    table sr_rows do
-      self.header = true
-      self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [40, 300, 200]
+    y_position = cursor
+    bounding_box([0, y_position],:width => 540) do
+      table sr_rows do
+        self.header = true
+        self.row_colors = ['DDDDDD', 'FFFFFF']
+        self.column_widths = [40, 300, 200]
+      end
+    end
+
+    y_position = cursor - 30
+
+    bounding_box([0, y_position],:width => bounds.width) do
+      data = {"Starteur Roles" => {"Engineer" => @eg, "Product Manager" => @pm, "Sales Manager" => @sm, "Business Developer" => @bd, "Marcomms Manager" => @mm, "Designer" => @de, "Marketer" => @mk, "Customer Service Manager" => @csm, "Admin Manager" => @am, "Finance Manager" => @fm}}
+      chart data, colors: %w(e7a13d bc2d30)
     end
   end
 end
