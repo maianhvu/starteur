@@ -4,6 +4,7 @@ categories = {
   :achiever => {
     :title => 'Achiever',
     :questions => [
+      { :content => 'I like to associate with hardworking, achieving people.' },
       { :content => 'I have great stamina and have always been known to work harder and longer than most people.' },
       { :content => 'I am a high achiever.' },
       { :content => 'Including evenings and weekends, my typical work week is in excess of 60 hours.' },
@@ -285,6 +286,7 @@ categories.each_value do |category|
     q.category = cat
     q.choices = ['No', 'Yes']
     q.polarity = 1
+    q.test = test
     q.save!
   end
 end

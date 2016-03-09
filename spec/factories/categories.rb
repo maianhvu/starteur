@@ -7,10 +7,9 @@ FactoryGirl.define do
     sequence(:symbol) { |n| "C#{n}" }
 
     trait :full do
-      after(:build) do |category|
-        create_list(:question, 3, category: category, test_id: category.test_id)
-        create_list(:question, 2, :yes_no, category: category, test_id: category.test_id)
-
+      after(:create) do |category|
+        create_list(:question, 3, category_id: category.id, test_id: category.test_id)
+        create_list(:question, 2, :yes_no, category_id: category.id, test_id: category.test_id)
       end
     end
   end

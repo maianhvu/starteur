@@ -1,0 +1,278 @@
+vision:
+  low: >
+    You seldom think about future possibilities, and probably have trouble
+    finding insight whilst planning and moving forward. You tend to be less
+    focused on the big picture, and not as interested in talking about outcomes
+    or exploring different possibilities.
+  medium: >
+    You like to think about future possibilities and have some, albeit less
+    developed, insight about where and how something should move forward. You
+    are able to see the big picture, but are not too preoccupied with talking
+    about it or exploring further possibilities and outcomes.
+  high: >
+    You always think about future possibilities, and tend to have great insight
+    about where and how something should move forward. You tend to enjoy
+    thinking about the big picture, and will usually get excited when exploring
+    further possibilities and alternative outcomes.
+
+risk_tolerance:
+  low: >
+    You understand that risks will always be there, but you tend to avoid
+    taking it as much as possible. You see risk as something that should be
+    avoided altogether.
+  medium: >
+    You understand that risks will always be there, and you are cautious, or
+    sometimes over-analytical, in taking it. You see risk as an inevitable
+    aspect in decision making, but then to avoid or mitigate it where possible.
+  high: >
+    You understand that risks will always be there, but you are not afraid in
+    taking it when needed. You see risk as an inevitable aspect in decision
+    making that you can reduce, but not eliminate entirely.
+
+flexibility:
+  low: >
+    You often have difficulty navigating yourself in ambiguous and uncertain
+    situations. Lack of information and uncertainty frustrates you very much,
+    and prevents you from moving forward.
+  medium: >
+    You have trouble navigating yourself in ambiguous and uncertain situations
+    now and then. You understand that uncertainty will always exist, and
+    sometimes feel frustrated by it.
+  high: >
+    You don’t have much trouble in navigating yourself in ambiguous or
+    uncertain situations. You understand that uncertainty will always exist,
+    but you do not feel threatened by it – instead, you choose to move forward
+    and do what you can and must do to navigate around it.
+
+assertiveness:
+  low: >
+    You have difficulty in standing up for what you believe in, as well as
+    expressing it with firm hand. You tend to shy away from opportunities where
+    you can express your convictions, and you avoid confrontation with other
+    people at all costs.
+  medium: >
+    You are able to stand up for what you believe in, but sometimes have
+    difficulty in expressing it with firm hand. You may sometimes feel insecure
+    in the way you express your convictions, and at times fear confrontation
+    with others.
+  high: >
+    You are able to stand up for what you believe in with total honesty and are
+    not afraid to express it with a firm hand. You are highly secure and
+    confident in the way you express your convictions without much fear of
+    confrontation from other people.
+
+internality:
+  low: >
+    You believe that you have little control over whatever happens to you.
+    Despite the amount of effort you put into resolving a matter, you believe
+    that external circumstance tend to have greater influence over your
+    success.
+  medium: >
+    You believe that you are in control of whatever happens to you, although
+    you understand that external factors have influence too. You believe that
+    both success and failure depends on both yourself, and external
+    circumstances.
+  high: >
+    You have a strong belief that you are in control of whatever happens to
+    you. You believe that both success and failure depends on how much effort
+    you invest into a particular issue; external circumstances have little
+    influence on the outcome or state of your actions.
+
+independence:
+  low: >
+    You tend not to be independent, and would prefer to work under supervision
+    from others. Your inner guidance is not strong, and as such you often need
+    others to instruct you on what you should or should not do.
+  medium: >
+    You are an independent person, although you may need others to instruct or
+    supervise you from time to time. You have inner guidance that drives you to
+    do things by yourself, but at times need others to instruct you on what you
+    should or should not do.
+  high: >
+    You are a highly independent person, and do not require much supervision,
+    if at all, to get things done. You have a strong inner guidance that drives
+    you to do things by yourself, and hardly need instructions from others to
+    achieve outcomes or complete tasks.
+
+vigour:
+  low: >
+    You don’t show much enthusiasm in approaching life and appear to be
+    generally less interested in issues. You seldom generate positive energy
+    towards or around others, unless necessary.
+  medium: >
+    You show enthusiasm at times, but are generally are more laid-back and easy
+    going. You don’t generate positive energy unless the situation calls for
+    it, and you tend to tend to reserve your energy for more important
+    occasions or decisions.
+  high: >
+    You are a passionate person and exude enthusiasm in approaching whatever
+    that life has to offer. You create a positive atmosphere with the people
+    around you with your energy, and can always be counted upon to boost your
+    group’s morale.
+
+vigor:
+  low: >
+    You don’t show much enthusiasm in approaching life and appear to be
+    generally less interested in issues. You seldom generate positive energy
+    towards or around others, unless necessary.
+  medium: >
+    You show enthusiasm at times, but are generally are more laid-back and easy
+    going. You don’t generate positive energy unless the situation calls for
+    it, and you tend to tend to reserve your energy for more important
+    occasions or decisions.
+  high: >
+    You are a passionate person and exude enthusiasm in approaching whatever
+    that life has to offer. You create a positive atmosphere with the people
+    around you with your energy, and can always be counted upon to boost your
+    group’s morale.
+
+resilience:
+  low: >
+    You don’t function too well under pressure and need some time to recover
+    from stress. You may not have coping strategies in place to deal with
+    additional responsibilities or multiple issues simultaneously.
+  medium: >
+    You generally function well under pressure but may sometimes get caught up
+    or overwhelmed by it. You may need to employ better coping strategies so
+    that you do not feel off balance or out of control easily.
+  high: >
+    You are tough enough to endure multiples sources of stress, and recover
+    from it swiftly. You have developed coping strategies that have been tried
+    and tested, and you find balance despite being in situations of high
+    internal and external pressure.
+
+self_belief:
+  low: >
+    You often have doubts about yourself and your capabilities. Despite of the
+    potential that you possess, you sometimes feel insecure and get intimidated
+    easily by setbacks.
+  medium: >
+    You have faith in your abilities and self-efficacy, but at times would
+    harbour doubts in the face of adversity. Despite the potential that you
+    possess, you sometimes feel unsure about whether you can overcome an
+    imminent obstacle.
+  high: >
+    You have unwavering faith in yourself and your capabilities. You are
+    self-assured in having what it takes to overcome any setback that you may
+    face in the future, no matter how difficult or trying.
+
+transcendence:
+  low: >
+    You are unlikely to be interested in being part of something that is bigger
+    and beyond your own. You don’t feel obliged to work for the benefit of the
+    greater good, nor leave a lasting impact to your immediate community or
+    society.
+  medium: >
+    You are interested in being part of something that is bigger and beyond
+    your own self, although your excitement may vary. You have a sense of
+    responsibility to do what is right for the benefit of the greater good,
+    though you may not lead in such an initiative.
+  high: >
+    You have a strong desire to be part of, and create, something that is
+    bigger and beyond your own self. You have an inner calling and sense of
+    responsibility that wills you to work towards the benefit of the greater
+    good, and you likely endeavour to leave a lasting positive impact to the
+    world.
+
+receptivity:
+  low: >
+    You rarely try to seek feedback from others, nor actively glean new
+    learning experiences. You tend to have less concern or interest on what
+    others have to say when it is against your values or out of your paradigm
+    of thinking.
+  medium: >
+    You don’t always seek feedback from others to gain new insight, though you
+    may do so in the spirit of wanting to gain new learning experiences. You
+    are generally open to what others may have to say, although you may
+    sometimes feel sceptical and oppose their viewpoints when it is against
+    your values of point of view.
+  high: >
+    You constantly seek feedback from others to gain new insight, as well as to
+    learning from the experience of others. You are very open to what others
+    have to say, and appreciate differences in viewpoints as they signal new
+    knowledge that can be collected and learned from.
+
+self_discipline:
+  low: >
+    You have difficulty in controlling yourself, and often feel unmotivated to
+    start doing tasks that you are supposed to do. You often get distracted and
+    swayed by what you encounter along the way, and may choose to set a
+    different, easier goal to achieve.
+  medium: >
+    You are capable of self-control, but at times have difficulty in motivating
+    yourself to begin or completing tasks. You sometimes get distracted and
+    swayed by what you encounter along the way, and often need additional time
+    to refocus yourself towards your goals.
+  high: >
+    You have a strong self-control and are capable in overcoming reluctance in
+    beginning or completing tasks. You can focus yourself towards a desired
+    goal, in spite of the many distractions that you would encounter along the
+    way.
+
+determination:
+  low: >
+    You tend to feel easily discouraged by the setbacks that you have
+    encountered. You often feel unsure about whether you can achieve what you
+    have set,  and often lose interest in the face of adversity.
+  medium: >
+    You tend to have the determination to achieve what you have set, but at
+    times feel discouraged by the setbacks that you encounter. Despite deciding
+    upon goals beforehand, resolutions may sometimes fall short in the face of
+    setbacks or changes in expectations.
+  high: >
+    You have strong determination to achieve what you have set, and are not
+    easily discouraged by setbacks. Upon deciding on goals and targets, your
+    strong resolution for achievement helps tide you though obstacles, no
+    matter what or how long.
+
+proactivity:
+  low: >
+    You don’t possess much initiative, and tend to wonder what you should be
+    done when a problem arises. You tend to wait for something to happen, and
+    act only when a situation gets out of hand, or when told to do so.
+  medium: >
+    You possess initiative and are able to anticipate a course of action when a
+    problem arises, though you may not always act out on these intentions. You
+    seldom have a strong urge to take action immediately, but will do so, at
+    will, when perceived benefits surpass any apparent costs.
+  high: >
+    You have a strong sense of initiative, and are able to anticipate a course
+    of action when a problem or situation arises. You don’t like to sit around
+    doing nothing and waiting for something to happen, and your bias-to-action
+    keeps you on the go most, if not all of the time.
+
+achievement:
+  low: >
+    You don’t have much need for achievement and may get intimidated by new
+    challenges, in spite of the opportunity for self-improvement. You are
+    overly motivated or determined to succeed past your usual thresholds, and
+    often feel satisfied with the status quo.
+  medium: >
+    You have an occasional need for achievement, though you may not always be
+    excited to take on new realistic challenge, in spite of the opportunity for
+    self-improvement You have the desire to succeed, but may not be as hungry
+    or determined to attain a goal or target.
+  high: >
+    You have a strong need for achievement and readily take new challenges that
+    push you out of your comfort zone. You have an innate desire to succeed,
+    and display this by continuously seeking additional avenues for
+    self-improvement and personal growth.
+
+innovativeness:
+  low: >
+    You need time and effort in order to understand what and how things should
+    be improved, including offering new and better solution to solve a problem.
+    When a past solution is now unusable, you sometimes have difficulty finding
+    an alternative solution, and may feel stuck as a result.
+  medium: >
+    You are capable of understanding what and how things should be improved,
+    but at times may struggle to offer new and better solutions to solve a
+    problem. You tend to need some time to generate an alternative solution
+    when a previous solution is no longer tenable and may feel stuck as a
+    result.
+  high: >
+    You possess great aptitude in understanding what and how things should be
+    improved, and often offer new and better ways in solving a problem. You
+    don’t get paralysed easily in the face of a problem, and you are often
+    called upon to generate an alternative solution when a previous solution is
+    no longer tenable.

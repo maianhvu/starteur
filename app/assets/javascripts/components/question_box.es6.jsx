@@ -1,23 +1,42 @@
-const COUNT_CHOICES_YESNO = 2;
-
+// ------------------------------------------------------------------------------------------------
+// CONSTANTS
+// ------------------------------------------------------------------------------------------------
 const DEBUG_SUBMIT_ANSWERS = true;
 
+const COUNT_CHOICES_YESNO = 2;
+
+/* Key definitions */
+const KEYCODE_ARROW_LEFT = 37;
+const KEYCODE_ARROW_RIGHT = 39;
+const KEYCODE_ARROW_DOWN = 40;
+
+const KEYCODE_NEXT_QUESTION = KEYCODE_ARROW_DOWN;
+const KEYCODE_PREVIOUS_VALUE = KEYCODE_ARROW_LEFT;
+const KEYCODE_NEXT_VALUE = KEYCODE_ARROW_RIGHT;
+
+// ------------------------------------------------------------------------------------------------
+// MAIN CLASS
+// ------------------------------------------------------------------------------------------------
 class QuestionBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      progress: 0,
       answeredCount: 0,
-      updatedToServerCount: 0,
-      questions: [],
+
       currentQuestionId: 0,
-      isNextEnabled: false,
+      currentAnswerValue: null,
+      overridingParentValue: false,
+
+      progress: 0,
+      updatedToServerCount: 0,
+      questions: []
     };
   }
 
   componentDidMount() {
     this.loadQuestions();
+    this.registerKeyboardShortcuts();
   }
 
   loadQuestions() {
@@ -38,15 +57,22 @@ class QuestionBox extends React.Component {
         this.receiveAnswersSubmitResponse.bind(this)
       );
 
-      // Check if first question can allow next button to activate
-      let firstQuestionAllowNextEnable = data.questions[0].choices.length > COUNT_CHOICES_YESNO;
+      // Get data about first question
+      let firstQuestion = data.questions[0];
+      // Initialize currentAnswerValue
+      let currentAnswerValue = null;
+      if (isMcqQuestion(firstQuestion)) {
+        currentAnswerValue = getDefaultValueForMcq(firstQuestion);
+      }
 
+      // Populate the initial data to the component
       this.setState({
         questions: data.questions,
         answeredCount: data.answeredCount,
         loading: false,
-        isNextEnabled: firstQuestionAllowNextEnable,
-        answerSubmitter: answerSubmitter
+        answerSubmitter: answerSubmitter,
+
+        currentAnswerValue: currentAnswerValue
       });
       this.updateProgress();
 
@@ -57,10 +83,42 @@ class QuestionBox extends React.Component {
     });
   }
 
-  setNextButtonEnabled(status) {
-    this.setState({
-      isNextEnabled: status
-    });
+  /**
+   * Set some universal keyboard shortcuts to make user interaction
+   * with the component faster and more convenient. Key definitions
+   * are in constants definitions at the start of this document.
+   */
+  registerKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+
+      let windowEvent = e || window.event;
+      switch(windowEvent.keyCode) {
+        case KEYCODE_NEXT_QUESTION:
+          this.goToNextQuestion();
+          break;
+        case KEYCODE_PREVIOUS_VALUE:
+          // Check for null currentAnswerValue
+          let currentAnswerValue = this.state.currentAnswerValue || 0;
+          this.setCurrentAnswerValue(currentAnswerValue - 1);
+          break;
+        case KEYCODE_NEXT_VALUE:
+          // Check for null currentAnswerValue
+          var currentAnswerValue = this.state.currentAnswerValue;
+          if (currentAnswerValue === null || currentAnswerValue === undefined) {
+            let currentQuestion = this.getCurrentQuestion();
+            let maxValue = currentQuestion.scale || currentQuestion.choices.length;
+            let limit = maxValue - 1;
+            this.setCurrentAnswerValue(limit);
+          } else {
+            this.setCurrentAnswerValue(currentAnswerValue + 1);
+          }
+          break;
+        default:
+          return true;
+      }
+      windowEvent.preventDefault();
+      return false;
+    }, false);
   }
 
   updateProgress(currentQuestionId = 0) {
@@ -69,41 +127,137 @@ class QuestionBox extends React.Component {
     if (totalQuestionsCount > 0) {
       newProgress = (currentQuestionId + this.state.answeredCount) / totalQuestionsCount;
     }
-    // Based on question, see whether Next button should be enabled
-    this.setState({ progress: newProgress });
+    this.setState({
+      progress: newProgress
+    });
   }
 
+  /**
+   * Check if we can advance to the next question
+   * @return Boolean whether this action is allowed
+   */
+  canGoToNext() {
+    return this.state.currentAnswerValue != null;
+  }
+
+  /**
+   * Advance to the next question if this action is allowed (determined by
+   * the state value `isNextEnabled`. Will also queue the previous answer
+   * value for submitting to server.
+   * @param force Boolean whether to force the question to go forward
+   * @param questionId Number the questionId forced to go to
+   */
   goToNextQuestion() {
     // Prevent going to next question if next is disabled
-    if (!this.state.isNextEnabled) return;
+    if (!this.canGoToNext()) {
+      return;
+    }
 
     // Queue current question for submission
-    this.state.answerSubmitter.queue({
+    let answerObject = {
       questionId: this.getCurrentQuestion().id,
       value: this.state.currentAnswerValue
-    });
+    };
 
-    // Update state to display the next question
+    this.state.answerSubmitter.queue(answerObject);
+    console.log('queued',answerObject);
+
+    // Advance the question ID
     var nextQuestionId = this.state.currentQuestionId + 1;
-    var nextButtonEnabled = false;
-    if (nextQuestionId < this.state.questions.length) {
-      nextButtonEnabled = this.state.questions[nextQuestionId].choices.length > COUNT_CHOICES_YESNO;
+
+    // Determine whether the `Next` button is going to be allowed
+    // by seeing whether the next question is a MCQ question or not.
+    // By default, MCQ questions do not have a pre-selected value and
+    // thus the user needs to select a choice before advancing
+    //
+    // This is in contrast to slider-based questions where the new
+    // answer value is always the middle value.
+    var newAnswerValue = null;
+
+    // The following condition also tests whether the questionnaire has ended
+    // In which case, the questionId will be larger than or equal to the number
+    // of available questions
+    if (nextQuestionId < this.state.questions.length &&
+        this.state.questions[nextQuestionId].choices.length > COUNT_CHOICES_YESNO) {
+      newAnswerValue = Math.floor(this.state.questions[nextQuestionId].scale / 2);
     }
+
+    // Finally, update state
     this.setState({
       currentQuestionId: nextQuestionId,
-      isNextEnabled: nextButtonEnabled
+      currentAnswerValue: newAnswerValue
     });
+
+    // Update progress bar
     this.updateProgress(nextQuestionId);
   }
 
+  /**
+   * Update the current state for the chosen value, which will then
+   * be later sent to the server. This will also trickle down the
+   * update to child components. A side-effect of this function is
+   * that it will also enable the `Next` button (provided the `answerValue` is
+   * neither null nor undefined.
+   *
+   * @param answerValue Number The answer value received from child component
+   */
   setCurrentAnswerValue(answerValue) {
-    this.setState({ currentAnswerValue: answerValue });
+    let currentQuestion = this.getCurrentQuestion();
+    let limit = currentQuestion.scale || currentQuestion.choices.length;
+    let maxValue = limit - 1;
+
+    answerValue = answerValue.constrain(0, maxValue);
+
+    // Does not update repeated value
+    if (answerValue === this.state.currentAnswerValue) {
+      return;
+    }
+
+    this.setState({
+      currentAnswerValue: answerValue
+    });
   }
 
+  /**
+   * @param doesOverride Boolean Determines whether
+   * to override or to un-override parent's value
+   */
+  setOverrideParentValue(doesOverride) {
+    this.setState({
+      overridingParentValue: doesOverride
+    });
+  }
+
+  /**
+   * Convenient method to get the long-ass current question
+   * @return Object The object that represents the current question
+   * as defined by currentQuestionId
+   */
   getCurrentQuestion() {
     return this.state.questions[this.state.currentQuestionId];
   }
 
+  isTestCompleted() {
+    return this.state.currentQuestionId >= this.state.questions.length;
+  }
+
+  isStillUploadingAnswersToServer() {
+    return this.state.updatedToServerCount < this.state.questions.length;
+  }
+
+  /**
+   * This method is triggered by the `answerSubmitter` once
+   * it receives a response from the remote server that the questions
+   * are updated. The server sends back an array of the `questionIds`
+   * that are successfully updated
+   *
+   * This method will add all these questionIds to a Set object to
+   * make sure all the added IDs are unique. That way we can make
+   * sure that we account for every single question without duplicates
+   *
+   * @param response Array{Integer} An array containing all the question IDs
+   * where their answers have been successfully registered
+   */
   receiveAnswersSubmitResponse(response) {
     if (response.constructor !== Array) return;
     response.forEach((questionId) => {
@@ -116,31 +270,36 @@ class QuestionBox extends React.Component {
   }
 
   render () {
+
+    // If this component is still trying to fetch questions from
+    // the server, then we will display the loading view instead.
     if (this.state.loading) {
       return loadingView(this.props.feedbackUrl);
     }
 
     var currentQuestion = this.getCurrentQuestion();
+
     // If the test has not concluded, display the question
-    if (currentQuestion) {
+    if (!this.isTestCompleted()) {
       return (
         <div className="question-box">
           <QuestionProgress progress={this.state.progress} />
           <QuestionContent
             question={this.getCurrentQuestion()}
-            updateParentNextButtonEnabled={this.setNextButtonEnabled.bind(this)}
+            answerValue={this.state.currentAnswerValue}
+            overridingParentValue={this.state.overridingParentValue}
             updateParentCurrentAnswerValue={this.setCurrentAnswerValue.bind(this)}
-            nextQuestion={this.goToNextQuestion.bind(this)}
+            updateParentSetOverrideValue={this.setOverrideParentValue.bind(this)}
           />
           <QuestionActions
             nextQuestion={this.goToNextQuestion.bind(this)}
-            isNextEnabled={this.state.isNextEnabled}
+            isNextEnabled={this.canGoToNext()}
           />
         </div>
       );
     } else {
       // Wait for updating to server to conclude
-      if (this.state.updatedToServerCount < this.state.questions.length) {
+      if (this.isStillUploadingAnswersToServer()) {
         return updatingToServerView();
       } else {
         // Redirect to specified page after finishing test
@@ -189,8 +348,19 @@ let updatingToServerView = function() {
   );
 };
 
-Number.prototype.constraint = function(min, max) {
+//-------------------------------------------------------------------------------------------------
+// HELPER FUNCTIONS
+//-------------------------------------------------------------------------------------------------
+Number.prototype.constrain = function(min, max) {
   if (this < min) { return min; }
   if (this > max) { return max; }
   return this.valueOf();
+};
+
+let isMcqQuestion = function(question) {
+  return question.scale != null;
+};
+
+let getDefaultValueForMcq = function(question) {
+  return Math.floor(question.scale / 2);
 };

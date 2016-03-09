@@ -1,0 +1,87 @@
+.background
+.left
+  .card.result-attributes.top
+    h2 Top Attributes
+    = link_to view_report_path('attributes')
+      ul
+        - @report_data[:top_attributes].each do |attrib|
+          li= attrib[:title]
+    .result-attributes-graph
+      = link_to '#results-graph' do
+        - @report_data[:tier_scores].sort.to_h.each_pair do |tier, score|
+          .result-attributes-graph-bar
+            / Margin-top is (100-x)*(0.88) where x is the desired percentage
+            - margin_top = (1 - ((score - 1) / @report_data[:tier_score_max])) * 88
+            .tier__graph style="margin-top: #{margin_top}px;"
+              span.tier__graph--number T#{tier}
+              span.tier__graph--score
+                == score.round(1)
+                | /
+                == @report_data[:tier_score_max] + 1
+        = image_tag 'report/result-attributes-question.svg', id: 'result-attributes-graph-question'
+  .card.result-attributes.bottom
+    = link_to view_report_path('attributes')
+      h2 Bottom Attributes
+      ul
+        - @report_data[:bottom_attributes].each do |attrib|
+          li= attrib[:title]
+
+      h2 Growth Tip
+      p
+        | Based on your test results, we have identified several areas where you could improve yourself.
+          We recommend you to take the following steps to become more well-rounded.
+        a.learn-more< href=view_report_path('growth')
+
+#dashboard-card.card.right
+  .result-summary-container
+    / Change the potential-0/1/2/3.png for other badges--
+    = image_tag "report/icon-potential-#{@report_data[:potential][:tier]}.png"
+    h2 Starteur Potential
+    h1= @report_data[:potential][:title]
+    p
+      == @report_data[:potential][:description]
+      a.learn-more< href=view_report_path('potential')
+
+  / Primary role
+  .result-summary-container
+    - primary_role = @report_data[:top_roles].first
+    - primary_role_link = "#{view_report_path('roles')}#primary-role"
+    / Link image and headers to `roles` page
+    = link_to primary_role_link
+      = image_tag primary_role[:icon_url]
+      h2 Primary Role
+      h1= primary_role[:title]
+
+    p
+      == primary_role[:description]
+      a.learn-more< href=primary_role_link
+
+  / Secondary role
+  .result-summary-container
+    - secondary_role = @report_data[:top_roles][1]
+    - secondary_role_link = "#{view_report_path('roles')}#secondary-role"
+    / Link image and headers to `roles` page
+    = link_to secondary_role_link
+      = image_tag secondary_role[:icon_url]
+      h2 Secondary Role
+      h1= secondary_role[:title]
+
+    p
+      == secondary_role[:description]
+      a.learn-more< href=secondary_role_link
+
+/ ---- DIALOGS ------
+#results-graph.modal-dialog
+  .main
+    = link_to '#close' do
+      = image_tag 'shared/close-icon.svg', class: 'close'
+
+    h2 My Attribute Graph
+    .content
+      | Your Attribute Graph provides a visual illustration of how well you scored for
+        each tier of attributes. Tier 1 is the most basic tier, whereas tier 3 is the most
+        advanced tier.
+      p/
+      = link_to '#close' do
+        button.button Back
+

@@ -1,0 +1,18 @@
+ruby:
+  links = {
+    attributes: 'Attributes',
+    potential: 'Potential',
+    roles: 'Roles',
+    growth: 'Growth Tips'
+  }
+
+ol#results-details-navigation
+  - links.each_pair do |view, caption|
+    / Determine class for the link
+    ruby:
+      is_current_link = view.to_s.eql?(params[:view])
+      link = is_current_link ? '#' : view_report_path(view)
+      classes = view.to_s.eql?(params[:view]) ? 'selected' : ''
+    / Create link
+    = link_to link do
+      li class=classes =caption
