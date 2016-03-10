@@ -23,7 +23,7 @@ class Educators::BatchReportPdfService < Prawn::Document
 
       # Execute processor file to get results
       # Method load_processor_for can be found inside ProcessorHelper
-      load_processor_for(test)
+      load_processor_for(@test)
       result_processor = Processor.new(result)
 
       # Return processed result
@@ -45,7 +45,7 @@ class Educators::BatchReportPdfService < Prawn::Document
       if test_result_for(id: current_user.id)
         rl[current_user.email] = test_result_for(id: current_user.id)
       end
-    end 
+    end
 
     #Distibution of SP
     @beginning = 0
