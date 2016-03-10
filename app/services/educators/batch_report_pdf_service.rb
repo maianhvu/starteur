@@ -1,6 +1,7 @@
 require 'squid'
 require 'prawn'
 class Educators::BatchReportPdfService < Prawn::Document
+  include ProcessorHelper
   def initialize(params)
     super()
     @batch_id = params[:batch_id]
@@ -11,6 +12,25 @@ class Educators::BatchReportPdfService < Prawn::Document
     text_content
   end
 
+  def test_result_for(params)
+    @userid = params[:id]
+    # Cache result
+    cache_key = "user#{@userid}:test#{@test.id}:result"
+
+    Rails.cache.fetch(cache_key) do
+      # Find the latest result of this test from the user
+      result = Result.where(test: @test, user: User.find_by(id: @userid)).last
+
+      # Execute processor file to get results
+      # Method load_processor_for can be found inside ProcessorHelper
+      load_processor_for(test)
+      result_processor = Processor.new(result)
+
+      # Return processed result
+      result_processor.process
+    end
+  end
+
   def header
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
     ul = []
@@ -18,19 +38,9 @@ class Educators::BatchReportPdfService < Prawn::Document
       ul << User.find_by(email: el)
     end
 
-    processor_file_path = File.join(Rails.root, 'app', 'processors', @test.identifier, 'processor.rb')
-    load processor_file_path
-    
     rl = {}
     ul.each do |current_user|
-      result = Result.where(test: @test, user: current_user).last
-
-      # Execute processor file to get results
-      # Method load_processor_for can be found inside ProcessorHelper
-      # load_processor_for(@test)
-      result_processor = Processor.new(result)
-      # Return processed result
-      rl[current_user.email] = result_processor.process
+      rl[current_user.email] = test_result_for(id: current_user.id)
     end 
 
     #Distibution of SP

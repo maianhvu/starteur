@@ -1,4 +1,5 @@
 class Educators::ReportPdfService < Prawn::Document
+  include ProcessorHelper
   def initialize(params)
     super()
     @userid = params[:user_id]
@@ -11,21 +12,31 @@ class Educators::ReportPdfService < Prawn::Document
     # table_content
   end
 
+  def test_result_for(test)
+    # Cache result
+    cache_key = "user#{@userid}:test#{@test.id}:result"
+
+    Rails.cache.fetch(cache_key) do
+      # Find the latest result of this test from the user
+      result = Result.where(test: @test, user: User.find_by(id: @userid)).last
+
+      # Execute processor file to get results
+      # Method load_processor_for can be found inside ProcessorHelper
+      load_processor_for(test)
+      result_processor = Processor.new(result)
+
+      # Return processed result
+      result_processor.process
+    end
+  end
+
   def header
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
 
     processor_file_path = File.join(Rails.root, 'app', 'processors', @test.identifier, 'processor.rb')
     load processor_file_path
     
-    rl = {}
-    result = Result.where(test: @test, user: User.find_by(id: @userid)).last
-
-    # Execute processor file to get results
-    # Method load_processor_for can be found inside ProcessorHelper
-    # load_processor_for(@test)
-    result_processor = Processor.new(result)
-    # Return processed result
-    @rl = result_processor.process
+    @rl = test_result_for(@test)
 
     # top attributes
     @topattrib = []
