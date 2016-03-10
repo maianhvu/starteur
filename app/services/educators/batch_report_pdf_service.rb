@@ -35,7 +35,9 @@ class Educators::BatchReportPdfService < Prawn::Document
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
     ul = []
     @batch.email.each do |el|
-      ul << User.find_by(email: el)
+      if (user = User.find_by(email: el))
+        ul << user
+      end
     end
 
     rl = {}
@@ -78,7 +80,7 @@ class Educators::BatchReportPdfService < Prawn::Document
       when "Exceptional"
         @exceptional += 1
       end
-      
+
       #SA name list
       if @sa_top[v[:top_attributes][0][:title].to_s].nil?
         @sa_top[v[:top_attributes][0][:title].to_s] = "#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
@@ -121,7 +123,7 @@ class Educators::BatchReportPdfService < Prawn::Document
         @am += 1
       when "Finance Manager"
         @fm += 1
-      end 
+      end
     end
   end
 
@@ -158,7 +160,7 @@ class Educators::BatchReportPdfService < Prawn::Document
     font_families.update("Open Sans Light" => {
       :normal => "#{Rails.root}/app/assets/fonts/OpenSans-Light.ttf"
     })
-    
+
     bounding_box([450, y_position + 50],:width => 180, :height => bounds.height) do
       font "Open Sans Light"
       text "Report generated on:", size: 10, :color => right_column_font_color
@@ -177,7 +179,7 @@ class Educators::BatchReportPdfService < Prawn::Document
       data = {"Starteur Potential" => {"Beginning" => @beginning, "Developing" => @developing, "Maturing" => @maturing, "Exceptional" => @exceptional}}
       chart data, colors: %w(e7a13d bc2d30)
     end
-    
+
     start_new_page
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
     y_position = cursor - 20
