@@ -26,7 +26,7 @@ class AnswersController < ApplicationController
     if code_usage && code_usage.may_complete?
       code_usage.complete!
       service = Educators::EducatorReminderService.new
-      service.check_batch_completion(usage)
+      service.check_batch_completion(code_usage)
     end
 
     render json: question_ids.to_json, status: :ok
