@@ -42,7 +42,9 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     rl = {}
     ul.each do |current_user|
-      rl[current_user.email] = test_result_for(id: current_user.id)
+      if test_result_for(id: current_user.id)
+        rl[current_user.email] = test_result_for(id: current_user.id)
+      end
     end 
 
     #Distibution of SP
