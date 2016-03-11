@@ -21,12 +21,17 @@ class ChargesController < ApplicationController
       :currency    => 'sgd'
     )
 
-   access_code = AccessCode.new
+   access_code = AccessCode.create(code: generate_code)
+   @code = AccessCode.last.code
 
 
   rescue Stripe::CardError => e
     flash[:error] = e.message
     redirect_to new_charge_path
   end
+
+ def generate_code
+     random_token = SecureRandom.urlsafe_base64(nil, false)
+ end
 
 end
