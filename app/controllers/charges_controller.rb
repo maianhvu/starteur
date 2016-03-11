@@ -27,7 +27,10 @@ class ChargesController < ApplicationController
       :currency    => 'sgd'
     )
 
+<<<<<<< a6117a955ea1b1aba6eb313764389b987e4db5a8
    rescue Stripe::CardError => e
+=======
+>>>>>> add stripe checkout page
     flash[:error] = e.message
     redirect_to new_charge_path
 
