@@ -10,3 +10,4 @@
 //= require educators/card-form
 //= require educators/dropit
 //= require educators/select
+//= require educators/landing

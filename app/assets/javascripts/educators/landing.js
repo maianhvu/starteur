@@ -3,13 +3,13 @@ function removePreload() {
 	startAnimation();
 };
 
-function toggleStickyHeader() {	
-	if ( $(window).scrollTop() >= 72) {
-        $('#header-wrapper').addClass('sticky-header');
+function toggleStickyHeader() {
+	if ($(window).scrollTop() >= 72) {
+    $('#header-wrapper').addClass('sticky-header');
 		$('#header-wrapper').css('height', '56px');
 		$('#top-break').css('padding-top', '120px');
-    } else {
-        $('#header-wrapper').removeClass('sticky-header');
+  } else {
+    $('#header-wrapper').removeClass('sticky-header');
 		$('#header-wrapper').css('height', '48px');
 		$('#top-break').css('padding-top', '72px');
 	}
@@ -21,7 +21,7 @@ document.addEventListener("scroll", toggleStickyHeader, false);
 
 function startAnimation() {
 	if ($(window).width() > 951) {
-		var preload = ["hero-filmstrip.png"];
+		var preload = ["/images/hero-filmstrip.png"];
 		var promises = [];
 		for (var i = 0; i < preload.length; i++) {
 			(function(url, promise) {
@@ -33,7 +33,7 @@ function startAnimation() {
 			})(preload[i], promises[i] = $.Deferred());
 		}
 		$.when.apply($, promises).done(function() {
-			$('.hero-image .filmstrip').css('background-image','url(hero-filmstrip.png)');
+			$('.hero-image .filmstrip').css('background-image', "url(/images/hero-filmstrip.png)");
 			$('.hero-image .filmstrip').css('background-size','3000% 100%');
 		});
 	}
