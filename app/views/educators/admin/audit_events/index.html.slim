@@ -1,0 +1,27 @@
+= render "layouts/educators/dashboard_menu"
+= render "layouts/educators/flash_messages"
+
+#content.center-block
+  .background
+  #get-started-card.card-primary.wide
+    h1 Audit Log
+    h2 This is a nice looking audit log.
+
+    table data-toggle="table"
+      thead
+        tr
+          th data-sortable="true" Time Stamp
+          th data-sortable="true" User
+          th data-sortable="true" Action Log
+          th data-sortable="true" Details
+
+      tbody
+        tr
+          td Time Stamp Here
+          td User Here
+          td Action Log Here
+          td Details Here
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'
