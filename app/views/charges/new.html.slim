@@ -1,4 +1,3 @@
-= flash[:error]
 = form_tag charges_path do
   article
     - if flash[:error].present?
@@ -7,8 +6,4 @@
     label.amount
       span Amount: $15.00
 
-script.stripe-button[src="https://checkout.stripe.com/checkout.js"
-  data-key="#{Rails.configuration.stripe[:publishable_key]}"
-  data-description="A month's subscription"
-  data-amount="500"
-  data-locale="auto"]
+script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-description="A month's subscription" data-amount="500" data-locale="auto"
