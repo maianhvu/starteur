@@ -5,26 +5,32 @@
   .background
   .left
     #get-started-card.card-primary
-      / =image_tag "institution.png"
-      / h3 Your Institution
+      .educator-profile
+        .institution Singapore Management University
+        .last_login = "Last Logged in: "+ "#{localize(@educator.last_sign_in_at.in_time_zone("Singapore"), :format => :long)}."
 
       .main-list
-        .menu-icon.blue P
-        .menu-link
-          =link_to "View Payment History", educators_billing_records_path
-      .main-list
-        .menu-icon.red T
+        .menu-icon.i.fa.fa-cart-plus.fa-2x.red
         .menu-link
           =link_to "Purchase Test", display_tests_educators_billing_records_url
       .main-list
-        .menu-icon style="background:#ff0645" R
+        .menu-icon.i.fa.fa-file.fa-2x.yellow
         .menu-link
-          =link_to "Redeem Promotion Codes", educators_promotion_codes_path
+          =link_to "Manage Group Report", "#"
       - if @educator.admin
         .main-list
-          .menu-icon.yellow C
+          .menu-icon.i.fa.fa-briefcase.fa-2x.blue
           .menu-link
             =link_to "Client Management", educators_admin_admins_path
+      / .main-list
+      /   .menu-icon.blue P
+      /   .menu-link
+      /     =link_to "View Payment History", educators_billing_records_path
+      / .main-list
+      /   .menu-icon style="background:#ff0645" R
+      /   .menu-link
+      /     =link_to "Redeem Promotion Codes", educators_promotion_codes_path
+
 
     #get-started-card.card
       .card-title
@@ -46,15 +52,6 @@
         h2 New to Starteur Educators?
 
         .new-educator-block
-          =image_tag("student.png")
-          h1 Create a Student Group
-          /p
-            | A Student Group is where you store the emails of your students. Import your list to get started or simply add a student. #{link_to "Learn More", "#"}
-          p A Student Group is where you store the emails of your students. Import your list to get started or simply add a student.
-          .button data-toggle="modal" data-target="#myModal"
-            a Create a Student Group
-
-        .new-educator-block
           =image_tag("test.png")
           h1 Purchase a Test & Access Codes
           /p
@@ -62,13 +59,24 @@
           p Choose the test you would like your students to take and indicate the amount of codes you require for your class.
           .button =link_to "Purchase a Test", display_tests_educators_billing_records_url
 
+        .new-educator-block
+          =image_tag("student.png")
+          h1 Create a Student Group
+          /p
+            | A Student Group is where you store the emails of your students. Import your list to get started or simply add a student. #{link_to "Learn More", "#"}
+          p A Student Group is where you store the emails of your students. Import your list to get started or simply add a student.
+          .button = link_to "Create a Student Group", "#create"
+          / .button data-toggle="modal" data-target="#myModal"
+          /   a Create a Student Group
+
     - else
-      #new-educator-card.card
+      #new-educator-card.card.create-group
         h1.horizontal.title My Groups
 
         .batch-search-field.horizontal
           .dropdown-grp
-            button.btn.radius data-toggle="modal" data-target="#myModal" Create Group
+            /button.btn.radius data-toggle="modal" data-target="#myModal" Create Group
+            .button.radius.short = link_to "Create Group", "#create"
 
       - @batches.each do |batch|
         #dashboard-card.card
@@ -87,7 +95,7 @@
             .button-grp
               /button.btn.radius-left =link_to "View batch", educators_batch_path(batch.id)
               /button.btn.radius-right.dropdown-toggle#menu2 data-toggle="dropdown"
-              button.btn-yellow.radius =link_to "View Group", educators_batch_path(batch.id)
+              .button.radius.short =link_to "View Group", educators_batch_path(batch.id)
               /.caret
               /ul.dropdown-menu role="menu" aria-labelledby="menu2"
                 li role="presentation"
@@ -114,28 +122,27 @@
               /ul.dropdown-menu role="menu" aria-labelledby="menu2"
                 li role="presentation"
 
-  .modal.fade#myModal tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    .modal-dialog role="document"
-      .modal-content
-        .modal-header
-          .close type="button" data-dismiss="modal" aria-label="Close"
-            .span aria-hidden="true" &times;
-          h4.modal-title#myModalLabel Create a new Student Group
+  /! ---- DIALOGS ----
+  #create.modal-dialog
+    .main
+      a href="#close"
+        = image_tag "close-icon.png", class: "close"
 
-        .modal-body
-          - if @purchased_tests != nil && @purchased_tests.size == 0
-            label Please purchase a test first
-          - else
-            = form_for :batch, url: educators_batches_path , method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+      h2 Create a new Student Group
+      .content
+        - if @purchased_tests != nil && @purchased_tests.size == 0
+          label Please purchase a test first
+        - else
+          = form_for :batch, url: educators_batches_path , method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
-              label Enter a group name
-              .form-field = f.text_field :batch_name, placeholder: 'Enter Batch Name', autofocus: true
+            = f.text_field :batch_name, class: "input-box", placeholder: 'Enter Batch Name', autofocus: true
+            = f.select :test_id, options_from_collection_for_select(@purchased_tests, :id, :name)
 
-              label Assign a test to this batch
-              .form-field = f.select :test_id, options_from_collection_for_select(@purchased_tests, :id, :name)
+            /p
+              = check_box_tag "rememberme"
+              = content_tag(:span, "Remember Me", class: "tos")
 
-              label
-              .form-actions = f.submit 'Create', class: "button modal-button"
+            = f.submit 'Create', class: "button half"
 
   #popup = render 'layouts/educators/modal'
 
