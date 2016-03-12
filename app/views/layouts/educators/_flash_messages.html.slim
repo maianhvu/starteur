@@ -1,7 +1,11 @@
 #messages
   - flash.each do |name, payload|
-    - [*payload].each do |message|
-      - if message.is_a? String
-        .alert.alert-dismissable class=bootstrap_class_for(name) role='alert'
-          = content_tag :div, message, class: "message-content"
-          span.close type='button' data-dismiss='alert' aria-hidden='true' aria-label='close' &times;
+    - if name == "notice"
+      .notice
+    - else
+      .error
+        - [*payload].uniq.each do |message|
+          - if message.is_a? String
+            .alert.alert-dismissable class=bootstrap_class_for(name) role='alert'
+              = content_tag :div, message, class: "message-content"
+              span.close type='button' data-dismiss='alert' aria-hidden='true' aria-label='close' &times;
