@@ -1,39 +1,45 @@
-//@import "bootstrap-sprockets";
-//@import "bootstrap";
-
 @import "font-awesome";
 @import "bootstrap-table";
 
-@import "educators/common.scss";
-@import "educators/bootstrap.scss";
+@import "educators/common/normalize.scss";
+@import 'educators/common/fonts.scss';
+@import "educators/common/common.scss";
 
-@import "educators/educators/show.scss";
-@import "educators/educators/new.scss";
-@import "educators/educators/create.scss";
-@import "educators/educators/edit.scss";
+@import "educators/common/button.scss";
+@import "educators/common/card.scss";
+@import "educators/common/color.scss";
+@import "educators/common/dropdown.scss";
+@import "educators/common/flash_message.scss";
+@import "educators/common/footer.scss";
+@import "educators/common/header.scss";
+@import "educators/common/input.scss";
+@import "educators/common/menu.scss";
+@import "educators/common/modal.scss";
+@import "educators/common/table.scss";
+@import "educators/common/text.scss";
 
-@import "educators/educator_sessions/new.scss";
-@import "educators/educator_sessions/create.scss";
+@import "educators/admins/generate_codes.scss";
+@import "educators/admins/manage_access_codes.scss";
 
-@import "educators/billing_records/index.scss";
-@import "educators/billing_records/show.scss";
+@import "educators/billing_records/payment_history.scss";
+@import "educators/billing_records/receipt.scss";
 @import "educators/billing_records/display_tests.scss";
-@import "educators/billing_records/new.scss";
+@import "educators/billing_records/purchase.scss";
 @import "educators/billing_records/purchase_success.scss";
 
-@import "educators/batches/show.scss";
-@import "educators/coeducators/index.scss";
+@import "educators/dashboards/dashboard.scss";
+@import "educators/dashboards/admin_dashboard.scss";
 
-@import "educators/access_codes/index.scss";
+@import "educators/groups/group.scss";
 
-@import "educators/admins/index.scss";
-@import "educators/admins/generate-codes.scss";
-@import "educators/admins/manage_access_codes.scss";
+@import "educators/sign_up/new.scss";
+@import "educators/sign_up/create.scss";
+@import "educators/sign_up/edit.scss";
+
+@import "educators/sign_in/new.scss";
+@import "educators/sign_in/create.scss";
 
 @import "educators/promotion_codes/index.scss";
 
-//@import "educators/landing/normalize.scss";
-//@import "educators/landing/starteur.scss";
-//@import "educators/landing/landing.scss";
-//@import "educators/landing/modal.scss";
-//@import "educators/landing/filmstrip.scss";
+@import "educators/landing/filmstrip.scss";
+@import "educators/landing/landing.scss";

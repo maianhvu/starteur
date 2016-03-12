@@ -1,0 +1,46 @@
+/* ----- FOOTER ----- */
+#footer-wrapper {
+  height: 190px;
+  background-image: image-url("footer-logo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-top: 91px;
+  box-sizing: border-box;
+}
+
+#footer-wrapper .divider {
+  height: 2px;
+  background: #e9e9e9;
+  position: relative;
+}
+
+#footer-wrapper a {
+  color: inherit;
+}
+
+#footer-wrapper a:hover {
+  text-decoration: underline;
+}
+
+#footer-wrapper .links {
+  padding-top: 8px;
+  margin-left: 2px;
+  float: left;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#footer-wrapper .copyright {
+  padding-top: 8px;
+  margin-right: 2px;
+  float: right;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  text-align: right;
+}
+
+#footer-wrapper .tab {
+  width: 16px;
+  display: inline-block;
+}

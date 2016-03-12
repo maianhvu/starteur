@@ -1,0 +1,47 @@
+.educators_admin_admins.generate_codes {
+
+  #select {
+    -webkit-appearance: none;
+    height: 34px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+  }
+
+  select {
+    margin-left: 30px;
+  }
+
+  .field {
+    display: inline-block;
+  }
+
+  .field input {
+    margin-left: 30px;
+    font-size: 24px;
+    width: 60px;
+    height: 30px;
+    text-align: right;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .measure {
+    display: inline-block;
+    font-size: 18px;
+    margin-left: 10px;
+  }
+
+  .submit {
+    margin-left: 30px;
+    margin-top: 30px;
+  }
+
+  .option {
+    margin-bottom: 30px;
+  }
+
+}

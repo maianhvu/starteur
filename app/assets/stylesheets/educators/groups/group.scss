@@ -1,9 +1,5 @@
 .educators_batches.show {
 
-  .center-block {
-    text-align: center;
-  }
-
   .batch-name {
     font-size: 25px;
   }
@@ -20,6 +16,10 @@
     margin-left: 30px;
     margin-bottom: 30px;
     cursor: pointer;
+  }
+
+  .add-coeducator a {
+    font-size: 12px;
   }
 
   .add-coeducator:active {
@@ -226,39 +226,6 @@
     height: 60px;
   }
 
-  .btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    background-color: #25A599;
-    border: 1px solid transparent;
-    color: white;
-  }
-
-  .btn .ghost {
-    background-color: transparent;
-    color: #25A599;
-    border: 1px solid #25A599;
-    font-weight: 300;
-  }
-
-  .btn .radius-left {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    border-right: 0.5px solid white;
-    width: 140px;
-  }
-
-  .btn .radius-right {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
-
   .radius {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -417,6 +384,10 @@
     a {
       display: inline-block;
     }
+  }
+
+  .file {
+    margin-bottom: 8px;
   }
 
 }

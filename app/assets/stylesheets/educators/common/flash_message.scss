@@ -1,0 +1,29 @@
+/* ----- FLASH MESSAGE ----- */
+.error {
+  background-color: #49c6ad;
+}
+
+.notice {
+ background-color: #49c6ad;
+}
+
+
+.alert {
+  color: white;
+  margin-top: 64px;
+  height: 64px;
+  width: 100%;
+  background-color: #49c6ad;
+  position: relative;
+  .message-content {
+    display: inline-block;
+    line-height: 64px;
+    margin-left: 20%;
+    width: auto;
+  }
+  span {
+    float: right;
+    margin-right: 20px;
+    width: 20px;
+  }
+}

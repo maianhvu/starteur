@@ -1,0 +1,85 @@
+/* ----- MAIN ----- */
+body {
+  font-family: 'Open Sans';
+  background: image-url("bg-pattern.png") repeat /*fixed*/;
+  color: #616161;
+  font-weight: 300;
+  cursor: default;
+}
+
+h1 {
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: bold;
+  color: inherit;
+  margin: 32px 0 8px 0;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: normal;
+  color: inherit;
+  margin: 0 0 8px 0;
+}
+
+/* ----- TYPOGRAPHY ----- */
+h1 {
+  font-size: 40px;
+  line-height: 52px;
+  font-weight: 300;
+  color: inherit;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+}
+h2 {
+  font-size: 20px;
+  line-height: 36px;
+  color: inherit;
+  margin: 0 0 8px 0;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
+/* ----- ALIGNMENT ----- */
+.center-horizontal {
+  display: block;
+  margin: 0 auto;
+}
+
+.center-vertical {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.center {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.center-block {
+  width: 90%;
+  max-width: 920px;
+  display: block;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.sm-break {
+  padding-top: 72px;
+}
