@@ -3,20 +3,14 @@
 html
   head
     title Starteur | Unlock Your Potential
-    = stylesheet_link_tag "educators/landing/normalize"
-    = stylesheet_link_tag "educators/landing/starteur"
-    = stylesheet_link_tag "educators/landing/landing"
-    = stylesheet_link_tag "educators/landing/modal"
-    = stylesheet_link_tag "educators/landing/filmstrip"
-    = javascript_include_tag "educators/landing"
-    link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css"
+
   body.preload onload="removePreload()"
 
     /! ---- HEADER ----
     #top-break.sm-break.large-screen
     #header-wrapper.large-screen
       .center-block
-        = image_tag "header-logo.png"
+        = image_tag "header-logo.png", class: "header-logo"
         .sign-in
           a href="#login"
             | Already have an account?
