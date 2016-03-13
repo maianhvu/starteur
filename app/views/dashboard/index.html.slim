@@ -1,5 +1,3 @@
-- include_scripts 'https://checkout.stripe.com/checkout.js', 'dashboard/payments'
-
 .background
 .left
   #get-started-card.card
@@ -37,12 +35,13 @@
           article
             - if flash[:error].present?
                  #error_explanation
-                  p= flash[:error]
-            label.amount
-        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-description="A month's subscription" data-amount="1500" data-locale="auto">
-        </script>
-        = link_to '#access-code' do
-          .button.half.ghost Enter Access Code
+                  p
+                    = flash[:error]
+
+          | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-description="A month's subscription" data-amount="1500" data-locale="auto">
+          </script>
+          = link_to '#access-code' do
+            .button.half.ghost Enter Access Code
       / When user has already entered a code
       - when :code_entered
        = link_to begin_test_path(@test_id) do
