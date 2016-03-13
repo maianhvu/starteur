@@ -2,8 +2,11 @@
   article
     - if flash[:error].present?
       #error_explanation
-        p= flash[:error]
+        p
+          = flash[:error]
     label.amount
-      span Amount: $15.00
+      span
+        | Amount: $15.00
 
-script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-description="A month's subscription" data-amount="500" data-locale="auto"
+  | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-description="A month's subscription" data-amount="500" data-locale="auto">
+  	</script>
