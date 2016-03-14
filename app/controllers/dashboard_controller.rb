@@ -5,6 +5,7 @@ class DashboardController < ApplicationController
   def index
     # Define initial test status to complete
     @test_status = :completed
+    @test = Test.find(id=1)
 
     # Created specifically for Starteur Profiling Assessment
     test = starteur_profiling_test

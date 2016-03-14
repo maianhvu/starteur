@@ -1,4 +1,73 @@
-h2
-  | Thanks, you paid
-  strong $5.00
-  | ! Your access code is #{@code}.
+.background
+.left
+  #get-started-card.card
+    h1 Get Started
+    h2
+      | Complete
+      strong<> 2
+      | more steps to get the most out of Starteur!
+    .list-entry.completed Verify your email
+    .list-entry.uncompleted= link_to 'Update your profile', '#update-profile'
+    .list-entry.uncompleted= link_to 'Discover your Starteur Profile', '#discover'
+  = link_to '#feedback' do
+    #feedback-card.card
+      h1 Your feedback helps us improve.
+      h2 Let us know what you think about Starteur &rsaquo;
+#dashboard-card.card.right
+  .center-in-card.center
+      = image_tag 'home/discover-static.png'
+
+      h1 Transaction complete!
+      h2
+       | Thanks, you paid
+       strong  $#{@test.price}0
+       | ! Your access code is                #{@code}
+
+      = link_to '#access-code' do
+       .button.half.ghost Enter Access Code
+
+/ Dialogue
+#access-code.modal-dialog
+    #access-code-dialog.main
+      = link_to '#close' do
+        = image_tag 'shared/close-icon.svg', class: 'close'
+      h2 Enter your access code
+      .content
+        = form_tag controller: 'code_usages', action: 'create', method: 'post'
+          = hidden_field :access_code, :test_id, value: @test_id
+          = text_field :access_code, :code, placeholder: 'Access Code', class: 'input-box'
+          p/
+          = submit_tag 'Submit', class: 'button'
+        .forgot-password
+          = link_to 'mailto: hello@starteur.com' do
+            | Forgot your access code? Drop us an Email.
+
+/ TODO: Implement these two dialogs
+#feedback.modal-dialog
+  .main
+    = link_to '#close' do
+      = image_tag 'shared/close-icon.svg', class: 'close'
+    h2 Your feedback
+    .content
+      = form_tag controller: 'feedbacks', action: 'create', method: 'post'
+        = text_area :feedback, :message, cols: 20, rows: 5, class: 'input-box tall'
+        = check_box_tag 'feedback[anonymous]'
+        = label_tag 'feedback[anonymous]' do
+          span.tos Anonymous feedback
+        p/
+        = submit_tag 'Submit', class: 'button'
+
+#verify-email.modal-dialog
+  .main
+    = link_to '#close' do
+      = image_tag 'shared/close-icon.svg', class: 'close'
+    h2 Verify your email
+    .content.small
+      p Check your email inbox for a verification email. Your email address is:
+      p.center-text
+        strong= current_user.email
+      .button Resend verification
+      .forgot-password Wrong email address?
+
+javascript:
+  var currentUserEmail = "#{current_user.email}";
