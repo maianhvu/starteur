@@ -37,9 +37,8 @@
                  #error_explanation
                   p
                     = flash[:error]
-
-          | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-description="A month's subscription" data-amount="1500" data-locale="auto">
-          </script>
+          | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="sgd" data-amount="#{@test.price * 100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
+            </script>
           = link_to '#access-code' do
             .button.half.ghost Enter Access Code
       / When user has already entered a code
