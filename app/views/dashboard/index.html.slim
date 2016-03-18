@@ -31,14 +31,17 @@
           your hidden entrepreneurial potential.
       - case @test_status
       - when :code_not_entered
-        = form_tag charges_path do
+        = form_tag charges_path, class: 'button-half' do
           article
             - if flash[:error].present?
                  #error_explanation
                   p
                     = flash[:error]
+<<<<<<< eca838fcc9b5d15aa969351ca8ab09c9c095412d
 <<<<<<< e94bfb843916f2fb9ac83cb33c32e8af1548d4fc
-          | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="sgd" data-amount="#{@test.price * 100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
+======
+          | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="usd" data-amount="#{@test.price * 100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
+>>>>>>> complete access code generation
             </script>
 =======
 >>>>>> integrate stripe button onto dashboard
