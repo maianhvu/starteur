@@ -37,15 +37,9 @@
                  #error_explanation
                   p
                     = flash[:error]
-<<<<<<< eca838fcc9b5d15aa969351ca8ab09c9c095412d
-<<<<<<< e94bfb843916f2fb9ac83cb33c32e8af1548d4fc
-======
-          | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="usd" data-amount="#{@test.price * 100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
->>>>>>> complete access code generation
-            </script>
-=======
->>>>>> integrate stripe button onto dashboard
-          = link_to '#access-code' do
+         | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="usd" data-amount="#{@test.price * 100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
+           </script>
+         = link_to '#access-code' do
             .button.half.ghost Enter Access Code
       / When user has already entered a code
       - when :code_entered
