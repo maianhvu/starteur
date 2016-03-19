@@ -44,10 +44,10 @@
       / When user has already entered a code
       - when :code_entered
        = link_to begin_test_path(@test_id) do
-       .button.half Take the Test
+        .button.half Take the Test
       - when :uncompleted
        = link_to take_test_path(@test_id) do
-       .button.half Resume the Test
+        .button.half Resume the Test
 
 / Dialogue
 - if @test_status == :code_not_entered
