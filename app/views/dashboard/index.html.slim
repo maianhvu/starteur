@@ -41,8 +41,8 @@
            </script>
          = link_to '#access-code' do
            .button.half.ghost Enter Access Code
-     / When user has already entered a code
-      - when :code_entered
+      / When user has already entered a code
+     - when :code_entered
        = link_to begin_test_path(@test_id) do
        .button.half Take the Test
       - when :uncompleted
