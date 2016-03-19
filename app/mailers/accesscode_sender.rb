@@ -7,12 +7,13 @@ class AccesscodeSender < ApplicationMailer
     confirm_params = {
       :escaped_email => user.email,
       :host => 'http://www.starteur.com'
-      access_code: @code
     }
     headers['X-SMTPAPI'] = {
       sub: {
         '-headerText-' => ["Hi #{user.first_name}, your purchase has been successful!"],
-        '-linkUrl-' => ["#{confirm_params[:host]}"],
+        '-accessCode-' => ["#{@code}"],
+        '-linkUrl-' => ["#{confirm_params[:host]}/dashboard/index#access-code"],
+        '-linkCaption-' => ["Enter access code"]
       },
       filters: {
         templates: {

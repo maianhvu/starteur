@@ -13,6 +13,7 @@ class ChargesController < ApplicationController
     @amount = PRICE_TEST_DEFAULT
     @test = Test.find_by(identifier: "starteur_profiling_assessment")
     @test_id = @test.id
+
     access_code = AccessCode.create(code: generate_code, test_id: @test.id)
     @code = AccessCode.last.code
     @test_status = :completed
@@ -28,10 +29,13 @@ class ChargesController < ApplicationController
       :currency    => 'usd'
     )
 
+<<<<<<< a539f939fd9b22502dc6df8df727246d084f3c89
 <<<<<<< eca838fcc9b5d15aa969351ca8ab09c9c095412d
 <<<<<<< a6117a955ea1b1aba6eb313764389b987e4db5a8
 =======
-    accesscode_sender.send_accesscode_email(current_user).deliver_now
+======
+    AccesscodeSender.send_accesscode_email(current_user).deliver_now
+>>>>>>> complete payment integration
 
 >>>>>>> complete access code generation
    rescue Stripe::CardError => e
