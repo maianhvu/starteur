@@ -27,19 +27,34 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
 
   def generate_access_code
     ac = AccessCode.new(test_id: params[:access_code][:test_id], permits: params[:access_code][:permits], educator: @educator)
-    flash[:success] = ac.save ? 'Access code created' : ac.errors.full_messages.join(", ")
+    if ac.save
+      AuditEvent.create!(admin: @educator, action: :generate_access_code, comments: ac.code)
+      flash[:success] = 'Access code created'
+    else
+      flash[:error] = ac.errors.full_messages.uniq.join(", ")
+    end
     redirect_to educators_admin_admins_path(@educator)
   end
 
   def generate_discount_code
     dc = DiscountCode.new(percentage: params[:discount_code][:percentage])
-    flash[:success] = dc.save ? 'Discount code created' : dc.errors.full_messages.join(", ")
+    if dc.save
+      AuditEvent.create!(admin: @educator, action: :generate_discount_code, comments: dc.code)
+      flash[:success] = 'Discount code created'
+    else
+      flash[:error] = dc.errors.full_messages.uniq.join(", ")
+    end
     redirect_to educators_admin_admins_path(@educator)
   end
 
   def generate_promotion_code
     pc = PromotionCode.new(test_id: params[:promotion_code][:test_id], quantity: params[:promotion_code][:quantity])
-    flash[:success] = pc.save ? 'Promotion code created' : pc.errors.full_messages.join(", ")
+    if pc.save
+      AuditEvent.create!(admin: @educator, action: :generate_promotion_code, comments: pc.code)
+      flash[:success] = 'Promotion code created'
+    else
+      flash[:error] = pc.errors.full_messages.uniq.join(", ")
+    end
     redirect_to educators_admin_admins_path(@educator)
   end
 
@@ -48,7 +63,9 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
       educator = Educator.find(params[:educator_id])
       params[:access_code_ids].each do |id|
         ac = AccessCode.find(id)
-        ac.update_attributes({educator: educator})
+        if ac.update_attributes({educator: educator})
+          AuditEvent.create!(admin: @educator, action: :transfer_access_code, comments: ac.code, other: educator)
+        end
       end
       flash[:success] = 'Codes successfully transferred'
       redirect_to educators_admin_admins_path(@educator)
