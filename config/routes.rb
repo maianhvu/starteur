@@ -92,6 +92,9 @@ Rails.application.routes.draw do
       resources :discount_codes, only: [ :index ] do
         post 'assign_code'
       end
+
+      resources :search, only: [ :index ]
+
     end
 
     resources :promotion_codes, only: [ :index ] do
