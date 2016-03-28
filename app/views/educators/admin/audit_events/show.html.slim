@@ -1,0 +1,36 @@
+= render "layouts/educators/dashboard_menu"
+= render "layouts/educators/flash_messages"
+
+.button.radius.ghost.back = link_to "← Back", educators_admin_audit_events_path
+
+#content.center-block
+  .background
+  #get-started-card.card-primary.wide
+    - if @event.action == "generate_access_code"
+      - code = AccessCode.find_by(code: @event.comments)
+      h1 Event: Generate Access Code
+      h2 = "Code: #{code.code}"
+      h2 = "Test: #{code.test.name}"
+      h2 = "Permits: #{code.permits}"
+      h2 = "Used: #{code.code_usages.count}"
+    - elsif @event.action == "generate_discount_code"
+      - code = DiscountCode.find_by(code: @event.comments)
+      h1 Event: Generate Discount Code
+      h2 = "Code: #{code.code}"
+      h2 = "Percentage discount: #{code.percentage}"
+    - elsif @event.action == "generate_promotion_code"
+      - code = PromotionCode.find_by(code: @event.comments)
+      h1 Event: Generate Promotion Code
+      h2 = "Code: #{code.code}"
+      h2 = "Test: #{code.test.name}"
+      h2 = "Permits: #{code.quantity}"
+    - elsif @event.action == "transfer_access_code"
+      - code = AccessCode.find_by(code: @event.comments)
+      h1 Event: Transfer Access Code
+      h2 = "Code: #{code.code}"
+      h2 = "Test: #{code.test.name}"
+      h2 = "Transferred to: #{@event.other.email}"
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'

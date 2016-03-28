@@ -1,6 +1,8 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
 
+.button.radius.ghost.back = link_to "← Back", educators_admin_admins_path
+
 #content.center-block
   .background
   #get-started-card.card-primary.wide
@@ -16,11 +18,12 @@
           th data-sortable="true" Details
 
       tbody
-        tr
-          td Time Stamp Here
-          td User Here
-          td Action Log Here
-          td Details Here
+        - @audit_events.each do |event|
+          tr
+            td = event.created_at
+            td = event.admin.email
+            td = event.action
+            td = link_to "Code: #{event.comments}", educators_admin_audit_event_path(event)
 
   #popup = render 'layouts/educators/modal'
 
