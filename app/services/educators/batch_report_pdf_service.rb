@@ -20,14 +20,15 @@ class Educators::BatchReportPdfService < Prawn::Document
     Rails.cache.fetch(cache_key) do
       # Find the latest result of this test from the user
       result = Result.where(test: @test, user: User.find_by(id: @userid)).last
-
       # Execute processor file to get results
       # Method load_processor_for can be found inside ProcessorHelper
-      load_processor_for(@test)
-      result_processor = Processor.new(result)
+      if !result.nil?
+        load_processor_for(@test)
+        result_processor = Processor.new(result)
 
-      # Return processed result
-      result_processor.process
+        # Return processed result
+        result_processor.process
+      end
     end
   end
 
@@ -87,20 +88,20 @@ class Educators::BatchReportPdfService < Prawn::Document
       if @sa_top[v[:top_attributes][0][:title].to_s].nil?
         @sa_top[v[:top_attributes][0][:title].to_s] = "#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
       else
-        @sa_top[v[:top_attributes][0][:title].to_s] << "#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
+        @sa_top[v[:top_attributes][0][:title].to_s] << "\n#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
       end
 
       if @sa_bottom[v[:bottom_attributes][0][:title].to_s].nil?
         @sa_bottom[v[:bottom_attributes][0][:title].to_s] = "#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
       else
-        @sa_bottom[v[:bottom_attributes][0][:title].to_s] << "#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
+        @sa_bottom[v[:bottom_attributes][0][:title].to_s] << "\n#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
       end
 
       #SR name list
       if @sr[v[:top_roles][0][:title].to_s].nil?
         @sr[v[:top_roles][0][:title].to_s] = "#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
       else
-        @sr[v[:top_roles][0][:title].to_s] << "#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
+        @sr[v[:top_roles][0][:title].to_s] << "\n#{User.find_by(email: k).first_name} #{User.find_by(email: k).last_name}"
       end
 
       #SR Count
