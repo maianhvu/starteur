@@ -1,5 +1,7 @@
 = render "layouts/educators/simple_menu"
 
+.button.radius.ghost.back = link_to "← Back to Dashboard", educators_educator_path(@educator)
+
 #content.center-block
   #get-started-card.card
     h1 Payment History
@@ -30,7 +32,7 @@
                   a
                     =link_to record.bill_number, educators_billing_record_path(record)
                 td.col-1.text-center =total_quantity_per_billing
-                td.col-1.text-center ="$ " + total_price.to_s + " SGD"
+                td.col-1.text-center ="$ #{record.discount_code ? total_price * (100 - record.discount_code.percentage) / 100 : total_price} SGD"
                 td.col-2.text-center =localize(record.created_at.in_time_zone("Singapore"), :format => :long)
               - total_price = 0
 

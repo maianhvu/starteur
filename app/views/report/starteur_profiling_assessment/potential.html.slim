@@ -1,0 +1,10 @@
+div#results-details.card.full
+  = render partial: "report/#{@test.identifier}/header_links"
+
+  div.results-details-header
+    = image_tag "report/icon-potential-#{@report_data[:potential][:tier]}.png"
+    h2 Starteur Potential
+    h1= @report_data[:potential][:title]
+
+  h1 About Your Potential
+  p== @report_data[:potential][:description]

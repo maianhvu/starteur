@@ -12,15 +12,16 @@ class Educators::BatchCodeUsageService
     counter = 0
     @errors.store(:base, 'No available access codes') unless available_access_codes.any?
     while (email = email_list[counter]) && available_access_codes.any?
-      if cu = CodeUsage.find_by(email: email, access_code: access_codes)
-        unless BatchCodeUsage.find_by(batch: batch, code_usage: cu)
-          BatchCodeUsage.create(batch: batch, code_usage: cu)
-          Educators::UserMailer.send_code_usage(email, cu, batch).deliver_now
+      user = User.find_by(email: email)
+      cu = user ? CodeUsage.find_by(user: user, test: test) : CodeUsage.find_by(email: email, test: test)
+      if cu
+        if user && !BatchCodeUsage.find_by(batch: batch, code_usage: cu)
+          BatchCodeUsage.create(batch: batch, code_usage: cu, own: false)
+          Educators::UserMailer.request_access_permission(email, batch).deliver_now
         end
       else
         if access_code = prepare_access_code(available_access_codes)
-          user = User.find_by(email: email)
-          cu = CodeUsage.create(access_code: access_code, email: email, user: user)
+          cu = CodeUsage.create(access_code: access_code, email: email, user: user, test: test)
           if cu.errors.empty?
             BatchCodeUsage.create(batch: batch, code_usage: cu, own: true)
             Educators::UserMailer.send_code_usage(email, cu, batch).deliver_now
@@ -37,7 +38,6 @@ class Educators::BatchCodeUsageService
   end
 
   def delete_code_usage(code_usage)
-    BatchCodeUsage.where(code_usage: code_usage).delete_all
     code_usage.destroy
   end
 

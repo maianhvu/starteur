@@ -1,41 +1,32 @@
-require 'faker'
-
 FactoryGirl.define do
   factory :test do
-    name "Starteur Profiling Assessment"
-    description "Take the Starteur Profiling Assessment to discover your strengths and reveal your hidden entreprenuerial potential."
+    name 'Starteur Profiling Assessment'
+    description 'This is a Starteur test'
+    state Test.states[:published]
     price 10.0
     shuffle false
-    processor_file 'starteur_profiling_assessment'
+    identifier 'starteur_profiling_assessment'
 
-    Test.states.keys.map(&:to_sym).each do |s|
-      trait s do
-        state s
-      end
-      factory "#{s.to_s}_test".to_sym, traits: [s]
+    trait :unpublished do
+      state Test.states[:unpublished]
     end
 
-    factory :test_without_name do
-      name " "*5
-    end
-
-    factory :test_without_price do
-      price nil
-    end
-
-    trait :shuffled do
+    trait :shuffle do
       shuffle true
     end
 
-    factory :shuffled_test, traits: [ :shuffled ]
-
-    factory :faked_test do
-      name        { Faker::Book.title }
-      description { Faker::Lorem.paragraph }
-      price       { Faker::Number.decimal(2,1) }
-      state       { Test.states[:published] }
-
-      factory :faked_unpublished_test, traits: [ :unpublished ]
+    trait :generic do
+      sequence(:name) { |n| "Test Number #{n}" }
+      sequence(:identifier) { |n| "test_number_#{n}" }
     end
+
+    trait :full do
+      after(:create) do |test|
+        for rank in 1..3 do
+          create_list(:category, 3, :full, test_id: test.id, rank: rank)
+        end
+      end
+    end
+
   end
 end

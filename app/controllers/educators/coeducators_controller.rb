@@ -19,7 +19,7 @@ class Educators::CoeducatorsController < Educators::BaseController
     else
       flash[:error] = 'Educator does not exist'
     end
-    redirect_to educators_batch_coeducators_path(@batch)
+    redirect_to educators_batch_path(@batch)
   end
 
   def destroy
@@ -28,7 +28,7 @@ class Educators::CoeducatorsController < Educators::BaseController
     else
       flash[:error] = @coeducator.errors
     end
-    redirect_to educators_batch_coeducators_path(@batch)
+    redirect_to educators_batch_path(@batch)
   end
 
   private

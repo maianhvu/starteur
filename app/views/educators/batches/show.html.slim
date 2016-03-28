@@ -1,108 +1,158 @@
 = render "layouts/educators/simple_menu"
 = render "layouts/educators/flash_messages"
 
+.button.radius.ghost.back = link_to "← Back to Dashboard", educators_educator_path(@educator)
+
 #content.center-block
   #get-started-card.card
-    table.header-summary
+    table.table-top
       tr
+        td colspan="5"
+          h1.text-left.batch-name = "#{@batch.name}"
+          - if @batch.coeducators.empty?
+            .add-coeducator data-toggle="modal" data-target="#myModalCoEducator" Add Co-Educator
+          - else
+            - @batch.coeducators.each_with_index do |coeducator, index|
+              .coeducator
+                .tag Co-Educator:
+                .email
+                  a = coeducator.email
+                - if @batch.educator == @educator
+                  = link_to "", educators_batch_coeducator_path(@batch, coeducator), method: :delete, class: "i fa fa-trash fa-lg", data:{confirm: 'Are you sure you want to delete coeducator?'}
+          /.batch-tag-group
+          /  .batch-tag 2016
+          /  .batch-tag National University of Singapore
         td
-          h1.text-center = "#{@batch.name}"
+          a.email-count style="font-size: 30px" = "#{@batch.email.count}"
+        td.text-left colspan="2"
+          - if @batch.email.size == 1
+            a Student Enrolled
+          - else
+            a Students Enrolled
+
+      tr.tr
+        td.test-logo
+          = image_tag "starteur.png"
+        td.td.test
+          h1.test-name = @batch.test.name
         td
-          h1.text-left = "#{@batch.email.count} Students Enrolled"
-        td.text-center
-          - if @batch.test.name == "MBTI"
-            h1 = image_tag "mbti.png"
-          - elsif @batch.test.name == "Holland Codes"
-            h1 = image_tag "jung.png"
-          - elsif @batch.test.name == "O*NET"
-            h1 = image_tag "onet.png"
-          - elsif @batch.test.name == "DISC Assessment"
-            h1 = image_tag "disc.png"
-        td.text-left
-          h1 = "#{@remaining_access_codes} Access Codes Available"
-      tr
-        td colspan="4"
-          h2
+          = image_tag "access_code.png"
+        td.td
+          h1.number = @remaining_access_codes
+          br Codes Available
+        td
+          = image_tag "in_progress.png"
+        td.td
+          h1.number = @batch.code_usages.used.count
+          br In Progress
+        td
+          = image_tag "completed.png"
+        td.td
+          h1.number = @batch.code_usages.completed.count
+          br Completed
 
     - if @batch.email.blank?
-      button.btn.radius style="margin-top: 20px" = link_to "← Back to Dashboard", educators_educator_path(@educator)
-      h1.text-center Please add students to this batch
+      h1.text-center Please add students to this Group
+
     - else
-      button.btn.radius style="margin-top: 20px" = link_to "← Back to Dashboard", educators_educator_path(@educator)
-      table.completion-status.text-center
-        tr
-          td
-            = image_tag "completed.png"
-          td
-            /h1 = @students_not_accepted
-            h1 style="font-size: 50px" 0
-            br Completed
-          td
-            = image_tag "in_progress.png"
-          td
-            /h1 = @students_in_progress
-            h1 style="font-size: 50px" 0
-            br In Progress
-          td
-            = image_tag "not_accepted.png"
-          td
-            h1 style="font-size: 50px" = @batch.email.count
-            br Not Accepted
-
       .button-grp
-        /button.btn.radius-left Manage Students
-        /button.btn.radius-right
-          /.caret
-        - if @batch.educator == @educator
-          button.btn.radius = link_to "Delete this Batch", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete batch?'}
-        button.btn.radius = link_to "Assign codes to all emails", educators_batch_assign_code_usages_path(@batch)
-        button.btn.radius = link_to "Send test reminders", educators_batch_batch_test_reminder_path(@batch)
-        - if @batch.educator == @educator
-          button.btn.radius = link_to "Add or Remove Co-Educators", educators_batch_coeducators_path(@batch)
+        .ul.menu1.dropdown
+          li
+            =link_to "Take Action ▾", "#", class: "dropdown-button btn"
+            ul
+              li
+                .number ①
+                .menu-item = link_to "Send Access Codes to All Students", educators_batch_assign_code_usages_path(@batch)
+                .completion-mark ✔
+              li
+                .number ②
+                .menu-item = link_to "Send Email Reminder to All Students", educators_batch_batch_test_reminder_path(@batch)
+                .completion-mark ✔︎
+              li
+                .number ③
+                .menu-item = link_to "Download .pdf of ALL Individual Reports", "#"
+                .completion-mark ✔︎
 
-      table.main
+        - if @batch.educator == @educator
+          .ul.menu2.dropdown
+            li
+              =link_to "Group Management ▾", "#", class: "dropdown-button btn"
+              ul
+                li = link_to "Delete this Group", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}
+                li = link_to "Download Batch Report", educators_generate_batch_report_path(batch_id: @batch.id), method: :generate_batch_report
+
+        .ul.action-icons
+          /button.btn.i.fa.fa-ticket.fa-2x
+          /button.btn.middle.i.fa.fa-bell-o.fa-2x
+          /button.btn.i.fa.fa-trash-o.fa-2x
+
+      table data-toggle="table"
         thead
           tr
-            /th.col-min
-            th.col-2 First Name
-            th.col-2 Last Name
-            th.col-3 Email
-            th.col-4 Status
-            th.col-1
+            /th = check_box_tag "btSelectAll"
+            th data-sortable="true" Full Name
+            th data-sortable="true" Email
+            th data-sortable="true" Status
+            th data-sortable="true" Delete
 
         tbody
           - @batch.email.each do |email|
             tr
-              /td.col-1.text-center.table-border =check_box_tag 'selected'
-              td.col-2.text-center.table-merge-1
-              td.col-2.text-center.table-merge-2
-              td.col-3.text-center.table-border = email
-              td.col-4.text-center
+              /td = check_box_tag "btSelectItem"
+              td = @batch.username[email][2..@batch.username[email].index(",")-2].concat(", " + @batch.username[email][@batch.username[email].index(",")+3..@batch.username[email].length-3])
+              td = email
+              td
                 - if (code_usage = @batch.code_usages.find_by(email: email))
                   - if code_usage.user
-                    = code_usage.state.capitalize
-                  - else
-                    = 'Email sent'
-                - else
-                  .col-xs-6 Not Activated
-                  .col-xs-6
-                    .button.btn-status style="background-color: #FF0000;" = link_to 'Assign Access Code', educators_batch_assign_code_usages_path(@batch), method: :get, data: { email: email }
-              td.col-1.table-border = link_to "Delete", educators_batch_user_path(id: @batch.id, email: email), method: :delete, class: "button"
+                    - if code_usage.completed?
+                      - if (bcu = BatchCodeUsage.find_by(code_usage: code_usage, batch: @batch)) && bcu.own
+                        = link_to "View Report", educators_generate_report_path(batch_id: @batch.id, user_id: User.find_by(email: email).id), method: :generate_report, class: "user-status yellow"
+                      - else
+                        p Awaiting User Permission
+                    - else
+                      p In Progress
+                    /- if !User.find_by(email: email).blank? && !Answer.where(user_id: User.find_by(email: email).id).blank?
 
-    .add-group
-      .add-user
+                  - else
+                    p Email sent
+                - else
+                  = link_to 'Send Access Code', educators_batch_assign_code_usages_path(batch_id: @batch, email: email), method: :get, class: "user-status btn-red"
+              td = link_to "", educators_batch_user_path(id: @batch.id, email: email), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}, class: "fa fa-trash-o fa-2x"
+
+    .add-group#upload
+      .add-user data-toggle="modal" data-target="#myModalStudent"
         =image_tag "add_user.png"
-        p.text-center style="color:#49c6ad" data-toggle="modal" data-target="#myModalStudent" Add User
+        p.text-center Add User
 
       .or.text-center or
 
-      .csv
+      .csv data-toggle="modal" data-target="#myModal"
         =image_tag "csv.png"
-        p.text-center style="color:#49c6ad" data-toggle="modal" data-target="#myModal" Upload CSV
+        p.text-center Upload CSV
 
     .go-to-top
       .up-triangle href="#top"
-      a href="#top" Go to Top
+      = link_to "Go To Top", "#top"
+
+//--- Modal for Co-Educator---//
+.modal.fade#myModalCoEducator tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  .modal-dialog role="document"
+      .modal-content
+        .modal-header
+          .close type="button" data-dismiss="modal" aria-label="Close"
+            .span aria-hidden="true" &times;
+          h4.modal-title#myModalLabel Add an Co-Educator
+        .modal-body
+          .container-fluid
+            /Add a link for co-educator create below
+            = form_for :batch_users, url: educators_batch_coeducators_path(@batch), method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+
+              label Enter an e-mail address
+              .form-field = f.text_field :email, placeholder: 'Email address', autofocus: true
+
+              .form-field = f.hidden_field :batch_id, value: @batch.id
+              label
+              .form-actions = f.submit 'Create' , class: "button modal-button"
 
 //--- Modal for CSV Upload---//
 .modal.fade#myModal tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -135,6 +185,12 @@
         .modal-body
           .container-fluid
             = form_for :batch_users, url: educators_batch_users_path, method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
+
+              label Enter first name
+              .form-field = f.text_field :first_name, placeholder: 'First name', autofocus: true
+
+              label Enter last name
+              .form-field = f.text_field :last_name, placeholder: 'Last name', autofocus: true
 
               label Enter an e-mail address
               .form-field = f.text_field :email, placeholder: 'Email address', autofocus: true

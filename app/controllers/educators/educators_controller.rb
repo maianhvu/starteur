@@ -14,10 +14,10 @@ class Educators::EducatorsController < Educators::BaseController
     @educator = Educator.new(educator_params)
 
     if @educator.save
-      redirect_to educators_login_path, notice: 'Account successfully created'
+      redirect_to new_educator_session_path, notice: 'Account successfully created'
     else
-      flash.now[:error] = @educator.errors.full_messages.join(", ")
-      render :new
+      flash[:error] = @educator.errors.full_messages.join(", ")
+      redirect_to new_educator_session_path
     end
   end
 

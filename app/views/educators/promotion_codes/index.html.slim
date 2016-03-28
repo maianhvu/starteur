@@ -1,0 +1,18 @@
+= render 'layouts/educators/simple_menu'
+
+.button.radius.ghost.back = link_to "← Back to Dashboard", educators_educator_path(@educator)
+
+#content.center-block
+  #get-started-card.card
+    h1 Promotion Code
+    h2 Redeem Your Promoiton Code here
+
+    .form
+      = form_tag redeem_code_educators_promotion_codes_path, method: :post
+        = text_field_tag :code
+        br
+        = submit_tag 'Redeem Promotion Code', class: "button btn"
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'

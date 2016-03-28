@@ -5,6 +5,8 @@
   div.sidebar-nav.side_bar_title.text-center
     h3 Menu
   ul.list-group
+    li.text-center
+      label Educator Functions
     li.list-group-item
       =link_to "Dashboard", educators_educator_path(@educator)
     li.list-group-item
@@ -21,5 +23,14 @@
       a href="#" Redeem Promo Code
     li.list-group-item
       =link_to "Logout", educators_logout_path, method: :delete
+    - if @educator.admin
+      li.text-center
+        label Admin Functions
+      li.list-group-item
+        =link_to "Admin Dashboard", educators_admins_path(@educator)
+      li.list-group-item
+        =link_to "Generate codes", educators_admin_generate_codes_path(@educator)
+      li.list-group-item
+        =link_to "Transfer access codes", educators_admin_manage_access_codes_path(@educator)
 
 = image_tag("header-logo.png", class: "header-logo")

@@ -1,6 +1,9 @@
 //@import "bootstrap-sprockets";
 //@import "bootstrap";
 
+@import "font-awesome";
+@import "bootstrap-table";
+
 @import "educators/common.scss";
 @import "educators/bootstrap.scss";
 
@@ -20,5 +23,17 @@
 
 @import "educators/batches/show.scss";
 @import "educators/coeducators/index.scss";
-//Add the import statement for CSS for coeducators below
-//Example: w@import "educators/coeducators/show.scss";
+
+@import "educators/access_codes/index.scss";
+
+@import "educators/admins/index.scss";
+@import "educators/admins/generate-codes.scss";
+@import "educators/admins/manage_access_codes.scss";
+
+@import "educators/promotion_codes/index.scss";
+
+//@import "educators/landing/normalize.scss";
+//@import "educators/landing/starteur.scss";
+//@import "educators/landing/landing.scss";
+//@import "educators/landing/modal.scss";
+//@import "educators/landing/filmstrip.scss";

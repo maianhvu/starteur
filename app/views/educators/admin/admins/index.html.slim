@@ -1,0 +1,57 @@
+= render "layouts/educators/dashboard_menu"
+= render "layouts/educators/flash_messages"
+
+#content.center-block
+  .background
+  .left
+    #get-started-card.card-primary
+      / =image_tag "institution.png"
+      / h3 Your Institution
+
+      .main-list
+        .menu-icon.blue C
+        .menu-link
+          =link_to "Code Management", educators_admin_admin_generate_codes_path(@educator)
+      .main-list
+        .menu-icon.red T
+        .menu-link
+          =link_to "Transfer Ownership", educators_admin_admin_manage_access_codes_path(@educator)
+      .main-list
+        .menu-icon.yellow P
+        .menu-link
+          =link_to "Payment Details", educators_admin_admin_payment_history_path(@educator)
+      .main-list
+        .menu-icon.green P
+        .menu-link
+          = link_to "View promotion codes", educators_admin_promotion_codes_path
+      .main-list
+        .menu-icon.red D
+        .menu-link
+          = link_to "View discount codes", educators_admin_discount_codes_path
+
+  .right
+      #new-educator-card.card
+        h1.horizontal Client Management
+        h2 Overview of your clients
+
+      .summary-card
+        .number
+          a = @educator_total
+        .type Unique Educators
+      .summary-card
+        .number
+          a = @batch_total
+        .type Enrolled Groups
+      .summary-card
+        .number
+          a = @user_total
+        .type Unique Students
+      .summary-card
+        .number
+          a = @test_total
+        .type Completed Tests
+
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'

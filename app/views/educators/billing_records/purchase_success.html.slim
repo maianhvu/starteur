@@ -3,25 +3,28 @@
 #content.center-block
   #get-started-card.card
     h1 Purchase Confirmation
-  
+
   .logo-wrapper
     .confirmation-logo
 
   .success-message Success!
 
-  /.block-message 
+  /.block-message
     p $20.00 has been deducted from
     p 1234-5678-9012-3456
-  
+
   .block-message
     - flash[:summary].each do |test, quantity|
-      p = "#{quantity} access codes for #{test}"
+      .quantity
+        p = quantity
+      p access codes for
+      p = "#{test}"
 
     p has been added to your account.
 
   .button-group
-    .button = link_to "Buy More Tests", display_tests_educators_billing_records_url
-    .button = link_to "Back to Dashboard", educators_educator_path(@educator)
+    .button.radius = link_to "Buy More Tests", display_tests_educators_billing_records_url
+    .button.radius = link_to "Back to Dashboard", educators_educator_path(@educator)
 
   /.return-link
     p or #{link_to "Go back to Dashboard", educators_educator_path(@educator)}

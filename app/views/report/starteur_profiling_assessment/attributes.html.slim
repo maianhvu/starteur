@@ -1,0 +1,18 @@
+div#results-details.card.full
+  = render partial: "report/#{@test.identifier}/header_links"
+
+  / Top Attributes
+  h1.top Your Top Attributes
+  p
+    | Your top attributes are the attributes you display most often.
+  - @report_data[:top_attributes].each do |attrib|
+    h1.top== attrib[:title]
+    p== attrib[:description]
+
+  / Bottom Attributes
+  h1.bottom Your Bottom Attributes
+  p
+    | Your bottom attributes are the attributes you display least often.
+  - @report_data[:bottom_attributes].each do |attrib|
+    h1.bottom== attrib[:title]
+    p== attrib[:description]
