@@ -23,7 +23,7 @@
           /  .batch-tag 2016
           /  .batch-tag National University of Singapore
         td
-          a.email-count style="font-size: 30px" = "#{@batch.email.count}"
+          .email-count = "#{@batch.email.count}"
         td.text-left colspan="2"
           - if @batch.email.size == 1
             a Student Enrolled
@@ -52,13 +52,14 @@
           br Completed
 
     - if @batch.email.blank?
+      .button-grp
+        = link_to "Delete this Group", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}, class: "button btn-red delete"
       h1.text-center Please add students to this Group
-
     - else
       .button-grp
         .ul.menu1.dropdown
           li
-            =link_to "Take Action ▾", "#", class: "dropdown-button btn"
+            =link_to "Take Action ▾", "#", class: "dropdown-button button"
             ul
               li
                 .number ①
@@ -76,15 +77,15 @@
         - if @batch.educator == @educator
           .ul.menu2.dropdown
             li
-              =link_to "Group Management ▾", "#", class: "dropdown-button btn"
+              =link_to "Group Management ▾", "#", class: "dropdown-button button"
               ul
                 li = link_to "Delete this Group", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}
                 li = link_to "Download Batch Report", educators_generate_batch_report_path(batch_id: @batch.id), method: :generate_batch_report
 
         .ul.action-icons
-          button.btn.i.fa.fa-ticket.fa-2x
-          button.btn.middle.i.fa.fa-bell-o.fa-2x
-          button.btn.i.fa.fa-trash-o.fa-2x
+          .button.btn-blue.i.fa.fa-ticket.fa
+          .button.btn-orange.middle.i.fa.fa-bell-o.fa
+          .button.btn-red.i.fa.fa-trash-o.fa
 
       table data-toggle="table"
         thead
@@ -147,7 +148,7 @@
           = f.text_field :email, class: "input-box", placeholder: 'Email address', autofocus: true
           = f.hidden_field :batch_id, value: @batch.id
 
-          = f.submit 'Add' , class: "button modal-button"
+          = f.submit 'Add' , class: "button modal-button btn-default"
 
 /! ---- DIALOGS TO ADD SINGLE USER----
 #add_user.modal-dialog
@@ -164,7 +165,7 @@
           = f.text_field :email, class: "input-box", placeholder: 'Email address', autofocus: true
           = f.hidden_field :batch_id, class: "input-box", value: @batch.id
 
-          = f.submit 'Add' , class: "button modal-button"
+          = f.submit 'Add' , class: "button modal-button btn-default"
 
 /! ---- DIALOGS TO ADD A GROUP OF USERS IN CSV----
 #add_csv.modal-dialog
@@ -179,7 +180,7 @@
           = f.file_field :file, class: "file"
           = f.hidden_field :batch_id, class: "input-box", value: @batch.id
 
-          = f.submit 'Upload', class: "button modal-button"
+          = f.submit 'Upload', class: "button modal-button btn-default"
 
   #popup = render 'layouts/educators/modal'
 

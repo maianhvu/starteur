@@ -11,12 +11,14 @@
       h1 You have not purchased any tests yet. Please pruchase tests first.
     - else
       .billing_records
-        table.table
+        table data-toggle="table"
+          thead
             tr
-              th.col-3.text-center Receipt Number
-              th.col-1.text-center Total
-              th.col-1.text-center Total Price
-              th.col-2.text-center Payment Date
+              th data-sortable="true" Receipt Number
+              th data-sortable="true" Total
+              th data-sortable="true" Total Price
+              th data-sortable="true" Payment Date
+          tbody
             - total_price = 0
             - @billing_records.each do |record|
               - total_quantity_per_billing = 0

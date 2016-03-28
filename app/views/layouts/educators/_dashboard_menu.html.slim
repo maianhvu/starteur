@@ -7,13 +7,10 @@
       .profile-text = @educator.name
       .profile-icon style="background:#FFC006" E
       .profile-break
-        =link_to "View Dashboard", educators_educator_path(@educator)
-        =link_to "Purchase Test", "#"
-        =link_to "Generate Report", "#"
-        =link_to "View Payment History", "#"
-        .line
-        =link_to "My Profile", "#"
-        =link_to "Sign Out", destroy_educator_session_path, method: :delete
-        /=link_to "Profile", edit_educators_educator_path(@educator)
-        /=link_to "Settings", "#"
-
+      =link_to "View Dashboard", educators_educator_path(@educator)
+      =link_to "Purchase Test", display_tests_educators_billing_records_url
+      =link_to "Generate Report", "#"
+      =link_to "View Payment History", educators_billing_records_path
+      .line
+      =link_to "My Profile", edit_educators_educator_path(@educator)
+      =link_to "Sign Out", destroy_educator_session_path, method: :delete

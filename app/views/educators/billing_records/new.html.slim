@@ -106,8 +106,8 @@
       - if @dc
         = hidden_field_tag :code, @dc.code
       .button-group
-        = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems), class: "button first btn"
-        = f.submit 'Confirm', class: "button first btn"
+        = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems), class: "button first btn-default"
+        = f.submit 'Confirm', class: "button first btn-default"
 
     - if @dc
       .text-center = "Discount code: #{@dc.code}"
@@ -117,7 +117,7 @@
           = hidden_field_tag "lineitems[#{id}]", item[:quantity]
         .discount-group
           .text-center = text_field_tag :code, nil, placeholder: "Please enter a discount code here", class: "discount-field"
-          = submit_tag 'Apply Discount Code', class: "button apply"
+          = submit_tag 'Apply Discount Code', class: "button apply btn-default"
 
   #popup = render 'layouts/educators/modal'
 

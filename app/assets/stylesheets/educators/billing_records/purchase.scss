@@ -1,17 +1,5 @@
 .educators_billing_records.new {
 
-  .button {
-    padding: 4px;
-    margin-left: 180px;
-    margin-top: 10px;
-    width: 100px;
-  }
-
-  .button.first {
-    margin-left: 650px;
-    margin-bottom: 50px;
-  }
-
   .left .card {
     height: 260px;
   }
@@ -47,7 +35,6 @@
 
   .apply {
     width: 180px;
-    height: 30px;
     margin-top: 10px;
     margin-bottom: 30px;
     margin-left: calc((100% - 180px)/2);
@@ -114,16 +101,14 @@
   }
 
   .button-group {
-    width: 30%;
-    margin-right: 10%;
+    width: 40%;
     float: right;
     margin-top: 44px;
 
     .button {
       display: inline-block;
-      margin-left: 20px;
-      margin-right: 0px;
-      margin-bottom: 30px;
+      width: 100px;
+      margin-left: 30px;
     }
   }
 }

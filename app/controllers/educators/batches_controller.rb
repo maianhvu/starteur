@@ -2,7 +2,7 @@ class Educators::BatchesController < Educators::BaseController
 
   def index
     if Batch.all.blank?
-      flash[:notice ] = "You have no batches. Please create one."
+      flash[:notice ] = "You have no groups. Please create one."
       render "new"
     else
       @batches = @educator.batches
@@ -19,10 +19,10 @@ class Educators::BatchesController < Educators::BaseController
     @batchname = params[:batch][:batch_name]
     @batch = Batch.new(educator: @educator, test: Test.find_by(id: @test_id), name: @batchname)
     if @batch.save
-      flash[:notice ] = "Batch Created"
+      flash[:notice ] = "Group Created"
       redirect_to educators_educator_path(@educator)
     else
-      flash[:notice ] = "Please enter Batch Name"
+      flash[:notice ] = "Please enter Group Name"
       redirect_to educators_educator_path(@educator)
     end
   end
@@ -67,7 +67,7 @@ class Educators::BatchesController < Educators::BaseController
 
   def destroy
     Batch.find(params[:id]).destroy
-    flash[:alert ] = "Batch Deleted"
+    flash[:alert ] = "Group Deleted"
     redirect_to educators_educator_path(@educator)
   end
 

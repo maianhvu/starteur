@@ -1,46 +1,43 @@
-#header
-  .center-block
-    = link_to educators_educator_path(@educator)
-      = render "layouts/educators/navigation"
-    .profile
-      .profile-arrow
-      .profile-text Bobby Chan
-      .profile-icon style="background:#FFC006" B
-      .profile-break
-      =link_to "Dashboard", educators_educator_path(@educator)
-      =link_to "Profile", edit_educators_educator_path(@educator)
-      =link_to "Settings", "#"
-      =link_to "Sign out", educators_logout_path, method: :delete
+= render "layouts/educators/simple_menu"
+= render "layouts/educators/flash_messages"
 
 #content.center-block
   #get-started-card.card
     h1 Update Profile
     h2 Edit your personal profile
-  
+
     .form-wrapper
       = form_for @educator, url: educators_educator_path(@educator), method: :put, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
-        /.row
+        .row
           = f.label 'Given name: ', class: "label text-right"
           = f.text_field :first_name, autofocus: true, class: "input-box"
 
-        /.row
+        .row
           = f.label 'Surname: ', class: "label text-right"
           = f.text_field :last_name, class: "input-box"
 
-        /.row
+        .row
           = f.label 'Organization: ', class: "label text-right"
           = f.text_field :organization, class: "input-box"
 
-        /.row
+        .row
           = f.label 'Title: ', class: "label text-right"
           = f.text_field :title, class: "input-box"
 
         .row
+          = f.label 'Password: ', class: "label text-right"
+          = f.password_field :password, class: "input-box"
+
+        .row
+          = f.label 'Password Confirmation: ', class: "label text-right"
+          = f.password_field :password_confirmation, class: "input-box"
+
+        /.row
           = f.label 'Email: ', class: "label text-right"
           = f.email_field :email, class: "input-box"
 
-        = f.submit 'Update profile', class: "button"
+        = f.submit 'Update profile', class: "button btn-default"
 
   #popup = render 'layouts/educators/modal'
 

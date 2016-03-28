@@ -1,5 +1,28 @@
 .educators_batches.show {
 
+  .table-top {
+    margin-top: 20px;
+    width: 100%;
+    border-bottom: 1px solid #e9e9e9;
+  }
+
+  .table-top .tr {
+    border-top: 1px solid #e9e9e9;
+  }
+
+  .table-top .td {
+    border-right: 1px solid #e9e9e9;
+    text-align: center;
+  }
+
+  .table-top .td .number {
+    font-size: 30px;
+  }
+
+  .table-top a {
+    font-size: 20px;
+  }
+
   .batch-name {
     font-size: 25px;
   }
@@ -12,7 +35,7 @@
     border-bottom-left-radius: 4px;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
-    width: 200px;
+    width: 100px;
     margin-left: 30px;
     margin-bottom: 30px;
     cursor: pointer;
@@ -20,6 +43,11 @@
 
   .add-coeducator a {
     font-size: 12px;
+    text-align: center;
+    display: block;
+    width: 100px;
+    margin-left: auto;
+    margin-left: auto;
   }
 
   .add-coeducator:active {
@@ -59,6 +87,10 @@
 
   .email-count {
     border-bottom: 1px solid black;
+    font-size: 40px;
+    width: 25px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .batch-tag-group {
@@ -82,64 +114,44 @@
 
   .button-grp {
     margin-top: 30px;
-    width: 500px;
+    width: 60%;
+    display: block;
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+  }
+
+  .delete {
+    width: 200px;
+    display: block;
     margin-left: auto;
     margin-right: auto;
   }
 
-  .dropdown ul.dropit-submenu li .number {
+  .menu1 {
     display: inline-block;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    font-size: 16px;
+    vertical-align: top;
+    margin-right: 30px;
   }
 
-  .dropdown ul.dropit-submenu li .menu-item {
+  .menu2 {
     display: inline-block;
-    width: 280px;
-    height: 50px;
-    line-height: 50px;
-    text-align: left;
-  }
-
-  .dropdown ul.dropit-submenu li .completion-mark {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
+    vertical-align: top;
   }
 
   .action-icons {
     display: inline-block;
+    vertical-align: top;
     margin-left: 30px;
-    float: left;
-    margin-bottom: 30px;
-    height: 30px;
   }
 
-  .action-icons button {
+  .action-icons .button {
     display: inline-block;
-    background-color: #25A599;
     color: white;
-    width: 34px;
-    height: 34px;
-    padding: 0;
-    border: 1px solid transparent;
-  }
-
-  .action-icons li:hover {
-    background-color: #4CB5AB;
-  }
-
-  .action-icons .middle {
-    border-left: 0.5px solid white;
-    border-right: 0.5px solid white;
-  }
-
-  .action-icons li .fa {
-    line-height: 34px;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
   }
 
   .user-status {
@@ -199,28 +211,6 @@
     background: #49c6ad;
   }
 
-  .table-top {
-    margin-top: 20px;
-    width: 100%;
-    border-bottom: 1px solid #e9e9e9;
-  }
-
-  .table-top .tr {
-    border-top: 1px solid #e9e9e9;
-  }
-
-  .table-top .td {
-    border-right: 1px solid #e9e9e9;
-  }
-
-  .table-top .td .number {
-    font-size: 30px;
-  }
-
-  .table-top a {
-    font-size: 20px;
-  }
-
   #get-started-card img {
     width: 60px;
     height: 60px;
@@ -256,72 +246,23 @@
     border-left: 4px solid transparent
   }
 
-  .btn:hover {
-    background-color: #4CB5AB;
+  .table thead {
+    font-size: 18px;
   }
 
-  .btn:active {
-    background-color: #00887A;
-    outline: 0;
-  }
-
-  .btn:focus {
-    outline: 0;
-  }
-
-  .btn-red {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-weight: 400;
-    line-height: 1.42857143;
+  .table {
+    font-size: 14px;
     text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    background-color: #ff0645;
-    border: 1px solid transparent;
-    color: white;
-  }
-
-  .btn-red:hover {
-    background-color: #FF4574;
-  }
-
-  .btn-red:active {
-    background-color: #DE0B40;
-    outline: 0;
-  }
-
-  .btn-yellow {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    background-color: #ffc006;
-    border: 1px solid transparent;
-    color: white;
-  }
-
-  .btn-yellow:hover {
-    background-color: #FFCC36;
-  }
-
-  .btn-yellow:active {
-    background-color: #D9A407;
-    outline: 0;
   }
 
   .add-group {
-    display: inline-block;
+    display: block;
+    width: 310px;
     height: 150px;
     margin-top: 30px;
     margin-bottom: 30px;
-    margin-left: 28%;
-    margin-right: 28%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .add-group p {
@@ -332,17 +273,16 @@
     border: 1px;
     box-shadow: 0px 0px 0px 1px #e9e9e9;
     margin-bottom: 10px;
-    transition: all .5s ease;
   }
 
   #upload img {
     width: 70px;
     height: 70px;
+    border: 0.5px solid #e9e9e9;
   }
 
   #upload img:hover {
-    width: 90px;
-    height: 90px;
+    border: 0.5px solid;
   }
 
   .add-user:hover, .csv:hover {

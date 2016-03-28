@@ -34,7 +34,7 @@
 
           h1 Please indicate the educator
           = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
-          .submit = submit_tag "Transfer", class: "btn radius"
+          = submit_tag "Transfer", class: "button btn-default transfer"
 
 
   #popup = render 'layouts/educators/modal'

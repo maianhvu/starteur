@@ -16,7 +16,7 @@ class Educators::EducatorsController < Educators::BaseController
     if @educator.save
       redirect_to new_educator_session_path, notice: 'Account successfully created'
     else
-      flash[:error] = @educator.errors.full_messages.join(", ")
+      flash[:error] = @educator.errors.full_messages.uniq.join(", ")
       redirect_to new_educator_session_path
     end
   end
@@ -76,7 +76,7 @@ class Educators::EducatorsController < Educators::BaseController
   private
 
   def educator_params
-    params.require(:educator).permit(:email, :password, :password_confirmation)
+    params.require(:educator).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
 
   def update_educator_params

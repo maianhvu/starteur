@@ -5,17 +5,13 @@
     .profile
       .profile-arrow
       .profile-text = @educator.name
-      .profile-icon style="background:#FFC006" E
+      .profile-icon style="background:#FFC006" = @educator.last_name[0]
+      //.profile-icon style="background:#FFC006" E
       .profile-break
-        =link_to "Dashboard", educators_educator_path(@educator)
-        / =link_to "Profile", edit_educators_educator_path(@educator)
-        / =link_to "Settings", "#"
-        =link_to "Sign out", destroy_educator_session_path, method: :delete
-    .profile
-      .profile-arrow
-      .profile-text Menu
-      .profile-icon style="background:#49c6ad" ≡
-      .profile-break
-        =link_to "Dashboard", educators_educator_path(@educator)
-        =link_to "View Payment History", educators_billing_records_path
-        =link_to "Purchase Test", display_tests_educators_billing_records_url
+      =link_to "View Dashboard", educators_educator_path(@educator)
+      =link_to "Purchase Test", display_tests_educators_billing_records_url
+      =link_to "Generate Report", "#"
+      =link_to "View Payment History", educators_billing_records_path
+      .line
+      =link_to "My Profile", edit_educators_educator_path(@educator)
+      =link_to "Sign Out", destroy_educator_session_path, method: :delete

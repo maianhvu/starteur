@@ -1,5 +1,5 @@
 function removePreload() {
-	document.body.className = "";
+	document.body.className = "educators_sessions new";
 	startAnimation();
 };
 

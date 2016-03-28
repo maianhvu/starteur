@@ -5,10 +5,9 @@
   font-weight: 600;
   box-sizing: border-box;
   border-radius: 4px;
-  background-color: #25A599;
   color: white;
   border: 0;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   cursor: pointer;
   -webkit-transition: all 200ms;
@@ -20,15 +19,10 @@
   -webkit-box-shadow: inset 0 0 5px rgba(255,255,255,0.15);
   box-shadow: inset 0 0 5px rgba(255,255,255,0.15);
   border: 1px solid transparent;
-}
-
-.button:hover {
-  background-color: #4CB5AB;
-}
-
-.button:active {
-  background-color: #00887A;
-  outline: 0;
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .button:focus {
@@ -37,6 +31,10 @@
 
 .button a {
   display: inline-block;
+}
+
+.button:hover a {
+  text-decoration: underline;
 }
 
 /* ----- BOXES ----- */

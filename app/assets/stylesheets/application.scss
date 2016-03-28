@@ -5,18 +5,19 @@
 @import 'educators/common/fonts.scss';
 @import "educators/common/common.scss";
 
+@import "educators/common/header.scss";
 @import "educators/common/button.scss";
 @import "educators/common/card.scss";
 @import "educators/common/color.scss";
 @import "educators/common/dropdown.scss";
 @import "educators/common/flash_message.scss";
 @import "educators/common/footer.scss";
-@import "educators/common/header.scss";
 @import "educators/common/input.scss";
 @import "educators/common/menu.scss";
 @import "educators/common/modal.scss";
 @import "educators/common/table.scss";
 @import "educators/common/text.scss";
+
 
 @import "educators/admins/generate_codes.scss";
 @import "educators/admins/manage_access_codes.scss";

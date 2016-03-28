@@ -1,10 +1,10 @@
 /* ---- COLOR ---- */
 .blue {
-  background-color: #0645ff !important;
+  background-color: #2196F3 !important;
 }
 
 .red {
-  background-color: #ff0645 !important;
+  background-color: #F44336 !important;
 }
 
 .yellow {
@@ -21,4 +21,74 @@
 
 .black {
   background-color: #000000 !important;
+}
+
+.orange {
+  background-color: #FF9800 !important;
+}
+
+/* ---- BUTTON COLOR ---- */
+.btn-default {
+  background-color: #25A599;
+}
+
+.btn-default:hover {
+  background-color: #4CB5AB;
+}
+
+.btn-default:active {
+  background-color: #00887A;
+  outline: 0;
+}
+
+.btn-blue {
+  background-color: #2196F3;
+}
+
+.btn-blue:hover {
+  background-color: #64B5F6;
+}
+
+.btn-blue:active {
+  background-color: #1976D2;
+  outline: 0;
+}
+
+.btn-orange {
+  background-color: #FF9800;
+}
+
+.btn-orange:hover {
+  background-color: #FFA726;
+}
+
+.btn-orange:active {
+  background-color: #EF6C00;
+  outline: 0;
+}
+
+.btn-red {
+  background-color: #F44336;
+}
+
+.btn-red:hover {
+  background-color: #E57373;
+}
+
+.btn-red:active {
+  background-color: #D32F2F;
+  outline: 0;
+}
+
+.btn-purple {
+  background-color: #9C27B0;
+}
+
+.btn-purple:hover {
+  background-color: #BA68C8;
+}
+
+.btn-purple:active {
+  background-color: #7B1FA2;
+  outline: 0;
 }

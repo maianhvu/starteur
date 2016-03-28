@@ -9,8 +9,8 @@
 
     = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true } } do |f|
 
-      = f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
-      = f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
+      = f.text_field :first_name, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
+      = f.text_field :last_name, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
       = f.email_field :email, placeholder: 'Email address', autofocus: true, class: "input-box"
       = f.password_field :password, placeholder: 'Password', class: "input-box"
       = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"

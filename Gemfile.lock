@@ -351,6 +351,3 @@ DEPENDENCIES
   squid (~> 1.2)
   tzinfo-data
   web-console (~> 2.0)
-
-BUNDLED WITH
-   1.10.6

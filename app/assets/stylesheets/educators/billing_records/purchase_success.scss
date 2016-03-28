@@ -1,5 +1,9 @@
 .educators_billing_records.purchase_success {
 
+  #get-started-card h1 {
+    padding: 16px;
+  }
+
   #content .card {
     min-height: 0px;
   }
@@ -88,14 +92,18 @@
   }
 
   .block-message .quantity {
-    width: 30px;
+    width: 40px;
     display: inline-block;
   }
 
   .block-message .quantity p {
-    width: 30px;
     border-bottom: 1px solid;
     font-weight: bold;
+    font-size: 30px;
+  }
+
+  .test {
+    border-bottom: 1px solid;
   }
 
   .button-group {

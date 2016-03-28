@@ -18,13 +18,13 @@
       .quantity
         p = quantity
       p access codes for
-      p = "#{test}"
+      p.test = "#{test}"
 
     p has been added to your account.
 
   .button-group
-    .button.radius = link_to "Buy More Tests", display_tests_educators_billing_records_url
-    .button.radius = link_to "Back to Dashboard", educators_educator_path(@educator)
+    .button.btn-default = link_to "Buy More Tests", display_tests_educators_billing_records_url
+    .button.btn-default = link_to "Back to Dashboard", educators_educator_path(@educator)
 
   /.return-link
     p or #{link_to "Go back to Dashboard", educators_educator_path(@educator)}

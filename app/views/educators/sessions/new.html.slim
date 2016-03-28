@@ -46,12 +46,12 @@ html
       #splash-signup.signup-form.large-screen
         = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true } } do |f|
 
-          /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
-          /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
+          = f.text_field :first_name, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
+          = f.text_field :last_name, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
           = f.email_field :email, placeholder: 'Email address', class: "input-box"
           = f.password_field :password, placeholder: 'Password', class: "input-box"
           = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
-          .form-actions = f.submit 'Sign up', class: "button"
+          .form-actions = f.submit 'Sign up', class: "button btn-default"
         /input name="agreetoterms" type="checkbox" /
         /span.tos
           /| I agree to the
@@ -99,12 +99,12 @@ html
         #footer-signup.signup-form.center-horizontal
           = form_for :educator, url: educators_educators_path, method: :post, defaults: { input_html: { required: true } } do |f|
 
-            /= f.text_field :email, placeholder: 'First Name', autofocus: true, class: "input-box first-name"
-            /= f.text_field :email, placeholder: 'Last Name', autofocus: true, class: "input-box last-name"
+            = f.text_field :first_name, placeholder: 'First Name', class: "input-box first-name"
+            = f.text_field :last_name, placeholder: 'Last Name', class: "input-box last-name"
             = f.email_field :email, placeholder: 'Email address', class: "input-box"
             = f.password_field :password, placeholder: 'Password', class: "input-box"
             = f.password_field :password_confirmation, placeholder: 'Password confirmation', class: "input-box"
-            .form-actions = f.submit 'Sign up', class: "button"
+            .form-actions = f.submit 'Sign up', class: "button btn-default"
           /input name="agreetoterms" type="checkbox" /
           /span.tos
           /  | I agree to the
@@ -147,4 +147,4 @@ html
               = check_box_tag "rememberme"
               = content_tag(:span, "Remember Me", class: "tos")
 
-            = f.submit "Sign in", class: "button half"
+            = f.submit "Sign in", class: "button half btn-default"

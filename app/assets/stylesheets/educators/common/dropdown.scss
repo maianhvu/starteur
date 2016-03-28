@@ -1,10 +1,10 @@
 /* ----- DROPDOWN ----- */
 .dropdown {
   list-style: none;
-  display: inline-block;
-  float: left;
-  margin-left: 30px;
-  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  //position: relative;
 }
 
 .dropdown-button {
@@ -14,7 +14,6 @@
   line-height: 20px;
   color: white;
   text-align: center;
-  vertical-align: middle;
   cursor: pointer;
   background-color: #25A599;
   border-top-left-radius: 4px;
@@ -25,6 +24,10 @@
 
 .dropdown-button:hover {
   background-color: #4cb5ab;
+}
+
+.dropdown-button:active {
+  background-color: #00887A;
 }
 
 .dropit-open .dropdown-button {
@@ -41,15 +44,8 @@
   background-color: #fff;
   padding: 0;
   position: absolute;
-  left: 0;
-  top: 80%;
+  top: 26%;
   z-index: 1;
-  //-webkit-border-radius: 3px;
-  //-moz-border-radius: 3px;
-  //border-radius: 3px;
-  //-webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.15);
-  //-moz-box-shadow: 0px 1px 3px rgba(0,0,0,0.15);
-  //box-shadow: 0px 1px 3px rgba(0,0,0,0.15);
 }
 
 .dropdown ul.dropit-submenu li {
@@ -67,4 +63,27 @@
   background: #4cb5ab;
   color: #fff;
   text-decoration: none;
+}
+
+.dropdown ul.dropit-submenu li .number {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+}
+
+.dropdown ul.dropit-submenu li .menu-item {
+  display: inline-block;
+  width: 280px;
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+}
+
+.dropdown ul.dropit-submenu li .completion-mark {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
 }

@@ -1,13 +1,16 @@
 .educators_billing_records.show {
 
   #logo img {
-    width: 142px;
-    height: 32px;
     float: left;
     border-radius: 0%;
     padding: 16px 16px 16px 16px;
     margin-right: 400px;
     margin-bottom: 30px;
+  }
+
+  #get-started-card img {
+    width: 278px;
+    height: 48px;
   }
 
   #get-started-card h3 {
@@ -34,7 +37,7 @@
   .table th {
     height: 40px;
     border-bottom: 1px solid;
-    font-size: 14px;
+    font-size: 20px;
   }
 
   .table tr {
@@ -42,15 +45,11 @@
   }
 
   .table td {
-    font-size: 13px;
+    font-size: 18px;
   }
 
   .table .bottom {
     border-top: 1px dashed;
-  }
-
-  .table .bottom b {
-    font-size: 16px;
   }
 
 }

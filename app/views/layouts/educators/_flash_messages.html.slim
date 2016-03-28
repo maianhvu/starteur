@@ -2,10 +2,15 @@
   - flash.each do |name, payload|
     - if name == "notice"
       .notice
-    - else
-      .error
-        - [*payload].uniq.each do |message|
+        - [*payload].each do |message|
           - if message.is_a? String
             .alert.alert-dismissable class=bootstrap_class_for(name) role='alert'
-              = content_tag :div, message, class: "message-content"
-              span.close type='button' data-dismiss='alert' aria-hidden='true' aria-label='close' &times;
+              = content_tag :div, message + " ", class: "message-content"
+              i.fa.fa-times data-dismiss='alert' aria-hidden='true' aria-label='close'
+    - else
+      .error
+        - [*payload].each do |message|
+          - if message.is_a? String
+            .alert.alert-dismissable class=bootstrap_class_for(name) role='alert'
+              = content_tag :div, message + " ", class: "message-content"
+              i.fa.fa-times data-dismiss='alert' aria-hidden='true' aria-label='close'
