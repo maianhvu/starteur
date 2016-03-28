@@ -12,6 +12,8 @@ class Educator < ActiveRecord::Base
   has_and_belongs_to_many :cobatches, class_name: 'Batch', join_table: 'batches_coeducators'
 
   validates :email, presence: true, uniqueness: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
   validates :password, length: { minimum: 8 }, if: -> { new_record? || changes["password"] }
   validates :password, confirmation: true, if: -> { new_record? || changes["password"] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes["password"] }
