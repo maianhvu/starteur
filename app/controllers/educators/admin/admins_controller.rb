@@ -44,13 +44,18 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
   end
 
   def transfer_access_codes
-    educator = Educator.find(params[:educator_id])
-    params[:access_code_ids].each do |id|
-      ac = AccessCode.find(id)
-      ac.update_attributes({educator: educator})
+    if params[:educator_id] && params[:access_code_ids]
+      educator = Educator.find(params[:educator_id])
+      params[:access_code_ids].each do |id|
+        ac = AccessCode.find(id)
+        ac.update_attributes({educator: educator})
+      end
+      flash[:success] = 'Codes successfully transferred'
+      redirect_to educators_admin_admins_path(@educator)
+    else
+      flash[:warning] = 'At least 1 code needs to be selected'
+      redirect_to educators_admin_admin_manage_access_codes_path(@educator)
     end
-    flash[:success] = 'Codes successfully transferred'
-    redirect_to educators_admin_admins_path(@educator)
   end
 
   private
