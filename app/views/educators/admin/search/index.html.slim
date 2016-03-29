@@ -1,0 +1,75 @@
+= render "layouts/educators/dashboard_menu"
+
+.button.radius.ghost.back = link_to "← Back", educators_admin_admins_path
+
+#content.center-block
+  .background
+  .left
+    #get-started-card.card-primary
+      = render "layouts/educators/admin_dashboard_menu"
+
+  .right
+    #new-educator-card.card
+      = form_tag educators_admin_search_index_path, method: :get
+        .search-bar = text_field_tag :search_text, nil, placeholder: 'Search here'
+        = submit_tag "Search!"
+
+      - if @organisations && @organisations.any?
+        h4 Organisations
+        table data-toggle="table"
+          thead
+            tr
+              th Organisation
+          tbody
+            - @organisations.each do |organisation|
+              tr
+                td = organisation
+
+      - if @educator_emails && @educator_emails.any?
+        h4 Educators
+        table data-toggle="table"
+          thead
+            tr
+              th Email
+              th First name
+              th Last name
+              th Organisation
+          tbody
+            - @educator_emails.each do |educator|
+              tr
+                td = educator.email
+                td = educator.first_name
+                td = educator.last_name
+                td = educator.organisation || 'None'
+
+      - if @batches && @batches.any?
+        h4 Groups
+        table data-toggle="table"
+          thead
+            tr
+              th Batch name
+              th User count
+          tbody
+            - @batches.each do |batch|
+              tr
+                td = batch.name
+                td = batch.email.size
+
+      - if @users && @users.any?
+        h4 Users
+        table data-toggle="table"
+          thead
+            tr
+              th Email
+              th First name
+              th Last name
+          tbody
+            - @users.each do |user|
+              tr
+                td = user.email
+                td = user.first_name
+                td = user.last_name
+
+  #popup = render 'layouts/educators/modal'
+
+#footer-wrapper.center-block = render 'layouts/educators/footer'
