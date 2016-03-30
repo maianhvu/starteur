@@ -1,42 +1,41 @@
 = render "layouts/educators/simple_menu"
-
-.button.radius.ghost.back = link_to "← Back", educators_educator_path(@educator)
+= render "layouts/educators/back"
 
 #content.center-block
   #get-started-card.card
     h1 Payment History
     h2 Your payment history
 
-    - if @billing_records.size == 0
+  - if @billing_records.size == 0
       h1 You have not purchased any tests yet. Please pruchase tests first.
-    - else
-      .billing_records
-        table data-toggle="table"
-          thead
-            tr
-              th data-sortable="true" Receipt Number
-              th data-sortable="true" Total
-              th data-sortable="true" Total Price
-              th data-sortable="true" Payment Date
-          tbody
-            - total_price = 0
-            - @billing_records.each do |record|
-              - total_quantity_per_billing = 0
-              - sub_price = 0
-              - quantity = 0
-              - record.billing_line_items.each do |line_item|
-                - quantity = line_item.quantity
-                - sub_price = sub_price + (line_item.test.price * quantity)
-                - total_quantity_per_billing = total_quantity_per_billing + quantity
-              - total_price = total_price + sub_price
-              tr
-                td.col-3.text-center
-                  a
-                    =link_to record.bill_number, educators_billing_record_path(record)
-                td.col-1.text-center =total_quantity_per_billing
-                td.col-1.text-center ="$ #{record.discount_code ? total_price * (100 - record.discount_code.percentage) / 100 : total_price} SGD"
-                td.col-2.text-center =localize(record.created_at.in_time_zone("Singapore"), :format => :long)
-              - total_price = 0
+  - else
+  .billing_records
+    table data-toggle="table"
+      thead
+        tr
+          th data-sortable="true" Receipt Number
+          th data-sortable="true" Total
+          th data-sortable="true" Total Price
+          th data-sortable="true" Payment Date
+      tbody
+        - total_price = 0
+        - @billing_records.each do |record|
+          - total_quantity_per_billing = 0
+          - sub_price = 0
+          - quantity = 0
+          - record.billing_line_items.each do |line_item|
+            - quantity = line_item.quantity
+            - sub_price = sub_price + (line_item.test.price * quantity)
+            - total_quantity_per_billing = total_quantity_per_billing + quantity
+          - total_price = total_price + sub_price
+          tr
+            td.col-3.text-center
+              a
+                =link_to record.bill_number, educators_billing_record_path(record)
+            td.col-1.text-center =total_quantity_per_billing
+            td.col-1.text-center ="$ #{record.discount_code ? total_price * (100 - record.discount_code.percentage) / 100 : total_price} SGD"
+            td.col-2.text-center =localize(record.created_at.in_time_zone("Singapore"), :format => :long)
+          - total_price = 0
 
   #popup = render 'layouts/educators/modal'
 

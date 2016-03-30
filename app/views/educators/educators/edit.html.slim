@@ -10,21 +10,23 @@
       = form_for @educator, url: educators_educator_path(@educator), method: :put, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
         .row
-          = f.label 'Given name: ', class: "label text-right"
+          = f.label 'First Name: ', class: "label text-right"
           = f.text_field :first_name, autofocus: true, class: "input-box"
 
         .row
-          = f.label 'Surname: ', class: "label text-right"
+          = f.label 'Last Name: ', class: "label text-right"
           = f.text_field :last_name, class: "input-box"
 
         .row
           = f.label 'Organization: ', class: "label text-right"
           = f.text_field :organization, class: "input-box"
 
-        .row
-          = f.label 'Title: ', class: "label text-right"
-          = f.text_field :title, class: "input-box"
+        = f.submit 'Update profile', class: "button btn-default"
+        / .row
+        /   = f.label 'Title: ', class: "label text-right"
+        /   = f.text_field :title, class: "input-box"
 
+      = form_for @educator, url: educators_educator_change_password_path(@educator), method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
         .row
           = f.label 'Password: ', class: "label text-right"
           = f.password_field :password, class: "input-box"
@@ -33,11 +35,7 @@
           = f.label 'Password Confirmation: ', class: "label text-right"
           = f.password_field :password_confirmation, class: "input-box"
 
-        /.row
-          = f.label 'Email: ', class: "label text-right"
-          = f.email_field :email, class: "input-box"
-
-        = f.submit 'Update profile', class: "button btn-default"
+        = f.submit 'Change password', class: "button btn-default"
 
   #popup = render 'layouts/educators/modal'
 

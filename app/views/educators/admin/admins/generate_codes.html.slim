@@ -1,7 +1,6 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
-
-.button.radius.ghost.back = link_to "← Back", educators_admin_admins_path
+= render "layouts/educators/admin_back"
 
 #content.center-block
   .background
@@ -11,8 +10,8 @@
 
   .right
       #new-educator-card.card
-        h1.horizontal style="font-weight: bold" Code Management
-        h2 Generate Codes
+        h1.horizontal style="font-weight: bold" Generate Codes
+        h2 Generate 3 kinds of codes (Access Code / Discount Code / Promotion Code) here
 
         h1 Select a type of code to generate
 

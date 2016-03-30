@@ -1,7 +1,6 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
-
-.button.radius.ghost.back = link_to "← Back", educators_admin_admins_path
+= render "layouts/educators/admin_back"
 
 #content.center-block
   .background
@@ -14,33 +13,33 @@
         h1.horizontal style="font-weight: bold" Payment History
         h2 Payment History of all Educators
 
-        table data-toggle="table"
-          thead
-            tr
-              th data-sortable="true" Receipt Number
-              th data-sortable="true" Total
-              th data-sortable="true" Total Price
-              th data-sortable="true" Payment Date
-              th data-sortable="true" Educator
+      table data-toggle="table"
+        thead
+          tr
+            th data-sortable="true" Receipt Number
+            th data-sortable="true" Total
+            th data-sortable="true" Total Price
+            th data-sortable="true" Payment Date
+            th data-sortable="true" Educator
 
-          tbody
+        tbody
+          - total_price = 0
+          - @billing_records.each do |record|
+            - total_quantity_per_billing = 0
+            - sub_price = 0
+            - quantity = 0
+            - record.billing_line_items.each do |line_item|
+              - quantity = line_item.quantity
+              /- sub_price = sub_price + (line_item.test.price * quantity)
+              - total_quantity_per_billing = total_quantity_per_billing + quantity
+            - total_price = total_price + sub_price
+            tr
+              td.text-center = link_to record.bill_number, educators_billing_record_path(record)
+              td.text-center = total_quantity_per_billing
+              td.text-center = "$ " + total_price.to_s + " SGD"
+              td.text-center = localize(record.created_at.in_time_zone("Singapore"), :format => :long)
+              td.text-center = Educator.where(id: record.billable_id).name
             - total_price = 0
-            - @billing_records.each do |record|
-              - total_quantity_per_billing = 0
-              - sub_price = 0
-              - quantity = 0
-              - record.billing_line_items.each do |line_item|
-                - quantity = line_item.quantity
-                /- sub_price = sub_price + (line_item.test.price * quantity)
-                - total_quantity_per_billing = total_quantity_per_billing + quantity
-              - total_price = total_price + sub_price
-              tr
-                td = link_to record.bill_number, educators_billing_record_path(record)
-                td = total_quantity_per_billing
-                td = "$ " + total_price.to_s + " SGD"
-                td = localize(record.created_at.in_time_zone("Singapore"), :format => :long)
-                td = Educator.where(id: record.billable_id).name
-              - total_price = 0
 
 
   #popup = render 'layouts/educators/modal'

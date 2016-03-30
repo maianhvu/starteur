@@ -3,23 +3,23 @@
   .last_login = "Last Logged in: "+ "#{localize(@educator.last_sign_in_at.in_time_zone("Singapore"), :format => :long)}."
 
 .main-list
-  .menu-icon.i.fa.fa-ticket.fa-2x.blue
+  .menu-icon.i.fa.fa-ticket.fa.blue
   .menu-link
-    =link_to "Code Management", educators_admin_admin_generate_codes_path(@educator)
+    =link_to "Generate Codes", educators_admin_admin_generate_codes_path(@educator)
 .main-list
-  .menu-icon.i.fa.fa-share-square.fa-2x.red
+  .menu-icon.i.fa.fa-share-square.fa.red
   .menu-link
     =link_to "Transfer Ownership", educators_admin_admin_manage_access_codes_path(@educator)
 .main-list
-  .menu-icon.i.fa.fa-credit-card.fa-2x.yellow
+  .menu-icon.i.fa.fa-credit-card.fa.yellow
   .menu-link
     =link_to "Payment Details", educators_admin_admin_payment_history_path(@educator)
 .main-list
-  .menu-icon.i.fa.fa-birthday-cake.fa-2x.purple
+  .menu-icon.i.fa.fa-birthday-cake.fa.purple
   .menu-link
     = link_to "View Promotion Codes", educators_admin_promotion_codes_path
 .main-list
-  .menu-icon.i.fa.fa-percent.fa-2x.green
+  .menu-icon.i.fa.fa-percent.fa.green
   .menu-link
     = link_to "View Discount Codes", educators_admin_discount_codes_path
 .main-list

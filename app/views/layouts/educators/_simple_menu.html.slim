@@ -4,7 +4,7 @@
       = render "layouts/educators/navigation"
     .profile
       .profile-arrow
-      .profile-text = @educator.name
+      .profile-text = @educator.first_name + " " + @educator.last_name
       .profile-icon style="background:#FFC006" = @educator.last_name[0]
       //.profile-icon style="background:#FFC006" E
       .profile-break

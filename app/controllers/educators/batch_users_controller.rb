@@ -13,7 +13,10 @@ class Educators::BatchUsersController < Educators::BaseController
     hlist = @batch.username
 
     list = @batch.email
-    if list.include?(@email)
+    if @email == nil || @email.size == 0
+      flash[:alert ] = "Please make sure you have entered a correct email address"
+      redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
+    elsif list.include?(@email)
       flash[:alert ] = "The e-mail you entered already exists!"
       redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
     else

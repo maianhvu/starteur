@@ -74,7 +74,7 @@
   .block-message {
     width: 450px;
     height: auto;
-    border: 3px solid #25A599;
+    border: 1px solid #25A599;
     border-radius: 8px;
     background-color: transparent;
     color: #25A599;
@@ -97,13 +97,13 @@
   }
 
   .block-message .quantity p {
-    border-bottom: 1px solid;
     font-weight: bold;
     font-size: 30px;
+    color: #F44336;
   }
 
   .test {
-    border-bottom: 1px solid;
+    font-weight: bold;
   }
 
   .button-group {
