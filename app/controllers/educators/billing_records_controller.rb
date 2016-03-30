@@ -39,15 +39,30 @@ class Educators::BillingRecordsController < Educators::BaseController
     bill_number = current_time + "_" + educator_id
     record = BillingRecord.create(bill_number: bill_number, billable: @educator, discount_code: dc)
     total_quantity = Hash.new
+    total_amount = 0
 
     lineitems.each_pair do |test_id, quantity|
-      BillingLineItem.create(test: Test.find(test_id), quantity: quantity, billing_record: record)
+      test = Test.find(test_id)
+      BillingLineItem.create(test: test, quantity: quantity, billing_record: record)
       total_quantity[Test.find(test_id).name] = quantity
+      total_amount += test.price.to_i * quantity.to_i * 100
     end
     if record.save
       lineitems.each_pair do |test_id, quantity|
         AccessCode.create!(code: bill_number + test_id, educator: @educator, test: Test.find(test_id), permits: quantity)
       end
+
+      customer = Stripe::Customer.create(
+        :email => params[:stripeEmail],
+        :source  => params[:stripeToken]
+      )
+
+      charge = Stripe::Charge.create(
+        :customer    => customer.id,
+        :amount      => total_amount,
+        :description => 'Rails Stripe customer',
+        :currency    => 'usd'
+      )
 
       flash[:success] = "Successfully bought access codes"
       flash[:summary] = total_quantity
@@ -57,15 +72,10 @@ class Educators::BillingRecordsController < Educators::BaseController
       redirect_to display_tests_educators_billing_records_path()
     end
 
-    # raise params.inspect
-    # @billing_form = BillingForm.new(@educator, billing_params)
-    # if @billing_form.save
-    #   flash[:success] = "Successfully bought access codes"
-    #   redirect_to purchase_success_educators_billing_records_path
-    # else
-    #   flash[:error] = "Unable to purchase access codes"
-    #   redirect_to display_tests_educators_billing_records_path
-    # end
+  rescue Stripe::CardError => e
+    flash[:error] = e.message
+    redirect_to display_tests_educators_billing_records_path
+
   end
 
   def show
