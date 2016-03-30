@@ -1,7 +1,6 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
-
-.button.radius.ghost.back = link_to "← Back", educators_admin_admins_path
+= render "layouts/educators/admin_back"
 
 #content.center-block
   .background
@@ -10,31 +9,32 @@
       = render "layouts/educators/admin_dashboard_menu"
 
   .right
+    #new-educator-card.card
+      h1.horizontal style="font-weight: bold" Code Management
+      h2 Generate Codes
+
+      h1 1. Please select the access codes you want to transfer
+
+    = form_tag educators_admin_admin_transfer_access_codes_path(@educator), method: :post
+      table data-toggle="table"
+        thead
+          tr
+            th
+            th data-sortable="true" Test
+            th data-sortable="true" Total permits
+            th data-sortable="true" Used
+        tbody
+          - @access_codes.each do |ac|
+            tr
+              td.text-center = check_box_tag "access_code_ids[]", ac.id
+              td.text-center = ac.test.name
+              td.text-center = ac.permits
+              td.text-center = ac.code_usages_count
+
       #new-educator-card.card
-        h1.horizontal style="font-weight: bold" Code Management
-        h2 Generate Codes
-
-        h1 Select access codes and Educator to send the code
-
-        = form_tag educators_admin_admin_transfer_access_codes_path(@educator), method: :post
-          table data-toggle="table"
-            thead
-              tr
-                th
-                th data-sortable="true" Test
-                th data-sortable="true" Total permits
-                th data-sortable="true" Used
-            tbody
-              - @access_codes.each do |ac|
-                tr
-                  td = check_box_tag "access_code_ids[]", ac.id
-                  td = ac.test.name
-                  td = ac.permits
-                  td = ac.code_usages_count
-
-          h1 Please indicate the educator
-          = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
-          = submit_tag "Transfer", class: "button btn-default transfer"
+        h1 2. Please indicate the educator and click "Transfer"
+        = select_tag :educator_id, options_from_collection_for_select(@educators, :id, :email)
+        = submit_tag "Transfer", class: "button btn-default transfer"
 
 
   #popup = render 'layouts/educators/modal'

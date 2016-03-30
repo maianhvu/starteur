@@ -3,18 +3,27 @@
   color: white;
   height: 40px;
   width: 100%;
-  position: absolute;
-  z-index: 0;
+  position: fixed;
+  z-index: 9998;
+  margin-top: -18px;
+  font-weight: 400;
 }
 
-.error {
-  background-color: #EF5350;
-}
-
-.notice {
+.alert-info {
   background-color: #49c6ad;
 }
 
+.alert-warning {
+  background-color: #FF9800;
+}
+
+.alert-success {
+  background-color: #49c6ad;
+}
+
+.alert-danger {
+  background-color: #EF5350;
+}
 
 .alert {
   color: white;
