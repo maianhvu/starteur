@@ -1,29 +1,33 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
-
-.button.radius.ghost.back = link_to "← Back", educators_admin_admins_path
+= render "layouts/educators/admin_back"
 
 #content.center-block
   .background
-  #get-started-card.card-primary.wide
-    h1 Audit Log
-    h2 This is a nice looking audit log.
+  .left
+    #get-started-card.card-primary
+      = render "layouts/educators/admin_dashboard_menu"
 
-    table data-toggle="table"
-      thead
-        tr
-          th data-sortable="true" Time Stamp
-          th data-sortable="true" User
-          th data-sortable="true" Action Log
-          th data-sortable="true" Details
+  .right
+      #new-educator-card.card
+        h1 Audit Log
+        h2 List of audit logs
 
-      tbody
-        - @audit_events.each do |event|
+      table data-toggle="table"
+        thead
           tr
-            td = event.created_at
-            td = event.admin.email
-            td = event.action
-            td = link_to "Code: #{event.comments}", educators_admin_audit_event_path(event)
+            th data-sortable="true" Time Stamp
+            th data-sortable="true" User
+            th data-sortable="true" Action Log
+            th data-sortable="true" Details
+
+        tbody
+          - @audit_events.each do |event|
+            tr
+              td.text-center = event.created_at
+              td.text-center = event.admin.email
+              td.text-center = event.action
+              td.text-center = link_to event.comments, educators_admin_audit_event_path(event)
 
   #popup = render 'layouts/educators/modal'
 

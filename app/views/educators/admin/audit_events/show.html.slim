@@ -1,35 +1,100 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
-
-.button.radius.ghost.back = link_to "← Back", educators_admin_audit_events_path
+=link_to "← Back", educators_admin_audit_events_path, class: "button radius ghost back"
 
 #content.center-block
   .background
-  #get-started-card.card-primary.wide
-    - if @event.action == "generate_access_code"
-      - code = AccessCode.find_by(code: @event.comments)
-      h1 Event: Generate Access Code
-      h2 = "Code: #{code.code}"
-      h2 = "Test: #{code.test.name}"
-      h2 = "Permits: #{code.permits}"
-      h2 = "Used: #{code.code_usages.count}"
-    - elsif @event.action == "generate_discount_code"
-      - code = DiscountCode.find_by(code: @event.comments)
-      h1 Event: Generate Discount Code
-      h2 = "Code: #{code.code}"
-      h2 = "Percentage discount: #{code.percentage}"
-    - elsif @event.action == "generate_promotion_code"
-      - code = PromotionCode.find_by(code: @event.comments)
-      h1 Event: Generate Promotion Code
-      h2 = "Code: #{code.code}"
-      h2 = "Test: #{code.test.name}"
-      h2 = "Permits: #{code.quantity}"
-    - elsif @event.action == "transfer_access_code"
-      - code = AccessCode.find_by(code: @event.comments)
-      h1 Event: Transfer Access Code
-      h2 = "Code: #{code.code}"
-      h2 = "Test: #{code.test.name}"
-      h2 = "Transferred to: #{@event.other.email}"
+  .left
+    #get-started-card.card-primary
+      = render "layouts/educators/admin_dashboard_menu"
+
+  .right
+      - if @event.action == "generate_access_code"
+        - code = AccessCode.find_by(code: @event.comments)
+        #new-educator-card.card
+          h1 Generate Access Code
+          h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
+
+        table data-toggle="table"
+          thead
+            tr
+              th data-sortable="true" Access Code
+              th data-sortable="true" Test
+              th data-sortable="true" Permit(s)
+              th data-sortable="true" Used
+
+          tbody
+            tr
+              td.text-center = code.code
+              td.text-center = code.test.name
+              td.text-center = code.permits
+              td.text-center = code.code_usages.count
+
+      - elsif @event.action == "generate_discount_code"
+        - code = DiscountCode.find_by(code: @event.comments)
+        #new-educator-card.card
+          h1 Generate Discount Code
+          h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
+
+        table data-toggle="table"
+          thead
+            tr
+              th data-sortable="true" Discount Code
+              th data-sortable="true" Percentage
+              th data-sortable="true" Used
+
+          tbody
+            tr
+              td.text-center = code.code
+              td.text-center = code.percentage
+              td.text-center = code.billing_record ? 'Used' : 'Unused'
+
+      - elsif @event.action == "generate_promotion_code"
+        - code = PromotionCode.find_by(code: @event.comments)
+        #new-educator-card.card
+          h1 Generate Promotion Code
+          h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
+
+        table data-toggle="table"
+          thead
+            tr
+              th data-sortable="true" Promtion Code
+              th data-sortable="true" Test
+              th data-sortable="true" Permits
+              th data-sortable="true" Used
+
+          tbody
+            tr
+              td.text-center = code.code
+              td.text-center = code.test.name
+              td.text-center = code.quantity
+              - if code.used?
+                td.text-center 'Used'
+              - elsif code.unused?
+                td.text-center 'Assigned'
+              - elsif code.generated?
+                td.text-center 'Generated'
+
+      - elsif @event.action == "transfer_access_code"
+        - code = AccessCode.find_by(code: @event.comments)
+        #new-educator-card.card
+          h1 Transfer Access Code
+          h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
+
+        table data-toggle="table"
+          thead
+            tr
+              th data-sortable="true" Access Code
+              th data-sortable="true" Test
+              th data-sortable="true" From
+              th data-sortable="true" To
+
+          tbody
+            tr
+              td.text-center = code.code
+              td.text-center = code.test.name
+              td.text-center = @event.admin.name
+              td.text-center = @event.other.name
 
   #popup = render 'layouts/educators/modal'
 

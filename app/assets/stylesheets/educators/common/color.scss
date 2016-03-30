@@ -27,6 +27,10 @@
   background-color: #FF9800 !important;
 }
 
+.pink {
+  background-color: #E91E63 !important;
+}
+
 /* ---- BUTTON COLOR ---- */
 .btn-default {
   background-color: #25A599;
@@ -90,5 +94,18 @@
 
 .btn-purple:active {
   background-color: #7B1FA2;
+  outline: 0;
+}
+
+.btn-pink {
+  background-color: #E91E63;
+}
+
+.btn-pink:hover {
+  background-color: #F06292;
+}
+
+.btn-pink:active {
+  background-color: #C2185B;
   outline: 0;
 }
