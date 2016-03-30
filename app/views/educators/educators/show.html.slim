@@ -6,21 +6,21 @@
   .left
     #get-started-card.card-primary
       .educator-profile
-        //.institution = @educator.organization
+        / .institution = @educator.organization
         .institution Singapore Management University
         .last_login = "Last Logged in: "+ "#{localize(@educator.last_sign_in_at.in_time_zone("Singapore"), :format => :long)}."
 
       .main-list
-        .menu-icon.i.fa.fa-cart-plus.fa-2x.red
+        .menu-icon.i.fa.fa-cart-plus.fa.red
         .menu-link
           =link_to "Purchase Test", display_tests_educators_billing_records_url
       .main-list
-        .menu-icon.i.fa.fa-file.fa-2x.yellow
+        .menu-icon.i.fa.fa-file.fa.yellow
         .menu-link
           =link_to "Manage Group Report", "#"
       - if @educator.admin
         .main-list
-          .menu-icon.i.fa.fa-briefcase.fa-2x.blue
+          .menu-icon.i.fa.fa-briefcase.fa.blue
           .menu-link
             =link_to "Client Management", educators_admin_admins_path
 
@@ -52,14 +52,25 @@
         .new-educator-button
           .button.btn-default =link_to "Purchase a Test", display_tests_educators_billing_records_url
 
-        .new-educator-block
-          =image_tag("student.png")
-          h1 Create a Student Group
-          /p
-            | A Student Group is where you store the emails of your students. Import your list to get started or simply add a student. #{link_to "Learn More", "#"}
-          p A Student Group is where you store the emails of your students. Import your list to get started or simply add a student.
-        .new-educator-button
-          .button.btn-default = link_to "Create a Student Group", "#create"
+        - if @access_codes.size == 0
+          .new-educator-block.disabled
+            =image_tag("student.png")
+            h1 Create a Student Group
+            /p
+              | A Student Group is where you store the emails of your students. Import your list to get started or simply add a student. #{link_to "Learn More", "#"}
+            p A Student Group is where you store the emails of your students. Import your list to get started or simply add a student.
+          .new-educator-button.disabled
+            .button.btn-default = link_to "Create a Student Group", "#create"
+
+        - else
+          .new-educator-block
+            =image_tag("student.png")
+            h1 Create a Student Group
+            /p
+              | A Student Group is where you store the emails of your students. Import your list to get started or simply add a student. #{link_to "Learn More", "#"}
+            p A Student Group is where you store the emails of your students. Import your list to get started or simply add a student.
+          .new-educator-button
+            .button.btn-default = link_to "Create a Student Group", "#create"
 
     - else
       #new-educator-card.card.create-group

@@ -69,6 +69,16 @@ class Educators::EducatorsController < Educators::BaseController
     if @educator.update_attributes(update_educator_params)
       redirect_to educators_educator_path(@educator), notice: "Update successful"
     else
+      flash.now[:error] = @educator.errors.full_messages.uniq.join(', ')
+      render :edit
+    end
+  end
+
+  def change_password
+    if @educator.update_attributes(change_password_params)
+      redirect_to new_educator_session_path, notice: "Update successful. Please re-login"
+    else
+      flash.now[:error] = @educator.errors.full_messages.uniq.join(', ')
       render :edit
     end
   end
@@ -79,8 +89,12 @@ class Educators::EducatorsController < Educators::BaseController
     params.require(:educator).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
 
+  def change_password_params
+    params.require(:educator).permit(:password, :password_confirmation)
+  end
+
   def update_educator_params
-    params.require(:educator).permit(:first_name, :last_name, :organization, :title, :secondary_email)
+    params.require(:educator).permit(:first_name, :last_name, :organization, :password, :password_confirmation)
   end
 
 end

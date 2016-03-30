@@ -48,7 +48,9 @@ Rails.application.routes.draw do
     sign_up: 'register'
   }
   namespace :educators do
-    resources :educators, only: [ :index, :new, :create, :show, :edit, :update ]
+    resources :educators, only: [ :index, :new, :create, :show, :edit, :update ] do
+      post 'change_password'
+    end
     resource :educator_sessions, only: [ :new, :create ]
     resources :access_codes, only: [ :index, :show ]
     resources :billing_records, only: [ :index, :new, :create, :show, :edit, :update] do

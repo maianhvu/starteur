@@ -1,8 +1,12 @@
 .educators_educators.show {
   /* ----- SEARCH BOX ----- */
   #content .card {
-    min-height: 142px;
+    min-height: 120px;
     margin-bottom: 1px;
+  }
+
+  #dashboard-card {
+    height: 142px;
   }
 
   .last_login {
@@ -50,10 +54,6 @@
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-  }
-
-  .card-title a {
-    border-bottom: 1px solid;
   }
 
   .card-section {
@@ -125,10 +125,6 @@
     font-size: 12px;
   }
 
-  .create-group {
-    height: 100px;
-  }
-
   .title {
     font-weight: bold;
   }
@@ -167,8 +163,7 @@
 
   .dropdown-grp {
     margin-left: 430px;
-    margin-top: 10px;
-    margin-bottom: 30px;
+    margin-top: 5px;
   }
 
   .new-educator-button .button {

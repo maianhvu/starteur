@@ -1,7 +1,7 @@
 class Educators::BillingRecordsController < Educators::BaseController
 
   def index
-    @billing_records = BillingRecord.where(billable_id: @educator.id)
+    @billing_records = BillingRecord.where(billable_id: @educator.id).order('created_at DESC')
   end
 
   def new

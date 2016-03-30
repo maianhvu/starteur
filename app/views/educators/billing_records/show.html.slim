@@ -1,11 +1,11 @@
 = render 'layouts/educators/simple_menu'
-
-.button.radius.ghost.back = link_to "← Back", educators_billing_records_path
+= render "layouts/educators/back"
 
 #content.center-block
   #get-started-card.card
 
-    #logo = image_tag "header-logo.png"
+    = image_tag "header-logo.png"
+
     table.table-top
       tr
         td

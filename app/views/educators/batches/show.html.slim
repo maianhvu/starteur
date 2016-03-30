@@ -1,7 +1,6 @@
 = render "layouts/educators/simple_menu"
 = render "layouts/educators/flash_messages"
-
-.button.radius.ghost.back = link_to "← Back", educators_educator_path(@educator)
+= render "layouts/educators/back"
 
 #content.center-block
   #get-started-card.card
@@ -39,21 +38,19 @@
           = image_tag "access_code.png"
         td.td
           h1.number = @remaining_access_codes
-          br Codes Available
+          p Codes Available
         td
           = image_tag "in_progress.png"
         td.td
           h1.number = @batch.code_usages.used.count
-          br In Progress
+          p In Progress
         td
           = image_tag "completed.png"
         td.td
           h1.number = @batch.code_usages.completed.count
-          br Completed
+          p Completed
 
     - if @batch.email.blank?
-      .button-grp
-        = link_to "Delete this Group", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}, class: "button btn-red delete"
       h1.text-center Please add students to this Group
     - else
       .button-grp
@@ -118,7 +115,7 @@
                     p Email sent
                 - else
                   = link_to 'Send Access Code', educators_batch_assign_code_usages_path(batch_id: @batch, email: email), method: :get, class: "user-status btn-red"
-              td = link_to "", educators_batch_user_path(id: @batch.id, email: email), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}, class: "fa fa-trash-o fa-2x"
+              td = link_to "", educators_batch_user_path(id: @batch.id, email: email), method: :delete, data:{confirm: 'Are you sure you want to delete student?'}, class: "fa fa-trash-o fa-2x"
 
     .add-group#upload
       .add-user = link_to "#add_user"
@@ -130,6 +127,9 @@
       .csv = link_to "#add_csv"
         =image_tag "csv.png"
         p.text-center Upload CSV
+
+    .button-grp
+      = link_to "Delete this Group", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}, class: "button btn-red delete"
 
     .go-to-top
       .up-triangle href="#top"
