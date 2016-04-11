@@ -82,7 +82,7 @@ class CodeUsage < ActiveRecord::Base
     INSERT INTO scores(user_id, test_id, result_id, category_id, value, upon)
     (SELECT #{self.user_id}, #{self.test_id}, #{result.id}, c.id,
     SUM(real_score(a.value, q.polarity, q.scale)), SUM(q.scale-1)
-    FROM answers a, questions q, categories c WHERE a.test_id=#{self.test_id}
+    FROM answers a, questions q, categories c WHERE a.user_id=#{self.user_id} AND a.test_id=#{self.test_id}
     AND a.question_id=q.id AND q.scale IS NOT NULL AND q.category_id=c.id GROUP BY c.id);
     SQL
     raw_query(scores_generator)
@@ -92,7 +92,7 @@ class CodeUsage < ActiveRecord::Base
     INSERT INTO scores(user_id, test_id, result_id, category_id, value, upon)
     (SELECT #{self.user_id}, #{self.test_id}, #{result.id}, c.id,
     SUM(real_score(a.value, q.polarity, 2)), SUM(1)
-    FROM answers a, questions q, categories c WHERE a.test_id=#{self.test_id}
+    FROM answers a, questions q, categories c WHERE a.user_id=#{self.user_id} AND a.test_id=#{self.test_id}
     AND a.question_id=q.id AND q.scale IS NULL AND q.category_id=c.id GROUP BY c.id);
     SQL
     raw_query(scores_generator)
