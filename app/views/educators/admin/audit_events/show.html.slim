@@ -1,6 +1,7 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
-=link_to "← Back", educators_admin_audit_events_path, class: "button radius ghost back"
+= render "layouts/educators/admin_back"
+//=link_to "← Back", educators_admin_audit_events_path, class: "button radius ghost back"
 
 #content.center-block
   .background
@@ -12,7 +13,9 @@
       - if @event.action == "generate_access_code"
         - code = AccessCode.find_by(code: @event.comments)
         #new-educator-card.card
-          h1 Generate Access Code
+          .title
+            h1 Access Code
+            =link_to "← Audit Log", educators_admin_audit_events_path, class: "button btn-orange"
           h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
 
         table data-toggle="table"
@@ -33,7 +36,9 @@
       - elsif @event.action == "generate_discount_code"
         - code = DiscountCode.find_by(code: @event.comments)
         #new-educator-card.card
-          h1 Generate Discount Code
+          .title
+            h1 Discount Code
+            =link_to "← Audit Log", educators_admin_audit_events_path, class: "button btn-orange"
           h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
 
         table data-toggle="table"
@@ -52,7 +57,9 @@
       - elsif @event.action == "generate_promotion_code"
         - code = PromotionCode.find_by(code: @event.comments)
         #new-educator-card.card
-          h1 Generate Promotion Code
+          .title
+            h1 Promotion Code
+            =link_to "← Audit Log", educators_admin_audit_events_path, class: "button btn-orange"
           h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
 
         table data-toggle="table"
@@ -78,7 +85,9 @@
       - elsif @event.action == "transfer_access_code"
         - code = AccessCode.find_by(code: @event.comments)
         #new-educator-card.card
-          h1 Transfer Access Code
+          .title
+            h1 Transferred Access Code
+            =link_to "← Audit Log", educators_admin_audit_events_path, class: "button btn-orange"
           h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
 
         table data-toggle="table"
