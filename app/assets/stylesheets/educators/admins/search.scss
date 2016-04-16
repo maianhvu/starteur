@@ -1,0 +1,52 @@
+.educators_admin_search.index {
+
+  .card {
+    margin-bottom: 10px;
+  }
+
+  .card .search {
+    width: 50%;
+    height: 30px;
+    font-size: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+  }
+
+  .card .fa-search {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+
+  .card .search-bar {
+    width: 80%;
+  }
+
+  .card .button {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .search-result {
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-align: center;
+    padding: 4px 0px 4px 0px;
+  }
+
+  .search-result a {
+    margin-left: 10px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+}

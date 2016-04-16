@@ -44,6 +44,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-turbolinks'
 gem "font-awesome-rails"
+gem "kaminari"
 
 gem 'sendgrid'
 

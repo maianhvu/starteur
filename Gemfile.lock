@@ -127,6 +127,9 @@ GEM
       securecompare
       url_safe_base64
     jwt (1.5.1)
+    kaminari (0.16.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     letsencrypt_plugin (0.0.7)
       acme-client (~> 0.2.4)
       rails (~> 4.2.5)
@@ -328,6 +331,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   jquery-ui-rails
+  kaminari
   letsencrypt_plugin
   pg
   prawn

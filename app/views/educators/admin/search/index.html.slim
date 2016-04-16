@@ -3,72 +3,98 @@
 .button.radius.ghost.back = link_to "← Back", educators_admin_admins_path
 
 #content.center-block
-  .background
   .left
     #get-started-card.card-primary
       = render "layouts/educators/admin_dashboard_menu"
 
-  .right
+  .right.text-center
+    = form_tag educators_admin_search_index_path, method: :get
     #new-educator-card.card
-      = form_tag educators_admin_search_index_path, method: :get
-        .search-bar = text_field_tag :search_text, nil, placeholder: 'Search here'
-        = submit_tag "Search!"
+      h1 Search
+      h2 Search results include Organizations, Educator Emails, Groups, and Users
+      .search
+        i.fa.fa-search
+        = text_field_tag :search_text, nil, placeholder: 'Search here', class: "search-bar"
+      = submit_tag "Search!", class: "button btn-default"
 
-      - if @organisations && @organisations.any?
-        h4 Organisations
-        table data-toggle="table"
-          thead
+    - if @organisations && @organisations.any?
+      #new-educator-card.card.red
+        .search-result
+          i.fa.fa-university
+          a Organisations
+      table data-toggle="table"
+        thead
+          tr
+            th Organisation
+        tbody
+          - @organisations.each do |organisation|
             tr
-              th Organisation
-          tbody
-            - @organisations.each do |organisation|
-              tr
-                td = organisation
+              td = organisation
 
-      - if @educator_emails && @educator_emails.any?
-        h4 Educators
-        table data-toggle="table"
-          thead
-            tr
-              th Email
-              th First name
-              th Last name
-              th Organisation
-          tbody
-            - @educator_emails.each do |educator|
-              tr
-                td = educator.email
-                td = educator.first_name
-                td = educator.last_name
-                td = educator.organisation || 'None'
+      = paginate @organisations, :param_name => "org_page"
 
-      - if @batches && @batches.any?
-        h4 Groups
-        table data-toggle="table"
-          thead
-            tr
-              th Batch name
-              th User count
-          tbody
-            - @batches.each do |batch|
-              tr
-                td = batch.name
-                td = batch.email.size
+    - if @educator_emails && @educator_emails.any?
+      #new-educator-card.card.orange
+        .search-result
+          i.fa.fa-graduation-cap
+          a Educators
 
-      - if @users && @users.any?
-        h4 Users
-        table data-toggle="table"
-          thead
+      table data-toggle="table"
+        thead
+          tr
+            th Email
+            th First name
+            th Last name
+            th Organisation
+        tbody
+          - @educator_emails.each do |educator|
             tr
-              th Email
-              th First name
-              th Last name
-          tbody
-            - @users.each do |user|
-              tr
-                td = user.email
-                td = user.first_name
-                td = user.last_name
+              td = educator.email
+              td = educator.first_name
+              td = educator.last_name
+              td = educator.organisation || 'None'
+
+      = paginate @educator_emails, :param_name => "email_page"
+
+    - if @batches && @batches.any?
+      #new-educator-card.card.blue
+        .search-result
+          i.fa.fa-users
+          a Groups
+
+      table data-toggle="table"
+        thead
+          tr
+            th Batch name
+            th User count
+        tbody
+          - @batches.each do |batch|
+            tr
+              td = batch.name
+              td = batch.email.size
+
+      = paginate @batches, :param_name => "batch_page"
+
+    - if @users && @users.any?
+      #new-educator-card.card.purple
+        .search-result
+          i.fa.fa-user
+          a Users
+
+      table data-toggle="table"
+        thead
+          tr
+            th Email
+            th First name
+            th Last name
+        tbody
+          - @users.each do |user|
+            tr
+              td = user.email
+              td = user.first_name
+              td = user.last_name
+
+      = paginate @users, :param_name => "user_page"
 
   #popup = render 'layouts/educators/modal'
 

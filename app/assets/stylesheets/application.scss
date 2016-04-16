@@ -17,10 +17,12 @@
 @import "educators/common/modal.scss";
 @import "educators/common/table.scss";
 @import "educators/common/text.scss";
+@import "educators/common/pagination.scss";
 
 
 @import "educators/admins/generate_codes.scss";
 @import "educators/admins/manage_access_codes.scss";
+@import "educators/admins/search.scss";
 
 @import "educators/billing_records/payment_history.scss";
 @import "educators/billing_records/receipt.scss";
