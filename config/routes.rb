@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # ReportController
   get 'report/:view', to: 'report#view', as: 'view_report'
 
+  # ChargesController
+  resources :charges
+
   # Application resources
   resources :code_usages, only: [ :create ]
   resources :tests, only: [ :show ] do
