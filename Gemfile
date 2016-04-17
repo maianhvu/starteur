@@ -15,6 +15,8 @@ gem 'prawn'
 gem 'prawn-table', '~> 0.2.2'
 gem 'prawn-graph', '~> 0.0.4'
 gem 'squid', '~> 1.2'
+gem 'googlecharts', '~> 1.6', '>= 1.6.12'
+gem 'valid_email', require: 'valid_email/validate_email'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

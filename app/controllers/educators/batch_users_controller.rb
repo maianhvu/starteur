@@ -1,4 +1,5 @@
 require 'prawn'
+require 'valid_email'
 class Educators::BatchUsersController < Educators::BaseController
 
   skip_before_filter :require_login, only: [:allow_access]
@@ -13,14 +14,21 @@ class Educators::BatchUsersController < Educators::BaseController
     hlist = @batch.username
 
     list = @batch.email
-    if list.include?(@email)
-      flash[:alert ] = "The e-mail you entered already exists!"
-      redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
+
+    valid = ValidateEmail.valid?(@email)
+    if valid
+      if list.include?(@email)
+        flash[:alert ] = "The e-mail you entered already exists!"
+        redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
+      else
+        hlist[@email] = [@last_name, @first_name]
+        list.push(@email)
+        @batch.save
+        flash[:notice ] = "Email has been added!"
+        redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
+      end
     else
-      hlist[@email] = [@last_name, @first_name]
-      list.push(@email)
-      @batch.save
-      flash[:notice ] = "Email has been added!"
+      flash[:alert] = "#{@email} is invalid"
       redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
     end
   end
@@ -61,8 +69,7 @@ class Educators::BatchUsersController < Educators::BaseController
     invalid_emails = []
     emails.each do |email|
       begin
-        address = Mail::Address.new(email)
-        valid = address.address == email && address.domain
+        valid = ValidateEmail.valid?(email)
       rescue
         valid = false
       end
