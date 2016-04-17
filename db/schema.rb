@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160312135327) do
+ActiveRecord::Schema.define(version: 20160312141426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,17 @@ ActiveRecord::Schema.define(version: 20160312135327) do
   add_index "answers", ["result_id"], name: "index_answers_on_result_id", using: :btree
   add_index "answers", ["test_id"], name: "index_answers_on_test_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
+
+  create_table "audit_events", force: :cascade do |t|
+    t.integer  "action"
+    t.integer  "admin_id"
+    t.integer  "other_id"
+    t.string   "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "audit_events", ["action"], name: "index_audit_events_on_action", using: :btree
 
   create_table "batch_code_usages", force: :cascade do |t|
     t.integer "batch_id"

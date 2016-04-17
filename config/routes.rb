@@ -94,6 +94,7 @@ Rails.application.routes.draw do
       end
 
       resources :search, only: [ :index ]
+      resources :audit_events, only: [ :index, :show ]
 
     end
 
