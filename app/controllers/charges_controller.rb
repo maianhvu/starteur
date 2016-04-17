@@ -39,7 +39,7 @@ class ChargesController < ApplicationController
 end
 
  def generate_code
-     random_token = SecureRandom.urlsafe_base64(nil, false).downcase
+     random_token = SecureRandom.hex(n=4).downcase
  end
 
 end
