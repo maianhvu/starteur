@@ -145,7 +145,7 @@
     .content
         = form_for :batch_users, url: educators_batch_coeducators_path(@batch), method: :post, defaults: { input_html: { required: true, class: 'form-control' } } do |f|
 
-          = f.text_field :email, class: "input-box", placeholder: 'Email address', autofocus: true
+          = f.email_field :email, class: "input-box", placeholder: 'Email address', autofocus: true
           = f.hidden_field :batch_id, value: @batch.id
 
           = f.submit 'Add' , class: "button modal-button btn-default"
@@ -162,7 +162,7 @@
 
           = f.text_field :first_name, class: "input-box", placeholder: 'First name', autofocus: true
           = f.text_field :last_name, class: "input-box", placeholder: 'Last name', autofocus: true
-          = f.text_field :email, class: "input-box", placeholder: 'Email address', autofocus: true
+          = f.email_field :email, class: "input-box", placeholder: 'Email address', autofocus: true
           = f.hidden_field :batch_id, class: "input-box", value: @batch.id
 
           = f.submit 'Add' , class: "button modal-button btn-default"
