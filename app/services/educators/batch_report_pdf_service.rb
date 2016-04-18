@@ -1,5 +1,9 @@
 require 'squid'
 require 'prawn'
+require 'gchart'
+require 'googlecharts'
+require "open-uri"
+
 class Educators::BatchReportPdfService < Prawn::Document
   include ProcessorHelper
   def initialize(params)
@@ -131,14 +135,14 @@ class Educators::BatchReportPdfService < Prawn::Document
   end
 
   def sa_rows
-    [['Tier', 'Attribute', 'Top']] +
+    [['Tier', 'Attribute', 'Name']] +
       @sa_top.map do |k,v|
       ['1', k, v]
     end
   end
 
   def sa_rows_bottom
-    [['Tier', 'Attribute', 'Bottom']] +
+    [['Tier', 'Attribute', 'Name']] +
       @sa_bottom.map do |k,v|
       ['1', k, v]
     end
@@ -172,15 +176,51 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     bounding_box([0, y_position - 150],:width => 400, :height => bounds.height) do
       text "Distribution of Starteur Potential", size: 40, :color => left_column_font_color
+      text "This section shows a collection of your group's Starteur Potentials. Starteur Potentials are categorized into 4 components ranging between Beginning to Exceptional."
     end
 
     start_new_page
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
     y_position = cursor
 
-    bounding_box([0, y_position],:width => bounds.width, :height => bounds.height) do
-      data = {"Starteur Potential" => {"Beginning" => @beginning, "Developing" => @developing, "Maturing" => @maturing, "Exceptional" => @exceptional}}
+    bounding_box([0, y_position],:width => 540) do
+      text "Number of Students", :align => :center
+    end
+
+    y_position = cursor - 20
+
+    bounding_box([0, y_position],:width => bounds.width) do
+      data = {"Starteur Potential" => {"Beginning" => @beginning, "Developing" => @developing, 
+        "Maturing" => @maturing, "Exceptional" => @exceptional}}
       chart data, colors: %w(e7a13d bc2d30)
+    end
+
+    y_position = cursor - 20
+
+    bounding_box([0, y_position],:width => 540) do
+      text "Beginning", :color => left_column_font_color
+      text "The majority range of individuals who have completed the profiling tool lie in this region. Individuals in this region presently in its budding stages of entrepreneurship. Now would be the best time to look into their personal motivations for wanting to be an entrepreneur or co-founder. Getting them to reflecting on their potential in each of the 16 Starteur™ Attributes will help them to identify their strengths, areas for improvement and think about what first got them started or interested in business. By consciously directing their thoughts and behaviours, they will be able to better decide if the path of an entrepreneurs or co-founders is something they'd like to pursue."
+    end
+
+    y_position = cursor - 20
+
+    bounding_box([0, y_position],:width => 540) do
+      text "Developing", :color => left_column_font_color
+      text "This region is in the middle range of individuals who have completed the profiling tool. While your entrepreneurial aptitude may still be in its nascent stages, your potential in each of the individual 16 Starteur™ Attributes provides an opportunity for you to level up. By focusing on the individual attributes that are also reflected as Developing, you’ll be able to evolve your thoughts and behaviours along traits that are considered to be fundamental to entrepreneurs and co-founders. Review your results below, and consider the suggestions provided to accelerate your entrepreneurial development."
+    end
+    
+    y_position = cursor - 20
+
+    bounding_box([0, y_position],:width => 540) do
+      text "Maturing", :color => left_column_font_color
+      text "This region indicates that your group is amoung the upper range of individuals who have completed the profiling tool. While their entrepreneurial aptitude may still be growing, their potential in each of the individual 16 Starteur™ Attributes provides an opportunity for them to continue levelling up. Review their results and consider the suggestions provided to maximize their entrepreneurial development."
+    end
+
+    y_position = cursor - 20
+
+    bounding_box([0, y_position],:width => 540) do
+      text "Exceptional", :color => left_column_font_color
+      text "This region puts your group amongst the highest of individuals who have completed the profiling tool. Review their results and consider the suggestions provided to realize their full entrepreneurial potential."
     end
 
     start_new_page
@@ -189,11 +229,19 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     bounding_box([0, y_position - 150],:width => 400, :height => bounds.height) do
       text "Distribution of Starteur Attributes", size: 40, :color => left_column_font_color
+      text "This section categorizes your group into their respective strongest and weakest Starteur™ Attributes."
     end
 
     start_new_page
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
     y_position = cursor
+
+    bounding_box([0, y_position],:width => 540) do
+      text "Students' Top Attributes", :align => :center
+    end
+
+    y_position = cursor - 20
+
     bounding_box([0, y_position],:width => 540) do
       table sa_rows do
         self.header = true
@@ -204,7 +252,13 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     y_position = cursor - 30
 
-    bounding_box([0, y_position],:width => 540, :height => bounds.height) do
+    bounding_box([0, y_position],:width => 540) do
+      text "Students' Bottom Attributes", :align => :center
+    end
+
+    y_position = cursor - 20
+
+    bounding_box([0, y_position],:width => 540) do
       table sa_rows_bottom do
         self.header = true
         self.row_colors = ['DDDDDD', 'FFFFFF']
@@ -218,11 +272,19 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     bounding_box([0, y_position - 150],:width => 400, :height => bounds.height) do
       text "Distribution of Starteur Roles", size: 40, :color => left_column_font_color
+      text "Starteur Roles are the potential jobs that your group can take. This section categorizes your group into their most suited roles."
     end
 
     start_new_page
     image "#{Rails.root}/app/assets/images/bg-pattern-full.png", at: [-48, cursor + 40]
     y_position = cursor
+
+    bounding_box([0, y_position],:width => 540) do
+      text "Students' Roles", :align => :center
+    end
+
+    y_position = cursor - 20
+
     bounding_box([0, y_position],:width => 540) do
       table sr_rows do
         self.header = true
@@ -232,6 +294,12 @@ class Educators::BatchReportPdfService < Prawn::Document
     end
 
     y_position = cursor - 30
+
+    bounding_box([0, y_position],:width => 540) do
+      text "Number of Students", :align => :center
+    end
+
+    y_position = cursor - 20
 
     bounding_box([0, y_position],:width => bounds.width) do
       data = {"Starteur Roles" => {"Engineer" => @eg, "Product Manager" => @pm, "Sales Manager" => @sm, "Business Developer" => @bd, "Marcomms Manager" => @mm, "Designer" => @de, "Marketer" => @mk, "Customer Service Manager" => @csm, "Admin Manager" => @am, "Finance Manager" => @fm}}

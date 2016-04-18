@@ -15,11 +15,9 @@ class Educators::ReportPdfService < Prawn::Document
   def test_result_for(test)
     # Cache result
     cache_key = "user#{@userid}:test#{@test.id}:result"
-
     Rails.cache.fetch(cache_key) do
       # Find the latest result of this test from the user
       result = Result.where(test: @test, user: User.find_by(id: @userid)).last
-
       # Execute processor file to get results
       # Method load_processor_for can be found inside ProcessorHelper
       load_processor_for(test)
@@ -77,7 +75,7 @@ class Educators::ReportPdfService < Prawn::Document
       @potentialdescpt3 = "Though you may feel settled or easily satisfied at times with what you have achieved, innately you feel compelled to achieve something more than what you have already done; you are aware of the untapped potential that is there."
     when "Exceptional"
       @potentialstr = "icon-potential-4.png"
-      @potentialdesc = "Exceptional – Your Starteur™ Profile indicates your current potential as Exceptional, putting you amongst the highest of individuals who have completed the profiling tool. Review your results below, and consider the suggestions provided to realize your full entrepreneurial potential."
+      @potentialdesc = "Your Starteur™ Profile indicates your current potential as Exceptional, putting you amongst the highest of individuals who have completed the profiling tool. Review your results below, and consider the suggestions provided to realize your full entrepreneurial potential."
       @potentialdescpt1 = "You have deep knowledge about startups and entrepreneurship, and you believe that entrepreneurship is your calling. You have diverse ideas about entrepreneurship, stemming from your own personal experiences and that of others, and are always trying to find out more. You see yourself as a thought leader in certain aspects in which you claim domain mastery, and are likely to seek out other subject experts to maximize your own learning."
       @potentialdescpt2 = "You see entrepreneurship as your career path, and you will make it work, one way or another. You fully acknowledge the challenges that you would have to face on the entrepreneurship journey, and are ready to face them. While you have high hopes, this is grounded in concrete action and results, and you have certainty in the progress and trajectory of your various projects and startups."
       @potentialdescpt3 = "You are passionate, relentlessly resourceful, and hungry for achievement. You feel compelled to bring a quantum leap in what you have attained thus far, and your self-awareness guides you in maximizing your own untapped potential."
