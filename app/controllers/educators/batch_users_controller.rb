@@ -55,44 +55,58 @@ class Educators::BatchUsersController < Educators::BaseController
     @batch = Batch.find(params[:batch_users][:batch_id])
     list = @batch.email
     hlist = @batch.username
-
-    uploaded_io = params[:batch_users][:file]
-    path = uploaded_io.path
-
-    # Validate email
+    errMsg = []
     emails = []
 
-    CSV.foreach(path, col_sep: ',',:row_sep => :auto, skip_blanks: true) do |unstripped_row|
-      emails << unstripped_row[0].to_s.strip
-    end
-    
-    invalid_emails = []
-    emails.each do |email|
-      begin
-        valid = ValidateEmail.valid?(email)
-      rescue
-        valid = false
-      end
-      unless valid
-        invalid_emails << email
-      end
-    end
+    uploaded_io = params[:batch_users][:file]
 
-    if invalid_emails.length > 0
-      flash[:alert] = "CSV file contains invalid emails (#{invalid_emails.join(', ')})"
+    if uploaded_io.nil?
+      flash[:alert] = "Please add a CSV file"
     else
-      CSV.foreach(path, col_sep: ',', skip_blanks: true) do |unstripped_row|
-        @email = unstripped_row[0].to_s.strip
-        @last_name = unstripped_row[1].to_s.strip
-        @first_name = unstripped_row[2].to_s.strip
+      path = uploaded_io.path
 
-        if list.include?(@email)
-          flash[:alert ] = "The e-mail #{@email} you entered already exists!"
-        else
-          hlist[@email] = [@last_name, @first_name]
-          list.push(@email)
-          @batch.save
-          flash[:notice ] = "Uploaded CSV file"
+      csv = CSV.read(path)
+
+      if csv[0].length == 3
+        errMsg.push("CSV file should have only 3 columns.")
+      end
+
+      CSV.foreach(path, col_sep: ',',:row_sep => :auto, skip_blanks: true) do |unstripped_row|
+        emails << unstripped_row[0].to_s.strip
+      end
+      
+      invalid_emails = []
+      emails.each do |email|
+        begin
+          valid = ValidateEmail.valid?(email)
+        rescue
+          valid = false
+        end
+        unless valid
+          invalid_emails << email
+        end
+      end
+
+      if invalid_emails.length > 0
+        errMsg.push("CSV file contains invalid emails (#{invalid_emails.join(', ')})")
+      end
+
+      if !errMsg.blank?
+        flash[:alert] = "#{errMsg.each do |msg| msg end}"
+      else
+        CSV.foreach(path, col_sep: ',', skip_blanks: true) do |unstripped_row|
+          @email = unstripped_row[0].to_s.strip
+          @last_name = unstripped_row[1].to_s.strip
+          @first_name = unstripped_row[2].to_s.strip
+
+          if list.include?(@email)
+            flash[:alert ] = "The e-mail #{@email} you entered already exists!"
+          else
+            hlist[@email] = [@last_name, @first_name]
+            list.push(@email)
+            @batch.save
+            flash[:notice ] = "Uploaded CSV file"
+          end
         end
       end
     end

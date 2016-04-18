@@ -17,6 +17,7 @@ gem 'prawn-graph', '~> 0.0.4'
 gem 'squid', '~> 1.2'
 gem 'googlecharts', '~> 1.6', '>= 1.6.12'
 gem 'valid_email', require: 'valid_email/validate_email'
+gem 'csv_validator'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
