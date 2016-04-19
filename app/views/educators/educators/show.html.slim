@@ -6,8 +6,7 @@
   .left
     #get-started-card.card-primary
       .educator-profile
-        / .institution = @educator.organization
-        .institution Singapore Management University
+        .institution = @educator.organization ? @educator.organization : "Your Institution"
         .last_login = "Last Logged in: "+ "#{localize(@educator.last_sign_in_at.in_time_zone("Singapore"), :format => :long)}."
 
       .main-list
