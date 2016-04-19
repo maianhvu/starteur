@@ -30,10 +30,8 @@
               - @previous_quantity = @choices[test.id.to_s]["quantity"]
             - else
               td.col-2 = check_box_tag "test_ids[]", test.id
-            /td
             td.col-1
               = image_tag "starteur.png"
-
             td.col-4
               .test-name = test.name
               br
