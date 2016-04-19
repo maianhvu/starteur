@@ -1,5 +1,9 @@
 .educators_billing_records.new {
 
+  #content .card {
+    min-height: 400px;
+  }
+
   .stripe-button-el {
     background-image: none;
     background: #29A599;
