@@ -16,7 +16,7 @@
           .title
             h1 Access Code
             =link_to "← Audit Log", educators_admin_audit_events_path, class: "button btn-orange"
-          h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
+          h2 = simple_format("by <b>#{@event.admin.name}</b>" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}")
 
         table data-toggle="table"
           thead
@@ -39,7 +39,7 @@
           .title
             h1 Discount Code
             =link_to "← Audit Log", educators_admin_audit_events_path, class: "button btn-orange"
-          h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
+          h2 = simple_format("by <b>#{@event.admin.name}</b>" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}")
 
         table data-toggle="table"
           thead
@@ -60,7 +60,7 @@
           .title
             h1 Promotion Code
             =link_to "← Audit Log", educators_admin_audit_events_path, class: "button btn-orange"
-          h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
+          h2 = simple_format("by <b>#{@event.admin.name}</b>" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}")
 
         table data-toggle="table"
           thead
@@ -88,7 +88,7 @@
           .title
             h1 Transferred Access Code
             =link_to "← Audit Log", educators_admin_audit_events_path, class: "button btn-orange"
-          h2 = "by #{@event.admin.name}" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}"
+          h2 = simple_format("by <b>#{@event.admin.name}</b>" + " at #{localize(code.created_at.in_time_zone("Singapore"), :format => :long)}")
 
         table data-toggle="table"
           thead
