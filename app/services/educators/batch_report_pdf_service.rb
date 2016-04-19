@@ -243,11 +243,11 @@ class Educators::BatchReportPdfService < Prawn::Document
     y_position = cursor - 20
 
     bounding_box([0, y_position],:width => 540) do
-      table sa_rows do
-        self.header = true
-        self.row_colors = ['DDDDDD', 'FFFFFF']
-        self.column_widths = [40, 300, 200]
+      data = [["Attribute", "Name"]]
+      @sa_top.map do |k,v|
+        data.push([k, v])
       end
+      table(data, :header => true, :width => 540)
     end
 
     y_position = cursor - 30
@@ -259,11 +259,11 @@ class Educators::BatchReportPdfService < Prawn::Document
     y_position = cursor - 20
 
     bounding_box([0, y_position],:width => 540) do
-      table sa_rows_bottom do
-        self.header = true
-        self.row_colors = ['DDDDDD', 'FFFFFF']
-        self.column_widths = [40, 300, 200]
+      data = [["Attribute", "Name"]]
+      @sa_bottom.map do |k,v|
+        data.push([k, v])
       end
+      table(data, :header => true, :width => 540)
     end
 
     start_new_page
@@ -286,11 +286,11 @@ class Educators::BatchReportPdfService < Prawn::Document
     y_position = cursor - 20
 
     bounding_box([0, y_position],:width => 540) do
-      table sr_rows do
-        self.header = true
-        self.row_colors = ['DDDDDD', 'FFFFFF']
-        self.column_widths = [40, 300, 200]
+      data = [["Attribute", "Name"]]
+      @sr.map do |k,v|
+        data.push([k, v])
       end
+      table(data, :header => true, :width => 540)
     end
 
     y_position = cursor - 30
@@ -301,7 +301,7 @@ class Educators::BatchReportPdfService < Prawn::Document
 
     y_position = cursor - 20
 
-    bounding_box([0, y_position],:width => bounds.width) do
+    span(bounds.width) do
       data = {"Starteur Roles" => {"Engineer" => @eg, "Product Manager" => @pm, "Sales Manager" => @sm, "Business Developer" => @bd, "Marcomms Manager" => @mm, "Designer" => @de, "Marketer" => @mk, "Customer Service Manager" => @csm, "Admin Manager" => @am, "Finance Manager" => @fm}}
       chart data, colors: %w(e7a13d bc2d30)
     end
