@@ -18,7 +18,7 @@ class ConfirmationSender < ApplicationMailer
         templates: {
           settings: {
             enable: 1,
-            template_id: "c1c0d6c4-173e-4249-ba1c-b6a785512025"
+            template_id: "c8182604-b48b-46b9-aa25-65f340379519"
           }
         }
       }
