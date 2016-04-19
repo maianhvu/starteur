@@ -1,0 +1,7 @@
+Hi,
+
+Your educator would like to access your test results for this test: (<%= @batch.test.name %>). However, we have noted that you have not signed up or completed the test.
+
+You can allow them access to future results of this test by clicking on this link <%= educators_allow_access_url(batch_id: @batch, email: @email) %>.
+
+Have a nice day.

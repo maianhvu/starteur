@@ -15,9 +15,14 @@ class Educators::BatchCodeUsageService
       user = User.find_by(email: email)
       cu = user ? CodeUsage.find_by(user: user, test: test) : CodeUsage.find_by(email: email, test: test)
       if cu
-        if user && !BatchCodeUsage.find_by(batch: batch, code_usage: cu)
-          BatchCodeUsage.create(batch: batch, code_usage: cu, own: false)
-          Educators::UserMailer.request_access_permission(email, batch).deliver_now
+        if !BatchCodeUsage.find_by(batch: batch, code_usage: cu)
+          if user
+            BatchCodeUsage.create(batch: batch, code_usage: cu, own: false)
+            Educators::UserMailer.request_access_permission(email, batch).deliver_now
+          else
+            BatchCodeUsage.create(batch: batch, code_usage: cu, own: false)
+            Educators::UserMailer.request_access_permission_after_signup(email, batch).deliver_now
+          end
         end
       else
         if access_code = prepare_access_code(available_access_codes)

@@ -18,4 +18,10 @@ class Educators::UserMailer < ApplicationMailer
     mail to: email, subject: 'Starteur test access'
   end
 
+  def request_access_permission_after_signup(email, batch)
+    @email = email
+    @batch = batch
+    mail to: email, subject: 'Starteur test access'
+  end
+
 end
