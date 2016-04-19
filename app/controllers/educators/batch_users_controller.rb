@@ -67,7 +67,7 @@ class Educators::BatchUsersController < Educators::BaseController
 
       csv = CSV.read(path)
 
-      if csv[0].length == 3
+      if csv[0].length == 2
         errMsg.push("CSV file should have only 3 columns.")
       end
 
