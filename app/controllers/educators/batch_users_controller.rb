@@ -8,6 +8,7 @@ class Educators::BatchUsersController < Educators::BaseController
     @email = params[:batch_users][:email]
     @first_name = params[:batch_users][:first_name]
     @last_name = params[:batch_users][:last_name]
+    errMsg = []
 
     @batch = Batch.find(params[:batch_users][:batch_id])
 
@@ -15,22 +16,28 @@ class Educators::BatchUsersController < Educators::BaseController
 
     list = @batch.email
     valid = ValidateEmail.valid?(@email)
-    if valid
-      if list.include?(@email)
-        flash[:alert ] = "The e-mail you entered already exists!"
-        redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
-      else
-        hlist[@email] = [@last_name, @first_name]
-        list.push(@email)
-        @batch.save
-        flash[:notice ] = "Email has been added!"
-        redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
-      end
 
-    else
-      flash[:alert] = "#{@email} is invalid"
-      redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
+    if @first_name.blank? || @last_name.blank?
+      errMsg.push("Name fields cannot be empty.")
     end
+
+    if !errMsg.blank?
+      flash[:alert] = "#{errMsg.each do |msg| msg end}"
+    else
+      if valid
+        if list.include?(@email)
+          flash[:alert ] = "The e-mail you entered already exists!"
+        else
+          hlist[@email] = [@last_name, @first_name]
+          list.push(@email)
+          @batch.save
+          flash[:notice ] = "Email has been added!"
+        end
+      else
+        flash[:alert] = "#{@email} is invalid"
+      end
+    end
+    redirect_to controller: "batches", action: "show", id: params[:batch_users][:batch_id]
   end
 
   def destroy
@@ -66,6 +73,16 @@ class Educators::BatchUsersController < Educators::BaseController
       path = uploaded_io.path
 
       csv = CSV.read(path)
+
+      counter = 1
+      csv.each do |row|
+        first_name = row[1]
+        last_name = row[2]
+        if first_name.nil? || last_name.nil?
+          errMsg.push("Row #{counter} has empty fields.")
+        end
+        counter += 1
+      end
 
       if csv[0].length == 2
         errMsg.push("CSV file should have only 3 columns.")
