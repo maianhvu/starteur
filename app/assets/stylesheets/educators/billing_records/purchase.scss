@@ -1,5 +1,38 @@
 .educators_billing_records.new {
 
+  .stripe-button-el {
+    background-image: none;
+    background: #29A599;
+    padding: 0px;
+    vertical-align: middle;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+    width: 100px;
+    height: 40px;
+    margin: 1px;
+    margin-left: 5px;
+  }
+
+  .stripe-button-el span {
+    background-image: none;
+    background: #29A599;
+    height: 40px;
+    line-height: 40px;
+    text-shadow: none;
+    font-family: "Open Sans";
+  }
+
+  .stripe-button-el span:hover {
+    background-color: #4CB5AB;
+  }
+
+  .stripe-button-el span:focus, .stripe-button-el span:active {
+    background: #00887A;
+  }
+
   .left .card {
     height: 260px;
   }
