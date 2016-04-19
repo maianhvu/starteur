@@ -1,5 +1,6 @@
 = render "layouts/educators/dashboard_menu"
 = render "layouts/educators/flash_messages"
+=link_to "← Main", educators_educator_path(@educator), class: "button radius ghost back"
 
 #content.center-block
   .background
@@ -7,29 +8,27 @@
     #get-started-card.card-primary
       = render "layouts/educators/admin_dashboard_menu"
 
-
   .right
-      #new-educator-card.card
-        h1.horizontal Client Management
-        h2 Overview of your clients
+    #new-educator-card.card
+      h1.horizontal Client Management
+      h2 Overview of your clients
 
-      .summary-card
-        .number
-          a = @educator_total
-        .type Unique Educators
-      .summary-card
-        .number
-          a = @batch_total
-        .type Enrolled Groups
-      .summary-card
-        .number
-          a = @user_total
-        .type Unique Students
-      .summary-card
-        .number
-          a = @test_total
-        .type Completed Tests
-
+    .summary-card
+      .number
+        a = @educator_total
+      .type Unique Educators
+    .summary-card
+      .number
+        a = @batch_total
+      .type Enrolled Groups
+    .summary-card
+      .number
+        a = @user_total
+      .type Unique Students
+    .summary-card
+      .number
+        a = @test_total
+      .type Completed Tests
 
   #popup = render 'layouts/educators/modal'
 
