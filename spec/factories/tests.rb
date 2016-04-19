@@ -3,7 +3,7 @@ FactoryGirl.define do
     name 'Starteur Profiling Assessment'
     description 'This is a Starteur test'
     state Test.states[:published]
-    price 10.0
+    price 15.0
     shuffle false
     identifier 'starteur_profiling_assessment'
 
