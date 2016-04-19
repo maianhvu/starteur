@@ -7,23 +7,23 @@
   .menu-link
     =link_to "Generate Codes", educators_admin_admin_generate_codes_path(@educator)
 .main-list
-  .menu-icon.i.fa.fa-share-square.fa.red
+  .menu-icon.i.fa.fa-share-square.fa.dark-blue
   .menu-link
     =link_to "Transfer Ownership", educators_admin_admin_manage_access_codes_path(@educator)
+.main-list
+  .menu-icon.i.fa.fa-percent.fa.dark-blue
+  .menu-link
+    = link_to "View Discount Codes", educators_admin_discount_codes_path
+.main-list
+  .menu-icon.i.fa.fa-birthday-cake.fa.dark-blue
+  .menu-link
+    = link_to "View Promotion Codes", educators_admin_promotion_codes_path
 .main-list
   .menu-icon.i.fa.fa-credit-card.fa.yellow
   .menu-link
     =link_to "Payment Details", educators_admin_admin_payment_history_path(@educator)
 .main-list
-  .menu-icon.i.fa.fa-birthday-cake.fa.purple
-  .menu-link
-    = link_to "View Promotion Codes", educators_admin_promotion_codes_path
-.main-list
-  .menu-icon.i.fa.fa-percent.fa.green
-  .menu-link
-    = link_to "View Discount Codes", educators_admin_discount_codes_path
-.main-list
-  .menu-icon.i.fa.fa-percent.fa-2x.green
+  .menu-icon.i.fa.fa-search.fa-2x.green
   .menu-link
     = link_to "Search", educators_admin_search_index_path
 .main-list
