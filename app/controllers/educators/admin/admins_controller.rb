@@ -64,7 +64,6 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
       pc.save!
       AuditEvent.create!(admin: @educator, action: :generate_promotion_code, comments: pc.code)
       created = true
-      raise "hi".inspect
     end
     if created
       flash[:success] = 'Promotion code created'
