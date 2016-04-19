@@ -30,10 +30,8 @@
               - @previous_quantity = @choices[test.id.to_s]["quantity"]
             - else
               td.col-2 = check_box_tag "test_ids[]", test.id
-            /td
             td.col-1
               = image_tag "starteur.png"
-
             td.col-4
               .test-name = test.name
               br
@@ -48,14 +46,12 @@
           td colspan="3"
           td.text-center.total-quantity#total_quantity
           td.text-center.total.price#subtotal colspan="2"
+
         tr.code-section
-          td colspan="5"
+          td.promo-code colspan="5" Have a Promotion code?
           td = f.submit 'Next', class: "button btn-default"
 
     table
-      tr.code-section
-        td.promo-code Have a Promotion code?
-
       tr.code-section
         = form_tag redeem_code_educators_promotion_codes_path, method: :post
           td.promo-code = text_field_tag :code, nil, placeholder: "Enter a promotion code", class: "input-box search-box"

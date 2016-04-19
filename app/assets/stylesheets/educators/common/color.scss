@@ -3,6 +3,10 @@
   background-color: #2196F3 !important;
 }
 
+.dark-blue {
+  background-color: #3F51B5 !important;
+}
+
 .red {
   background-color: #F44336 !important;
 }
@@ -56,6 +60,18 @@
 .btn-blue:active {
   background-color: #1976D2;
   outline: 0;
+}
+
+.btn-dark-blue {
+  background-color: #3F51B5;
+}
+
+.btn-dark-blue:hover {
+  background-color: #7986CB;
+}
+
+.btn-dark-blue:active {
+  background-color: #303F9F;
 }
 
 .btn-orange {
