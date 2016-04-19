@@ -26,7 +26,7 @@
             tr
               td.text-center = localize(event.created_at.in_time_zone("Singapore"), :format => :long)
               td.text-center = event.admin.email
-              td.text-center = event.action
+              td.text-center = event.action.gsub(/[_]/,' ')
               td.text-center.detail = link_to event.comments, educators_admin_audit_event_path(event)
 
   #popup = render 'layouts/educators/modal'
