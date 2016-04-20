@@ -59,30 +59,31 @@
             =link_to "Take Action ▾", "#", class: "dropdown-button button"
             ul
               li
-                .number ①
+                .icon.i.fa.fa-ticket
                 .menu-item = link_to "Send Access Codes to All Students", educators_batch_assign_code_usages_path(@batch)
-                .completion-mark ✔
               li
-                .number ②
+                .icon.i.fa.fa-envelope
                 .menu-item = link_to "Send Email Reminder to All Students", educators_batch_batch_test_reminder_path(@batch)
-                .completion-mark ✔︎
               li
-                .number ③
+                .icon.i.fa.fa-file-pdf-o
                 .menu-item = link_to "Download .pdf of ALL Individual Reports", "#"
-                .completion-mark ✔︎
 
         - if @batch.educator == @educator
           .ul.menu2.dropdown
             li
               =link_to "Group Management ▾", "#", class: "dropdown-button button"
               ul
-                li = link_to "Delete this Group", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}
-                li = link_to "Download Batch Report", educators_generate_batch_report_path(batch_id: @batch.id), method: :generate_batch_report
+                li
+                  .icon.i.fa.fa-trash
+                  .menu-item2 = link_to "Delete this Group", educators_batch_path(@batch.id), method: :delete, data:{confirm: 'Are you sure you want to delete group?'}
+                li
+                  .icon.i.fa.fa-download
+                  .menu-item2 = link_to "Download Batch Report", educators_generate_batch_report_path(batch_id: @batch.id), method: :generate_batch_report
 
-        .ul.action-icons
-          .button.btn-blue.i.fa.fa-ticket.fa
-          .button.btn-orange.middle.i.fa.fa-bell-o.fa
-          .button.btn-red.i.fa.fa-trash-o.fa
+        / .ul.action-icons
+        /   .button.btn-blue.i.fa.fa-ticket.fa
+        /   .button.btn-orange.middle.i.fa.fa-bell-o.fa
+        /   .button.btn-red.i.fa.fa-trash-o.fa
 
       table data-toggle="table"
         thead
