@@ -6,7 +6,7 @@
   #get-started-card.card
     table.table-top
       tr
-        td colspan="5"
+        td colspan="2"
           h1.text-left.batch-name = "#{@batch.name}"
           - if @batch.coeducators.empty?
             .add-coeducator = link_to "Add Co-Educator", "#add_coeducator"
@@ -21,6 +21,7 @@
           /.batch-tag-group
           /  .batch-tag 2016
           /  .batch-tag National University of Singapore
+        td colspan="3"
         td
           .email-count = "#{@batch.email.count}"
         td.text-left colspan="2"
