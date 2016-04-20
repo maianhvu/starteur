@@ -29,9 +29,11 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
     ac = AccessCode.new(test_id: params[:access_code][:test_id], permits: params[:access_code][:permits], educator: @educator)
     created = false
     ActiveRecord::Base.transaction do
-      ac.save
-      AuditEvent.create!(admin: @educator, action: :generate_access_code, comments: ac.code)
-      created = true
+      if ac.save && AuditEvent.create!(admin: @educator, action: :generate_access_code, comments: ac.code)
+        created = true
+      else
+        raise ActiveRecord::Rollback
+      end
     end
     if created
       flash[:success] = 'Access code created'
@@ -45,9 +47,11 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
     dc = DiscountCode.new(percentage: params[:discount_code][:percentage])
     created = false
     ActiveRecord::Base.transaction do
-      dc.save
-      AuditEvent.create!(admin: @educator, action: :generate_discount_code, comments: dc.code)
-      created = true
+      if dc.save && AuditEvent.create!(admin: @educator, action: :generate_discount_code, comments: dc.code)
+        created = true
+      else
+        raise ActiveRecord::Rollback
+      end
     end
     if created
       flash[:success] = 'Discount code created'
@@ -61,9 +65,11 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
     pc = PromotionCode.new(test_id: params[:promotion_code][:test_id], quantity: params[:promotion_code][:quantity])
     created = false
     ActiveRecord::Base.transaction do
-      pc.save!
-      AuditEvent.create!(admin: @educator, action: :generate_promotion_code, comments: pc.code)
-      created = true
+      if pc.save && AuditEvent.create!(admin: @educator, action: :generate_promotion_code, comments: pc.code)
+        created = true
+      else
+        raise ActiveRecord::Rollback
+      end
     end
     if created
       flash[:success] = 'Promotion code created'
@@ -80,8 +86,8 @@ class Educators::Admin::AdminsController < Educators::Admin::BaseController
 
         ac = AccessCode.find(id)
         ActiveRecord::Base.transaction do
-          if ac.educator == @educator && ac.update_attributes!({educator: educator})
-            AuditEvent.create!(admin: @educator, action: :transfer_access_code, comments: ac.code, other: educator)
+          unless ac.educator == @educator && ac.update_attributes({educator: educator}) && AuditEvent.create(admin: @educator, action: :transfer_access_code, comments: ac.code, other: educator)
+            raise ActiveRecord::Rollback
           end
         end
       end
