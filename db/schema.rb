@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160312141426) do
+ActiveRecord::Schema.define(version: 20160420093857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20160312141426) do
     t.integer  "educator_id"
     t.integer  "permits",           default: 1
     t.integer  "code_usages_count", default: 0, null: false
+    t.integer  "billing_record_id"
   end
 
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree

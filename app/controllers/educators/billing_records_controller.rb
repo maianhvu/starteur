@@ -53,7 +53,7 @@ class Educators::BillingRecordsController < Educators::BaseController
 
       if record.save!
         lineitems.each_pair do |test_id, quantity|
-          AccessCode.create(code: bill_number + test_id, educator: @educator, test: Test.find(test_id), permits: quantity)
+          AccessCode.create(code: bill_number + test_id, educator: @educator, test: Test.find(test_id), permits: quantity, billing_record: record)
         end
         record_saved = true
       end

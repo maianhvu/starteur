@@ -9,6 +9,7 @@ class AccessCode < ActiveRecord::Base
   has_many :code_usages, dependent: :destroy
   has_many :users, through: :code_usages
   has_one :promotion_code
+  belongs_to :billing_record
 
   after_create :set_code_usages_counter
 

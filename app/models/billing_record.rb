@@ -3,6 +3,7 @@ class BillingRecord < ActiveRecord::Base
   has_many :billing_line_items
   has_one :discount_code
   has_one :promotion_code
+  has_many :access_codes
 
   validates :billable, presence: true
 
