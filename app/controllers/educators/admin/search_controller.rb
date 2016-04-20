@@ -13,7 +13,7 @@ class Educators::Admin::SearchController < Educators::Admin::BaseController
       is_batch_empty = @batches.empty?
       is_user_empty = @users.empty?
 
-      if is_org_empty && is_email_empty && is_batch_empty && is_user_empty
+      if (is_org_empty && is_email_empty && is_batch_empty && is_user_empty) || search_params[:search_text].blank?
         flash[:alert] = "There is no matching data. Please retry with another keyword."
         redirect_to educators_admin_search_index_path
       end
