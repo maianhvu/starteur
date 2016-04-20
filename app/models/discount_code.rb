@@ -7,7 +7,7 @@ class DiscountCode < ActiveRecord::Base
   belongs_to :billing_record
 
   validates :percentage, presence: true
-  validates :percentage, numericality: { more_than: 0, less_than_or_equal_to: 100, integer: true }
+  validates :percentage, numericality: { greater_than: 0, less_than_or_equal_to: 100, integer: true }
 
   # State definitions
   enum state: {
