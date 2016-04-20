@@ -40,17 +40,20 @@
 
 .dropdown ul.dropit-submenu {
   list-style: none;
+  margin: 0;
+  margin-top: 5px;
+  padding: 0;
   width: auto;
   background-color: #fff;
   padding: 0;
   position: absolute;
-  top: 26%;
   z-index: 1;
 }
 
 .dropdown ul.dropit-submenu li {
   display: block;
-  width: 390px;
+  width: auto;
+  min-width: 200px;
   font-size: 14px;
   height: 50px;
   line-height: 50px;
@@ -76,6 +79,14 @@
 .dropdown ul.dropit-submenu li .menu-item {
   display: inline-block;
   width: 280px;
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+}
+
+.dropdown ul.dropit-submenu li .menu-item2 {
+  display: inline-block;
+  width: 180px;
   height: 50px;
   line-height: 50px;
   text-align: left;
