@@ -41,19 +41,19 @@ class Educators::BillingRecordsController < Educators::BaseController
     total_quantity = Hash.new
     total_amount = 0
 
-    lineitems.each_pair do |test_id, quantity|
-      test = Test.find(test_id)
-      BillingLineItem.new(test: test, quantity: quantity, billing_record: record)
-      total_quantity[Test.find(test_id).name] = quantity
-      total_amount += test.price.to_i * quantity.to_i * 100
-    end
-
     record_saved = false
     stripe_paid = false
     ActiveRecord::Base.transaction do
+      lineitems.each_pair do |test_id, quantity|
+        test = Test.find(test_id)
+        BillingLineItem.create(test: test, quantity: quantity, billing_record: record)
+        total_quantity[Test.find(test_id).name] = quantity
+        total_amount += test.price.to_i * quantity.to_i * 100
+      end
+
       if record.save!
         lineitems.each_pair do |test_id, quantity|
-          AccessCode.create!(code: bill_number + test_id, educator: @educator, test: Test.find(test_id), permits: quantity)
+          AccessCode.create(code: bill_number + test_id, educator: @educator, test: Test.find(test_id), permits: quantity)
         end
         record_saved = true
       end
