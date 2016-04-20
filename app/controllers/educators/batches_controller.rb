@@ -45,24 +45,6 @@ class Educators::BatchesController < Educators::BaseController
       redirect_to educators_batches_path
     end
 
-    # code to count number of students in different state. Commented out for now.
-    #@total_students = @batch.email.count
-    #@students_not_accepted = 0
-    #@students_in_progress = 0
-    #@students_completed = 0
-
-    #@users = []
-    #@batch.email.each do |mail|
-    #  @users << User.find_by(email: mail)
-    #end
-
-    #@users.each do |user|
-    #  if user.state == 1
-    #    @students_not_accepted += 1
-    #  elsif user.state == 8
-    #    @students_in_progress += 1
-    #  end
-    #end
   end
 
   def destroy
