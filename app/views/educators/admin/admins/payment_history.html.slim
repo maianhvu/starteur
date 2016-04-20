@@ -30,7 +30,7 @@
             - quantity = 0
             - record.billing_line_items.each do |line_item|
               - quantity = line_item.quantity
-              - sub_price = line_item.test.price * quantity
+              - sub_price = line_item.unit_price * quantity
               - total_quantity_per_billing = total_quantity_per_billing + quantity
             - total_price = total_price + sub_price
             tr
