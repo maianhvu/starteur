@@ -46,7 +46,7 @@ class Educators::BillingRecordsController < Educators::BaseController
     ActiveRecord::Base.transaction do
       lineitems.each_pair do |test_id, quantity|
         test = Test.find(test_id)
-        BillingLineItem.create(test: test, quantity: quantity, billing_record: record)
+        BillingLineItem.create(test: test, quantity: quantity, billing_record: record, unit_price: test.price)
         total_quantity[Test.find(test_id).name] = quantity
         total_amount += test.price.to_i * quantity.to_i * 100
       end
