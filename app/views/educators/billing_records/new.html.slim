@@ -1,4 +1,5 @@
 = render "layouts/educators/simple_menu"
+= render "layouts/educators/flash_messages"
 
 #content.center-block
   /#get-started-card.card
@@ -102,17 +103,17 @@
           td.text-center.col-3 Total
           td
           td.text-center.col-2
-          td.text-center.col-2 = "$ #{@dc ? total * (100 - @dc.percentage) / 100 : total}"
+          td.text-center.col-2 = simple_format("<b>$ #{@dc ? total * (100 - @dc.percentage) / 100 : total}</b>", :style => "font-size: 20px; color: #FF9800;")
       - if @dc
         = hidden_field_tag :code, @dc.code
       .button-group
         = link_to "Edit", display_tests_educators_billing_records_url(choices: @lineitems), class: "button first btn-default"
         / = f.submit 'Confirm', class: "button first btn-default"
-        | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="Educator Checkout" data-description="Test Purchase" data-currency="usd" data-amount="#{total*100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
+        | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="Educator Checkout" data-description="Test Purchase" data-currency="usd" data-amount="#{@dc ? (total * 100) * (100 - @dc.percentage) / 100 : total * 100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
            </script>
 
     - if @dc
-      .text-center = "Discount code: #{@dc.code}"
+      .text-center = simple_format("Discount code: ") + simple_format("#{@dc.code}",:style => "color: #4CB5AB;")
     - else
       = form_tag apply_discount_educators_billing_records_path, method: :post
         - @lineitems.each_pair do |id, item|
