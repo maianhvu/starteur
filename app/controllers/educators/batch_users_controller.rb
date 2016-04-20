@@ -84,8 +84,8 @@ class Educators::BatchUsersController < Educators::BaseController
         counter += 1
       end
 
-      if csv[0].length == 2
-        errMsg.push("CSV file should have only 3 columns.")
+      if csv[0].length > 3
+        errMsg.push("CSV file should only have 3 columns.")
       end
 
       CSV.foreach(path, col_sep: ',',:row_sep => :auto, skip_blanks: true) do |unstripped_row|
