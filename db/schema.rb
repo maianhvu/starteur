@@ -20,11 +20,11 @@ ActiveRecord::Schema.define(version: 20160227130841) do
     t.string   "code"
     t.integer  "test_id"
     t.datetime "last_used_at"
-    t.datetime "created_at",        default: '2016-03-12 13:15:30', null: false
-    t.datetime "updated_at",        default: '2016-03-12 13:15:30', null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "educator_id"
     t.integer  "permits",           default: 1
-    t.integer  "code_usages_count", default: 0,                     null: false
+    t.integer  "code_usages_count", default: 0, null: false
   end
 
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree
