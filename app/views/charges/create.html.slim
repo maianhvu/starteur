@@ -15,43 +15,19 @@
       h2 Let us know what you think about Starteur &rsaquo;
 #dashboard-card.card.right
   .center-in-card.center
-    = image_tag 'home/discover-static.png'
+      = image_tag 'home/discover-static.png'
 
-    - if @test_status == :completed
-      / When there are no undone published test
-      h1 You have completed all our tests!
+      h1 Transaction complete!
       h2
-        | Attaboy! Now please stay tuned for more of our awesome profiling tests
-          in the future.
-    - else
-      / When the test is not completed yet
-      h1 Discover your potential.
-      h2
-        | Take the Starteur Profiling Assessment to discover your strengths and reveal
-          your hidden entrepreneurial potential.
-      - case @test_status
-      - when :code_not_entered
-       = form_tag charges_path do
-         article
-            - if flash[:error].present?
-                 #error_explanation
-                  p
-                    = flash[:error]
-         | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="usd" data-amount="#{@test.price * 100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
-           </script>
-         = link_to '#access-code' do
-           .button.half.ghost Enter Access Code
-      / When user has already entered a code
-      - when :code_entered
-       = link_to begin_test_path(@test_id) do
-        .button.half Take the Test
-      - when :uncompleted
-       = link_to take_test_path(@test_id) do
-        .button.half Resume the Test
+       | Thanks, you paid
+       strong  $#{@test.price}0
+       | ! Your new access code is: #{@code}
+
+      = link_to '#access-code' do
+       .button.half.ghost Enter Access Code
 
 / Dialogue
-- if @test_status == :code_not_entered
-  #access-code.modal-dialog
+#access-code.modal-dialog
     #access-code-dialog.main
       = link_to '#close' do
         = image_tag 'shared/close-icon.svg', class: 'close'

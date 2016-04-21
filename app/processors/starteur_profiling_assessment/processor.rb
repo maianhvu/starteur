@@ -43,6 +43,7 @@ class Processor
     top_attributes    = get_top_attributes
     bottom_attributes = get_bottom_attributes
 
+    # STARTEUR PART 2
     # Roles
     top_roles = get_roles
 
