@@ -51,7 +51,8 @@ class Educators::BatchCodeUsageService
   def prepare_access_code(available_access_codes)
     access_code = available_access_codes.last
     if access_code && access_code.code_usages_count >= access_code.permits
-      available_access_codes.pop
+      available_access_codes = available_access_codes.where("permits > 0")
+      return false if available_access_codes.empty?
       access_code = prepare_access_code(available_access_codes)
     end
     access_code
