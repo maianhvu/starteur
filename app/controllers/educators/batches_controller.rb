@@ -48,7 +48,7 @@ class Educators::BatchesController < Educators::BaseController
   end
 
   def destroy
-    if b = Batch.find(params[:id]) && b.educator = @educator && b.destroy
+    if b = Batch.find(params[:id]) && b.educator == @educator && b.destroy
       flash[:alert ] = "Group Deleted"
     else
       flash[:error] = 'Invalid params'
