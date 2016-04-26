@@ -10,9 +10,9 @@ class ConfirmationSender < ApplicationMailer
     }
     headers['X-SMTPAPI'] = {
       sub: {
-        '-headerText-' => ["Hi #{user.first_name}, thanks for registering with Starteur!"],
-        '-linkUrl-' => ["#{confirm_params[:host]}/confirm/#{confirm_params[:escaped_email]}/#{confirm_params[:token]}"],
-        '-linkCaption-' => ["Confirm email address"]
+        "-headerText-": ["Hi #{user.first_name}, thanks for registering with Starteur!"],
+        "-linkUrl-": ["#{confirm_params[:host]}/confirm/#{confirm_params[:escaped_email]}/#{confirm_params[:token]}"],
+        "-linkCaption-": ["Confirm email address"]
       },
       filters: {
         templates: {
