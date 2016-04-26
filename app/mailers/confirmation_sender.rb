@@ -9,16 +9,16 @@ class ConfirmationSender < ApplicationMailer
       :host => 'http://www.starteur.com'
     }
     headers "X-SMTPAPI" => {
-      "sub": {
+      "sub" => {
         "-headerText-" => ["Hi #{user.first_name}, thanks for registering with Starteur!"],
         "-linkUrl-" => ["#{confirm_params[:host]}/confirm/#{confirm_params[:escaped_email]}/#{confirm_params[:token]}"],
         "-linkCaption-" => ["Confirm email address"]
       },
-      "filters": {
-        "templates": {
-          "settings": {
-            "enable": 1,
-            "template_id": 'c8182604-b48b-46b9-aa25-65f340379519'
+      "filters" => {
+        "templates" => {
+          "settings" => {
+            "enable" => 1,
+            "template_id" => 'c8182604-b48b-46b9-aa25-65f340379519'
           }
         }
       }
