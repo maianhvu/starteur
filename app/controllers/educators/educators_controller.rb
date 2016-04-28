@@ -94,7 +94,7 @@ class Educators::EducatorsController < Educators::BaseController
   end
 
   def update_educator_params
-    params.require(:educator).permit(:first_name, :last_name, :organization, :password, :password_confirmation)
+    params.require(:educator).permit(:first_name, :last_name, :organisation, :password, :password_confirmation)
   end
 
 end
