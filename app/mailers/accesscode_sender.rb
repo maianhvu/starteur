@@ -1,6 +1,10 @@
 class AccesscodeSender < ApplicationMailer
   default :from => 'hello@starteur.com'
 
+  MAILER_HOST_DEFAULT = ENV['MAIL_HOST']
+  MAILER_TEMPLATE_CONFIRMATION = '55c680c0-6862-4286-a3ed-0653bb6c18ce'
+
+
   def send_accesscode_email(user)
     @user = user
     @code = AccessCode.last.code
@@ -18,7 +22,7 @@ class AccesscodeSender < ApplicationMailer
         templates: {
           settings: {
             enable: 1,
-            template_id: "55c680c0-6862-4286-a3ed-0653bb6c18ce"
+            template_id: MAILER_TEMPLATE_CONFIRMATION
           }
         }
       }
