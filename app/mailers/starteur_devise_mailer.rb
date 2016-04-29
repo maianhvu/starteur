@@ -25,7 +25,7 @@ class StarteurDeviseMailer < Devise::Mailer
     headers['X-SMTPAPI'] = {
       sub: {
         '-headerText-' => ["Hi #{user.first_name}, thanks for registering with Starteur!"],
-        '-linkUrl-' => confirmation_url(user, confirmation_token: token),
+        '-linkUrl-' => [confirmation_url(user, confirmation_token: token)],
         '-linkCaption-' => ["Confirm email address"]
       },
       filters: {
