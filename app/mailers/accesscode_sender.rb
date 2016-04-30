@@ -15,8 +15,8 @@ class AccesscodeSender < ApplicationMailer
     headers['X-SMTPAPI'] = {
       sub: {
         '-headerText-' => ["Hi #{user.first_name}, your purchase has been successful!"],
-        '-linkUrl-' => ["#{confirm_params[:host]}/dashboard/index#access-code"],
-        '-linkCaption-' => ["Enter access code"]
+        '-linkUrl-' => ["#{confirm_params[:host]}/dashboard/index"],
+        '-linkCaption-' => ["Take the Test"]
       },
       filters: {
         templates: {
@@ -27,6 +27,6 @@ class AccesscodeSender < ApplicationMailer
         }
       }
     }.to_json
-    mail(:to => @user.email, :subject => 'Starteur Test Purchased! View Access Code')
+    mail(:to => @user.email, :subject => 'Purchase Success! Take the Starteur Quiz Now.')
   end
 end
