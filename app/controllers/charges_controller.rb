@@ -29,7 +29,6 @@ class ChargesController < ApplicationController
     # Create access code
     access_code = AccessCode.create(code: generate_code, test_id: @test.id)
     @code = AccessCode.last.code
-    AccesscodeSender.send_accesscode_email(current_user).deliver_now
 
     # Create code usage
     code_usage = CodeUsage.new(access_code: access_code, test_id: access_code.test_id)
@@ -43,6 +42,7 @@ class ChargesController < ApplicationController
       # TODO: Add rescue to failed code_usage creation
     end
 
+   AccesscodeSender.send_accesscode_email(current_user).deliver_now
 
    rescue Stripe::CardError => e
    flash[:error] = e.message
