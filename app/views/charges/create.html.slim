@@ -23,8 +23,10 @@
        strong  $#{@test.price}0
        | ! Your new access code is: #{@code}
 
-      = link_to '#access-code' do
-       .button.half.ghost Enter Access Code
+      - case @test_status
+      - when :code_entered
+      = link_to begin_test_path(@test_id) do
+       .button.half Take the Test
 
 / Dialogue
 #access-code.modal-dialog

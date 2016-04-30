@@ -14,9 +14,6 @@ class ChargesController < ApplicationController
     @test = Test.find_by(identifier: "starteur_profiling_assessment")
     @test_id = @test.id
 
-    access_code = AccessCode.create(code: generate_code, test_id: @test.id)
-    @code = AccessCode.last.code
-    @test_status = :completed
     customer = Stripe::Customer.create(
       :email => params[:stripeEmail],
       :source  => params[:stripeToken]
@@ -29,7 +26,23 @@ class ChargesController < ApplicationController
       :currency    => 'usd'
     )
 
-   AccesscodeSender.send_accesscode_email(current_user).deliver_now
+    # Create access code
+    access_code = AccessCode.create(code: generate_code, test_id: @test.id)
+    @code = AccessCode.last.code
+    AccesscodeSender.send_accesscode_email(current_user).deliver_now
+
+    # Create code usage
+    code_usage = CodeUsage.new(access_code: access_code, test_id: access_code.test_id)
+    code_usage.use(current_user)
+    # Attempt to save the code
+    if code_usage.save
+      access_code.save!
+      # Code is successfully used and now
+      # user will be redirected to taking the test
+    else
+      # TODO: Add rescue to failed code_usage creation
+    end
+
 
    rescue Stripe::CardError => e
    flash[:error] = e.message
