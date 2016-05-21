@@ -2,7 +2,6 @@ class ChargesController < ApplicationController
 
   layout "application"
   layout "dashboard"
-  PRICE_TEST_DEFAULT = 1500
 
 
   def new
@@ -10,9 +9,30 @@ class ChargesController < ApplicationController
 
   def create
     # Amount in cents
-    @amount = PRICE_TEST_DEFAULT
     @test = Test.find_by(identifier: "starteur_profiling_assessment")
     @test_id = @test.id
+    @amount = @test.price * 100
+    @final_amount = @amount
+
+    code = params[:couponCode]
+
+    if !code.blank?
+      @coupon = Coupon.get(code)
+
+      if @coupon.nil?
+        flash[:error] = 'Coupon code is not valid or expired.'
+        redirect_to dashboard_index_path
+        return
+      else
+        @final_amount = @coupon.apply_discount(@amount.to_i)
+        @discount_amount = (@amount - @final_amount)
+      end
+
+      charge_metadata = {
+        :coupon_code => @coupon.code,
+        :coupon_discount => @coupon.discount_percent_human
+      }
+    end
 
     customer = Stripe::Customer.create(
       :email => params[:stripeEmail],
@@ -21,10 +41,13 @@ class ChargesController < ApplicationController
 
     charge = Stripe::Charge.create(
       :customer    => customer.id,
-      :amount      => @amount,
+      :amount      => @final_amount,
       :description => 'Rails Stripe customer',
       :currency    => 'usd'
     )
+
+    # Create charge record
+    @charge = Charge.create!(amount: @final_amount, coupon: @coupon, stripe_id: stripe_charge.id)
 
     # Create access code
     access_code = AccessCode.create(code: generate_code, test_id: @test.id)
