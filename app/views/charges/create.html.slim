@@ -20,9 +20,8 @@
       h1 Transaction complete!
       h2
        | Thanks, you paid
-       strong  $#{@test.price}0
+       strong  #{number_to_currency(@charge.amount * 0.01)}
        | ! Your new access code is: #{@code}
-
       - case @test_status
       - when :code_entered
       = link_to begin_test_path(@test_id) do

@@ -11,7 +11,7 @@ class ChargesController < ApplicationController
     # Amount in cents
     @test = Test.find_by(identifier: "starteur_profiling_assessment")
     @test_id = @test.id
-    @amount = @test.price * 100
+    @amount = @test.price.to_i * 100
     @final_amount = @amount
 
     code = params[:couponCode]
@@ -34,6 +34,8 @@ class ChargesController < ApplicationController
       }
     end
 
+    charge_metadata ||= {}
+
     customer = Stripe::Customer.create(
       :email => params[:stripeEmail],
       :source  => params[:stripeToken]
@@ -41,13 +43,14 @@ class ChargesController < ApplicationController
 
     charge = Stripe::Charge.create(
       :customer    => customer.id,
-      :amount      => @final_amount,
+      :amount      => @amount,
       :description => 'Rails Stripe customer',
-      :currency    => 'usd'
+      :currency    => 'usd',
+      :metadata    => charge_metadata
     )
 
     # Create charge record
-    @charge = Charge.create!(amount: @final_amount, coupon: @coupon, stripe_id: stripe_charge.id)
+    @charge = Charge.create!(amount: @final_amount, coupon: @coupon, stripe_id: charge.id)
 
     # Create access code
     access_code = AccessCode.create(code: generate_code, test_id: @test.id)

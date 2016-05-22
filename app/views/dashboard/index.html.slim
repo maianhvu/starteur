@@ -37,14 +37,17 @@
                  #error_explanation
                   p
                     = flash[:error]
-            p
-              = label_tag(:couponCode, 'Coupon:')
-              = text_field_tag(:couponCode)
-
-         | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="usd" data-amount="#{@test.price}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
+         | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="usd" data-amount="#{@test.price * 100}" data-locale="auto" data-label="Purchase" data-image="#{image_url('shared/acorn.png')}">
            </script>
+
          = link_to '#access-code' do
            .button.half.ghost Enter Access Code
+
+         p
+          .coupon-code
+                 = link_to '#coupon-code' do
+                   | Have a promo code?
+
       / When user has already entered a code
       - when :code_entered
        = link_to begin_test_path(@test_id) do
@@ -69,6 +72,25 @@
         .forgot-password
           = link_to 'mailto: hello@starteur.com' do
             | Forgot your access code? Drop us an Email.
+
+#coupon-code.modal-dialog
+  .main
+      = link_to '#close' do
+        = image_tag 'shared/close-icon.svg', class: 'close'
+      h2 Enter promo code
+      .content
+        = form_tag charges_path do
+            - if flash[:error].present?
+                 #error_explanation
+                  p
+                    = flash[:error]
+
+            = text_field :couponCode, :code, placeholder: 'Promo Code', class: 'input-box'
+            p
+              .button
+               | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="usd" data-amount="#{750}" data-locale="auto" data-label="Apply" data-image="#{image_url('shared/acorn.png')}">
+                 </script>
+
 
 / TODO: Implement these two dialogs
 #feedback.modal-dialog
