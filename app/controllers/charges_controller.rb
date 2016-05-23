@@ -16,7 +16,7 @@ class ChargesController < ApplicationController
 
     code = params[:couponCode]
 
-    if !code.blank?
+    if !code.nil?
       @coupon = Coupon.get(code)
 
       if @coupon.nil?

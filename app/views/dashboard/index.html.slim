@@ -84,8 +84,7 @@
                  #error_explanation
                   p
                     = flash[:error]
-
-            = text_field :couponCode, :code, placeholder: 'Promo Code', class: 'input-box'
+            = text_field_tag :couponCode, "", placeholder: 'Promo Code', class: 'input-box'
             p
               .button
                | <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.configuration.stripe[:publishable_key]}" data-name="#{@test.name}" data-description="#{@test.description}" data-currency="usd" data-amount="#{750}" data-locale="auto" data-label="Apply" data-image="#{image_url('shared/acorn.png')}">
