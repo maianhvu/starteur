@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160428012003) do
+=======
+ActiveRecord::Schema.define(version: 20160521165003) do
+>>>>>>> develop
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +30,10 @@ ActiveRecord::Schema.define(version: 20160428012003) do
     t.integer  "educator_id"
     t.integer  "permits",           default: 1
     t.integer  "code_usages_count", default: 0, null: false
+<<<<<<< HEAD
     t.integer  "billing_record_id"
+=======
+>>>>>>> develop
   end
 
   add_index "access_codes", ["test_id"], name: "index_access_codes_on_test_id", using: :btree
@@ -119,6 +126,14 @@ ActiveRecord::Schema.define(version: 20160428012003) do
   add_index "categories", ["test_id", "alias"], name: "index_categories_on_test_id_and_alias", unique: true, using: :btree
   add_index "categories", ["test_id"], name: "index_categories_on_test_id", using: :btree
 
+  create_table "charges", force: :cascade do |t|
+    t.integer  "amount"
+    t.integer  "coupon_id"
+    t.integer  "stripe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "code_usages", force: :cascade do |t|
     t.integer  "access_code_id"
     t.integer  "user_id"
@@ -133,6 +148,15 @@ ActiveRecord::Schema.define(version: 20160428012003) do
   add_index "code_usages", ["access_code_id"], name: "index_code_usages_on_access_code_id", using: :btree
   add_index "code_usages", ["test_id"], name: "index_code_usages_on_test_id", using: :btree
   add_index "code_usages", ["user_id"], name: "index_code_usages_on_user_id", using: :btree
+
+  create_table "coupons", force: :cascade do |t|
+    t.string   "code"
+    t.integer  "discount_percent"
+    t.datetime "expires_at"
+    t.string   "description"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
   create_table "discount_codes", force: :cascade do |t|
     t.integer  "billing_record_id"

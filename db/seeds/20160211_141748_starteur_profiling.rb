@@ -4,8 +4,8 @@ test.destroy if test
 # Create test
 test = Test.create!(
   name: 'Starteur Profiling Assessment',
-  description: '',
-  price: 0.0,   # temporarily free
+  description: 'Discover your entrepreneurial traits',
+  price: 15,
   shuffle: true, # shuffle questions
   identifier: 'starteur_profiling_assessment'
 )

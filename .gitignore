@@ -54,5 +54,8 @@ config/secrets.yml
 bower.json
 
 certificates/*
+key/*
 
 .idea
+
+.DS_Store

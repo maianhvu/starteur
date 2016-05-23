@@ -4,7 +4,7 @@ class Processor
   # Constants
   SCORE_POTENTIAL_MAX = 6
   SCORE_POTENTIAL_MIN = 0
-  SCORE_POTENTIAL_THRESHOLD = 4.6
+  SCORE_POTENTIAL_THRESHOLD = 3.9
 
   SCORE_THRESHOLD_ATTRIB_MEDIUM = 0.334
   SCORE_THRESHOLD_ATTRIB_HIGH   = 0.667
@@ -43,6 +43,7 @@ class Processor
     top_attributes    = get_top_attributes
     bottom_attributes = get_bottom_attributes
 
+    # STARTEUR PART 2
     # Roles
     top_roles = get_roles
 
