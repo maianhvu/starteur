@@ -240,11 +240,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rest-client (1.8.0-x64-mingw32)
-      ffi (~> 1.9)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
     roo (2.1.1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -319,12 +314,9 @@ GEM
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2016.1)
-      tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
-    unf_ext (0.0.7.2-x64-mingw32)
     url_safe_base64 (0.2.2)
     valid_email (0.0.13)
       activemodel
@@ -388,3 +380,6 @@ DEPENDENCIES
   tzinfo-data
   valid_email
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.11.2
