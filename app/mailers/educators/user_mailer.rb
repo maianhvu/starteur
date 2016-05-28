@@ -1,4 +1,5 @@
 class Educators::UserMailer < ApplicationMailer
+  default :from => 'hello@starteur.com'
 
   def batch_test_reminder(email, test_name = nil)
     @test_name = test_name
@@ -9,7 +10,22 @@ class Educators::UserMailer < ApplicationMailer
     @batch = batch
     @code_usage = code_usage
     @email = email
-    mail to: email, subject: 'Starteur test access'
+    headers['X-SMTPAPI'] = {
+      sub: {
+      "-headerText-" => ["Hello! Welcome to Starteur."],
+      "-linkUrl-" => ["#{root_url}"],
+      "-linkCaption-" => ["Get Started!"]
+      },
+      filters: {
+        templates: {
+           settings: {
+              enable: 1,
+              template_id: "44922231-079f-4fac-961d-2b33bbb82e7f"
+              }
+            }
+          }
+    }.to_json
+   mail(:to => @email, :subject => 'Welcome to Starteur! Access Your Test Now.')
   end
 
   def request_access_permission(email, batch)

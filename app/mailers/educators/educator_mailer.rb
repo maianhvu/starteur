@@ -1,4 +1,5 @@
 class Educators::EducatorMailer < ApplicationMailer
+  default :from => 'hello@starteur.com'
 
   def reset_password_email(user)
     @name = user.name || 'Educator'
