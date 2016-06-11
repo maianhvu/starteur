@@ -175,17 +175,17 @@ class QuestionSlider extends React.Component {
     return choiceIndex;
   }
 
-//  render() {
-//    let choices = this.props.choices;
-//    let division = 1 / choices.length;
-//
-//    let choicesNodes = choices.map((choice, index) => {
-//      let nodeStyle = this.styleForNode(index);
+  render() {
+    let choices = this.props.choices;
+    let division = 1 / choices.length;
+
+    let choicesNodes = choices.map((choice, index) => {
+      let nodeStyle = this.styleForNode(index);
 //      return (
 //        <div className="question__choice" key={index} style={nodeStyle} >
 //          {choice}
 //        </div>);
-//    });
+    });
 
     // Calculate index of current choice
     let choiceText = choices[this.getCurrentChoiceId()];
