@@ -57,7 +57,7 @@ class ChargesController < ApplicationController
     @code = AccessCode.last.code
 
     # Create code usage
-    code_usage = CodeUsage.new(access_code: access_code, test_id: access_code.test_id)
+    code_usage = CodeUsage.new(access_code: access_code, test_id: access_code.test_id, email: current_user.email)
     code_usage.use(current_user)
     # Attempt to save the code
     if code_usage.save
