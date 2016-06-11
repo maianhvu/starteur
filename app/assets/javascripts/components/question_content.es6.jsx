@@ -81,28 +81,29 @@ class QuestionSlider extends React.Component {
   }
 
   styleForNode(nodeId) {
-//    let division = 1/(this.props.choices.length-1);
-//    let tolerance = division/2;
-//
-//    // Calculate opacity
-//    let nodeCenter = division * nodeId;
-//    let distanceFromValue = Math.abs(this.state.sliderValue - nodeCenter);
-//    var opacityMultiplier = 0;
-//    if (distanceFromValue < tolerance) {
-//      opacityMultiplier = 1 - (distanceFromValue / tolerance);
-//    }
-//    let opacity = OPACITY_CHOICE_DEFAULT +
-//      (OPACITY_CHOICE_HIGHLIGHTED - OPACITY_CHOICE_DEFAULT) * opacityMultiplier;
-//
-//    // Calculate scale
-//    var scaleMultiplier = 1;
-//    if (distanceFromValue < tolerance) {
-//      scaleMultiplier += (1 - (distanceFromValue / tolerance)) * SCALE_GROWTH_FACTOR;
-//    }
-//
+    let division = 1/(this.props.choices.length-1);
+    let tolerance = division/2;
+
+    // Calculate opacity
+    let nodeCenter = division * nodeId;
+    let distanceFromValue = Math.abs(this.state.sliderValue - nodeCenter);
+    var opacityMultiplier = 0;
+    if (distanceFromValue < tolerance) {
+      opacityMultiplier = 1 - (distanceFromValue / tolerance);
+    }
+    let opacity = OPACITY_CHOICE_DEFAULT +
+      (OPACITY_CHOICE_HIGHLIGHTED - OPACITY_CHOICE_DEFAULT) * opacityMultiplier;
+
+    // Calculate scale
+    var scaleMultiplier = 1;
+    if (distanceFromValue < tolerance) {
+      scaleMultiplier += (1 - (distanceFromValue / tolerance)) * SCALE_GROWTH_FACTOR;
+    }
+
     return {
       opacity: 1,
-//    transform: `scale(${scaleMultiplier})`
+      transform: `scale(0.9)`
+//      transform: `scale(${scaleMultiplier})`
     };
   }
 
@@ -181,10 +182,10 @@ class QuestionSlider extends React.Component {
 
     let choicesNodes = choices.map((choice, index) => {
       let nodeStyle = this.styleForNode(index);
-//      return (
-//        <div className="question__choice" key={index} style={nodeStyle} >
-//          {choice}
-//        </div>);
+      return (
+        <div className="question__choice" key={index} style={nodeStyle} >
+          {choice}
+        </div>);
     });
 
     // Calculate index of current choice
@@ -223,11 +224,12 @@ class QuestionSlider extends React.Component {
           />
           {sliderMarks}
         </div>
-        <div className="question__choice-text no-select">{choiceText}</div>
-      </div>
+           <div className="question__choice-text no-select">{ }</div>
+   </div>
     );
   }
 }
+//        <div className="question__choice-text no-select">{choiceText}</div>
 
 QuestionSlider.defaultProps = {
   defaultSliderValue: 0.5
