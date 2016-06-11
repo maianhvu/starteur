@@ -168,13 +168,13 @@ class QuestionSlider extends React.Component {
     this.setState({ sliderValue: this.calculateSliderValue() });
   }
 
-//  getCurrentChoiceId() {
-//    let choices = this.props.choices;
-//    let choiceIndex = Math.floor(this.state.sliderValue * choices.length)
-//      .constrain(0, choices.length - 1);
-//    return choiceIndex;
-//  }
-//
+  getCurrentChoiceId() {
+    let choices = this.props.choices;
+    let choiceIndex = Math.floor(this.state.sliderValue * choices.length)
+      .constrain(0, choices.length - 1);
+    return choiceIndex;
+  }
+
 //  render() {
 //    let choices = this.props.choices;
 //    let division = 1 / choices.length;
