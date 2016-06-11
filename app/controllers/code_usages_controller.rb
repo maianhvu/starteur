@@ -3,7 +3,7 @@ class CodeUsagesController < ApplicationController
     access_code = AccessCode.find_by(create_code_usage_params)
     if access_code
       # Add the access code to user
-      code_usage = CodeUsage.new(access_code: access_code, test_id: access_code.test_id)
+      code_usage = CodeUsage.new(access_code: access_code, test_id: access_code.test_id, email: current_user.email)
       code_usage.use(current_user)
       # Attempt to save the code
       if code_usage.save
