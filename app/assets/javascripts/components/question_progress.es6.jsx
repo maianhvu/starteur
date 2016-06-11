@@ -50,3 +50,4 @@ ProgressBar.propTypes = {
   progress: React.PropTypes.number.isRequired,
   milestonesCount: React.PropTypes.number.isRequired
 };
+
