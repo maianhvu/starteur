@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     sign_up: 'register'
   }
 
+  get "app/views/pages/privacy.html", to: "pages#privacy", as: "privacy"
+  get "app/views/pages/terms.html", to: "pages#terms", as: "terms"
+
   # PagesController
   get 'pages/registration_successful'
   get 'registration-successful', to: 'pages#registration_successful', as: 'registration_successful'

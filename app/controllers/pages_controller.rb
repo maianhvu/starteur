@@ -6,4 +6,11 @@ class PagesController < ApplicationController
   def registration_successful
     render 'registration_successful', layout: 'dashboard'
   end
+
+  def privacy
+  end
+
+  def terms
+  end
+
 end
